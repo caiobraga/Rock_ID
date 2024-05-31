@@ -1,30 +1,92 @@
+import 'package:flutter_onboarding/db/db.dart';
+
 class Rock {
-  final int RockId;
-  final int price;
+
+  final int rockId;
+  final double price;
   final String size;
-  final double rating;
-  final int humidity;
+  final int rating;
+  final double humidity;
   final String temperature;
   final String category;
-  final String RockName;
+  final String rockName;
   final String imageURL;
-  bool isFavorated;
-  final String decription;
+  bool isFavorited;
+  final String description;
   bool isSelected;
 
   Rock(
-      {required this.RockId,
+      {required this.rockId,
         required this.price,
         required this.category,
-        required this.RockName,
+        required this.rockName,
         required this.size,
         required this.rating,
         required this.humidity,
         required this.temperature,
         required this.imageURL,
-        required this.isFavorated,
-        required this.decription,
+        required this.isFavorited,
+        required this.description,
         required this.isSelected});
+
+        Map<String, dynamic> toMap() {
+    return {
+      'price': price,
+      'category': category,
+      'rockName': rockName,
+      'size': size,
+      'rating': rating,
+      'humidity': humidity,
+      'temperature': temperature,
+      'imageURL': imageURL,
+      'isFavorited': isFavorited ? 1 : 0,
+      'description': description,
+      'isSelected': isSelected ? 1 : 0,
+    };
+  }
+
+  // Implement a fromMap method to convert a Map into a Rock object.
+  factory Rock.fromMap(Map<String, dynamic> map) {
+    return Rock(
+      rockId: map['rockId'] ?? 0,
+      price:  map['price'] ?? 0,
+      category: map['category'] ?? '',
+      rockName: map['rockName'] ?? '',
+      size: map['size'] ?? '',
+      rating: map['rating'] ?? 0,
+      humidity: map['humidity'] ?? 0,
+      temperature: map['temperature'] ?? '',
+      imageURL: map['imageURL'] ?? '',
+      isFavorited: ( map['isFavorited'] ?? 0) == 1,
+      description: map['description'] ?? '',
+      isSelected: (map['isSelected'] ?? 0) == 1,
+    );
+  }
+  
+  static Future<List<Rock>> getFavoritedRocks() async{
+    try{
+      List<Rock> _travelList = await DatabaseHelper().rocks();
+      return _travelList.where((element) => element.isFavorited == true).toList();
+    }catch(e){
+      print(e);
+      return [];
+    }
+    
+  }
+
+  //Get the cart items
+  static Future<List<Rock>> addedToCartRocks() async{
+     try{
+      List<Rock> _selectedRocks = await DatabaseHelper().rocks();
+      return _selectedRocks.where((element) => element.isSelected == true).toList();
+    }catch(e){
+      print(e);
+      return [];
+    }
+    
+  }
+
+/*
 
   //List of Rocks data
   static List<Rock> RockList = [
@@ -164,6 +226,7 @@ class Rock {
             'even the harshest weather condition.',
         isSelected: false),
   ];
+   
 
   //Get the favorated items
   static List<Rock> getFavoritedRocks(){
@@ -176,4 +239,6 @@ class Rock {
     List<Rock> _selectedRocks = Rock.RockList;
     return _selectedRocks.where((element) => element.isSelected == true).toList();
   }
+*/
+ 
 }

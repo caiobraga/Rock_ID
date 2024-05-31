@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 
 class DetailPage extends StatefulWidget {
   final int RockId;
+  
   const DetailPage({Key? key, required this.RockId}) : super(key: key);
 
   @override
@@ -11,6 +13,20 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  late List<Rock> _RockList;
+  bool _isLoading = true;
+
+  @override
+  void initState(){
+    super.initState();
+    DatabaseHelper().rocks().then((value) {
+      _RockList = value;
+      setState(() {
+        _isLoading = false;  
+      });
+    });
+  }
+
   //Toggle Favorite button
   bool toggleIsFavorated(bool isFavorited) {
     return !isFavorited;
@@ -24,9 +40,12 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    List<Rock> _RockList = Rock.RockList;
     return Scaffold(
-      body: Stack(
+      body: _isLoading ? 
+        Center(
+          child: CircularProgressIndicator(),
+        ) :
+       Stack(
         children: [
           Positioned(
             top: 50,
@@ -67,13 +86,13 @@ class _DetailPageState extends State<DetailPage> {
                         onPressed: () {
                           setState(() {
                             bool isFavorited = toggleIsFavorated(
-                                _RockList[widget.RockId].isFavorated);
-                            _RockList[widget.RockId].isFavorated =
+                                _RockList[widget.RockId].isFavorited);
+                            _RockList[widget.RockId].isFavorited =
                                 isFavorited;
                           });
                         },
                         icon: Icon(
-                          _RockList[widget.RockId].isFavorated == true
+                          _RockList[widget.RockId].isFavorited == true
                               ? Icons.favorite
                               : Icons.favorite_border,
                           color: Constants.primaryColor,
@@ -158,7 +177,7 @@ class _DetailPageState extends State<DetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _RockList[widget.RockId].RockName,
+                            _RockList[widget.RockId].rockName,
                             style: TextStyle(
                               color: Constants.primaryColor,
                               fontWeight: FontWeight.bold,
@@ -201,7 +220,7 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   Expanded(
                     child: Text(
-                      _RockList[widget.RockId].decription,
+                      _RockList[widget.RockId].description,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         height: 1.5,

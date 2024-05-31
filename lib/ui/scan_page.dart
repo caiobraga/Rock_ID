@@ -1,9 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
+
+import 'screens/home_page.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
@@ -28,37 +32,53 @@ class _ScanPageState extends State<ScanPage> {
                 leading: Icon(Icons.photo_library),
                 title: Text('Gallery'),
                 onTap: () async {
-                  Navigator.of(context).pop();
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  _image = await ImagePickerService().pickImageFromGallery();
-                  _rock = await GetRockService().getRock(context, _image);
-                  setState(() {
-                    _isLoading = false;
-                  });
-                  if (_rock != null) {
-                    // Handle the rock data
+                  try{
+                    final navigator = Navigator.of(context); 
+                  navigator.pop();
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    _image = await ImagePickerService().pickImageFromGallery();
+                    _rock = await GetRockService().getRock(context, _image);
+                    
+                    
+                    if (_rock != null) {
+                      // Handle the rock data
+                      await DatabaseHelper().insertRock(_rock!);
+                    }
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    navigator.pushReplacement(MaterialPageRoute(builder: (_) => const RootPage())); 
+                  } catch(e){
+                    print(e);
+                    SnackBar(content: Text('Error: $e'));
                   }
+                  
                 },
               ),
               ListTile(
                 leading: Icon(Icons.photo_camera),
                 title: Text('Camera'),
                 onTap: () async {
-                  Navigator.of(context).pop();
-                  
-                  _image = await ImagePickerService().pickImageFromCamera();
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  _rock = await GetRockService().getRock(context, _image);
-                  setState(() {
-                    _isLoading = false;
-                  });
-                  if (_rock != null) {
-                    // Handle the rock data
-                  }
+                  final navigator = Navigator.of(context); 
+                  navigator.pop();
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    _image = await ImagePickerService().pickImageFromCamera();
+                    _rock = await GetRockService().getRock(context, _image);
+                    
+                    
+                    if (_rock != null) {
+                      // Handle the rock data
+                      await DatabaseHelper().insertRock(_rock!);
+                      
+                    }
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    navigator.pop();
                 },
               ),
             ],

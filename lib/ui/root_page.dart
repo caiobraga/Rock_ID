@@ -28,17 +28,13 @@ class _RootPageState extends State<RootPage> {
     return [
       const HomePage(),
       FavoritePage(favoritedRocks: favorites,),
-      CartPage(addedToCartRocks: myCart,),
-      const ProfilePage(),
     ];
   }
 
   //List of the pages icons
   List<IconData> iconList = [
     Icons.home,
-    Icons.favorite,
-    Icons.shopping_cart,
-    Icons.person,
+    Icons.folder_copy,
   ];
 
   //List of the pages titles
@@ -87,12 +83,11 @@ class _RootPageState extends State<RootPage> {
         activeIndex: _bottomNavIndex,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.softEdge,
-        onTap: (index){
+        onTap: (index) async {
+          final List<Rock> favoritedRocks = await Rock.getFavoritedRocks();
+          final List<Rock> addedToCartRocks = await Rock.addedToCartRocks();
           setState(() {
             _bottomNavIndex = index;
-            final List<Rock> favoritedRocks = Rock.getFavoritedRocks();
-            final List<Rock> addedToCartRocks = Rock.addedToCartRocks();
-
             favorites = favoritedRocks;
             myCart = addedToCartRocks.toSet().toList();
           });

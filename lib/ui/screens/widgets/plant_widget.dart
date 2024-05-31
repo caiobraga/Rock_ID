@@ -23,7 +23,7 @@ class RockWidget extends StatelessWidget {
             context,
             PageTransition(
                 child: DetailPage(
-                  RockId: RockList[index].RockId,
+                  RockId: RockList[index].rockId,
                 ),
                 type: PageTransitionType.bottomToTop));
       },
@@ -69,7 +69,7 @@ class RockWidget extends StatelessWidget {
                     children: [
                       Text(RockList[index].category),
                       Text(
-                        RockList[index].RockName,
+                        RockList[index].rockName,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,

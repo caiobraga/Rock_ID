@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/plant_widget.dart';
@@ -13,12 +14,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  late List<Rock> _RockList;
+  bool _isLoading = true;
+
+  @override
+  void initState(){
+    super.initState();
+    try{
+      DatabaseHelper().rocks().then((value) {
+      _RockList = value;
+      setState(() {
+        _isLoading = false;  
+      });
+    });
+    } catch(e){
+      print(e);
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     int selectedIndex = 0;
     Size size = MediaQuery.of(context).size;
 
-    List<Rock> _RockList = Rock.RockList;
 
     //Rocks category
     List<String> _RockTypes = [
@@ -35,7 +54,11 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
-        body: SingleChildScrollView(
+        body: _isLoading ? 
+          Center(
+            child: CircularProgressIndicator(),
+          )
+        : SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -124,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           PageTransition(
                               child: DetailPage(
-                                RockId: _RockList[index].RockId,
+                                RockId: _RockList[index].rockId,
                               ),
                               type: PageTransitionType.bottomToTop));
                     },
@@ -143,12 +166,12 @@ class _HomePageState extends State<HomePage> {
                                 onPressed: () {
                                   setState(() {
                                     bool isFavorited = toggleIsFavorated(
-                                        _RockList[index].isFavorated);
-                                    _RockList[index].isFavorated = isFavorited;
+                                        _RockList[index].isFavorited);
+                                    _RockList[index].isFavorited = isFavorited;
                                   });
                                 },
                                 icon: Icon(
-                                  _RockList[index].isFavorated == true
+                                  _RockList[index].isFavorited == true
                                       ? Icons.favorite
                                       : Icons.favorite_border,
                                   color: Constants.primaryColor,
@@ -182,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 Text(
-                                  _RockList[index].RockName,
+                                  _RockList[index].rockName,
                                   style: const TextStyle(
                                     color: Colors.white70,
                                     fontSize: 15,
@@ -240,7 +263,7 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                       onTap: (){
-                        Navigator.push(context, PageTransition(child: DetailPage(RockId: _RockList[index].RockId), type: PageTransitionType.bottomToTop));
+                        Navigator.push(context, PageTransition(child: DetailPage(RockId: _RockList[index].rockId), type: PageTransitionType.bottomToTop));
                       },
                       child: RockWidget(index: index, RockList: _RockList));
                 }),

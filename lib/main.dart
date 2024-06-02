@@ -23,7 +23,9 @@ class _MyAppState extends State<MyApp> {
   }
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(scaffoldBackgroundColor: Colors.black,
+      ),
       title: 'Onboarding Screen',
       home: OnboardingScreen(),
       debugShowCheckedModeBanner: false,

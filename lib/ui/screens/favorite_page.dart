@@ -6,6 +6,7 @@ import 'package:flutter_onboarding/ui/screens/widgets/plant_widget.dart';
 import 'package:flutter_onboarding/ui/screens/collection_page.dart';
 
 import '../../db/db.dart';
+import '../../constants.dart';
 
 class FavoritePage extends StatefulWidget {
   final List<Rock> favoritedRocks;
@@ -42,7 +43,9 @@ class _FavoritePageState extends State<FavoritePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('CREATE NEW COLLECTION'),
+          title: Text('CREATE NEW COLLECTION', style: TextStyle(
+                            color: Constants.primaryColor,
+                          )),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -64,7 +67,9 @@ class _FavoritePageState extends State<FavoritePage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: Text('Cancel', style: TextStyle(
+                            color: Constants.primaryColor,
+                          )),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -103,7 +108,7 @@ class _FavoritePageState extends State<FavoritePage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.brown.shade800,
+        backgroundColor: Constants.primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
@@ -112,70 +117,122 @@ class _FavoritePageState extends State<FavoritePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.favoritedRocks.isEmpty
-                ? Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 100,
-                          child: Image.asset('assets/images/favorited.png'),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          'Your favorited Rocks',
-                          style: TextStyle(
-                            color: Constants.primaryColor,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 30),
-                    height: size.height * .5,
-                    child: ListView.builder(
-                      itemCount: widget.favoritedRocks.length,
-                      scrollDirection: Axis.vertical,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return RockWidget(
-                          index: index,
-                          RockList: widget.favoritedRocks,
-                        );
-                      },
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('Collections'),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.grey.shade700,
+                      primary: Colors.white,
                     ),
                   ),
-            const SizedBox(height: 20),
-            Text(
-              'Your Collections',
-              style: TextStyle(
-                color: Constants.primaryColor,
-                fontWeight: FontWeight.w300,
-                fontSize: 18,
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('Snap History'),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      primary: Colors.grey.shade700,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('Wishlist'),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      primary: Colors.grey.shade700,
+                    ),
+                  ),
+                ],
               ),
             ),
-            ListView.builder(
+            GridView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _collections.length,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemCount: _collections.length + 1,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(_collections[index].collectionName),
-                  subtitle: Text(_collections[index].description),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CollectionPage(collection: _collections[index]),
+                if (index == _collections.length) {
+                  return GestureDetector(
+                    onTap: _showNewCollectionDialog,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade800,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    );
-                  },
-                );
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add, color: Colors.white, size: 30),
+                          SizedBox(height: 10),
+                          Text('ADD NEW COLLECTION', style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CollectionPage(collection: _collections[index]),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade800,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              _collections[index].collectionName,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          Expanded(
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 5,
+                                mainAxisSpacing: 5,
+                              ),
+                              itemCount: 6, // Replace with actual number of rocks in the collection
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage('assets/rock.png'), // Placeholder image
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
               },
             ),
           ],

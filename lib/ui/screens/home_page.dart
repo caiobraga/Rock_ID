@@ -6,6 +6,9 @@ import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/plant_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../services/selection_modal.dart';
+import '../scan_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -14,263 +17,272 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   late List<Rock> _RockList;
+  double price = 0;
   bool _isLoading = true;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    try{
+    try {
       DatabaseHelper().rocks().then((value) {
-      _RockList = value;
-      setState(() {
-        _isLoading = false;  
+        _RockList = value;
+        _calculateTotalPrice();
+        setState(() {
+          _isLoading = false;
+        });
       });
-    });
-    } catch(e){
+    } catch (e) {
       print(e);
     }
   }
-  
+
+  _calculateTotalPrice() {
+    double totalPrice = 0;
+    for (var rock in _RockList) {
+      totalPrice += rock.price;
+    }
+    price = totalPrice;
+  }
+
   @override
   Widget build(BuildContext context) {
-    int selectedIndex = 0;
     Size size = MediaQuery.of(context).size;
 
-
-    //Rocks category
-    List<String> _RockTypes = [
-      'Recommended',
-      'Indoor',
-      'Outdoor',
-      'Garden',
-      'Supplement',
-    ];
-
-    //Toggle Favorite button
-    bool toggleIsFavorated(bool isFavorited) {
-      return !isFavorited;
-    }
-
     return Scaffold(
-        body: _isLoading ? 
-          Center(
-            child: CircularProgressIndicator(),
-          )
-        : SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.only(top: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                  ),
-                  width: size.width * .9,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.search,
-                        color: Colors.black54.withOpacity(.6),
-                      ),
-                      const Expanded(
-                          child: TextField(
-                        showCursor: false,
-                        decoration: InputDecoration(
-                          hintText: 'Search Rock',
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Constants.darkGrey,
+                        hintStyle: TextStyle(color: Constants.white),
+                        hintText: 'Search for rocks',
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Constants.primaryColor,
                         ),
-                      )),
-                      Icon(
-                        Icons.mic,
-                        color: Colors.black54.withOpacity(.6),
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: Constants.primaryColor.withOpacity(.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            height: 50.0,
-            width: size.width,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _RockTypes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      },
-                      child: Text(
-                        _RockTypes[index],
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: selectedIndex == index
-                              ? FontWeight.bold
-                              : FontWeight.w300,
-                          color: selectedIndex == index
-                              ? Constants.primaryColor
-                              : Constants.blackColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                     ),
-                  );
-                }),
-          ),
-          SizedBox(
-            height: size.height * .3,
-            child: ListView.builder(
-                itemCount: _RockList.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              child: DetailPage(
-                                RockId: _RockList[index].rockId,
-                              ),
-                              type: PageTransitionType.bottomToTop));
-                    },
-                    child: Container(
-                      width: 200,
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: 10,
-                            right: 20,
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    bool isFavorited = toggleIsFavorated(
-                                        _RockList[index].isFavorited);
-                                    _RockList[index].isFavorited = isFavorited;
-                                  });
-                                },
-                                icon: Icon(
-                                  _RockList[index].isFavorited == true
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Handle rock collection functionality
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: Constants.darkGrey,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.share,
                                   color: Constants.primaryColor,
                                 ),
-                                iconSize: 30,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 50,
-                            right: 50,
-                            top: 50,
-                            bottom: 50,
-                            child: Image.asset(_RockList[index].imageURL),
-                          ),
-                          Positioned(
-                            bottom: 15,
-                            left: 20,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  _RockList[index].category,
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 16,
-                                  ),
+                                SizedBox(
+                                  width: 4,
                                 ),
                                 Text(
-                                  _RockList[index].rockName,
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
+                                  'Share App',
+                                  style: TextStyle(
+                                    color: Constants.white,
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ),
-                          /*Positioned(
-                            bottom: 15,
-                            right: 20,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                r'$' + _RockList[index].price.toString(),
-                                style: TextStyle(
-                                    color: Constants.primaryColor,
-                                    fontSize: 16),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Handle rock collection functionality
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: Constants.darkGrey,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.folder_copy_rounded,
+                                  color: Constants.primaryColor,
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                Text(
+                                  'Rock Collection',
+                                  style: TextStyle(
+                                    color: Constants.white,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Constants.darkGrey,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.minimize,
+                              color: Constants.primaryColor,
+                            ),
+                            Text(
+                              '${_RockList.length}',
+                              style: TextStyle(
+                                color: Constants.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),*/
-                        ],
-                      ),
+                            Text('Rocks',
+                                style: TextStyle(
+                                  color: Constants.white.withAlpha(100),
+                                )),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.attach_money,
+                              color: Constants.primaryColor,
+                            ),
+                            Text(
+                              '\$${price.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                color: Constants.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text('Value (USD)',
+                                style: TextStyle(
+                                  color: Constants.white.withAlpha(100),
+                                )),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.science_rounded,
+                              color: Constants.primaryColor,
+                            ),
+                            Text(
+                              '1',
+                              style: TextStyle(
+                                color: Constants.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text('Country',
+                                style: TextStyle(
+                                  color: Constants.white.withAlpha(100),
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle recognition functionality
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      width: size.width * 0.8,
+                      height: size.width * 0.8,
                       decoration: BoxDecoration(
-                        color: Constants.primaryColor.withOpacity(.8),
+                        color: Constants.darkGrey,
                         borderRadius: BorderRadius.circular(20),
                       ),
+                      child: GestureDetector(
+                        onTap: (){
+                          ShowSelectionModalService().show(context);
+                          //
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset('assets/images/rocktap.png', height: 100),
+                            SizedBox(height: 10),
+                            Icon(
+                              Icons.camera_alt,
+                              size: 50,
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16),
+                              margin: const EdgeInsets.all(4.0) ,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Constants.primaryColor,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                    50), 
+                              ),
+                              child: Text(
+                                'TAP HERE',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Constants.primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'TO RECOGNIZE YOUR ROCK',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Constants.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  );
-                }),
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 16, bottom: 20, top: 20),
-            child: const Text(
-              'New Rocks',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18.0,
+                  ),
+                ],
               ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            height: size.height * .5,
-            child: ListView.builder(
-                itemCount: _RockList.length,
-                scrollDirection: Axis.vertical,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, PageTransition(child: DetailPage(RockId: _RockList[index].rockId), type: PageTransitionType.bottomToTop));
-                      },
-                      child: RockWidget(index: index, RockList: _RockList));
-                }),
-          ),
-        ],
-      ),
-    ));
+    );
   }
 }
-

@@ -19,10 +19,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20, top: 20),
@@ -101,10 +101,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       }
                     });
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_forward_ios,
                     size: 24,
-                    color: Colors.white,
+                    color: Constants.white,
                   )),
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(

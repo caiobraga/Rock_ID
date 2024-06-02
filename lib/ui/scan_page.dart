@@ -30,7 +30,11 @@ class _ScanPageState extends State<ScanPage> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.photo_library),
-                title: Text('Gallery'),
+                title: Text('Gallery',
+                style: TextStyle(
+                            color: Constants.primaryColor,
+                          )
+                ),
                 onTap: () async {
                   try{
                     final navigator = Navigator.of(context); 
@@ -59,7 +63,11 @@ class _ScanPageState extends State<ScanPage> {
               ),
               ListTile(
                 leading: Icon(Icons.photo_camera),
-                title: Text('Camera'),
+                title: Text('Camera',
+                style: TextStyle(
+                            color: Constants.primaryColor,
+                          )
+                ),
                 onTap: () async {
                   final navigator = Navigator.of(context); 
                   navigator.pop();

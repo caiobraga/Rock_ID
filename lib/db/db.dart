@@ -93,6 +93,34 @@ class DatabaseHelper {
     }
   }
 
+  Future<void> ensureSavedCollectionExists() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'collections',
+      where: 'collectionName = ?',
+      whereArgs: ['Saved'],
+    );
+
+    if (maps.isEmpty) {
+      await insertCollection(Collection(collectionId: 0, collectionName: 'Saved', description: 'Saved items'));
+    }
+  }
+
+  Future<int?> getSavedCollectionId() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'collections',
+      where: 'collectionName = ?',
+      whereArgs: ['Saved'],
+    );
+
+    if (maps.isNotEmpty) {
+      return maps.first['collectionId'] as int?;
+    } else {
+      return null;
+    }
+  }
+
   Future<void> insertRock(Rock rock) async {
     final db = await database;
     await db.insert(
@@ -100,6 +128,15 @@ class DatabaseHelper {
       rock.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
+    // Ensure the "Saved" collection exists
+    await ensureSavedCollectionExists();
+    final int? savedCollectionId = await getSavedCollectionId();
+
+    if (savedCollectionId != null) {
+      // Add the rock to the "Saved" collection
+      await addRockToCollection(rock.rockId!, savedCollectionId);
+    }
   }
 
   Future<List<Rock>> rocks() async {

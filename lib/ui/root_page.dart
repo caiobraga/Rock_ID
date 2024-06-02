@@ -10,6 +10,8 @@ import 'package:flutter_onboarding/ui/screens/home_page.dart';
 import 'package:flutter_onboarding/ui/screens/profile_page.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../services/selection_modal.dart';
+
 class RootPage extends StatefulWidget {
   const RootPage({Key? key}) : super(key: key);
 
@@ -49,17 +51,37 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(titleList[_bottomNavIndex], style: TextStyle(
-              color: Constants.blackColor,
-              fontWeight: FontWeight.w500,
-              fontSize: 24,
-            ),),
-            Icon(Icons.notifications, color: Constants.blackColor, size: 30.0,)
-          ],
-        ),
+        title:Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'ROCKAPP',
+                          style: TextStyle(
+                            color: Constants.primaryColor,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Container(child: Row(
+                          children: [
+                            IconButton(
+                              color: Constants.primaryColor,
+                              icon: Icon(Icons.create),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              color: Constants.primaryColor,
+                              icon: Icon(Icons.settings),
+                              onPressed: () {},
+                            ),
+                          ],
+                        ),)
+                        
+                      ],
+                    ),
+                  ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0.0,
       ),
@@ -69,7 +91,7 @@ class _RootPageState extends State<RootPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.push(context, PageTransition(child: const ScanPage(), type: PageTransitionType.bottomToTop));
+            ShowSelectionModalService().show(context);
         },
         child: Image.asset('assets/images/code-scan-two.png', height: 30.0,),
         backgroundColor: Constants.primaryColor,

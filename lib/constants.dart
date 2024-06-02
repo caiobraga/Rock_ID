@@ -4,9 +4,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Constants {
   //Primary color
-  static var primaryColor = const Color(0xff296e48);
-  static var blackColor = Colors.black54;
+  static var primaryColor = const Color.fromRGBO(184, 143, 113, 1);
+  static var blackColor = const Color.fromRGBO(255, 214, 0, 1);
+  static var white = const Color.fromRGBO(255,255,255,1);
 
+  static var darkGrey = const Color.fromRGBO(33,37,40,1); 
   //Onboarding texts
   static var titleOne = "Learn more about rocks";
   static var descriptionOne = "Read how to care for rocks in our rich rocks guide.";

@@ -6,6 +6,7 @@ import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/plant_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../services/botton_nav.dart';
 import '../../services/selection_modal.dart';
 import '../scan_page.dart';
 
@@ -115,6 +116,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            BottomNavService().setIndex(1);
                             // Handle rock collection functionality
                           },
                           child: Container(

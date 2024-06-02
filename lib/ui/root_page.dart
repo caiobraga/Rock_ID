@@ -10,6 +10,7 @@ import 'package:flutter_onboarding/ui/screens/home_page.dart';
 import 'package:flutter_onboarding/ui/screens/profile_page.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../services/botton_nav.dart';
 import '../services/selection_modal.dart';
 
 class RootPage extends StatefulWidget {
@@ -22,9 +23,16 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   List<Rock> favorites = [];
   List<Rock> myCart = [];
-
-  int _bottomNavIndex = 0;
-
+  int _currentBottonNum = 0;
+  @override
+  void initState(){
+    BottomNavService().addListener(() {
+      setState(() {
+        _currentBottonNum = BottomNavService().bottomNavIndex;
+      });
+    });
+    super.initState();
+  }
   //List of the pages
   List<Widget> _widgetOptions(){
     return [
@@ -86,7 +94,7 @@ class _RootPageState extends State<RootPage> {
         elevation: 0.0,
       ),
       body: IndexedStack(
-        index: _bottomNavIndex,
+        index: _currentBottonNum,
         children: _widgetOptions(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -102,14 +110,14 @@ class _RootPageState extends State<RootPage> {
         activeColor: Constants.primaryColor,
         inactiveColor: Colors.black.withOpacity(.5),
         icons: iconList,
-        activeIndex: _bottomNavIndex,
+        activeIndex: _currentBottonNum,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.softEdge,
         onTap: (index) async {
           final List<Rock> favoritedRocks = await Rock.getFavoritedRocks();
           final List<Rock> addedToCartRocks = await Rock.addedToCartRocks();
           setState(() {
-            _bottomNavIndex = index;
+            BottomNavService().setIndex(index);
             favorites = favoritedRocks;
             myCart = addedToCartRocks.toSet().toList();
           });

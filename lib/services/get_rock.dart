@@ -35,7 +35,11 @@ class GetRockService {
             imageURL: 'assets/images/rock1.png',
             isFavorited: false,
             description: "",
-            isSelected: false);
+            isSelected: false,
+            color: '',
+            formula: '',
+            hardness: 0,
+            isMagnetic: false);
       } else {
         return null;
       }

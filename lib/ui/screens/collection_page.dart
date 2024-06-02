@@ -4,6 +4,11 @@ import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rock_in_collection.dart';
+import 'package:page_transition/page_transition.dart';
+
+import '../../services/select_new_rock_add_to_collection.dart';
+import 'detail_page.dart';
+import 'select_rock_page.dart';
 
 class CollectionPage extends StatefulWidget {
   final Collection collection;
@@ -50,12 +55,22 @@ class _CollectionPageState extends State<CollectionPage> {
     _loadCollectionRocks();
   }
 
+  void _removeRockFromCollection(int rockId) async {
+    await DatabaseHelper().removeRockFromCollection(rockId, widget.collection.collectionId);
+    _loadCollectionRocks();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Rocha removida da coleção')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back,
+          color: Constants.primaryColor,
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -109,6 +124,10 @@ class _CollectionPageState extends State<CollectionPage> {
               GestureDetector(
                 onTap: () {
                   // Handle add new rock action
+                  SelectNewRockAndAddToCollection(context, widget.collection.collectionId).action().then((value) {
+                    _loadCollectionRocks();
+                    setState(() {});
+                  });
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -139,20 +158,42 @@ class _CollectionPageState extends State<CollectionPage> {
                 child: ListView.builder(
                   itemCount: _collectionRocks.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[900],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          _collectionRocks[index].rockName,
-                          style: TextStyle(color: Colors.white),
+                    final rock = _collectionRocks[index];
+                    return Dismissible(
+                      key: Key(rock.rockId.toString()),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (direction) {
+                        _removeRockFromCollection(rock.rockId);
+                      },
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        color: Colors.red,
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
                         ),
-                        subtitle: Text(
-                          _collectionRocks[index].description,
-                          style: TextStyle(color: Colors.white70),
+                      ),
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, PageTransition(child: RockDetailPage(rock: rock,), type: PageTransitionType.bottomToTop)).then((value) => Navigator.of(context).pop());
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[900],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              rock.rockName,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            subtitle: Text(
+                              rock.description,
+                              style: TextStyle(color: Colors.white70),
+                            ),
+                          ),
                         ),
                       ),
                     );

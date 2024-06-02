@@ -42,66 +42,114 @@ class _FavoritePageState extends State<FavoritePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('CREATE NEW COLLECTION', style: TextStyle(
-                            color: Constants.primaryColor,
-                          )),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                controller: _collectionNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name your new collection',
-                  hintText: 'Enter name',
-                ),
-              ),
-              TextField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  hintText: 'Enter description',
-                ),
-              ),
-            ],
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel', style: TextStyle(
-                            color: Constants.primaryColor,
-                          )),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+          backgroundColor: Colors.black,
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              color: Colors.black,
             ),
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () async {
-                final String collectionName = _collectionNameController.text;
-                final String description = _descriptionController.text;
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'CREATE NEW COLLECTION',
+                  style: TextStyle(
+                    color: Constants.primaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  controller: _collectionNameController,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    labelText: 'Name your new collection',
+                    hintText: 'Enter name',
+                    hintStyle: TextStyle(color: Colors.white54),
+                    labelStyle: TextStyle(color: Constants.primaryColor),
+                    filled: true,
+                    fillColor: Colors.grey[800],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  controller: _descriptionController,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    labelText: 'Description',
+                    hintText: 'Enter description',
+                    hintStyle: TextStyle(color: Colors.white54),
+                    labelStyle: TextStyle(color: Constants.primaryColor),
+                    filled: true,
+                    fillColor: Colors.grey[800],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Constants.primaryColor,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Constants.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      child: Text('OK'),
+                      onPressed: () async {
+                        final String collectionName = _collectionNameController.text;
+                        final String description = _descriptionController.text;
 
-                if (collectionName.isNotEmpty) {
-                  try {
-                    Collection newCollection = Collection(
-                      collectionId: 0,
-                      collectionName: collectionName,
-                      description: description,
-                    );
+                        if (collectionName.isNotEmpty) {
+                          try {
+                            Collection newCollection = Collection(
+                              collectionId: 0,
+                              collectionName: collectionName,
+                              description: description,
+                            );
 
-                    await DatabaseHelper().insertCollection(newCollection);
-                    _loadCollections();
-                    Navigator.of(context).pop();
-                  } catch (e) {
-                    print(e);
-                  }
-                }
-              },
+                            await DatabaseHelper().insertCollection(newCollection);
+                            _loadCollections();
+                            Navigator.of(context).pop();
+                          } catch (e) {
+                            print(e);
+                          }
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

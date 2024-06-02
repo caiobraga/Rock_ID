@@ -35,23 +35,48 @@ class DatabaseHelper {
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE rocks(
-        rockId INTEGER PRIMARY KEY AUTOINCREMENT,
-        price REAL,
-        category TEXT,
-        rockName TEXT,
-        size TEXT,
-        rating INTEGER,
-        humidity REAL,
-        temperature TEXT,
-        imageURL TEXT,
-        isFavorited INTEGER,
-        description TEXT,
-        isSelected INTEGER
-      )
-    ''');
+  await db.execute('''
+    CREATE TABLE rocks(
+      rockId INTEGER PRIMARY KEY AUTOINCREMENT,
+      price REAL,
+      category TEXT,
+      rockName TEXT,
+      size TEXT,
+      rating INTEGER,
+      humidity REAL,
+      temperature TEXT,
+      imageURL TEXT,
+      isFavorited INTEGER,
+      description TEXT,
+      isSelected INTEGER,
+      formula TEXT,
+      hardness REAL,
+      color TEXT,
+      isMagnetic INTEGER
+    )
+  ''');
 
+  await db.execute('''
+    CREATE TABLE collections(
+      collectionId INTEGER PRIMARY KEY AUTOINCREMENT,
+      collectionName TEXT,
+      description TEXT
+    )
+  ''');
+
+  await db.execute('''
+    CREATE TABLE rock_in_collection(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      rockId INTEGER,
+      collectionId INTEGER,
+      FOREIGN KEY (rockId) REFERENCES rocks (rockId),
+      FOREIGN KEY (collectionId) REFERENCES collections (collectionId)
+    )
+  ''');
+}
+
+Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+  if (oldVersion < 2) {
     await db.execute('''
       CREATE TABLE collections(
         collectionId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,28 +95,15 @@ class DatabaseHelper {
       )
     ''');
   }
-
-  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
-      await db.execute('''
-        CREATE TABLE collections(
-          collectionId INTEGER PRIMARY KEY AUTOINCREMENT,
-          collectionName TEXT,
-          description TEXT
-        )
-      ''');
-
-      await db.execute('''
-        CREATE TABLE rock_in_collection(
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          rockId INTEGER,
-          collectionId INTEGER,
-          FOREIGN KEY (rockId) REFERENCES rocks (rockId),
-          FOREIGN KEY (collectionId) REFERENCES collections (collectionId)
-        )
-      ''');
-    }
+  if (oldVersion < 3) {
+    await db.execute('''
+      ALTER TABLE rocks ADD COLUMN formula TEXT;
+      ALTER TABLE rocks ADD COLUMN hardness REAL;
+      ALTER TABLE rocks ADD COLUMN color TEXT;
+      ALTER TABLE rocks ADD COLUMN isMagnetic INTEGER;
+    ''');
   }
+}
 
   Future<void> ensureSavedCollectionExists() async {
     final db = await database;

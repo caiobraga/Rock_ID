@@ -19,13 +19,13 @@ class RockWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+       /* Navigator.push(
             context,
             PageTransition(
-                child: DetailPage(
+                child: RockDetailPage(
                   RockId: RockList[index].rockId,
                 ),
-                type: PageTransitionType.bottomToTop));
+                type: PageTransitionType.bottomToTop));*/
       },
       child: Container(
         decoration: BoxDecoration(

@@ -106,9 +106,10 @@ class _RootPageState extends State<RootPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
+        backgroundColor: Constants.darkGrey,
         splashColor: Constants.primaryColor,
         activeColor: Constants.primaryColor,
-        inactiveColor: Colors.black.withOpacity(.5),
+        inactiveColor: Constants.white.withOpacity(.5),
         icons: iconList,
         activeIndex: _currentBottonNum,
         gapLocation: GapLocation.center,

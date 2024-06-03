@@ -13,7 +13,7 @@ class GetRockService {
       if (image != null) {
         Map<String, dynamic>? chatResponse =
             await ChatGPTService(apiKey: Constants.GPT_API_KEY)
-                .identifyRock(image!);
+                .identifyRock(image);
         if (chatResponse == null) return null;
         print(chatResponse);
         if (chatResponse['error'] != null) {
@@ -23,6 +23,13 @@ class GetRockService {
           );
           return null;
         }
+        String rockName = chatResponse['rock'];
+        Rock? localRock = _getLocalRockByName(rockName);
+
+        if (localRock != null) {
+          return localRock;
+        }
+
         return Rock(
             rockId: 0,
             price: 0,
@@ -46,5 +53,15 @@ class GetRockService {
     } catch (e) {
       print(e);
     }
+  }
+
+  Rock? _getLocalRockByName(String rockName) {
+    List<Rock> localRocks = Rock.RockList;
+    for (Rock rock in localRocks) {
+      if (rock.rockName.toLowerCase() == rockName.toLowerCase()) {
+        return rock;
+      }
+    }
+    return null;
   }
 }

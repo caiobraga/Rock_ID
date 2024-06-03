@@ -3,12 +3,12 @@ import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/plant_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/botton_nav.dart';
 import '../../services/selection_modal.dart';
 import '../scan_page.dart';
+import 'select_rock_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,7 +18,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<Rock> _RockList;
+  late List<Rock> _rockList;
+  List<Rock> _totalRockList = Rock.RockList;
+  List<Rock> _filteredRockList = Rock.RockList;
   double price = 0;
   bool _isLoading = true;
 
@@ -27,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     try {
       DatabaseHelper().rocks().then((value) {
-        _RockList = value;
+        _rockList = value;
         _calculateTotalPrice();
         setState(() {
           _isLoading = false;
@@ -40,10 +42,23 @@ class _HomePageState extends State<HomePage> {
 
   _calculateTotalPrice() {
     double totalPrice = 0;
-    for (var rock in _RockList) {
+    for (var rock in _rockList) {
       totalPrice += rock.price;
     }
     price = totalPrice;
+  }
+
+  void _filterRocks(String query) {
+    setState(() {
+      _filteredRockList = _totalRockList
+          .where((rock) =>
+              rock.rockName.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
+  void _showRockSelectionModal() {
+    Navigator.push(context, PageTransition(child: SelectRockPage(is_saving_rock: false), type: PageTransitionType.bottomToTop));
   }
 
   @override
@@ -77,6 +92,14 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
+                       style: TextStyle(
+                        color: Constants.white
+                      ),
+                      onTap: _showRockSelectionModal,
+                      onChanged: (query) {
+                        _filterRocks(query);
+                        _showRockSelectionModal();
+                      },
                     ),
                   ),
                   Padding(
@@ -166,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                               color: Constants.primaryColor,
                             ),
                             Text(
-                              '${_RockList.length}',
+                              '${_rockList.length}',
                               style: TextStyle(
                                 color: Constants.white,
                                 fontSize: 20,

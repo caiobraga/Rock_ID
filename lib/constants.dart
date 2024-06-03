@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class Constants {
   //Primary color
   static var primaryColor = const Color.fromRGBO(184, 143, 113, 1);
-  static var blackColor = const Color.fromRGBO(255, 214, 0, 1);
+  static var blackColor = const Color.fromRGBO(0, 0, 0, 1);
   static var white = const Color.fromRGBO(255,255,255,1);
 
   static var darkGrey = const Color.fromRGBO(33,37,40,1); 

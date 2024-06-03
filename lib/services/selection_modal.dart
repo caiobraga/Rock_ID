@@ -30,7 +30,7 @@ class ShowSelectionModalService {
             children: [
               GestureDetector(
                 onTap: (){
-                  Navigator.push(context, PageTransition(child: SelectRockPage(), type: PageTransitionType.bottomToTop)).then((value) => Navigator.of(context).pop());
+                  Navigator.push(context, PageTransition(child: SelectRockPage(is_saving_rock: true), type: PageTransitionType.bottomToTop)).then((value) => Navigator.of(context).pop());
                 },
                 child: Column(
                 mainAxisSize: MainAxisSize.min,

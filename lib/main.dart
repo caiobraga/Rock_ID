@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(scaffoldBackgroundColor: Colors.black,
       ),
       title: 'Onboarding Screen',
-      home: OnboardingScreen(),
+      home: const OnboardingScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

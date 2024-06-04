@@ -3,8 +3,6 @@ import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'screens/signin_page.dart';
-
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
 
@@ -54,17 +52,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             },
             controller: _pageController,
             children: [
-              createPage(
+              CreatePage(
                 image: 'assets/images/rocha-granito.png',
                 title: Constants.titleOne,
                 description: Constants.descriptionOne,
               ),
-              createPage(
+              CreatePage(
                 image: 'assets/images/rock1.png',
                 title: Constants.titleTwo,
                 description: Constants.descriptionTwo,
               ),
-              createPage(
+              CreatePage(
                 image: 'assets/images/emerald2.png',
                 title: Constants.titleThree,
                 description: Constants.descriptionThree,
@@ -150,12 +148,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-class createPage extends StatelessWidget {
+class CreatePage extends StatelessWidget {
   final String image;
   final String title;
   final String description;
 
-  const createPage({
+  const CreatePage({
     Key? key,
     required this.image,
     required this.title,

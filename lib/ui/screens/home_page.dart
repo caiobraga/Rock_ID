@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/botton_nav.dart';
 import '../../services/selection_modal.dart';
-import '../scan_page.dart';
 import 'select_rock_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late List<Rock> _rockList;
-  List<Rock> _totalRockList = Rock.RockList;
+  final List<Rock> _totalRockList = Rock.RockList;
   List<Rock> _filteredRockList = Rock.RockList;
   double price = 0;
   bool _isLoading = true;
@@ -36,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         });
       });
     } catch (e) {
-      print(e);
+      debugPrint("Error: $e");
     }
   }
 
@@ -67,7 +65,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : SingleChildScrollView(
@@ -112,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                             // Handle rock collection functionality
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
                             decoration: BoxDecoration(
                               color: Constants.darkGrey,
@@ -124,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                                   Icons.share,
                                   color: Constants.primaryColor,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 4,
                                 ),
                                 Text(
@@ -143,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                             // Handle rock collection functionality
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
                             decoration: BoxDecoration(
                               color: Constants.darkGrey,
@@ -155,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                                   Icons.folder_copy_rounded,
                                   color: Constants.primaryColor,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 4,
                                 ),
                                 Text(
@@ -172,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     decoration: BoxDecoration(
                       color: Constants.darkGrey,
                       borderRadius: BorderRadius.circular(16),
@@ -266,12 +264,7 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset('assets/images/rocktap.png', height: 100),
-                            SizedBox(height: 10),
-                            Icon(
-                              Icons.camera_alt,
-                              size: 50,
-                            ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16),
                               margin: const EdgeInsets.all(4.0) ,
@@ -292,6 +285,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 10),
                             Text(
                               'TO RECOGNIZE YOUR ROCK',
                               textAlign: TextAlign.center,

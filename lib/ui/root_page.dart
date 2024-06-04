@@ -3,12 +3,8 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/scan_page.dart';
-import 'package:flutter_onboarding/ui/screens/cart_page.dart';
 import 'package:flutter_onboarding/ui/screens/favorite_page.dart';
 import 'package:flutter_onboarding/ui/screens/home_page.dart';
-import 'package:flutter_onboarding/ui/screens/profile_page.dart';
-import 'package:page_transition/page_transition.dart';
 
 import '../services/botton_nav.dart';
 import '../services/selection_modal.dart';
@@ -72,20 +68,20 @@ class _RootPageState extends State<RootPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Container(child: Row(
+                        Row(
                           children: [
                             IconButton(
                               color: Constants.primaryColor,
-                              icon: Icon(Icons.create),
+                              icon: const Icon(Icons.create),
                               onPressed: () {},
                             ),
                             IconButton(
                               color: Constants.primaryColor,
-                              icon: Icon(Icons.settings),
+                              icon: const Icon(Icons.settings),
                               onPressed: () {},
                             ),
                           ],
-                        ),)
+                        )
                         
                       ],
                     ),
@@ -98,6 +94,7 @@ class _RootPageState extends State<RootPage> {
         children: _widgetOptions(),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "scan",
         onPressed: (){
             ShowSelectionModalService().show(context);
         },

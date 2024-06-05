@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/models/rocks.dart';
 
 class RockDetailPage extends StatelessWidget {
   final Rock rock;
@@ -39,7 +39,7 @@ class RockDetailPage extends StatelessWidget {
               Center(
                 child: Column(
                   children: [
-                    Image.asset('assets/rock.png', height: 200), // Placeholder image
+                    Image.asset('assets/images/rock1.png', height: 200), // Placeholder image
                     SizedBox(height: 10),
                     Text(
                       rock.rockName,
@@ -175,8 +175,8 @@ class RockDetailPage extends StatelessWidget {
         SizedBox(height: 10),
         Row(
           children: [
-            _buildImageCard('Quartz', 'assets/quartz1.png'),
-            _buildImageCard('Quartz', 'assets/quartz2.png'),
+            _buildImageCard('Quartz', 'assets/images/emerald.png'),
+            _buildImageCard('Quartz', 'assets/images/emerald1.png'),
           ],
         ),
       ],

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/db/db.dart';
+import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../constants.dart';
-import '../scan_page.dart';
 
 class SelectRockPage extends StatefulWidget {
-  bool is_saving_rock;
-  SelectRockPage({required this.is_saving_rock});
+  final bool isSavingRock;
+  const SelectRockPage({Key? key, required this.isSavingRock})
+      : super(key: key);
 
   @override
   _SelectRockPageState createState() => _SelectRockPageState();
@@ -17,21 +17,25 @@ class SelectRockPage extends StatefulWidget {
 
 class _SelectRockPageState extends State<SelectRockPage> {
   final DatabaseHelper _dbHelper = DatabaseHelper();
-  List<Rock> _rockList = Rock.RockList;
+  final List<Rock> _rockList = Rock.RockList;
   List<Rock> _filteredRockList = Rock.RockList;
 
+  final _searchRocks = FocusNode();
 
   void _saveRock(Rock rock) async {
-    if(widget.is_saving_rock){
+    if (widget.isSavingRock) {
       await _dbHelper.insertRock(rock);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('${rock.rockName} foi salvo!')),
       );
       Navigator.of(context).pop();
-    }else{
-      Navigator.push(context, PageTransition(child: RockDetailPage(rock: rock), type: PageTransitionType.bottomToTop));
+    } else {
+      Navigator.push(
+          context,
+          PageTransition(
+              child: RockDetailPage(rock: rock),
+              type: PageTransitionType.bottomToTop));
     }
-    
   }
 
   void _filterRocks(String query) {
@@ -44,63 +48,120 @@ class _SelectRockPageState extends State<SelectRockPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 1), () {
+        _searchRocks.requestFocus();
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       backgroundColor: Colors.black,
-       leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-          color: Constants.primaryColor,
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Constants.primaryColor,
           ),
           onPressed: () {
+            FocusScope.of(context).unfocus();
             Navigator.of(context).pop();
           },
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Constants.darkGrey,
-                hintStyle: TextStyle(color: Constants.white),
-                hintText: 'Search for rocks',
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Constants.primaryColor,
-                ),
-                border: OutlineInputBorder(
+      body: Center(
+        child: FractionallySizedBox(
+          widthFactor: 0.9,
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                 ),
+                child: TextField(
+                  focusNode: _searchRocks,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Constants.darkGrey,
+                    hintStyle: TextStyle(color: Constants.white),
+                    hintText: 'Search for rocks',
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Constants.primaryColor,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  style: TextStyle(color: Constants.white),
+                  onChanged: (query) {
+                    _filterRocks(query);
+                  },
+                ),
               ),
-              style: TextStyle(
-                color: Constants.white
+              const SizedBox(height: 10.0),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _filteredRockList.length,
+                  itemBuilder: (context, index) {
+                    final rock = _filteredRockList[index];
+                    return Card(
+                      color: Constants.darkGrey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      margin: const EdgeInsets.symmetric(vertical: 10.0),
+                      elevation: 5,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.all(15.0),
+                        leading: rock.imageURL.isNotEmpty
+                            ? CircleAvatar(
+                                backgroundImage: AssetImage(rock
+                                    .imageURL), // Assuming you have images for the rocks
+                                radius: 30.0,
+                              )
+                            : CircleAvatar(
+                                backgroundColor: Constants.primaryColor,
+                                radius: 30.0,
+                                child: Text(
+                                  rock.rockName[0],
+                                  style: TextStyle(
+                                    color: Constants.white,
+                                    fontSize: 24.0,
+                                  ),
+                                ),
+                              ),
+                        title: Text(
+                          rock.rockName,
+                          style: TextStyle(
+                            color: Constants.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        subtitle: Text(
+                          rock.description,
+                          style: TextStyle(
+                            color: Constants.white,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        onTap: () => _saveRock(rock),
+                      ),
+                    );
+                  },
+                ),
               ),
-              onChanged: (query) {
-                _filterRocks(query);
-              },
-            ),
+            ],
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _filteredRockList.length,
-              itemBuilder: (context, index) {
-                final rock = _filteredRockList[index];
-                return ListTile(
-                  title: Text(rock.rockName),
-                  subtitle: Text(rock.description),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () => _saveRock(rock),
-                );
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

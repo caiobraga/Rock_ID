@@ -7,6 +7,7 @@ import 'package:flutter_onboarding/models/rock_in_collection.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/select_new_rock_add_to_collection.dart';
+import '../../services/snackbar.dart';
 import 'detail_page.dart';
 import 'select_rock_page.dart';
 
@@ -58,9 +59,7 @@ class _CollectionPageState extends State<CollectionPage> {
   void _removeRockFromCollection(int rockId) async {
     await DatabaseHelper().removeRockFromCollection(rockId, widget.collection.collectionId);
     _loadCollectionRocks();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Rocha removida da coleção')),
-    );
+    ShowSnackbarService().showSnackBar('Rock removed from the collection.');
   }
 
   @override

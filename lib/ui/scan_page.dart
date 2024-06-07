@@ -9,6 +9,7 @@ import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../services/snackbar.dart';
 import 'screens/home_page.dart';
 
 class ScanPage extends StatefulWidget {
@@ -49,24 +50,18 @@ class _ScanPageState extends State<ScanPage> {
                     
                     
                     if (_rock != null) {
-                      navigator.push(PageTransition(child: RockDetailPage(rock: _rock!, isSavingRock: true), type: PageTransitionType.fade));
                       // Handle the rock data
-                      /*await DatabaseHelper().insertRock(_rock!);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Sucess')),
-                      );*/
+                      Navigator.push(context, PageTransition(child: RockDetailPage(rock: _rock!, isSavingRock: true), type: PageTransitionType.fade));
+                      //await DatabaseHelper().insertRock(_rock!);  
                     }
                     setState(() {
                       _isLoading = false;
                     });
-                    navigator.pushReplacement(MaterialPageRoute(builder: (_) => const RootPage()));
+                    navigator.pop();
                     
                   } catch(e){
                     print(e);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Error: $e')),
-                    );
-                    
+                    ShowSnackbarService().showSnackBar('Error: $e');
                   }
                   
                 },
@@ -79,7 +74,8 @@ class _ScanPageState extends State<ScanPage> {
                           )
                 ),
                 onTap: () async {
-                  final navigator = Navigator.of(context); 
+                   try{
+                    final navigator = Navigator.of(context); 
                   navigator.pop();
                     setState(() {
                       _isLoading = true;
@@ -97,6 +93,11 @@ class _ScanPageState extends State<ScanPage> {
                       _isLoading = false;
                     });
                     navigator.pop();
+                    
+                  } catch(e){
+                    print(e);
+                    ShowSnackbarService().showSnackBar('Error: $e');
+                  }
                 },
               ),
             ],

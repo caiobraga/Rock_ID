@@ -6,6 +6,7 @@ import 'package:flutter_onboarding/services/chat_gpt.dart';
 import '../constants.dart';
 import 'dart:io';
 import '../main.dart';
+import 'snackbar.dart';
 
 class GetRockService {
   Future<Rock?> getRock(File? image) async {
@@ -18,7 +19,7 @@ class GetRockService {
         print(chatResponse);
         if (chatResponse['error'] != null) {
           print('Error: ${chatResponse['error']}');
-          _showSnackBar(scaffoldMessengerKey, 'Error: ${chatResponse['error']}');
+          ShowSnackbarService().showSnackBar('Error: ${chatResponse['error']}');
           return null;
         }
         String rockName = chatResponse['rock'];
@@ -50,7 +51,7 @@ class GetRockService {
       }
     } catch (e) {
       print(e);
-      _showSnackBar(scaffoldMessengerKey, 'Error: $e');
+      ShowSnackbarService().showSnackBar('Error: $e');
     }
   }
 
@@ -64,9 +65,5 @@ class GetRockService {
     return null;
   }
 
-  void _showSnackBar(GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey, String message) {
-    scaffoldMessengerKey.currentState?.showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
+  
 }

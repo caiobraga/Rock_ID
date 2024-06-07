@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../db/db.dart';
+import '../../services/snackbar.dart';
 
 class RockDetailPage extends StatelessWidget {
   final Rock rock;
@@ -362,18 +363,14 @@ class RockDetailPage extends StatelessWidget {
     // Implement your save logic here
     try{
       await DatabaseHelper().insertRock(rock);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Sucess')),
-    );
+      ShowSnackbarService().showSnackBar('Rock Saved');
     Navigator.pushReplacement(
         context,
         PageTransition(
             child: const RootPage(),
             type: PageTransitionType.leftToRightWithFade));
     } catch(e){
-     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error ${e}')),
-    );
+      ShowSnackbarService().showSnackBar('Error ${e}');
     }
   }
 }

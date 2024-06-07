@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/db/db.dart';
+import 'package:flutter_onboarding/services/snackbar.dart';
 
 class SelectNewRockAndAddToCollection {
   final BuildContext context;
@@ -34,9 +35,7 @@ class SelectNewRockAndAddToCollection {
                   onPressed: () async {
                     await DatabaseHelper().addRockToCollection(rock.rockId, collectionId);
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('${rock.rockName} foi adicionado à coleção!')),
-                    );
+                    ShowSnackbarService().showSnackBar('${rock.rockName} was added to the collection!');
                   },
                 ),
               );

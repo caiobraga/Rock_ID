@@ -1,16 +1,14 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
-import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../services/snackbar.dart';
-import 'screens/home_page.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
@@ -34,65 +32,58 @@ class _ScanPageState extends State<ScanPage> {
               ListTile(
                 leading: Icon(Icons.photo_library),
                 title: Text('Gallery',
-                style: TextStyle(
-                            color: Constants.primaryColor,
-                          )
-                ),
+                    style: TextStyle(
+                      color: Constants.primaryColor,
+                    )),
                 onTap: () async {
-                  try{
-                    final navigator = Navigator.of(context); 
-                  navigator.pop();
+                  try {
+                    final navigator = Navigator.of(context);
+                    navigator.pop();
                     setState(() {
                       _isLoading = true;
                     });
                     _image = await ImagePickerService().pickImageFromGallery();
                     _rock = await GetRockService().getRock(_image);
-                    
-                    
+
                     if (_rock != null) {
                       // Handle the rock data
                       navigator.push(PageTransition(child: RockDetailPage(rock: _rock!, isSavingRock: true), type: PageTransitionType.fade));
-                      //await DatabaseHelper().insertRock(_rock!);  
+                      //await DatabaseHelper().insertRock(_rock!);
                     }
                     setState(() {
                       _isLoading = false;
                     });
-                    
-                  } catch(e){
+                  } catch (e) {
                     print(e);
                     ShowSnackbarService().showSnackBar('Error: $e');
                   }
-                  
                 },
               ),
               ListTile(
                 leading: Icon(Icons.photo_camera),
                 title: Text('Camera',
-                style: TextStyle(
-                            color: Constants.primaryColor,
-                          )
-                ),
+                    style: TextStyle(
+                      color: Constants.primaryColor,
+                    )),
                 onTap: () async {
-                   try{
-                    final navigator = Navigator.of(context); 
-                  navigator.pop();
+                  try {
+                    final navigator = Navigator.of(context);
+                    navigator.pop();
                     setState(() {
                       _isLoading = true;
                     });
                     _image = await ImagePickerService().pickImageFromCamera();
                     _rock = await GetRockService().getRock(_image);
-                    
-                    
+
                     if (_rock != null) {
                       // Handle the rock data
-                      Navigator.push(context, PageTransition(child: RockDetailPage(rock: _rock!, isSavingRock: true), type: PageTransitionType.fade));
-                      //await DatabaseHelper().insertRock(_rock!);  
+                      navigator.push(PageTransition(child: RockDetailPage(rock: _rock!, isSavingRock: true), type: PageTransitionType.fade));
+                      //await DatabaseHelper().insertRock(_rock!);
                     }
                     setState(() {
                       _isLoading = false;
                     });
-                    
-                  } catch(e){
+                  } catch (e) {
                     print(e);
                     ShowSnackbarService().showSnackBar('Error: $e');
                   }
@@ -194,8 +185,7 @@ class _ScanPageState extends State<ScanPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                      if (_isLoading)
-                        CircularProgressIndicator(),
+                      if (_isLoading) CircularProgressIndicator(),
                     ],
                   ),
                 ),

@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+
+import '../../db/db.dart';
 
 class RockDetailPage extends StatelessWidget {
   final Rock rock;
+  final bool isSavingRock;
 
-  const RockDetailPage({Key? key, required this.rock}) : super(key: key);
+  const RockDetailPage(
+      {Key? key, required this.rock, required this.isSavingRock})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +36,16 @@ class RockDetailPage extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.black,
+        actions: [
+          if (isSavingRock)
+            IconButton(
+              icon: Icon(
+                Icons.save,
+                color: Constants.primaryColor,
+              ),
+              onPressed: () => saveRock(context),
+            ),
+        ],
       ),
       body: Container(
         color: Colors.black,
@@ -55,8 +72,6 @@ class RockDetailPage extends StatelessWidget {
                       Divider(
                         color: Constants.naturalGrey,
                         thickness: 1,
-                        // endIndent: 50,
-                        // indent: 50,
                       ),
                       const SizedBox(
                         height: 10,
@@ -80,10 +95,10 @@ class RockDetailPage extends StatelessWidget {
                                 TextSpan(
                                   text: rock.category,
                                   style: AppTypography.body3(
-                                      color: AppCollors.primaryMedium,
-                                      decoration: TextDecoration.underline,
-                                      decorationColor:
-                                          AppCollors.primaryMedium),
+                                    color: AppCollors.primaryMedium,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppCollors.primaryMedium,
+                                  ),
                                 ),
                               ],
                             ),
@@ -169,15 +184,19 @@ class RockDetailPage extends StatelessWidget {
                     Text(
                       'Go ',
                       style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                        color: AppCollors.naturalBlack,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      )),
+                        textStyle: TextStyle(
+                          color: AppCollors.naturalBlack,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
-                    SizedBox(width: 4,),
+                    SizedBox(
+                      width: 4,
+                    ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
                         color: AppCollors.white,
                         borderRadius: BorderRadius.circular(25),
@@ -188,14 +207,13 @@ class RockDetailPage extends StatelessWidget {
                           textStyle: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: AppCollors.primaryDarkest
-                          )
-                        )
+                            color: AppCollors.primaryDarkest,
+                          ),
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-                // const Text('Go Premium'),
                 const SizedBox(
                     height: 5), // Espaçamento entre o botão e o texto
                 Text(
@@ -205,7 +223,7 @@ class RockDetailPage extends StatelessWidget {
                       color: AppCollors.naturalBlack,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
-                    )
+                    ),
                   ),
                 ),
                 Text(
@@ -215,10 +233,9 @@ class RockDetailPage extends StatelessWidget {
                       color: AppCollors.naturalBlack,
                       fontWeight: FontWeight.normal,
                       fontSize: 12,
-                    )
+                    ),
                   ),
-                )
-                // Claim your offer now
+                ),
               ],
             ),
           ),
@@ -339,5 +356,24 @@ class RockDetailPage extends StatelessWidget {
         style: TextStyle(color: Colors.white),
       ),
     );
+  }
+
+  void saveRock(BuildContext context) async {
+    // Implement your save logic here
+    try{
+      await DatabaseHelper().insertRock(rock);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Sucess')),
+    );
+    Navigator.pushReplacement(
+        context,
+        PageTransition(
+            child: const RootPage(),
+            type: PageTransitionType.leftToRightWithFade));
+    } catch(e){
+     ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error ${e}')),
+    );
+    }
   }
 }

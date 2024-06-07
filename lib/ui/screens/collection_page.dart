@@ -176,7 +176,7 @@ class _CollectionPageState extends State<CollectionPage> {
                       ),
                       child: GestureDetector(
                         onTap: (){
-                          Navigator.push(context, PageTransition(child: RockDetailPage(rock: rock,), type: PageTransitionType.bottomToTop)).then((value) => Navigator.of(context).pop());
+                          Navigator.push(context, PageTransition(child: RockDetailPage(rock: rock, isSavingRock: false), type: PageTransitionType.bottomToTop)).then((value) => Navigator.of(context).pop());
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 5),

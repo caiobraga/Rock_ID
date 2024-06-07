@@ -9,7 +9,6 @@ import '../main.dart';
 
 class GetRockService {
   Future<Rock?> getRock(File? image) async {
-    
     try {
       if (image != null) {
         Map<String, dynamic>? chatResponse =

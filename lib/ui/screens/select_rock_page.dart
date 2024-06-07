@@ -23,19 +23,19 @@ class _SelectRockPageState extends State<SelectRockPage> {
   final _searchRocks = FocusNode();
 
   void _saveRock(Rock rock) async {
-    if (widget.isSavingRock) {
+    /*if (widget.isSavingRock) {
       await _dbHelper.insertRock(rock);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('${rock.rockName} foi salvo!')),
       );
       Navigator.of(context).pop();
-    } else {
+    } else {*/
       Navigator.push(
           context,
           PageTransition(
-              child: RockDetailPage(rock: rock),
+              child: RockDetailPage(rock: rock, isSavingRock: widget.isSavingRock),
               type: PageTransitionType.bottomToTop));
-    }
+    //}
   }
 
   void _filterRocks(String query) {

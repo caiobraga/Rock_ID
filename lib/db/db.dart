@@ -2,7 +2,6 @@ import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/models/collection.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '../models/rock_in_collection.dart';
 
 class DatabaseHelper {
@@ -28,55 +27,34 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 3,
+      version: 4,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
   }
 
   Future<void> _onCreate(Database db, int version) async {
-  await db.execute('''
-    CREATE TABLE rocks(
-      rockId INTEGER PRIMARY KEY AUTOINCREMENT,
-      price REAL,
-      category TEXT,
-      rockName TEXT,
-      size TEXT,
-      rating INTEGER,
-      humidity REAL,
-      temperature TEXT,
-      imageURL TEXT,
-      isFavorited INTEGER,
-      description TEXT,
-      isSelected INTEGER,
-      formula TEXT,
-      hardness REAL,
-      color TEXT,
-      isMagnetic INTEGER
-    )
-  ''');
+    await db.execute('''
+      CREATE TABLE rocks(
+        rockId INTEGER PRIMARY KEY AUTOINCREMENT,
+        price REAL,
+        category TEXT,
+        rockName TEXT,
+        size TEXT,
+        rating INTEGER,
+        humidity REAL,
+        temperature TEXT,
+        imageURL TEXT,
+        isFavorited INTEGER,
+        description TEXT,
+        isSelected INTEGER,
+        formula TEXT,
+        hardness REAL,
+        color TEXT,
+        isMagnetic INTEGER
+      )
+    ''');
 
-  await db.execute('''
-    CREATE TABLE collections(
-      collectionId INTEGER PRIMARY KEY AUTOINCREMENT,
-      collectionName TEXT,
-      description TEXT
-    )
-  ''');
-
-  await db.execute('''
-    CREATE TABLE rock_in_collection(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      rockId INTEGER,
-      collectionId INTEGER,
-      FOREIGN KEY (rockId) REFERENCES rocks (rockId),
-      FOREIGN KEY (collectionId) REFERENCES collections (collectionId)
-    )
-  ''');
-}
-
-Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-  if (oldVersion < 2) {
     await db.execute('''
       CREATE TABLE collections(
         collectionId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -95,15 +73,58 @@ Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
       )
     ''');
   }
-  if (oldVersion < 3) {
-    await db.execute('''
-      ALTER TABLE rocks ADD COLUMN formula TEXT;
-      ALTER TABLE rocks ADD COLUMN hardness REAL;
-      ALTER TABLE rocks ADD COLUMN color TEXT;
-      ALTER TABLE rocks ADD COLUMN isMagnetic INTEGER;
-    ''');
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await _createTableIfNotExists(db, 'collections', '''
+        CREATE TABLE collections(
+          collectionId INTEGER PRIMARY KEY AUTOINCREMENT,
+          collectionName TEXT,
+          description TEXT
+        )
+      ''');
+
+      await _createTableIfNotExists(db, 'rock_in_collection', '''
+        CREATE TABLE rock_in_collection(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          rockId INTEGER,
+          collectionId INTEGER,
+          FOREIGN KEY (rockId) REFERENCES rocks (rockId),
+          FOREIGN KEY (collectionId) REFERENCES collections (collectionId)
+        )
+      ''');
+    }
+    if (oldVersion < 4) {
+      await _addColumnIfNotExists(db, 'rocks', 'formula', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'hardness', 'REAL');
+      await _addColumnIfNotExists(db, 'rocks', 'color', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'isMagnetic', 'INTEGER');
+    }
   }
-}
+
+  Future<void> _createTableIfNotExists(Database db, String tableName, String createTableQuery) async {
+    try {
+      await db.execute(createTableQuery);
+    } catch (e) {
+      if (e is DatabaseException && e.isUniqueConstraintError()) {
+        print('Table $tableName already exists. Skipping creation.');
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> _addColumnIfNotExists(Database db, String tableName, String columnName, String columnType) async {
+    try {
+      await db.rawQuery('SELECT $columnName FROM $tableName LIMIT 1');
+    } catch (e) {
+      if (e is DatabaseException) {
+        await db.execute('ALTER TABLE $tableName ADD COLUMN $columnName $columnType');
+      } else {
+        rethrow;
+      }
+    }
+  }
 
   Future<void> ensureSavedCollectionExists() async {
     final db = await database;
@@ -147,7 +168,7 @@ Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
 
     if (savedCollectionId != null) {
       // Add the rock to the "Saved" collection
-      await addRockToCollection(rock.rockId!, savedCollectionId);
+      await addRockToCollection(rock.rockId, savedCollectionId);
     }
   }
 

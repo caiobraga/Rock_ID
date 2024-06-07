@@ -6,6 +6,8 @@ import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
+import 'package:flutter_onboarding/ui/screens/detail_page.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'screens/home_page.dart';
 
@@ -47,11 +49,12 @@ class _ScanPageState extends State<ScanPage> {
                     
                     
                     if (_rock != null) {
+                      navigator.push(PageTransition(child: RockDetailPage(rock: _rock!, isSavingRock: true), type: PageTransitionType.fade));
                       // Handle the rock data
-                      await DatabaseHelper().insertRock(_rock!);
+                      /*await DatabaseHelper().insertRock(_rock!);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Sucess')),
-                      );
+                      );*/
                     }
                     setState(() {
                       _isLoading = false;
@@ -87,8 +90,8 @@ class _ScanPageState extends State<ScanPage> {
                     
                     if (_rock != null) {
                       // Handle the rock data
-                      await DatabaseHelper().insertRock(_rock!);
-                      
+                      Navigator.push(context, PageTransition(child: RockDetailPage(rock: _rock!, isSavingRock: true), type: PageTransitionType.fade));
+                      //await DatabaseHelper().insertRock(_rock!);  
                     }
                     setState(() {
                       _isLoading = false;

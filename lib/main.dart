@@ -3,6 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'ui/onboarding_screen.dart';
 
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
 void main(){
   runApp(MyApp());
 }
@@ -24,6 +26,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(scaffoldBackgroundColor: Colors.black,
       ),
       title: 'Onboarding Screen',

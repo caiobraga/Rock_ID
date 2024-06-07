@@ -43,20 +43,27 @@ class _ScanPageState extends State<ScanPage> {
                       _isLoading = true;
                     });
                     _image = await ImagePickerService().pickImageFromGallery();
-                    _rock = await GetRockService().getRock(context, _image);
+                    _rock = await GetRockService().getRock(_image);
                     
                     
                     if (_rock != null) {
                       // Handle the rock data
                       await DatabaseHelper().insertRock(_rock!);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Sucess')),
+                      );
                     }
                     setState(() {
                       _isLoading = false;
                     });
-                    navigator.pushReplacement(MaterialPageRoute(builder: (_) => const RootPage())); 
+                    navigator.pushReplacement(MaterialPageRoute(builder: (_) => const RootPage()));
+                    
                   } catch(e){
                     print(e);
-                    SnackBar(content: Text('Error: $e'));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error: $e')),
+                    );
+                    
                   }
                   
                 },
@@ -75,7 +82,7 @@ class _ScanPageState extends State<ScanPage> {
                       _isLoading = true;
                     });
                     _image = await ImagePickerService().pickImageFromCamera();
-                    _rock = await GetRockService().getRock(context, _image);
+                    _rock = await GetRockService().getRock(_image);
                     
                     
                     if (_rock != null) {

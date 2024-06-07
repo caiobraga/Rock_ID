@@ -1,14 +1,15 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/chat_gpt.dart';
 import '../constants.dart';
 import 'dart:io';
+import '../main.dart';
 
 class GetRockService {
-  Future<Rock?> getRock(BuildContext context, File? image) async {
+  Future<Rock?> getRock(File? image) async {
+    
     try {
       if (image != null) {
         Map<String, dynamic>? chatResponse =
@@ -18,9 +19,7 @@ class GetRockService {
         print(chatResponse);
         if (chatResponse['error'] != null) {
           print('Error: ${chatResponse['error']}');
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${chatResponse['error']}')),
-          );
+          _showSnackBar(scaffoldMessengerKey, 'Error: ${chatResponse['error']}');
           return null;
         }
         String rockName = chatResponse['rock'];
@@ -52,6 +51,7 @@ class GetRockService {
       }
     } catch (e) {
       print(e);
+      _showSnackBar(scaffoldMessengerKey, 'Error: $e');
     }
   }
 
@@ -63,5 +63,11 @@ class GetRockService {
       }
     }
     return null;
+  }
+
+  void _showSnackBar(GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey, String message) {
+    scaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 }

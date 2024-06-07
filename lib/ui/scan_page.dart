@@ -51,13 +51,12 @@ class _ScanPageState extends State<ScanPage> {
                     
                     if (_rock != null) {
                       // Handle the rock data
-                      Navigator.push(context, PageTransition(child: RockDetailPage(rock: _rock!, isSavingRock: true), type: PageTransitionType.fade));
+                      navigator.push(PageTransition(child: RockDetailPage(rock: _rock!, isSavingRock: true), type: PageTransitionType.fade));
                       //await DatabaseHelper().insertRock(_rock!);  
                     }
                     setState(() {
                       _isLoading = false;
                     });
-                    navigator.pop();
                     
                   } catch(e){
                     print(e);
@@ -92,7 +91,6 @@ class _ScanPageState extends State<ScanPage> {
                     setState(() {
                       _isLoading = false;
                     });
-                    navigator.pop();
                     
                   } catch(e){
                     print(e);

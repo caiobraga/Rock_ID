@@ -9,49 +9,60 @@ import '../main.dart';
 import 'snackbar.dart';
 
 class GetRockService {
-  Future<Rock?> getRock(File? image) async {
-    try {
-      if (image != null) {
-        Map<String, dynamic>? chatResponse =
-            await ChatGPTService(apiKey: Constants.GPT_API_KEY)
-                .identifyRock(image);
-        if (chatResponse == null) return null;
-        print(chatResponse);
-        if (chatResponse['error'] != null) {
-          print('Error: ${chatResponse['error']}');
-          ShowSnackbarService().showSnackBar('Error: ${chatResponse['error']}');
-          return null;
-        }
-        String rockName = chatResponse['rock'];
-        Rock? localRock = _getLocalRockByName(rockName);
-
-        if (localRock != null) {
-          return localRock;
-        }
-
-        return Rock(
-            rockId: 0,
-            price: 0,
-            category: chatResponse['type'],
-            rockName: chatResponse['rock'],
-            size: "",
-            rating: 5,
-            humidity: 0,
-            temperature: "",
-            imageURL: 'assets/images/rock1.png',
-            isFavorited: false,
-            description: "",
-            isSelected: false,
-            color: '',
-            formula: '',
-            hardness: 0,
-            isMagnetic: false);
-      } else {
-        return null;
+  Future<Rock> getRock(File? image) async {
+    if (image != null) {
+      Map<String, dynamic>? chatResponse =
+          await ChatGPTService(apiKey: Constants.GPT_API_KEY)
+              .identifyRock(image);
+      if (chatResponse == null) {
+        throw Exception('Unable to get a response. Please try again later.');
       }
-    } catch (e) {
-      print(e);
-      ShowSnackbarService().showSnackBar('Error: $e');
+      print(chatResponse);
+      if (chatResponse['error'] != null) {
+        print('Error: ${chatResponse['error']}');
+        //ShowSnackbarService().showSnackBar('Error: ${chatResponse['error']}');
+        throw Exception(chatResponse['error']);
+      }
+      String rockName = chatResponse['rock'];
+      Rock? localRock = _getLocalRockByName(rockName);
+
+      if (localRock != null) {
+        return localRock;
+      }
+
+      return Rock(
+          rockId: 0,
+          price: 0,
+          category: chatResponse['type'],
+          rockName: chatResponse['rock'],
+          size: "",
+          rating: 5,
+          humidity: 0,
+          temperature: "",
+          imageURL: 'assets/images/rock1.png',
+          isFavorited: false,
+          description: "",
+          isSelected: false,
+          color: '',
+          formula: '',
+          hardness: 0,
+          isMagnetic: false,
+          healthRisks: '',
+          askedQuestions: [],
+          crystalSystem: '',
+          Colors: '',
+          Luster: '',
+          Diaphaneity: '',
+          quimicalClassification: '',
+          elementsListed: '',
+          healingPropeties: '',
+          formulation: '',
+          meaning: '',
+          howToSelect: '',
+          types: '',
+          uses: '');
+    } else {
+      throw Exception('No image identifyed');
     }
   }
 
@@ -64,6 +75,4 @@ class GetRockService {
     }
     return null;
   }
-
-  
 }

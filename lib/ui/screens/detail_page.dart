@@ -48,88 +48,125 @@ class RockDetailPage extends StatelessWidget {
             ),
         ],
       ),
-      body: Container(
-        color: Colors.black,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Constants.darkGrey,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/rock1.png',
-                        height: 200,
-                        width: 200,
-                      ), // Placeholder image
-                      Divider(
-                        color: Constants.naturalGrey,
-                        thickness: 1,
+      body: Stack(
+        children: [
+          Container(
+            color: Colors.black,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Constants.darkGrey,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            rock.rockName,
-                            style: AppTypography.headline1(
-                                color: Constants.primaryColor),
+                          Image.asset(
+                            'assets/images/rock1.png',
+                            height: 200,
+                            width: 200,
+                          ), // Placeholder image
+                          Divider(
+                            color: Constants.naturalGrey,
+                            thickness: 1,
                           ),
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'a variety of ',
-                                  style: AppTypography.body3(
-                                      color: AppCollors.naturalSilver),
-                                ),
-                                TextSpan(
-                                  text: rock.category,
-                                  style: AppTypography.body3(
-                                    color: AppCollors.primaryMedium,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppCollors.primaryMedium,
-                                  ),
-                                ),
-                              ],
-                            ),
+                          const SizedBox(
+                            height: 10,
                           ),
-                          const SizedBox(height: 20),
-                          _buildInfoSection('Formula', rock.formula),
-                          _buildInfoSection(
-                              'Hardness', rock.hardness.toString()),
-                          _buildInfoSection('Color', rock.color),
-                          _buildInfoSection('Magnetic',
-                              rock.isMagnetic ? 'Magnetic' : 'Non-magnetic'),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                rock.rockName,
+                                style: AppTypography.headline1(
+                                    color: Constants.primaryColor),
+                              ),
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'a variety of ',
+                                      style: AppTypography.body3(
+                                          color: AppCollors.naturalSilver),
+                                    ),
+                                    TextSpan(
+                                      text: rock.category,
+                                      style: AppTypography.body3(
+                                        color: AppCollors.primaryMedium,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor:
+                                            AppCollors.primaryMedium,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              _buildInfoSection('Formula', rock.formula),
+                              _buildInfoSection(
+                                  'Hardness', rock.hardness.toString()),
+                              _buildInfoSection('Color', rock.color),
+                              _buildInfoSection(
+                                  'Magnetic',
+                                  rock.isMagnetic
+                                      ? 'Magnetic'
+                                      : 'Non-magnetic'),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 20),
+                  _buildPremiumSection(),
+                  SizedBox(height: 20),
+                  _buildHealthRisksSection(),
+                  SizedBox(height: 20),
+                  _buildImagesSection(),
+                  SizedBox(height: 20),
+                  _buildLocationsSection(),
+                  SizedBox(height: 20),
+                  _buildFAQSection(),
+                ],
               ),
-              const SizedBox(height: 20),
-              _buildPremiumSection(),
-              SizedBox(height: 20),
-              _buildHealthRisksSection(),
-              SizedBox(height: 20),
-              _buildImagesSection(),
-              SizedBox(height: 20),
-              _buildLocationsSection(),
-              SizedBox(height: 20),
-              _buildFAQSection(),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Colors.black,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: isSavingRock ? () => saveRock(context) : () => addToCollection(context),
+                    icon: Icon(Icons.photo_camera, color: Constants.primaryColor),
+                    label: Text(
+                      isSavingRock ? 'Save' : 'Add to My Collection',
+                      style: TextStyle(color: Constants.primaryColor),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Constants.darkGrey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -361,16 +398,21 @@ class RockDetailPage extends StatelessWidget {
 
   void saveRock(BuildContext context) async {
     // Implement your save logic here
-    try{
+    try {
       await DatabaseHelper().insertRock(rock);
       ShowSnackbarService().showSnackBar('Rock Saved');
-    Navigator.pushReplacement(
-        context,
-        PageTransition(
-            child: const RootPage(),
-            type: PageTransitionType.leftToRightWithFade));
-    } catch(e){
+      Navigator.pushReplacement(
+          context,
+          PageTransition(
+              child: const RootPage(),
+              type: PageTransitionType.leftToRightWithFade));
+    } catch (e) {
       ShowSnackbarService().showSnackBar('Error ${e}');
     }
+  }
+
+  void addToCollection(BuildContext context) {
+    // Implement your add to collection logic here
+    ShowSnackbarService().showSnackBar('Added to Collection');
   }
 }

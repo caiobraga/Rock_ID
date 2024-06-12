@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/ui/screens/select_rock_page.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../ui/root_page.dart';
 import '../ui/scan_page.dart';
 
 class ShowSelectionModalService {
   Future<void> show(BuildContext context) async {
+    Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => const RootPage()));
    showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {

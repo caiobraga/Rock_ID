@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../db/db.dart';
+import '../../services/selection_modal.dart';
 import '../../services/snackbar.dart';
 
 class RockDetailPage extends StatelessWidget {
@@ -145,23 +146,66 @@ class RockDetailPage extends StatelessWidget {
               color: Colors.black,
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton.icon(
-                    onPressed: isSavingRock ? () => saveRock(context) : () => addToCollection(context),
-                    icon: Icon(Icons.photo_camera, color: Constants.primaryColor),
-                    label: Text(
-                      isSavingRock ? 'Save' : 'Add to My Collection',
-                      style: TextStyle(color: Constants.primaryColor),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Constants.darkGrey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                  GestureDetector(
+                    
+                  onTap: () {
+                    ShowSelectionModalService().show(context);
+                  }, 
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    width: 50.0,  
+                    height: 50.0, 
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Constants.primaryColor,
+                        width: 1
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                      shape: BoxShape.circle, 
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3), 
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.photo_camera, 
+                        color: Constants.primaryColor,
+                        size: 30.0, 
+                      ),
                     ),
                   ),
+                ),
+                SizedBox(width: 8),
+                  GestureDetector(
+                  onTap: isSavingRock ? () => saveRock(context) : () => addToCollection(context),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width *0.7,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Constants.primaryColor,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          isSavingRock ? 'Save' : 'Add to My Collection',
+                          style: TextStyle(color: Constants.darkGrey, fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+
                 ],
               ),
             ),

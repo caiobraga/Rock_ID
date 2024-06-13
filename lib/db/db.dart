@@ -27,7 +27,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 4,
+      version: 5,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -99,6 +99,22 @@ class DatabaseHelper {
       await _addColumnIfNotExists(db, 'rocks', 'hardness', 'REAL');
       await _addColumnIfNotExists(db, 'rocks', 'color', 'TEXT');
       await _addColumnIfNotExists(db, 'rocks', 'isMagnetic', 'INTEGER');
+    }
+    if (oldVersion < 5) {
+      await _addColumnIfNotExists(db, 'rocks', 'healthRisks', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'askedQuestions', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'crystalSystem', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'Colors', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'Luster', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'Diaphaneity', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'quimicalClassification', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'elementsListed', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'healingPropeties', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'formulation', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'meaning', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'howToSelect', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'types', 'TEXT');
+      await _addColumnIfNotExists(db, 'rocks', 'uses', 'TEXT');
     }
   }
 

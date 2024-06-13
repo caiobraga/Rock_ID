@@ -43,7 +43,7 @@ class _SelectRockPageState extends State<SelectRockPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
         _searchRocks.requestFocus();
       });
     });

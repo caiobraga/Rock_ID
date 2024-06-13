@@ -108,7 +108,7 @@ class _ScanPageState extends State<ScanPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              'Identifying ${_loadingPercentage}%',
+                              'Identifying $_loadingPercentage%',
                               style: TextStyle(
                                 color: Constants.primaryColor.withOpacity(.80),
                                 fontSize: 16,

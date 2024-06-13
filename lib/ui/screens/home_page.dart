@@ -4,7 +4,7 @@ import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../services/botton_nav.dart';
+import '../../services/bottom_nav_service.dart';
 import '../../services/selection_modal.dart';
 import 'select_rock_page.dart';
 
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                BottomNavService().setIndex(1);
+                                BottomNavService.instance.setIndex(1);
                                 // Handle rock collection functionality
                               },
                               child: Container(

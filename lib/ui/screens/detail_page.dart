@@ -154,7 +154,7 @@ class RockDetailPage extends StatelessWidget {
                       ShowSelectionModalService().show(context);
                     },
                     child: Container(
-                      padding: EdgeInsets.all(4),
+                      padding: const EdgeInsets.all(4),
                       width: 50.0,
                       height: 50.0,
                       decoration: BoxDecoration(
@@ -166,7 +166,7 @@ class RockDetailPage extends StatelessWidget {
                             color: Colors.black.withOpacity(0.2),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: Offset(0, 3),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
@@ -179,7 +179,7 @@ class RockDetailPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   GestureDetector(
                     onTap: isSavingRock
                         ? () => saveRock(context)

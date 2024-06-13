@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/plant_widget.dart';
 import 'package:flutter_onboarding/ui/screens/collection_page.dart';
 
 import '../../db/db.dart';
-import '../../constants.dart';
 
 class FavoritePage extends StatefulWidget {
   final List<Rock> favoritedRocks;
-  const FavoritePage({Key? key, required this.favoritedRocks}) : super(key: key);
+  const FavoritePage({Key? key, required this.favoritedRocks})
+      : super(key: key);
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  final TextEditingController _collectionNameController = TextEditingController();
+  final TextEditingController _collectionNameController =
+      TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   List<Collection> _collections = [];
 
@@ -34,7 +34,7 @@ class _FavoritePageState extends State<FavoritePage> {
         _collections = collections;
       });
     } catch (e) {
-      print(e);
+      debugPrint('$e');
     }
   }
 
@@ -64,14 +64,14 @@ class _FavoritePageState extends State<FavoritePage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   controller: _collectionNameController,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: 'Name your new collection',
                     hintText: 'Enter name',
-                    hintStyle: TextStyle(color: Colors.white54),
+                    hintStyle: const TextStyle(color: Colors.white54),
                     labelStyle: TextStyle(color: Constants.primaryColor),
                     filled: true,
                     fillColor: Colors.grey[800],
@@ -80,14 +80,14 @@ class _FavoritePageState extends State<FavoritePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   controller: _descriptionController,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: 'Description',
                     hintText: 'Enter description',
-                    hintStyle: TextStyle(color: Colors.white54),
+                    hintStyle: const TextStyle(color: Colors.white54),
                     labelStyle: TextStyle(color: Constants.primaryColor),
                     filled: true,
                     fillColor: Colors.grey[800],
@@ -96,7 +96,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -113,14 +113,15 @@ class _FavoritePageState extends State<FavoritePage> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Constants.primaryColor,
+                        foregroundColor: Constants.primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                      child: Text('OK'),
+                      child: const Text('OK'),
                       onPressed: () async {
-                        final String collectionName = _collectionNameController.text;
+                        final String collectionName =
+                            _collectionNameController.text;
                         final String description = _descriptionController.text;
 
                         if (collectionName.isNotEmpty) {
@@ -131,11 +132,12 @@ class _FavoritePageState extends State<FavoritePage> {
                               description: description,
                             );
 
-                            await DatabaseHelper().insertCollection(newCollection);
+                            await DatabaseHelper()
+                                .insertCollection(newCollection);
                             _loadCollections();
                             Navigator.of(context).pop();
                           } catch (e) {
-                            print(e);
+                            debugPrint('$e');
                           }
                         }
                       },
@@ -150,10 +152,8 @@ class _FavoritePageState extends State<FavoritePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Constants.primaryColor,
@@ -167,44 +167,45 @@ class _FavoritePageState extends State<FavoritePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton(
                     onPressed: () {},
-                    child: Text('Collections'),
+                    child: const Text('Collections'),
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.grey.shade700,
-                      primary: Colors.white,
+                      foregroundColor: Colors.white,
                     ),
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: Text('Snap History'),
+                    child: const Text('Snap History'),
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.transparent,
-                      primary: Colors.grey.shade700,
+                      foregroundColor: Colors.grey.shade700,
                     ),
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: Text('Wishlist'),
+                    child: const Text('Wishlist'),
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.transparent,
-                      primary: Colors.grey.shade700,
+                      foregroundColor: Colors.grey.shade700,
                     ),
                   ),
                 ],
               ),
             ),
             GridView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
@@ -219,12 +220,13 @@ class _FavoritePageState extends State<FavoritePage> {
                         color: Colors.grey.shade800,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Column(
+                      child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.add, color: Colors.white, size: 30),
                           SizedBox(height: 10),
-                          Text('ADD NEW COLLECTION', style: TextStyle(color: Colors.white)),
+                          Text('ADD NEW COLLECTION',
+                              style: TextStyle(color: Colors.white)),
                         ],
                       ),
                     ),
@@ -235,7 +237,8 @@ class _FavoritePageState extends State<FavoritePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CollectionPage(collection: _collections[index]),
+                          builder: (context) =>
+                              CollectionPage(collection: _collections[index]),
                         ),
                       );
                     },
@@ -251,23 +254,26 @@ class _FavoritePageState extends State<FavoritePage> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               _collections[index].collectionName,
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
                           Expanded(
                             child: GridView.builder(
                               shrinkWrap: true,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
                                 crossAxisSpacing: 5,
                                 mainAxisSpacing: 5,
                               ),
-                              itemCount: 6, // Replace with actual number of rocks in the collection
+                              itemCount:
+                                  6, // Replace with actual number of rocks in the collection
                               itemBuilder: (context, index) {
                                 return Container(
                                   decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage('assets/rock.png'), // Placeholder image
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/rock.png'), // Placeholder image
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(5),

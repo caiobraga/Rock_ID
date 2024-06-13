@@ -1,12 +1,10 @@
-import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/chat_gpt.dart';
+
 import '../constants.dart';
-import 'dart:io';
-import '../main.dart';
-import 'snackbar.dart';
 
 class GetRockService {
   Future<Rock> getRock(File? image) async {
@@ -17,9 +15,9 @@ class GetRockService {
       if (chatResponse == null) {
         throw Exception('Unable to get a response. Please try again later.');
       }
-      print(chatResponse);
+      debugPrint('$chatResponse');
       if (chatResponse['error'] != null) {
-        print('Error: ${chatResponse['error']}');
+        debugPrint('Error: ${chatResponse['error']}');
         //ShowSnackbarService().showSnackBar('Error: ${chatResponse['error']}');
         throw Exception(chatResponse['error']);
       }
@@ -67,7 +65,7 @@ class GetRockService {
   }
 
   Rock? _getLocalRockByName(String rockName) {
-    List<Rock> localRocks = Rock.RockList;
+    List<Rock> localRocks = Rock.rockList;
     for (Rock rock in localRocks) {
       if (rock.rockName.toLowerCase() == rockName.toLowerCase()) {
         return rock;

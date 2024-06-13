@@ -17,8 +17,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late List<Rock> _rockList;
-  final List<Rock> _totalRockList = Rock.RockList;
-  List<Rock> _filteredRockList = Rock.RockList;
   double price = 0;
   bool _isLoading = true;
 
@@ -47,12 +45,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _filterRocks(String query) {
-    setState(() {
-      _filteredRockList = _totalRockList
-          .where((rock) =>
-              rock.rockName.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
+    setState(() {});
   }
 
   void _showRockSelectionModal() {
@@ -185,8 +178,7 @@ class _HomePageState extends State<HomePage> {
                           color: Constants.darkGrey,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [

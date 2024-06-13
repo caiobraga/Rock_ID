@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
@@ -16,18 +15,18 @@ class SelectRockPage extends StatefulWidget {
 }
 
 class _SelectRockPageState extends State<SelectRockPage> {
-  final DatabaseHelper _dbHelper = DatabaseHelper();
-  final List<Rock> _rockList = Rock.RockList;
-  List<Rock> _filteredRockList = Rock.RockList;
+  final List<Rock> _rockList = Rock.rockList;
+  List<Rock> _filteredRockList = Rock.rockList;
 
   final _searchRocks = FocusNode();
 
   void _saveRock(Rock rock) async {
-      Navigator.push(
-          context,
-          PageTransition(
-              child: RockDetailPage(rock: rock, isSavingRock: widget.isSavingRock),
-              type: PageTransitionType.bottomToTop));
+    Navigator.push(
+        context,
+        PageTransition(
+            child:
+                RockDetailPage(rock: rock, isSavingRock: widget.isSavingRock),
+            type: PageTransitionType.bottomToTop));
   }
 
   void _filterRocks(String query) {

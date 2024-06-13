@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/custom_textfield.dart';
 import 'package:flutter_onboarding/ui/screens/signin_page.dart';
+import 'package:flutter_onboarding/ui/screens/widgets/custom_textfield.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SignUp extends StatelessWidget {
@@ -91,7 +90,8 @@ class SignUp extends StatelessWidget {
                 decoration: BoxDecoration(
                     border: Border.all(color: Constants.primaryColor),
                     borderRadius: BorderRadius.circular(10)),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [

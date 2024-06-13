@@ -8,6 +8,7 @@ import 'package:flutter_onboarding/ui/screens/home_page.dart';
 
 import '../services/botton_nav.dart';
 import '../services/selection_modal.dart';
+import 'screens/widgets/hexagon_floating_action_button.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({Key? key}) : super(key: key);
@@ -93,7 +94,7 @@ class _RootPageState extends State<RootPage> {
         index: _currentBottonNum,
         children: _widgetOptions(),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: HexagonFloatingActionButton(
         heroTag: "scan",
         onPressed: (){
             ShowSelectionModalService().show(context);
@@ -119,7 +120,7 @@ class _RootPageState extends State<RootPage> {
             favorites = favoritedRocks;
             myCart = addedToCartRocks.toSet().toList();
           });
-        }
+        },
       ),
     );
   }

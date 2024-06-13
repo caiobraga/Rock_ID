@@ -5,6 +5,7 @@ import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../constants.dart';
+import './widgets/rock_list_item.dart'; // Import the RockListItem widget
 
 class SelectRockPage extends StatefulWidget {
   final bool isSavingRock;
@@ -23,11 +24,11 @@ class _SelectRockPageState extends State<SelectRockPage> {
   final _searchRocks = FocusNode();
 
   void _saveRock(Rock rock) async {
-      Navigator.push(
-          context,
-          PageTransition(
-              child: RockDetailPage(rock: rock, isSavingRock: widget.isSavingRock),
-              type: PageTransitionType.bottomToTop));
+    Navigator.push(
+        context,
+        PageTransition(
+            child: RockDetailPage(rock: rock, isSavingRock: widget.isSavingRock),
+            type: PageTransitionType.bottomToTop));
   }
 
   void _filterRocks(String query) {
@@ -101,52 +102,13 @@ class _SelectRockPageState extends State<SelectRockPage> {
                   itemCount: _filteredRockList.length,
                   itemBuilder: (context, index) {
                     final rock = _filteredRockList[index];
-                    return Card(
-                      color: Constants.darkGrey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      margin: const EdgeInsets.symmetric(vertical: 10.0),
-                      elevation: 5,
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.all(15.0),
-                        leading: rock.imageURL.isNotEmpty
-                            ? CircleAvatar(
-                                backgroundImage: AssetImage(rock
-                                    .imageURL), // Assuming you have images for the rocks
-                                radius: 30.0,
-                              )
-                            : CircleAvatar(
-                                backgroundColor: Constants.primaryColor,
-                                radius: 30.0,
-                                child: Text(
-                                  rock.rockName[0],
-                                  style: TextStyle(
-                                    color: Constants.white,
-                                    fontSize: 24.0,
-                                  ),
-                                ),
-                              ),
-                        title: Text(
-                          rock.rockName,
-                          style: TextStyle(
-                            color: Constants.white,
-                            fontSize: 18.0,
-                          ),
-                        ),
-                        subtitle: Text(
-                          rock.description,
-                          style: TextStyle(
-                            color: Constants.white,
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        onTap: () => _saveRock(rock),
-                      ),
+                    return RockListItem(
+                      imageUrl: rock.imageURL.isNotEmpty &&  rock.imageURL != ''
+                          ? rock.imageURL
+                          : 'https://via.placeholder.com/60', // Use a placeholder image if none available
+                      title: rock.rockName,
+                      tags: ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
+                      onTap: () => _saveRock(rock),
                     );
                   },
                 ),

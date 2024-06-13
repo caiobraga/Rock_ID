@@ -11,6 +11,7 @@ import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../services/snackbar.dart';
+import 'root_page.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({Key? key}) : super(key: key);
@@ -272,7 +273,13 @@ class _ScanPageState extends State<ScanPage> {
       if (_rock != null) {
         navigator.push(PageTransition(
             child: RockDetailPage(rock: _rock!, isSavingRock: true),
-            type: PageTransitionType.fade));
+            type: PageTransitionType.fade)).then((value) {
+              if(Navigator.of(context).canPop()){
+                Navigator.of(context).pop();
+              }
+              Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (_) => const RootPage()));
+            });
       }
     } catch (e) {
       print(e);

@@ -277,6 +277,9 @@ class _ScanPageState extends State<ScanPage> {
               if(Navigator.of(context).canPop()){
                 Navigator.of(context).pop();
               }
+              if(Navigator.of(context).canPop()){
+                Navigator.of(context).pop();
+              }
               Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (_) => const RootPage()));
             });

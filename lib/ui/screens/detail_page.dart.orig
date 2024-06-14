@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../db/db.dart';
+import '../../models/collection.dart';
 import '../../services/add_to_my_collection_modal.dart';
 import '../../services/selection_modal.dart';
 import '../../services/snackbar.dart';
@@ -54,6 +55,18 @@ class _RockDetailPageState extends State<RockDetailPage> {
     });
   }
 
+  @override
+  State<RockDetailPage> createState() => _RockDetailPageState();
+}
+
+class _RockDetailPageState extends State<RockDetailPage> {
+  
+
+  @override
+  void initState() {
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -232,6 +245,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                   ),
                   const SizedBox(width: 8),
                   GestureDetector(
+<<<<<<< HEAD
                     onTap: () => widget.isSavingRock
                         ? saveRock(context)
                         : toRemoveFromWishlist
@@ -239,6 +253,11 @@ class _RockDetailPageState extends State<RockDetailPage> {
                             : toFavoriteRock
                                 ? addToWishlist(context)
                                 : addToCollection(context),
+=======
+                    onTap: widget.isSavingRock
+                        ? () => saveRock(context)
+                        : () => addToCollection(context),
+>>>>>>> main
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.7,
                       height: 50,
@@ -254,7 +273,11 @@ class _RockDetailPageState extends State<RockDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
+<<<<<<< HEAD
                             buttonText,
+=======
+                            widget.isSavingRock ? 'Save' : 'Add to My Collection',
+>>>>>>> main
                             style: TextStyle(
                                 color: Constants.darkGrey,
                                 fontSize: 14,
@@ -580,10 +603,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   void addToCollection(BuildContext context) {
     // Implement your add to collection logic here
-    AddToMyCollectionModalService().show(
-      context,
-      () {},
-    );
+<<<<<<< HEAD
+    AddToMyCollectionModalService().show(context);
     // ShowSnackbarService().showSnackBar('Added to Collection');
   }
 
@@ -617,5 +638,11 @@ class _RockDetailPageState extends State<RockDetailPage> {
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
     }
+=======
+    AddToMyCollectionModalService().show(context, (){
+    },
+    );
+   // ShowSnackbarService().showSnackBar('Added to Collection');
+>>>>>>> main
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
-import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:flutter_onboarding/ui/screens/select_rock_page.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_onboarding/ui/screens/widgets/custom_tab_bar.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/add_new_collection_modal.dart';
+import '../../services/collection_dialog.dart';
 import '../widgets/text.dart';
 import 'widgets/collections_grid_view.dart';
 import 'widgets/rock_list_item.dart';
@@ -26,19 +26,28 @@ class FavoritePage extends StatefulWidget {
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
+<<<<<<< HEAD
 class _FavoritePageState extends State<FavoritePage>
     with SingleTickerProviderStateMixin {
   List<Map<String, dynamic>> _snapHistory = [];
   List<Rock> _allRocks = [];
   List<Rock> _wishlistRocks = [];
   late TabController _tabController;
-  List<Collection> _collections = [];
   final List<String> _tabsDescriptions = [
     'Collections',
     'Snap History',
     'Wishlist'
   ];
 
+=======
+class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderStateMixin {
+  List<Map<String, dynamic>> _snapHistory = [];
+  List<Rock> _allRocks = [];
+  List<Rock> _wishlistRocks = [];
+  List<Collection> _collections = [];
+  late TabController tabController;
+  
+>>>>>>> main
   @override
   void initState() {
     super.initState();
@@ -46,12 +55,15 @@ class _FavoritePageState extends State<FavoritePage>
     _loadSnapHistory();
     _loadAllRocks();
     _loadWishlist();
-    _loadCollections();
+<<<<<<< HEAD
     setState(() {
       if (widget.showWishlist == true) {
         _tabController.index = 2;
       }
     });
+=======
+    _loadCollections();
+>>>>>>> main
   }
 
   @override
@@ -118,19 +130,29 @@ class _FavoritePageState extends State<FavoritePage>
     _loadSnapHistory(); // Reload snap history after adding
   }
 
+<<<<<<< HEAD
+=======
   void _refreshGrid() {
     _loadCollections();
   }
 
+>>>>>>> main
   Widget _buildCollectionsTab() {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CollectionGridView(
+<<<<<<< HEAD
+            hasAddOption: true,
+            onItemAdded: () {
+              setState(() {});
+            },
+=======
             collections: _collections,
             hasAddOption: true,
             onItemAdded: _refreshGrid,
+>>>>>>> main
           )
         ],
       ),
@@ -139,6 +161,53 @@ class _FavoritePageState extends State<FavoritePage>
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Constants.primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          onPressed: () {
+            CollectionDialogService().show(context, () {
+              setState(() {});
+            });
+          },
+          child: const Icon(Icons.add, color: Colors.white),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: Constants.darkGrey,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              child: CustomTabBar(
+                tabController: _tabController,
+                tabsDescriptions: _tabsDescriptions,
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildCollectionsTab(),
+                  _buildSnapHistoryTab(),
+                  _buildWishlistTab(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+=======
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter setState) {
         return DefaultTabController(
@@ -164,16 +233,56 @@ class _FavoritePageState extends State<FavoritePage>
                     color: Constants.darkGrey,
                     borderRadius: BorderRadius.circular(50),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 10.0),
-                  child: CustomTabBar(
-                    tabController: _tabController,
-                    tabsDescriptions: _tabsDescriptions,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                  child: TabBar(
+                    controller: tabController,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30), // Creates border radius for the indicator
+                      color: Colors.grey[800], // Change the background color
+                    ),
+                    unselectedLabelColor: Colors.white,
+                    labelColor: Colors.white,
+                    dividerHeight: 0,
+                    tabs: [
+                      Tab(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Text("Collections"),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Text("Snap History"),
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const Align(
+                            alignment: Alignment.center,
+                            child: Text("Wishlist"),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
                   child: TabBarView(
-                    controller: _tabController,
+                    controller: tabController,
                     children: [
                       _buildCollectionsTab(),
                       _buildSnapHistoryTab(),
@@ -186,6 +295,7 @@ class _FavoritePageState extends State<FavoritePage>
           ),
         );
       },
+>>>>>>> main
     );
   }
 
@@ -253,12 +363,21 @@ class _FavoritePageState extends State<FavoritePage>
                     tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                     onTap: () {
                       Navigator.push(
+<<<<<<< HEAD
                               context,
                               PageTransition(
                                   child: RockDetailPage(
                                       rock: rock, isSavingRock: false),
                                   type: PageTransitionType.bottomToTop))
                           .then((value) => Navigator.of(context).pop());
+=======
+                        context,
+                        PageTransition(
+                          child: RockDetailPage(rock: rock, isSavingRock: false),
+                          type: PageTransitionType.bottomToTop,
+                        ),
+                      ).then((value) => Navigator.of(context).pop());
+>>>>>>> main
                     },
                   );
                 },
@@ -385,6 +504,7 @@ class _FavoritePageState extends State<FavoritePage>
             ],
           );
   }
+<<<<<<< HEAD
 
   void _showRockSelectionModal() {
     Navigator.push(
@@ -398,3 +518,6 @@ class _FavoritePageState extends State<FavoritePage>
             type: PageTransitionType.bottomToTop));
   }
 }
+=======
+}
+>>>>>>> main

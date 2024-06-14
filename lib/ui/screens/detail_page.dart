@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
+import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../db/db.dart';
-import '../../models/collection.dart';
 import '../../services/add_to_my_collection_modal.dart';
 import '../../services/selection_modal.dart';
 import '../../services/snackbar.dart';
@@ -25,13 +26,11 @@ class RockDetailPage extends StatefulWidget {
 }
 
 class _RockDetailPageState extends State<RockDetailPage> {
-  
-
   @override
   void initState() {
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,6 +147,31 @@ class _RockDetailPageState extends State<RockDetailPage> {
                   _buildFAQSection(),
                   const SizedBox(height: 16),
                   _buildDescription(widget.rock.description),
+                  const SizedBox(height: 16),
+                  _buildIdentifySection(),
+                  const SizedBox(height: 16),
+                  const PremiumSection(),
+                  const SizedBox(height: 16),
+                  _buildPhysicalPropertiesSection(),
+                  const SizedBox(height: 16),
+                  _buildChemicalPropertiesSession(),
+                  const SizedBox(height: 16),
+                  _buildPriceSection(),
+                  const SizedBox(height: 16),
+                  _buildHealingSection(),
+                  const SizedBox(height: 16),
+                  _buildFormationSection(),
+                  const SizedBox(height: 16),
+                  _buildMeaningSection(),
+                  const SizedBox(height: 16),
+                  const PremiumSection(),
+                  const SizedBox(height: 16),
+                  _buildSelectSection(),
+                  const SizedBox(height: 16),
+                  _buildTypesSection(),
+                  const SizedBox(height: 16),
+                  _buildUsesSection(),
+                  const SizedBox(height: 16),
                   const SizedBox(height: 80)
                 ],
               ),
@@ -214,7 +238,9 @@ class _RockDetailPageState extends State<RockDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            widget.isSavingRock ? 'Save' : 'Add to My Collection',
+                            widget.isSavingRock
+                                ? 'Save'
+                                : 'Add to My Collection',
                             style: TextStyle(
                                 color: Constants.darkGrey,
                                 fontSize: 14,
@@ -241,7 +267,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-              flex: 2,
+              flex: 3,
               child: Text(title,
                   style: AppTypography.body3(color: AppCollors.naturalWhite))),
           Expanded(
@@ -473,6 +499,217 @@ class _RockDetailPageState extends State<RockDetailPage> {
     );
   }
 
+  // Identify
+  Widget _buildIdentifySection() {
+    return _buildCard("HOW TO IDENTIFY IT?", Icons.lightbulb_outline, [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Color",
+              style: AppTypography.body2(color: AppCollors.primaryMedium)),
+          Text(widget.rock.color,
+              style: AppTypography.body3(color: AppCollors.naturalSilver)),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(8), // Define o border radius
+                  child: Image.asset(
+                    'assets/images/rocha-granito.jpg',
+                    height: 103,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(8), // Define o border radius
+                  child: Image.asset(
+                    'assets/images/rocha-granito.jpg',
+                    height: 103,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text("Luster",
+              style: AppTypography.body2(color: AppCollors.primaryMedium)),
+          Text(widget.rock.Luster,
+              style: AppTypography.body3(color: AppCollors.naturalSilver)),
+          const SizedBox(height: 8),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8), // Define o border radius
+            child: Image.asset(
+              'assets/images/rocha-granito.jpg',
+              height: 182,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Learn More",
+                style: AppTypography.body3(color: AppCollors.primaryMedium),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                Icons.expand_more,
+                color: AppCollors.primaryMedium,
+                size: 16,
+              )
+            ],
+          )
+        ],
+      )
+    ]);
+  }
+
+  // Physical Properties
+  Widget _buildPhysicalPropertiesSection() {
+    return _buildCard("PHYSICAL PROPERTIES", FontAwesomeIcons.calendarCheck, [
+      _buildInfoSection('Crystal System', widget.rock.crystalSystem),
+      _buildInfoSection('Colors', widget.rock.Colors.toString()),
+      _buildInfoSection('Luster', widget.rock.Luster),
+      _buildInfoSection('Diaphaneity', widget.rock.Diaphaneity),
+    ]);
+  }
+
+  // Chemical Properties
+  Widget _buildChemicalPropertiesSession() {
+    return _buildCard(
+      "CHEMICAL PROPERTIES",
+      Icons.science,
+      [
+        _buildInfoSection(
+            'Chemical Classification', widget.rock.quimicalClassification),
+        _buildInfoSection('Formula', widget.rock.formula),
+        _buildInfoSection('Elements listed', widget.rock.elementsListed),
+      ],
+    );
+  }
+
+  // Price
+  Widget _buildPriceSection() {
+    return _buildCard(
+      "PRICE",
+      Icons.monetization_on,
+      [
+        ExpandableText(
+          text:
+              "Clarity and weight are two decisive factors that affect the price of milky Quartz. The price of a tumbled stone around 1 inch across is usually \$1-\$5/piece. When it comes to natural clusters, the shape of the formation and the integrity of the crystals are also important factors affecting pricing.",
+          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          maxLines:
+              4, // Define o número máximo de linhas antes de exibir "Learn More"
+        ),
+      ],
+    );
+  }
+
+  // Healing Properties
+  Widget _buildHealingSection() {
+    return _buildCard(
+      "HEALING PROPERTIES",
+      Icons.monitor_heart_outlined,
+      [
+        ExpandableText(
+          text:
+              // widget.rock.healingPropeties,
+              "Milky Quartz is believed to be a powerful stone, cleansing the whole body and linking all of the chakras. it’s said to connect explicitly with the third eye and crown chakras, opening up psychic abilities",
+          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          maxLines: 4,
+        )
+      ],
+    );
+  }
+
+  // Formation
+  Widget _buildFormationSection() {
+    return _buildCard(
+      "FORMATION",
+      Icons.terrain,
+      [
+        ExpandableText(
+          text:
+              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          maxLines: 4,
+        ),
+      ],
+    );
+  }
+
+  // Meaning
+  Widget _buildMeaningSection() {
+    return _buildCard(
+      "MEANING",
+      Icons.menu_book_outlined,
+      [
+        ExpandableText(
+            text:
+                "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+            style: AppTypography.body3(color: AppCollors.naturalWhite),
+            maxLines: 4),
+      ],
+    );
+  }
+
+  // Select
+  Widget _buildSelectSection() {
+    return _buildCard(
+      "HOW TO SELECT",
+      Icons.shopping_basket,
+      [
+        ExpandableText(
+          text:
+              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          maxLines: 4,
+        ),
+      ],
+    );
+  }
+
+  // TYPES
+  Widget _buildTypesSection() {
+    return _buildCard(
+      "TYPES",
+      Icons.category,
+      [
+        ExpandableText(
+          text:
+              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          maxLines: 4,
+        ),
+      ],
+    );
+  }
+
+  // USES
+  Widget _buildUsesSection() {
+    return _buildCard(
+      "USES",
+      Icons.monetization_on,
+      [
+        ExpandableText(
+          text:
+              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          maxLines: 4,
+        ),
+      ],
+    );
+  }
+
   Widget _buildCard(String title, IconData iconData, List<Widget> body) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -540,9 +777,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   void addToCollection(BuildContext context) {
     // Implement your add to collection logic here
-    AddToMyCollectionModalService().show(context, (){
-    },
+    AddToMyCollectionModalService().show(
+      context,
+      () {},
     );
-   // ShowSnackbarService().showSnackBar('Added to Collection');
+    // ShowSnackbarService().showSnackBar('Added to Collection');
   }
 }

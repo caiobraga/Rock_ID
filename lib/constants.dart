@@ -75,7 +75,21 @@ class AppTypography {
           decoration: decoration,
           decorationColor: decorationColor),
     );
-  } // TextStyle body1(
+  }
+
+  static TextStyle body2(
+      {Color color = Colors.black,
+      TextDecoration decoration = TextDecoration.none,
+      Color decorationColor = Colors.black}) {
+    return GoogleFonts.montserrat(
+      textStyle: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+          color: color,
+          decoration: decoration,
+          decorationColor: decorationColor),
+    );
+  }
 
   static TextStyle body3(
       {Color color = Colors.black,

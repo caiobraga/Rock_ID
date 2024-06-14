@@ -176,6 +176,11 @@ class _FavoritePageState extends State<FavoritePage>
                   child: CustomTabBar(
                     tabController: _tabController,
                     tabsDescriptions: _tabsDescriptions,
+                    onTap: (index) {
+                      setState(() {
+                        _tabController.index = index;
+                      });
+                    },
                   ),
                 ),
                 Expanded(

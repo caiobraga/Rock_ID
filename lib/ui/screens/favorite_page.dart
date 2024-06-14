@@ -477,8 +477,7 @@ class _FavoritePageState extends State<FavoritePage>
                               PageTransition(
                                   child: RockDetailPage(
                                       rock: rock, isSavingRock: false),
-                                  type: PageTransitionType.bottomToTop))
-                          .then((value) => Navigator.of(context).pop());
+                                  type: PageTransitionType.bottomToTop));
                     },
                   );
                 },

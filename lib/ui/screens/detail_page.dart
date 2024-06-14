@@ -56,7 +56,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -822,11 +821,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
     AddToMyCollectionModalService().show(
       context,
       () {},
-    AddToMyCollectionModalService().show(
-      context,
-      () {},
     );
-     // ShowSnackbarService().showSnackBar('Added to Collection');
+    // ShowSnackbarService().showSnackBar('Added to Collection');
   }
 
   void addToWishlist(BuildContext context) async {

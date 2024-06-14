@@ -133,9 +133,10 @@ class _RootPageState extends State<RootPage> {
         onPressed: () {
           ShowSelectionModalService().show(context);
         },
-        child: Image.asset(
-          'assets/images/code-scan-two.png',
-          height: 30.0,
+        child: Icon(
+          Icons.camera_alt_rounded,
+          size: 40,
+          color: Constants.white,
         ),
         backgroundColor: Constants.primaryColor,
       ),
@@ -146,6 +147,7 @@ class _RootPageState extends State<RootPage> {
         activeColor: Constants.primaryColor,
         inactiveColor: Constants.white.withOpacity(.5),
         icons: iconList,
+        iconSize: 30,
         activeIndex: _bottomNavService.bottomNavIndex,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.softEdge,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class HexagonBorder extends ShapeBorder {
@@ -13,14 +15,25 @@ class HexagonBorder extends ShapeBorder {
 
   @override
   Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
-    return Path()
-      ..moveTo(rect.width * 0.25, 0)
-      ..lineTo(rect.width * 0.75, 0)
-      ..lineTo(rect.width, rect.height * 0.5)
-      ..lineTo(rect.width * 0.75, rect.height)
-      ..lineTo(rect.width * 0.25, rect.height)
-      ..lineTo(0, rect.height * 0.5)
-      ..close();
+    final double width = rect.width;
+    final double height = rect.height;
+    final double radius = min(width, height) / 2;
+    final double centerX = rect.width / 2;
+    final double centerY = rect.height / 2;
+    const double angle = pi / 3;
+
+    Path path = Path();
+    for (int i = 0; i < 6; i++) {
+      double x = centerX + radius * cos(angle * i - pi / 2);
+      double y = centerY + radius * sin(angle * i - pi / 2);
+      if (i == 0) {
+        path.moveTo(x, y);
+      } else {
+        path.lineTo(x, y);
+      }
+    }
+    path.close();
+    return path;
   }
 
   @override
@@ -55,8 +68,8 @@ class HexagonFloatingActionButton extends StatelessWidget {
         customBorder: const HexagonBorder(),
         onTap: onPressed,
         child: Container(
-          height: 56.0,
-          width: 56.0,
+          height: 70.0,
+          width: 70.0,
           alignment: Alignment.center,
           child: child,
         ),

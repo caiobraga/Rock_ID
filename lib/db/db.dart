@@ -28,7 +28,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 9,
+      version: 10,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -161,7 +161,7 @@ class DatabaseHelper {
       )
     ''');
     }
-    if (oldVersion < 9) {
+    if (oldVersion < 10) {
       await _addColumnIfNotExists(db, 'collections', 'number', 'TEXT');
       await _addColumnIfNotExists(db, 'collections', 'dateAcquired', 'TEXT');
       await _addColumnIfNotExists(db, 'collections', 'cost', 'REAL');

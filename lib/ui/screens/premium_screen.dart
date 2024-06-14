@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/ui/widgets/text.dart';
 
-class PremiumScreen extends StatelessWidget {
+class PremiumScreen extends StatefulWidget {
   const PremiumScreen({Key? key}) : super(key: key);
 
+  @override
+  State<PremiumScreen> createState() => _PremiumScreenState();
+}
+
+class _PremiumScreenState extends State<PremiumScreen> {
+  bool isFreeTrialEnabled = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,67 +21,88 @@ class PremiumScreen extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+            alignment: Alignment.topCenter,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 40),
               Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                alignment: Alignment.topLeft,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: IconButton(
+                    padding: const EdgeInsets.all(0),
+                    icon: const Icon(Icons.close, color: Colors.white),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 ),
               ),
               const Spacer(),
-              const Text(
-                'GET FULL ACCESS\nWith ROCKAPP Pro',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              DSCustomText(
+                text: 'GET FULL ACCESS',
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: AppCollors.primaryMedium,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 12),
+              const DSCustomText(
+                text: 'With ROCKAPP Pro',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              const SizedBox(height: 16),
               const FeatureItem(
-                icon: Icons.camera,
-                text: 'Unlimited coin identifications',
+                title: 'Unlimited rock',
+                imagePath: 'unlimited_coin_identifications.png',
+                subTitle: 'identifications',
               ),
               const FeatureItem(
-                icon: Icons.more,
-                text: 'Infinite coin collections',
+                title: 'Infinite',
+                imagePath: 'infinite_coin_collections.png',
+                subTitle: 'coin collections',
               ),
               const FeatureItem(
-                icon: Icons.no_adult_content,
-                text: 'Ad-free experience',
+                title: 'Ad-free',
+                imagePath: 'ad-freeExperience.png',
+                subTitle: 'experience',
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'JUST \$24.99 PER YEAR\nAuto-renewable. Cancel anytime.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 20),
+              isFreeTrialEnabled ? isFreeTrialEnabledWidget() : freeTrialNotEnabledWidget(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Free trial enabled',
-                    style: TextStyle(color: Colors.white),
+                  DSCustomText(
+                    text: 'Free trial enabled',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppCollors.white,
                   ),
-                  Switch(
-                    value: true,
-                    onChanged: (bool value) {
-                      // Switch action
-                    },
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    height: 24,
+                    child: Switch(
+                      activeColor: AppCollors.naturalBlack,
+                      activeTrackColor: AppCollors.primaryMedium,
+                      inactiveThumbColor: AppCollors.white,
+                      inactiveTrackColor: Colors.transparent,
+                      value: isFreeTrialEnabled,
+                      onChanged: (bool value) {
+                        setState(() {
+                          isFreeTrialEnabled = value;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -83,10 +112,28 @@ class PremiumScreen extends StatelessWidget {
                   // Continue action
                 },
                 style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  backgroundColor: AppCollors.primaryMedium,
                 ),
-                child: const Text('Continue'),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DSCustomText(
+                      text: 'Continue',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppCollors.naturalBlack,
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 8),
               Align(
                 alignment: Alignment.center,
                 child: Row(
@@ -96,24 +143,35 @@ class PremiumScreen extends StatelessWidget {
                       onPressed: () {
                         // Terms of Use action
                       },
-                      child: const Text(
-                        'Terms of Use',
-                        style: TextStyle(color: Colors.white),
+                      child: DSCustomText(
+                        text: 'Terms of Use',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppCollors.naturalSilver,
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppCollors.naturalSilver,
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Text(
+                    Text(
                       '|',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        color: AppCollors.naturalSilver,
+                        fontSize: 12,
+                      ),
                     ),
                     const SizedBox(width: 10),
                     TextButton(
                       onPressed: () {
                         // Privacy Policy action
                       },
-                      child: const Text(
-                        'Privacy Policy',
-                        style: TextStyle(color: Colors.white),
+                      child: DSCustomText(
+                        text: 'Privacy Policy',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: AppCollors.naturalSilver,
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppCollors.naturalSilver,
                       ),
                     ),
                   ],
@@ -126,29 +184,121 @@ class PremiumScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget isFreeTrialEnabledWidget() {
+    return SizedBox(
+      height: 188,
+      child: Column(
+        children: [
+          const FeatureItem(
+            title: 'No Payment',
+            imagePath: 'ad-freeExperience.png',
+            subTitle: 'now',
+          ),
+          DSCustomText(
+            text: "TRY 3 DAYS FOR FREE, THEN \$4.99 PER WEEK",
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: AppCollors.primaryMedium,
+            overflow: TextOverflow.visible,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 4),
+          DSCustomText(
+            text: 'Auto-renewable. Cancel anytime.',
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: AppCollors.white,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget freeTrialNotEnabledWidget() {
+    return SizedBox(
+      height: 188,
+      child: Column(
+        children: [
+          DSCustomText(
+            text: 'JUST \$24.99 PER YEAR',
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: AppCollors.primaryMedium,
+          ),
+          const SizedBox(height: 4),
+          DSCustomText(
+            text: 'Auto-renewable. Cancel anytime.',
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: AppCollors.white,
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
 }
 
 class FeatureItem extends StatelessWidget {
-  final IconData icon;
-  final String text;
-
-  const FeatureItem({Key? key, required this.icon, required this.text}) : super(key: key);
+  final String imagePath;
+  final String title;
+  final String subTitle;
+  const FeatureItem({Key? key, required this.imagePath, required this.title, required this.subTitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.white),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(color: Colors.white),
-            ),
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppCollors.white,
+          borderRadius: BorderRadius.circular(16),
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xFFB88F71),
+              Color(0xFFA16132),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        ],
+        ),
+        height: 64,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 42,
+                width: 42,
+                child: Image(
+                  image: AssetImage('assets/images/$imagePath'),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DSCustomText(
+                      text: title,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppCollors.naturalBlack,
+                    ),
+                    DSCustomText(
+                      text: subTitle,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: AppCollors.naturalBlack,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

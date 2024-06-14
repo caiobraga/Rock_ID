@@ -9,6 +9,9 @@ class DSCustomText extends StatelessWidget {
   final String text;
   final FontWeight fontWeight;
   final TextOverflow? overflow;
+  final TextDecoration? decoration;
+  final Color? decorationColor;
+  final TextAlign? textAlign;
   const DSCustomText({
     Key? key,
     required this.text,
@@ -16,6 +19,9 @@ class DSCustomText extends StatelessWidget {
     required this.fontWeight,
     this.color,
     this.overflow,
+    this.decoration,
+    this.decorationColor,
+    this.textAlign,
   }) : super(key: key);
 
   @override
@@ -26,9 +32,11 @@ class DSCustomText extends StatelessWidget {
         color: color ?? AppCollors.white,
         fontSize: fontSize,
         fontWeight: fontWeight,
+        decoration: decoration,
+        decorationColor: decorationColor,
       ),
       overflow: overflow ?? TextOverflow.ellipsis,
-      textAlign: TextAlign.start,
+      textAlign: textAlign ?? TextAlign.start,
     );
   }
 }

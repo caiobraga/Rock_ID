@@ -595,21 +595,21 @@ class _RockDetailPageState extends State<RockDetailPage> {
             ),
           ),
           const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Learn More",
-                style: AppTypography.body3(color: AppCollors.primaryMedium),
-              ),
-              const SizedBox(width: 4),
-              Icon(
-                Icons.expand_more,
-                color: AppCollors.primaryMedium,
-                size: 16,
-              )
-            ],
-          )
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Text(
+          //       "Learn More",
+          //       style: AppTypography.body3(color: AppCollors.primaryMedium),
+          //     ),
+          //     const SizedBox(width: 4),
+          //     Icon(
+          //       Icons.expand_more,
+          //       color: AppCollors.primaryMedium,
+          //       size: 16,
+          //     )
+          //   ],
+          // )
         ],
       )
     ]);
@@ -819,9 +819,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   void addToCollection(BuildContext context) {
     // Implement your add to collection logic here
-    AddToMyCollectionModalService().show(
-      context,
-      () {},
     AddToMyCollectionModalService().show(
       context,
       () {},

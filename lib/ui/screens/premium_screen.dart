@@ -29,155 +29,162 @@ class _PremiumScreenState extends State<PremiumScreen> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
             children: [
-              const SizedBox(height: 40),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: IconButton(
-                    padding: const EdgeInsets.all(0),
-                    icon: const Icon(Icons.close, color: Colors.white),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-              ),
-              const Spacer(),
-              DSCustomText(
-                text: 'GET FULL ACCESS',
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: AppCollors.primaryMedium,
-              ),
-              const SizedBox(height: 12),
-              const DSCustomText(
-                text: 'With ROCKAPP Pro',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              const SizedBox(height: 16),
-              const FeatureItem(
-                title: 'Unlimited rock',
-                imagePath: 'unlimited_coin_identifications.png',
-                subTitle: 'identifications',
-              ),
-              const FeatureItem(
-                title: 'Infinite',
-                imagePath: 'infinite_coin_collections.png',
-                subTitle: 'coin collections',
-              ),
-              const FeatureItem(
-                title: 'Ad-free',
-                imagePath: 'ad-freeExperience.png',
-                subTitle: 'experience',
-              ),
-              isFreeTrialEnabled ? isFreeTrialEnabledWidget() : freeTrialNotEnabledWidget(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DSCustomText(
-                    text: 'Free trial enabled',
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppCollors.white,
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    height: 24,
-                    child: Switch(
-                      activeColor: AppCollors.naturalBlack,
-                      activeTrackColor: AppCollors.primaryMedium,
-                      inactiveThumbColor: AppCollors.white,
-                      inactiveTrackColor: Colors.transparent,
-                      value: isFreeTrialEnabled,
-                      onChanged: (bool value) {
-                        setState(() {
-                          isFreeTrialEnabled = value;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Continue action
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                  backgroundColor: AppCollors.primaryMedium,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 40),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: IconButton(
+                          padding: const EdgeInsets.all(0),
+                          icon: const Icon(Icons.close, color: Colors.white),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
                     DSCustomText(
-                      text: 'Continue',
+                      text: 'GET FULL ACCESS',
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppCollors.primaryMedium,
+                    ),
+                    const SizedBox(height: 12),
+                    const DSCustomText(
+                      text: 'With ROCKAPP Pro',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppCollors.naturalBlack,
                     ),
-                    const SizedBox(width: 8),
-                    const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.black,
-                      size: 20,
+                    const SizedBox(height: 16),
+                    const FeatureItem(
+                      title: 'Unlimited rock',
+                      imagePath: 'unlimited_coin_identifications.png',
+                      subTitle: 'identifications',
                     ),
+                    const FeatureItem(
+                      title: 'Infinite',
+                      imagePath: 'infinite_coin_collections.png',
+                      subTitle: 'coin collections',
+                    ),
+                    const FeatureItem(
+                      title: 'Ad-free',
+                      imagePath: 'ad-freeExperience.png',
+                      subTitle: 'experience',
+                    ),
+                    isFreeTrialEnabled ? isFreeTrialEnabledWidget() : freeTrialNotEnabledWidget(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        DSCustomText(
+                          text: 'Free trial enabled',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppCollors.white,
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          height: 24,
+                          child: Switch(
+                            activeColor: AppCollors.naturalBlack,
+                            activeTrackColor: AppCollors.primaryMedium,
+                            inactiveThumbColor: AppCollors.white,
+                            inactiveTrackColor: Colors.transparent,
+                            value: isFreeTrialEnabled,
+                            onChanged: (bool value) {
+                              setState(() {
+                                isFreeTrialEnabled = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Continue action
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                        backgroundColor: AppCollors.primaryMedium,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          DSCustomText(
+                            text: 'Continue',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppCollors.naturalBlack,
+                          ),
+                          const SizedBox(width: 8),
+                          const Icon(
+                            Icons.arrow_forward,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              // Terms of Use action
+                            },
+                            child: DSCustomText(
+                              text: 'Terms of Use',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: AppCollors.naturalSilver,
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppCollors.naturalSilver,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            '|',
+                            style: TextStyle(
+                              color: AppCollors.naturalSilver,
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          TextButton(
+                            onPressed: () {
+                              // Privacy Policy action
+                            },
+                            child: DSCustomText(
+                              text: 'Privacy Policy',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: AppCollors.naturalSilver,
+                              decoration: TextDecoration.underline,
+                              decorationColor: AppCollors.naturalSilver,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        // Terms of Use action
-                      },
-                      child: DSCustomText(
-                        text: 'Terms of Use',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: AppCollors.naturalSilver,
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppCollors.naturalSilver,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      '|',
-                      style: TextStyle(
-                        color: AppCollors.naturalSilver,
-                        fontSize: 12,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    TextButton(
-                      onPressed: () {
-                        // Privacy Policy action
-                      },
-                      child: DSCustomText(
-                        text: 'Privacy Policy',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: AppCollors.naturalSilver,
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppCollors.naturalSilver,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(),
             ],
           ),
         ),

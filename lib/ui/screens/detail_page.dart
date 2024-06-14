@@ -123,7 +123,7 @@ class RockDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  PremiumSection(),
+                  const PremiumSection(),
                   const SizedBox(height: 16),
                   _buildHealthRisksSection(),
                   const SizedBox(height: 16),
@@ -423,7 +423,7 @@ class RockDetailPage extends StatelessWidget {
           ),
           child: ExpansionTile(
             title: ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 0),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 0),
               title: Text(question,
                   style: AppTypography.body1(color: AppCollors.primaryMedium)),
             ),
@@ -521,7 +521,7 @@ class RockDetailPage extends StatelessWidget {
               child: const RootPage(),
               type: PageTransitionType.leftToRightWithFade));
     } catch (e) {
-      ShowSnackbarService().showSnackBar('Error ${e}');
+      ShowSnackbarService().showSnackBar('Error $e');
     }
   }
 

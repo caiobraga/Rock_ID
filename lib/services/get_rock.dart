@@ -10,7 +10,7 @@ class GetRockService {
   Future<Rock> getRock(File? image) async {
     if (image != null) {
       Map<String, dynamic>? chatResponse =
-          await ChatGPTService(apiKey: Constants.GPT_API_KEY)
+          await ChatGPTService(apiKey: Constants.gptApiKey)
               .identifyRock(image);
       if (chatResponse == null) {
         throw Exception('Unable to get a response. Please try again later.');

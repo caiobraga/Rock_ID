@@ -40,7 +40,7 @@ class RockListItem extends StatelessWidget {
                     width: 60,
                     height: 60,
                     color: Colors.grey,
-                    child: Icon(
+                    child: const Icon(
                       Icons.error,
                       color: Colors.red,
                     ),
@@ -49,7 +49,7 @@ class RockListItem extends StatelessWidget {
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {
                   if (loadingProgress == null) return child;
-                  return Container(
+                  return SizedBox(
                     width: 60,
                     height: 60,
                     child: Center(

@@ -4,7 +4,7 @@ class HexagonBorder extends ShapeBorder {
   const HexagonBorder();
 
   @override
-  EdgeInsetsGeometry get dimensions => EdgeInsets.all(0.0);
+  EdgeInsetsGeometry get dimensions => const EdgeInsets.all(0.0);
 
   @override
   Path getInnerPath(Rect rect, {TextDirection? textDirection}) {

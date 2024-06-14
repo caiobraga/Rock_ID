@@ -105,7 +105,7 @@ class _SelectRockPageState extends State<SelectRockPage> {
                           ? rock.imageURL
                           : 'https://via.placeholder.com/60', // Use a placeholder image if none available
                       title: rock.rockName,
-                      tags: ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
+                      tags: const ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
                       onTap: () => _saveRock(rock),
                     );
                   },

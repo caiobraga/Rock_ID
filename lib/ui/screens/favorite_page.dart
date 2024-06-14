@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/collection.dart';
-import 'package:flutter_onboarding/models/rock_in_collection.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../services/select_new_rock_add_to_collection.dart';
-import '../../services/snackbar.dart';
+
 import 'collection_page.dart';
 import 'detail_page.dart';
 import 'widgets/rock_list_item.dart';
@@ -192,7 +190,6 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -209,7 +206,7 @@ class _FavoritePageState extends State<FavoritePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.all(4),
+              margin: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: Constants.darkGrey,
                   borderRadius: BorderRadius.circular(50), 
@@ -231,7 +228,7 @@ class _FavoritePageState extends State<FavoritePage> {
                         borderRadius: BorderRadius.circular(30),
                         
                       ),
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
                         child: Text("Collections"),
                       ),
@@ -243,7 +240,7 @@ class _FavoritePageState extends State<FavoritePage> {
                         borderRadius: BorderRadius.circular(30),
                        
                       ),
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
                         child: Text("Snap History"),
                       ),
@@ -255,7 +252,7 @@ class _FavoritePageState extends State<FavoritePage> {
                         borderRadius: BorderRadius.circular(30),
                         
                       ),
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
                         child: Text("Wishlist"),
                       ),
@@ -287,8 +284,8 @@ class _FavoritePageState extends State<FavoritePage> {
           GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
@@ -303,7 +300,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       color: Colors.grey.shade800,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Column(
+                    child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.add, color: Colors.white, size: 30),
@@ -335,13 +332,13 @@ class _FavoritePageState extends State<FavoritePage> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             _collections[index].collectionName,
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                         Expanded(
                           child: GridView.builder(
                             shrinkWrap: true,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               crossAxisSpacing: 5,
                               mainAxisSpacing: 5,
@@ -350,7 +347,7 @@ class _FavoritePageState extends State<FavoritePage> {
                             itemBuilder: (context, index) {
                               return Container(
                                 decoration: BoxDecoration(
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                     image: AssetImage('assets/rock.png'), // Placeholder image
                                     fit: BoxFit.cover,
                                   ),
@@ -383,9 +380,8 @@ class _FavoritePageState extends State<FavoritePage> {
               // Assuming adding rock with id 1 for demonstration
               _addRockToSnapHistory(1);
             },
-            child: Text('Identify Rock'),
+            child: const Text('Identify Rock'),
             style: ElevatedButton.styleFrom(
-              primary: Constants.primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
@@ -405,7 +401,7 @@ class _FavoritePageState extends State<FavoritePage> {
                           ? rock.imageURL
                           : 'https://via.placeholder.com/60', // Use a placeholder image if none available
                       title: rock.rockName,
-                      tags: ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
+                      tags: const ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
                       onTap: () {
                          Navigator.push(
                                   context,
@@ -425,7 +421,7 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   Widget _buildWishlistTab() {
-    return Center(
+    return const Center(
       child: Text('Wishlist Tab Content', style: TextStyle(color: Colors.white)),
     );
   }

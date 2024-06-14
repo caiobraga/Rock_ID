@@ -4,6 +4,7 @@ import 'package:flutter_onboarding/constants.dart';
 import '../../../db/db.dart';
 import '../../../models/collection.dart';
 import '../../../services/collection_dialog.dart';
+import '../../../services/collection_list_model.dart';
 import '../collection_page.dart';
 import 'collection.dart';
 
@@ -91,12 +92,13 @@ GridView.builder(
                           // Add actual rock images here
                         ],
                   onTap: () {
-                    Navigator.push(
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => CollectionPage(collection: collection),
                       ),
-                    );
+                    );*/
+                    CollectionListModelService().show(context, _collections[index].collectionId );
                   },
                 );
               }

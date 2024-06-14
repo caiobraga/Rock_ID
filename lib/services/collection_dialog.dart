@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../db/db.dart';
 import '../models/collection.dart';
-
+/*
 class CollectionDialogService {
 
   void show(BuildContext context, void Function() onItemAdded) {
@@ -95,7 +95,7 @@ class CollectionDialogService {
 
                         if (collectionName.isNotEmpty) {
                           try {
-                            Collection newCollection = Collection(
+                            /*Collection newCollection = Collection(
                               collectionId: 0,
                               collectionName: collectionName,
                               description: description,
@@ -103,7 +103,7 @@ class CollectionDialogService {
 
                             await DatabaseHelper().insertCollection(newCollection);
                             Navigator.of(context).pop();
-                            onItemAdded();
+                            onItemAdded();*/
                           } catch (e) {
                             debugPrint('$e');
                           }
@@ -119,4 +119,4 @@ class CollectionDialogService {
       },
     );
   }
-}
+}*/

@@ -14,14 +14,15 @@ import 'widgets/rock_list_item.dart';
 
 class FavoritePage extends StatefulWidget {
   final List<Rock> favoritedRocks;
-  const FavoritePage({Key? key, required this.favoritedRocks}) : super(key: key);
+  const FavoritePage({Key? key, required this.favoritedRocks})
+      : super(key: key);
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
-
-class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderStateMixin {
+class _FavoritePageState extends State<FavoritePage>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _collectionNameController =
       TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -62,7 +63,8 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
 
   void _loadSnapHistory() async {
     try {
-      List<Map<String, dynamic>> snapHistory = await DatabaseHelper().snapHistory();
+      List<Map<String, dynamic>> snapHistory =
+          await DatabaseHelper().snapHistory();
       setState(() {
         _snapHistory = snapHistory;
       });
@@ -188,7 +190,8 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
                       ),
                       child: const Text('OK'),
                       onPressed: () async {
-                        final String collectionName = _collectionNameController.text;
+                        final String collectionName =
+                            _collectionNameController.text;
                         final String description = _descriptionController.text;
 
                         if (collectionName.isNotEmpty) {
@@ -199,7 +202,8 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
                               description: description,
                             );
 
-                            await DatabaseHelper().insertCollection(newCollection);
+                            await DatabaseHelper()
+                                .insertCollection(newCollection);
                             _loadCollections();
                             Navigator.of(context).pop();
                           } catch (e) {
@@ -224,7 +228,8 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -247,7 +252,8 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
                       children: [
                         Icon(Icons.add, color: Colors.white, size: 30),
                         SizedBox(height: 10),
-                        Text('ADD NEW COLLECTION', style: TextStyle(color: Colors.white)),
+                        Text('ADD NEW COLLECTION',
+                            style: TextStyle(color: Colors.white)),
                       ],
                     ),
                   ),
@@ -257,17 +263,20 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
                 return CollectionWidget(
                   title: collection.collectionName,
                   isSavedLayout: collection.collectionName == 'Saved',
-                  rockCount: 0 , 
-                  rockImages: collection.collectionName == 'Saved' ? [] : [
-                    'assets/rock_placeholder.png',
-                    'assets/rock_placeholder.png',
-                    // Add actual rock images here
-                  ],
+                  rockCount: 0,
+                  rockImages: collection.collectionName == 'Saved'
+                      ? []
+                      : [
+                          'assets/rock_placeholder.png',
+                          'assets/rock_placeholder.png',
+                          // Add actual rock images here
+                        ],
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CollectionPage(collection: collection),
+                        builder: (context) =>
+                            CollectionPage(collection: collection),
                       ),
                     );
                   },
@@ -303,11 +312,13 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
                 color: Constants.darkGrey,
                 borderRadius: BorderRadius.circular(50),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               child: TabBar(
                 controller: tabController,
                 indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30), // Creates border radius for the indicator
+                  borderRadius: BorderRadius.circular(
+                      30), // Creates border radius for the indicator
                   color: Colors.grey[800], // Change the background color
                 ),
                 unselectedLabelColor: Colors.white,
@@ -366,103 +377,116 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
     );
   }
 
-
   Widget _buildSnapHistoryTab() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: Constants.darkGrey,
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: 56,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFFB88F71),
-                    Color(0xFFA16132),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(16.0),
-                  onTap: () {
-                    _addRockToSnapHistory(1);
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.crop_free, color: Colors.white),
-                      SizedBox(width: 12),
-                      DSCustomText(
-                        text: 'Identify Rock',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Constants.darkGrey,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Column(children: [
+              Container(
+                width: double.infinity,
+                height: 56,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFFB88F71),
+                      Color(0xFFA16132),
                     ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16.0),
+                    onTap: () {
+                      _addRockToSnapHistory(1);
+                    },
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.crop_free, color: Colors.white),
+                        SizedBox(width: 12),
+                        DSCustomText(
+                          text: 'Identify Rock',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _snapHistory.length,
+                  itemBuilder: (context, index) {
+                    final rockId = _snapHistory[index]['rockId'];
+                    final rock = _allRocks.firstWhere(
+                        (rock) => rock.rockId == rockId,
+                        orElse: () => Rock.empty());
+                    return RockListItem(
+                      imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
+                          ? rock.imageURL
+                          : 'https://via.placeholder.com/60',
+                      title: rock.rockName,
+                      tags: const ['Sulfide minerals', 'Mar', 'Jul'],
+                      onTap: () {
+                        Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: RockDetailPage(
+                                        rock: rock, isSavingRock: false),
+                                    type: PageTransitionType.bottomToTop))
+                            .then((value) => Navigator.of(context).pop());
+                      },
+                    );
+                  },
+                ),
+              ),
+              Expanded(
+                  child: ListView.builder(
                 itemCount: _snapHistory.length,
                 itemBuilder: (context, index) {
+                  // Find the rock corresponding to the rockId in the snap history
                   final rockId = _snapHistory[index]['rockId'];
-                  final rock = _allRocks.firstWhere((rock) => rock.rockId == rockId, orElse: () => Rock.empty());
+                  final rock = _allRocks.firstWhere(
+                      (rock) => rock.rockId == rockId,
+                      orElse: () => Rock.empty());
+
                   return RockListItem(
-                    imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != '' ? rock.imageURL : 'https://via.placeholder.com/60',
+                    imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
+                        ? rock.imageURL
+                        : 'https://via.placeholder.com/60', // Use a placeholder image if none available
                     title: rock.rockName,
-                    tags: const ['Sulfide minerals', 'Mar', 'Jul'],
+                    tags: const [
+                      'Sulfide minerals',
+                      'Mar',
+                      'Jul'
+                    ], // Replace with actual tags
                     onTap: () {
                       Navigator.push(
-                              context, PageTransition(child: RockDetailPage(rock: rock, isSavingRock: false), type: PageTransitionType.bottomToTop))
+                              context,
+                              PageTransition(
+                                  child: RockDetailPage(
+                                      rock: rock, isSavingRock: false),
+                                  type: PageTransitionType.bottomToTop))
                           .then((value) => Navigator.of(context).pop());
                     },
                   );
                 },
-              ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _snapHistory.length,
-              itemBuilder: (context, index) {
-                // Find the rock corresponding to the rockId in the snap history
-                final rockId = _snapHistory[index]['rockId'];
-                final rock = _allRocks.firstWhere((rock) => rock.rockId == rockId, orElse: () => Rock.empty());
+              ))
+            ])));
+  }
 
-                return RockListItem(
-                      imageUrl: rock.imageURL.isNotEmpty &&  rock.imageURL != ''
-                          ? rock.imageURL
-                          : 'https://via.placeholder.com/60', // Use a placeholder image if none available
-                      title: rock.rockName,
-                      tags: const ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
-                      onTap: () {
-                         Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      child: RockDetailPage(
-                                          rock: rock, isSavingRock: false),
-                                      type: PageTransitionType.bottomToTop))
-                              .then((value) => Navigator.of(context).pop());
-                      },
-                      );
-              },
-
-    return const Center(
-      child: Text('Wishlist Tab Content', style: TextStyle(color: Colors.white)),
-    );
+  Widget _buildWishlistTab() {
     return _wishlistRocks.isEmpty
         ? Center(
             child: Column(

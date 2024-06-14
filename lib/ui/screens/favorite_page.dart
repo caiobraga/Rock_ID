@@ -8,14 +8,16 @@ import 'collection_page.dart';
 
 class FavoritePage extends StatefulWidget {
   final List<Rock> favoritedRocks;
-  const FavoritePage({Key? key, required this.favoritedRocks}) : super(key: key);
+  const FavoritePage({Key? key, required this.favoritedRocks})
+      : super(key: key);
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  final TextEditingController _collectionNameController = TextEditingController();
+  final TextEditingController _collectionNameController =
+      TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   List<Collection> _collections = [];
 
@@ -32,7 +34,7 @@ class _FavoritePageState extends State<FavoritePage> {
         _collections = collections;
       });
     } catch (e) {
-      print(e);
+      debugPrint('$e');
     }
   }
 
@@ -62,14 +64,14 @@ class _FavoritePageState extends State<FavoritePage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   controller: _collectionNameController,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: 'Name your new collection',
                     hintText: 'Enter name',
-                    hintStyle: TextStyle(color: Colors.white54),
+                    hintStyle: const TextStyle(color: Colors.white54),
                     labelStyle: TextStyle(color: Constants.primaryColor),
                     filled: true,
                     fillColor: Colors.grey[800],
@@ -78,14 +80,14 @@ class _FavoritePageState extends State<FavoritePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   controller: _descriptionController,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     labelText: 'Description',
                     hintText: 'Enter description',
-                    hintStyle: TextStyle(color: Colors.white54),
+                    hintStyle: const TextStyle(color: Colors.white54),
                     labelStyle: TextStyle(color: Constants.primaryColor),
                     filled: true,
                     fillColor: Colors.grey[800],
@@ -94,7 +96,7 @@ class _FavoritePageState extends State<FavoritePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -111,14 +113,15 @@ class _FavoritePageState extends State<FavoritePage> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Constants.primaryColor,
+                        foregroundColor: Constants.primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                      child: Text('OK'),
+                      child: const Text('OK'),
                       onPressed: () async {
-                        final String collectionName = _collectionNameController.text;
+                        final String collectionName =
+                            _collectionNameController.text;
                         final String description = _descriptionController.text;
 
                         if (collectionName.isNotEmpty) {
@@ -129,11 +132,12 @@ class _FavoritePageState extends State<FavoritePage> {
                               description: description,
                             );
 
-                            await DatabaseHelper().insertCollection(newCollection);
+                            await DatabaseHelper()
+                                .insertCollection(newCollection);
                             _loadCollections();
                             Navigator.of(context).pop();
                           } catch (e) {
-                            print(e);
+                            debugPrint('$e');
                           }
                         }
                       },

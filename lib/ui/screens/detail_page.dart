@@ -65,21 +65,18 @@ class RockDetailPage extends StatelessWidget {
                         color: Constants.darkGrey,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/images/rock1.png',
-                            height: 200,
-                            width: 200,
-                          ), // Placeholder image
-                          Divider(
-                            color: Constants.naturalGrey,
-                            thickness: 1,
-                          ),
-                          const SizedBox(
-                            height: 10,
+                          Image.asset('assets/images/rock1.png',
+                              height: 175.75, width: 255, fit: BoxFit.cover),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Divider(
+                              color: Constants.naturalGrey,
+                              thickness: 1,
+                            ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +106,7 @@ class RockDetailPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 16),
                               _buildInfoSection('Formula', rock.formula),
                               _buildInfoSection(
                                   'Hardness', rock.hardness.toString()),
@@ -125,16 +122,19 @@ class RockDetailPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   PremiumSection(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   _buildHealthRisksSection(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   _buildImagesSection(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   _buildLocationsSection(),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 16),
                   _buildFAQSection(),
+                  const SizedBox(height: 16),
+                  _buildDescription(rock.description),
+                  const SizedBox(height: 80)
                 ],
               ),
             ),
@@ -145,68 +145,71 @@ class RockDetailPage extends StatelessWidget {
             right: 0,
             child: Container(
               color: Colors.black,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    
-                  onTap: () {
-                    ShowSelectionModalService().show(context);
-                  }, 
-                  child: Container(
-                    padding: EdgeInsets.all(4),
-                    width: 50.0,  
-                    height: 50.0, 
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Constants.primaryColor,
-                        width: 1
+                    onTap: () {
+                      ShowSelectionModalService().show(context);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      width: 50.0,
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Constants.primaryColor, width: 1),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
                       ),
-                      shape: BoxShape.circle, 
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3), 
+                      child: Center(
+                        child: Icon(
+                          Icons.photo_camera,
+                          color: Constants.primaryColor,
+                          size: 30.0,
                         ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.photo_camera, 
-                        color: Constants.primaryColor,
-                        size: 30.0, 
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   GestureDetector(
-                  onTap: isSavingRock ? () => saveRock(context) : () => addToCollection(context),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width *0.7,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Constants.primaryColor,
-                      borderRadius: BorderRadius.circular(50),
+                    onTap: isSavingRock
+                        ? () => saveRock(context)
+                        : () => addToCollection(context),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Constants.primaryColor,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 12.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            isSavingRock ? 'Save' : 'Add to My Collection',
+                            style: TextStyle(
+                                color: Constants.darkGrey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          isSavingRock ? 'Save' : 'Add to My Collection',
-                          style: TextStyle(color: Constants.darkGrey, fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-
+                  )
                 ],
               ),
             ),
@@ -216,29 +219,129 @@ class RockDetailPage extends StatelessWidget {
     );
   }
 
+  // Info Section
   Widget _buildInfoSection(String title, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: AppTypography.body3(color: AppCollors.white)),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
+          Expanded(
+              flex: 2,
+              child: Text(title,
+                  style: AppTypography.body3(color: AppCollors.naturalWhite))),
+          Expanded(
+            flex: 3,
+            child: Text(
+              value,
+              style: GoogleFonts.montserrat(
+                  textStyle: TextStyle(
+                color: AppCollors.naturalWhite,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              )),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  
+
   Widget _buildHealthRisksSection() {
+    return _buildCard('HEALTH RISKS', Icons.error_rounded, [
+      Text(
+        'Quartz, silica, crystalline silica and flint are non-toxic materials, but very fine dust containing quartz, known as respirable crystalline silica (RCS), can cause serious and fatal lung diseases. '
+        'Lapidaries should exercise caution when cutting silica.',
+        style: AppTypography.body3(color: AppCollors.naturalWhite),
+        textAlign: TextAlign.justify,
+      )
+    ]);
+  }
+
+  // Images Section
+  Widget _buildImagesSection() {
+    return _buildCard(
+      'IMAGES OF "${rock.rockName.toUpperCase()}"',
+      Icons.image,
+      [
+        Row(
+          children: [
+            _buildImageCard(
+                'Quartz', 'Color, Common', 'assets/images/rock1.png'),
+            const SizedBox(width: 8),
+            _buildImageCard(
+                'Quartz', 'Morphology, common', 'assets/images/rock1.png'),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildImageCard(String title, String subtitle, String assetPath) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(43),
+          border: Border.all(
+            color: AppCollors
+                .naturalGrey, // Cor da borda, substitua por AppCollors.primaryColor
+            width: 2, // Espessura da borda
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              assetPath,
+              height: 45,
+              width: 45,
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                          color: AppCollors.naturalWhite,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 12),
+                    ),
+                    overflow: TextOverflow.visible,
+                    softWrap: true,
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    subtitle,
+                    style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                          color: AppCollors.primaryMedium,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 10),
+                    ),
+                    overflow: TextOverflow.visible,
+                    softWrap: true,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Location Section
+  Widget _buildLocationsSection() {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
         color: Constants.darkGrey,
         borderRadius: BorderRadius.circular(10),
@@ -246,106 +349,163 @@ class RockDetailPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'HEALTH RISKS',
-            style: TextStyle(
-              color: Constants.primaryColor,
-              fontWeight: FontWeight.bold,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Icon(
+                  Icons.image,
+                  color: AppCollors.primaryMedium,
+                  size: 24.0,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'LOCATIONS FOR "${rock.rockName.toUpperCase()}"',
+                  style: AppTypography.headline2(
+                    color: AppCollors.naturalWhite,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.visible,
+                  softWrap: true,
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16, bottom: 16),
+            child: Divider(
+              color: Constants.naturalGrey,
+              thickness: 1,
             ),
           ),
-          SizedBox(height: 10),
-          Text(
-            'Quartz, silica, crystalline silica and flint are non-toxic materials, but very fine dust containing quartz, known as respirable crystalline silica (RCS), can cause serious and fatal lung diseases. '
-            'Lapidaries should exercise caution when cutting silica.',
-            style: TextStyle(color: Colors.white),
+          // Replace with actual map widgets or images
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8), // Define o border radius
+              child: Image.asset(
+                'assets/images/map.png',
+                height: 265.96,
+                width: 311,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildImagesSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'IMAGES OF "${rock.rockName.toUpperCase()}"',
-          style: TextStyle(
-            color: Constants.primaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 10),
-        Row(
-          children: [
-            _buildImageCard('Quartz', 'assets/images/emerald.png'),
-            _buildImageCard('Quartz', 'assets/images/emerald2.png'),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildImageCard(String title, String assetPath) {
-    return Expanded(
-      child: Column(
-        children: [
-          Image.asset(assetPath, height: 100), // Placeholder image
-          Text(
-            title,
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLocationsSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'LOCATIONS FOR "${rock.rockName.toUpperCase()}"',
-          style: TextStyle(
-            color: Constants.primaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 10),
-        // Replace with actual map widgets or images
-        Image.asset('assets/images/map.png', height: 150), // Placeholder image
-      ],
-    );
-  }
-
+  // FAQ Section
   Widget _buildFAQSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'PEOPLE OFTEN ASK',
-          style: TextStyle(
-            color: Constants.primaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 10),
-        _buildFAQItem('Is ${rock.rockName} valuable?'),
-      ],
-    );
+    return _buildCard('PEOPLE OFTEN ASK', Icons.image, [
+      _buildFAQItem('Is ${rock.rockName} valuable?'),
+      _buildFAQItem('Is ${rock.rockName} valuable?')
+    ]);
   }
 
   Widget _buildFAQItem(String question) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      // padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         color: Constants.darkGrey,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Text(
-        question,
-        style: TextStyle(color: Colors.white),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8), // Define o border radius
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppCollors.naturalGrey, // Cor de fundo quando colapsado
+          ),
+          child: ExpansionTile(
+            title: ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 0),
+              title: Text(question,
+                  style: AppTypography.body1(color: AppCollors.primaryMedium)),
+            ),
+            iconColor: AppCollors.primaryMedium,
+            collapsedIconColor: AppCollors.primaryMedium,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Cloudy or “milky” crystals that don’t allow light to shine through often are considered less valuable.',
+                  style: AppTypography.body3(color: AppCollors.naturalSilver),
+                  textAlign: TextAlign.justify,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Description
+  Widget _buildDescription(String description) {
+    return _buildCard(
+      'DESCRIPTION',
+      Icons.description,
+      [
+        Text(
+          description,
+          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          textAlign: TextAlign.justify,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCard(String title, IconData iconData, List<Widget> body) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      decoration: BoxDecoration(
+        color: Constants.darkGrey,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Icon(
+                  iconData,
+                  color: AppCollors.primaryMedium,
+                  size: 24.0,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  title,
+                  style: AppTypography.headline2(
+                    color: AppCollors.naturalWhite,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  overflow: TextOverflow.visible,
+                  softWrap: true,
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16, bottom: 16),
+            child: Divider(
+              color: Constants.naturalGrey,
+              thickness: 1,
+            ),
+          ),
+          ...body
+        ],
       ),
     );
   }

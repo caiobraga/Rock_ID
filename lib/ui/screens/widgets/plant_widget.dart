@@ -1,17 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/detail_page.dart';
-import 'package:page_transition/page_transition.dart';
 
 class RockWidget extends StatelessWidget {
   const RockWidget({
-    Key? key, required this.index, required this.RockList,
+    Key? key,
+    required this.index,
+    required this.rockList,
   }) : super(key: key);
 
   final int index;
-  final List<Rock> RockList;
+  final List<Rock> rockList;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class RockWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-       /* Navigator.push(
+        /* Navigator.push(
             context,
             PageTransition(
                 child: RockDetailPage(
@@ -57,8 +56,7 @@ class RockWidget extends StatelessWidget {
                   right: 0,
                   child: SizedBox(
                     height: 80.0,
-                    child:
-                    Image.asset(RockList[index].imageURL),
+                    child: Image.asset(rockList[index].imageURL),
                   ),
                 ),
                 Positioned(
@@ -67,9 +65,9 @@ class RockWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(RockList[index].category),
+                      Text(rockList[index].category),
                       Text(
-                        RockList[index].rockName,
+                        rockList[index].rockName,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -84,7 +82,7 @@ class RockWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.only(right: 10),
               child: Text(
-                r'$' + RockList[index].price.toString(),
+                r'$' + rockList[index].price.toString(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0,

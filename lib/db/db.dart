@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/models/collection.dart';
 import 'package:path/path.dart';
@@ -107,7 +108,8 @@ class DatabaseHelper {
       await _addColumnIfNotExists(db, 'rocks', 'Colors', 'TEXT');
       await _addColumnIfNotExists(db, 'rocks', 'Luster', 'TEXT');
       await _addColumnIfNotExists(db, 'rocks', 'Diaphaneity', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'quimicalClassification', 'TEXT');
+      await _addColumnIfNotExists(
+          db, 'rocks', 'quimicalClassification', 'TEXT');
       await _addColumnIfNotExists(db, 'rocks', 'elementsListed', 'TEXT');
       await _addColumnIfNotExists(db, 'rocks', 'healingPropeties', 'TEXT');
       await _addColumnIfNotExists(db, 'rocks', 'formulation', 'TEXT');
@@ -118,7 +120,8 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> _createTableIfNotExists(Database db, String tableName, String createTableQuery) async {
+  Future<void> _createTableIfNotExists(
+      Database db, String tableName, String createTableQuery) async {
     try {
       await db.execute(createTableQuery);
     } catch (e) {
@@ -130,12 +133,14 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> _addColumnIfNotExists(Database db, String tableName, String columnName, String columnType) async {
+  Future<void> _addColumnIfNotExists(Database db, String tableName,
+      String columnName, String columnType) async {
     try {
       await db.rawQuery('SELECT $columnName FROM $tableName LIMIT 1');
     } catch (e) {
       if (e is DatabaseException) {
-        await db.execute('ALTER TABLE $tableName ADD COLUMN $columnName $columnType');
+        await db.execute(
+            'ALTER TABLE $tableName ADD COLUMN $columnName $columnType');
       } else {
         rethrow;
       }
@@ -151,7 +156,10 @@ class DatabaseHelper {
     );
 
     if (maps.isEmpty) {
-      await insertCollection(Collection(collectionId: 0, collectionName: 'Saved', description: 'Saved items'));
+      await insertCollection(Collection(
+          collectionId: 0,
+          collectionName: 'Saved',
+          description: 'Saved items'));
     }
   }
 
@@ -198,7 +206,7 @@ class DatabaseHelper {
         return Rock.fromMap(maps[i]);
       });
     } catch (e) {
-      print(e);
+      debugPrint('$e');
       return [];
     }
   }

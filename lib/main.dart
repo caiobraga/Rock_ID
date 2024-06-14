@@ -3,10 +3,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'ui/onboarding_screen.dart';
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 
-void main(){
-  runApp(MyApp());
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -17,17 +18,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
-  void initState(){
+  void initState() {
     dotenv.load(fileName: ".env");
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       scaffoldMessengerKey: scaffoldMessengerKey,
-      theme: ThemeData(scaffoldBackgroundColor: Colors.black,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.black,
       ),
       title: 'Onboarding Screen',
       home: const OnboardingScreen(),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
@@ -17,9 +16,8 @@ class SelectRockPage extends StatefulWidget {
 }
 
 class _SelectRockPageState extends State<SelectRockPage> {
-  final DatabaseHelper _dbHelper = DatabaseHelper();
-  final List<Rock> _rockList = Rock.RockList;
-  List<Rock> _filteredRockList = Rock.RockList;
+  final List<Rock> _rockList = Rock.rockList;
+  List<Rock> _filteredRockList = Rock.rockList;
 
   final _searchRocks = FocusNode();
 
@@ -44,7 +42,7 @@ class _SelectRockPageState extends State<SelectRockPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
         _searchRocks.requestFocus();
       });
     });

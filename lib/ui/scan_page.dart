@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../services/snackbar.dart';
 import 'root_page.dart';
 
 class ScanPage extends StatefulWidget {
@@ -27,7 +25,7 @@ class _ScanPageState extends State<ScanPage> {
   int _loadingPercentage = 0;
   String? _errorMessage;
 
-  ValueNotifier<int> _loadingNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<int> _loadingNotifier = ValueNotifier<int>(0);
 
   Future<void> _showImageSourceActionSheet(BuildContext context) async {
     return showModalBottomSheet(
@@ -37,7 +35,7 @@ class _ScanPageState extends State<ScanPage> {
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.photo_library),
+                leading: const Icon(Icons.photo_library),
                 title: Text(
                   'Gallery',
                   style: TextStyle(
@@ -54,7 +52,7 @@ class _ScanPageState extends State<ScanPage> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.photo_camera),
+                leading: const Icon(Icons.photo_camera),
                 title: Text(
                   'Camera',
                   style: TextStyle(
@@ -90,7 +88,7 @@ class _ScanPageState extends State<ScanPage> {
               padding: const EdgeInsets.all(20),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.7,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
@@ -108,24 +106,24 @@ class _ScanPageState extends State<ScanPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'Identifying ${_loadingPercentage}%',
-                            style: TextStyle(
-                              color: Constants.primaryColor.withOpacity(.80),
-                              fontSize: 16,
+                          children: [
+                            Text(
+                              'Identifying $_loadingPercentage%',
+                              style: TextStyle(
+                                color: Constants.primaryColor.withOpacity(.80),
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                          if (_image != null)
-                            Image.file(
-                              File(_image!.path),
-                              height: 200,
-                              fit: BoxFit.cover,
-                            )
-                          else
-                            CircularProgressIndicator(),
-                        ],
-                      ),
+                            if (_image != null)
+                              Image.file(
+                                File(_image!.path),
+                                height: 200,
+                                fit: BoxFit.cover,
+                              )
+                            else
+                              const CircularProgressIndicator(),
+                          ],
+                        ),
                       if (_errorMessage != null)
                         Column(
                           children: [
@@ -137,7 +135,7 @@ class _ScanPageState extends State<ScanPage> {
                               'This is a good Exemple',
                             ),
                             const SizedBox(height: 20),
-                            Text(
+                            const Text(
                               'The following will lead to poor results',
                               style: TextStyle(
                                 color: Colors.black,
@@ -165,35 +163,39 @@ class _ScanPageState extends State<ScanPage> {
                             ),
                             const SizedBox(height: 20),
                             GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                              decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.camera_alt,
-                                    size: 30, // Size of the icon
-                                    color: Colors.white, // Color of the icon
-                                  ),
-                                  SizedBox(width: 10), // Space between icon and text
-                                  Text(
-                                    'Retake',
-                                    style: TextStyle(
-                                      fontSize: 18, // Size of the text
-                                      color: Colors.white, // Color of the text
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 15),
+                                decoration: BoxDecoration(
+                                  color: Colors.orange,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.camera_alt,
+                                      size: 30, // Size of the icon
+                                      color: Colors.white, // Color of the icon
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(
+                                        width:
+                                            10), // Space between icon and text
+                                    Text(
+                                      'Retake',
+                                      style: TextStyle(
+                                        fontSize: 18, // Size of the text
+                                        color:
+                                            Colors.white, // Color of the text
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
                           ],
                         ),
                     ],
@@ -220,12 +222,13 @@ class _ScanPageState extends State<ScanPage> {
       children: [
         Expanded(child: _buildErrorImage(assetPath1, label1, icon, color)),
         if (assetPath2 != null && label2 != null)
-        Expanded(child: _buildErrorImage(assetPath2, label2, icon, color)),
+          Expanded(child: _buildErrorImage(assetPath2, label2, icon, color)),
       ],
     );
   }
 
-  Widget _buildErrorImage(String assetPath, String label, IconData icon, Color color) {
+  Widget _buildErrorImage(
+      String assetPath, String label, IconData icon, Color color) {
     return Column(
       children: [
         Stack(
@@ -236,7 +239,6 @@ class _ScanPageState extends State<ScanPage> {
               fit: BoxFit.cover,
             ),
             const SizedBox(height: 10),
-            
             Positioned(
               right: 0,
               top: 0,
@@ -249,12 +251,12 @@ class _ScanPageState extends State<ScanPage> {
           ],
         ),
         Text(
-              label,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14,
-              ),
-            ),
+          label,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 14,
+          ),
+        ),
       ],
     );
   }
@@ -271,23 +273,25 @@ class _ScanPageState extends State<ScanPage> {
     try {
       await scanningFunction();
       if (_rock != null) {
-        navigator.push(PageTransition(
-            child: RockDetailPage(rock: _rock!, isSavingRock: true),
-            type: PageTransitionType.fade)).then((value) {
-              if(Navigator.of(context).canPop()){
-                Navigator.of(context).pop();
-              }
-              if(Navigator.of(context).canPop()){
-                Navigator.of(context).pop();
-              }
-              Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const RootPage()));
-            });
+        navigator
+            .push(PageTransition(
+                child: RockDetailPage(rock: _rock!, isSavingRock: true),
+                type: PageTransitionType.fade))
+            .then((value) {
+          if (Navigator.of(context).canPop()) {
+            Navigator.of(context).pop();
+          }
+          if (Navigator.of(context).canPop()) {
+            Navigator.of(context).pop();
+          }
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => const RootPage()));
+        });
       }
     } catch (e) {
-      print(e);
+      debugPrint('$e');
       setState(() {
-        _errorMessage = '${e.toString().substring(11)}';
+        _errorMessage = e.toString().substring(11);
         _isLoading = false;
       });
     } finally {
@@ -299,7 +303,7 @@ class _ScanPageState extends State<ScanPage> {
   }
 
   void _startLoading() {
-    Timer.periodic(Duration(milliseconds: 200), (Timer timer) {
+    Timer.periodic(const Duration(milliseconds: 200), (Timer timer) {
       if (_loadingPercentage >= 99) {
         timer.cancel();
       } else {

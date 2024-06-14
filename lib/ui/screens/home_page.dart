@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                BottomNavService.instance.setIndex(1);
+                                BottomNavService().setIndex(1);
                                 // Handle rock collection functionality
                               },
                               child: Container(

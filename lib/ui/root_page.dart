@@ -19,7 +19,7 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   List<Rock> favorites = [];
   List<Rock> myCart = [];
-  final _bottomNavService = BottomNavService.instance;
+  final BottomNavService _bottomNavService = BottomNavService();
 
   @override
   void initState() {
@@ -116,40 +116,24 @@ class _RootPageState extends State<RootPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
-<<<<<<< HEAD
         backgroundColor: Constants.darkGrey,
         splashColor: Constants.primaryColor,
         activeColor: Constants.primaryColor,
         inactiveColor: Constants.white.withOpacity(.5),
         icons: iconList,
-        activeIndex: _currentBottonNum,
+        activeIndex: _bottomNavService.bottomNavIndex,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.softEdge,
         onTap: (index) async {
           final List<Rock> favoritedRocks = await Rock.getFavoritedRocks();
           final List<Rock> addedToCartRocks = await Rock.addedToCartRocks();
           setState(() {
-            BottomNavService().setIndex(index);
+            _bottomNavService.setIndex(index);
             favorites = favoritedRocks;
             myCart = addedToCartRocks.toSet().toList();
           });
         },
       ),
-=======
-          backgroundColor: Constants.darkGrey,
-          splashColor: Constants.primaryColor,
-          activeColor: Constants.primaryColor,
-          inactiveColor: Constants.white.withOpacity(.5),
-          icons: iconList,
-          activeIndex: _bottomNavService.bottomNavIndex,
-          gapLocation: GapLocation.center,
-          notchSmoothness: NotchSmoothness.softEdge,
-          onTap: (index) {
-            setState(() {
-              _bottomNavService.setIndex(index);
-            });
-          }),
->>>>>>> a18e385c8b3d1484067fb21e2f11d2de7c2b153c
     );
   }
 }

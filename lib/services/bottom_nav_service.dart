@@ -1,18 +1,15 @@
 class BottomNavService {
-  BottomNavService._();
+  static final BottomNavService _instance = BottomNavService._internal();
 
-  static BottomNavService? _instance;
+  int bottomNavIndex = 0;
 
-  static BottomNavService get instance {
-    _instance ??= BottomNavService._();
-    return _instance!;
+  factory BottomNavService() {
+    return _instance;
   }
 
-  int _bottomNavIndex = 0;
+  BottomNavService._internal();
 
-  int get bottomNavIndex => _bottomNavIndex;
-
-  void setIndex(int newIndex) {
-    _bottomNavIndex = newIndex;
+  void setIndex(int index) {
+    bottomNavIndex = index;
   }
 }

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../db/db.dart';
+import '../../services/add_to_my_collection_modal.dart';
 import '../../services/selection_modal.dart';
 import '../../services/snackbar.dart';
 import 'widgets/premium_section.dart';
@@ -527,6 +528,7 @@ class RockDetailPage extends StatelessWidget {
 
   void addToCollection(BuildContext context) {
     // Implement your add to collection logic here
-    ShowSnackbarService().showSnackBar('Added to Collection');
+    AddToMyCollectionModalService().show(context);
+   // ShowSnackbarService().showSnackBar('Added to Collection');
   }
 }

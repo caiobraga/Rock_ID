@@ -590,7 +590,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
   void addToWishlist(BuildContext context) async {
     try {
       await DatabaseHelper().addRockToWishlist(widget.rock.rockId);
-      ShowSnackbarService().showSnackBar('Added to Wishlist.');
       Navigator.pushAndRemoveUntil(
         context,
         PageTransition(
@@ -606,7 +605,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
   void removeFromWishlist(BuildContext context) async {
     try {
       await DatabaseHelper().removeRockFromWishlist(widget.rock.rockId);
-      ShowSnackbarService().showSnackBar('Removed from Wishlist.');
       Navigator.pushAndRemoveUntil(
         context,
         PageTransition(

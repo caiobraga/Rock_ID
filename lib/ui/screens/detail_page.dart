@@ -11,13 +11,48 @@ import '../../services/selection_modal.dart';
 import '../../services/snackbar.dart';
 import 'widgets/premium_section.dart';
 
-class RockDetailPage extends StatelessWidget {
+class RockDetailPage extends StatefulWidget {
   final Rock rock;
   final bool isSavingRock;
+  final bool? isFavoritingRock;
 
-  const RockDetailPage(
-      {Key? key, required this.rock, required this.isSavingRock})
-      : super(key: key);
+  const RockDetailPage({
+    super.key,
+    required this.rock,
+    required this.isSavingRock,
+    this.isFavoritingRock,
+  });
+
+  @override
+  State<RockDetailPage> createState() => _RockDetailPageState();
+}
+
+class _RockDetailPageState extends State<RockDetailPage> {
+  String buttonText = '';
+  bool toFavoriteRock = false;
+  bool toRemoveFromWishlist = false;
+
+  @override
+  void initState() {
+    super.initState();
+    DatabaseHelper().wishlist().then((wishlist) {
+      setState(() {
+        toFavoriteRock = widget.isFavoritingRock == true;
+        for (final rockId in wishlist) {
+          if (toFavoriteRock && widget.rock.rockId == rockId) {
+            toRemoveFromWishlist = true;
+          }
+        }
+        buttonText = widget.isSavingRock
+            ? 'Save'
+            : toRemoveFromWishlist
+                ? 'Remove from Wishlist'
+                : toFavoriteRock
+                    ? 'Add to Wishlist'
+                    : 'Add to My Collection';
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +76,27 @@ class RockDetailPage extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
         actions: [
-          if (isSavingRock)
+          if (widget.isSavingRock)
             IconButton(
               icon: Icon(
                 Icons.save,
                 color: Constants.primaryColor,
               ),
               onPressed: () => saveRock(context),
+            ),
+          if (widget.isFavoritingRock == true)
+            IconButton(
+              onPressed: () async {
+                setState(() {
+                  toRemoveFromWishlist
+                      ? removeFromWishlist(context)
+                      : addToWishlist(context);
+                });
+              },
+              icon: Icon(
+                toRemoveFromWishlist ? Icons.favorite : Icons.favorite_border,
+                color: Constants.primaryColor,
+              ),
             ),
         ],
       ),
@@ -83,7 +132,7 @@ class RockDetailPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                rock.rockName,
+                                widget.rock.rockName,
                                 style: AppTypography.headline1(
                                     color: Constants.primaryColor),
                               ),
@@ -96,7 +145,7 @@ class RockDetailPage extends StatelessWidget {
                                           color: AppCollors.naturalSilver),
                                     ),
                                     TextSpan(
-                                      text: rock.category,
+                                      text: widget.rock.category,
                                       style: AppTypography.body3(
                                         color: AppCollors.primaryMedium,
                                         decoration: TextDecoration.underline,
@@ -108,13 +157,13 @@ class RockDetailPage extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 16),
-                              _buildInfoSection('Formula', rock.formula),
+                              _buildInfoSection('Formula', widget.rock.formula),
                               _buildInfoSection(
-                                  'Hardness', rock.hardness.toString()),
-                              _buildInfoSection('Color', rock.color),
+                                  'Hardness', widget.rock.hardness.toString()),
+                              _buildInfoSection('Color', widget.rock.color),
                               _buildInfoSection(
                                   'Magnetic',
-                                  rock.isMagnetic
+                                  widget.rock.isMagnetic
                                       ? 'Magnetic'
                                       : 'Non-magnetic'),
                             ],
@@ -134,7 +183,7 @@ class RockDetailPage extends StatelessWidget {
                   const SizedBox(height: 16),
                   _buildFAQSection(),
                   const SizedBox(height: 16),
-                  _buildDescription(rock.description),
+                  _buildDescription(widget.rock.description),
                   const SizedBox(height: 80)
                 ],
               ),
@@ -183,9 +232,13 @@ class RockDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   GestureDetector(
-                    onTap: isSavingRock
-                        ? () => saveRock(context)
-                        : () => addToCollection(context),
+                    onTap: () => widget.isSavingRock
+                        ? saveRock(context)
+                        : toRemoveFromWishlist
+                            ? removeFromWishlist(context)
+                            : toFavoriteRock
+                                ? addToWishlist(context)
+                                : addToCollection(context),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.7,
                       height: 50,
@@ -201,7 +254,7 @@ class RockDetailPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            isSavingRock ? 'Save' : 'Add to My Collection',
+                            buttonText,
                             style: TextStyle(
                                 color: Constants.darkGrey,
                                 fontSize: 14,
@@ -248,7 +301,6 @@ class RockDetailPage extends StatelessWidget {
     );
   }
 
-
   Widget _buildHealthRisksSection() {
     return _buildCard('HEALTH RISKS', Icons.error_rounded, [
       Text(
@@ -263,7 +315,7 @@ class RockDetailPage extends StatelessWidget {
   // Images Section
   Widget _buildImagesSection() {
     return _buildCard(
-      'IMAGES OF "${rock.rockName.toUpperCase()}"',
+      'IMAGES OF "${widget.rock.rockName.toUpperCase()}"',
       Icons.image,
       [
         Row(
@@ -365,7 +417,7 @@ class RockDetailPage extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'LOCATIONS FOR "${rock.rockName.toUpperCase()}"',
+                  'LOCATIONS FOR "${widget.rock.rockName.toUpperCase()}"',
                   style: AppTypography.headline2(
                     color: AppCollors.naturalWhite,
                     fontWeight: FontWeight.bold,
@@ -403,8 +455,8 @@ class RockDetailPage extends StatelessWidget {
   // FAQ Section
   Widget _buildFAQSection() {
     return _buildCard('PEOPLE OFTEN ASK', Icons.image, [
-      _buildFAQItem('Is ${rock.rockName} valuable?'),
-      _buildFAQItem('Is ${rock.rockName} valuable?')
+      _buildFAQItem('Is ${widget.rock.rockName} valuable?'),
+      _buildFAQItem('Is ${widget.rock.rockName} valuable?')
     ]);
   }
 
@@ -514,7 +566,7 @@ class RockDetailPage extends StatelessWidget {
   void saveRock(BuildContext context) async {
     // Implement your save logic here
     try {
-      await DatabaseHelper().insertRock(rock);
+      await DatabaseHelper().insertRock(widget.rock);
       ShowSnackbarService().showSnackBar('Rock Saved');
       Navigator.pushReplacement(
           context,
@@ -529,6 +581,38 @@ class RockDetailPage extends StatelessWidget {
   void addToCollection(BuildContext context) {
     // Implement your add to collection logic here
     AddToMyCollectionModalService().show(context);
-   // ShowSnackbarService().showSnackBar('Added to Collection');
+    // ShowSnackbarService().showSnackBar('Added to Collection');
+  }
+
+  void addToWishlist(BuildContext context) async {
+    try {
+      await DatabaseHelper().addRockToWishlist(widget.rock.rockId);
+      ShowSnackbarService().showSnackBar('Added to Wishlist.');
+      Navigator.pushAndRemoveUntil(
+        context,
+        PageTransition(
+            child: const RootPage(showFavorites: true),
+            type: PageTransitionType.leftToRightWithFade),
+        (route) => false,
+      );
+    } catch (e) {
+      ShowSnackbarService().showSnackBar('Error $e');
+    }
+  }
+
+  void removeFromWishlist(BuildContext context) async {
+    try {
+      await DatabaseHelper().removeRockFromWishlist(widget.rock.rockId);
+      ShowSnackbarService().showSnackBar('Removed from Wishlist.');
+      Navigator.pushAndRemoveUntil(
+        context,
+        PageTransition(
+            child: const RootPage(showFavorites: true),
+            type: PageTransitionType.leftToRightWithFade),
+        (route) => false,
+      );
+    } catch (e) {
+      ShowSnackbarService().showSnackBar('Error $e');
+    }
   }
 }

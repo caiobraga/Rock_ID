@@ -8,8 +8,12 @@ import './widgets/rock_list_item.dart'; // Import the RockListItem widget
 
 class SelectRockPage extends StatefulWidget {
   final bool isSavingRock;
-  const SelectRockPage({Key? key, required this.isSavingRock})
-      : super(key: key);
+  final bool? isFavoritingRock;
+  const SelectRockPage({
+    super.key,
+    required this.isSavingRock,
+    this.isFavoritingRock,
+  });
 
   @override
   _SelectRockPageState createState() => _SelectRockPageState();
@@ -25,7 +29,11 @@ class _SelectRockPageState extends State<SelectRockPage> {
     Navigator.push(
         context,
         PageTransition(
-            child: RockDetailPage(rock: rock, isSavingRock: widget.isSavingRock),
+            child: RockDetailPage(
+              rock: rock,
+              isSavingRock: widget.isSavingRock,
+              isFavoritingRock: widget.isFavoritingRock,
+            ),
             type: PageTransitionType.bottomToTop));
   }
 
@@ -101,11 +109,15 @@ class _SelectRockPageState extends State<SelectRockPage> {
                   itemBuilder: (context, index) {
                     final rock = _filteredRockList[index];
                     return RockListItem(
-                      imageUrl: rock.imageURL.isNotEmpty &&  rock.imageURL != ''
+                      imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
                           ? rock.imageURL
                           : 'https://via.placeholder.com/60', // Use a placeholder image if none available
                       title: rock.rockName,
-                      tags: const ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
+                      tags: const [
+                        'Sulfide minerals',
+                        'Mar',
+                        'Jul'
+                      ], // Replace with actual tags
                       onTap: () => _saveRock(rock),
                     );
                   },

@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/favorite_page.dart';
 import 'package:flutter_onboarding/ui/screens/home_page.dart';
@@ -10,7 +11,12 @@ import '../services/selection_modal.dart';
 import 'screens/widgets/hexagon_floating_action_button.dart';
 
 class RootPage extends StatefulWidget {
-  const RootPage({Key? key}) : super(key: key);
+  final bool? showFavorites;
+
+  const RootPage({
+    super.key,
+    this.showFavorites,
+  });
 
   @override
   State<RootPage> createState() => _RootPageState();
@@ -23,7 +29,19 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void initState() {
-    Rock.getFavoritedRocks().then((favoritedRocks) {
+    List<Rock> favoritedRocks = [];
+
+    DatabaseHelper().rocks().then((rocks) {
+      DatabaseHelper().wishlist().then((wishlist) {
+        for (final rock in rocks) {
+          for (final rockId in wishlist) {
+            if (rockId == rock.rockId) {
+              favoritedRocks.add(rock);
+            }
+          }
+        }
+      });
+
       setState(() {
         favorites = favoritedRocks;
       });
@@ -35,6 +53,12 @@ class _RootPageState extends State<RootPage> {
       });
     });
 
+    if (widget.showFavorites == true) {
+      setState(() {
+        _bottomNavService.setIndex(1);
+      });
+    }
+
     super.initState();
   }
 
@@ -44,6 +68,7 @@ class _RootPageState extends State<RootPage> {
       const HomePage(),
       FavoritePage(
         favoritedRocks: favorites,
+        showWishlist: widget.showFavorites == true,
       ),
     ];
   }

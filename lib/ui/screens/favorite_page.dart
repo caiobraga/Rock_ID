@@ -1,53 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
-import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
+import 'package:flutter_onboarding/ui/screens/select_rock_page.dart';
+import 'package:flutter_onboarding/ui/screens/widgets/custom_tab_bar.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/collection_dialog.dart';
 import '../widgets/text.dart';
-import 'collection_page.dart';
-import 'widgets/collection.dart';
 import 'widgets/collections_grid_view.dart';
 import 'widgets/rock_list_item.dart';
 
 class FavoritePage extends StatefulWidget {
+  final bool? showWishlist;
   final List<Rock> favoritedRocks;
-  const FavoritePage({Key? key, required this.favoritedRocks}) : super(key: key);
+  const FavoritePage({
+    super.key,
+    required this.favoritedRocks,
+    this.showWishlist,
+  });
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
-class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderStateMixin {
-
+class _FavoritePageState extends State<FavoritePage>
+    with SingleTickerProviderStateMixin {
   List<Map<String, dynamic>> _snapHistory = [];
   List<Rock> _allRocks = [];
   List<Rock> _wishlistRocks = [];
-  late TabController tabController;
+  late TabController _tabController;
+  final List<String> _tabsDescriptions = [
+    'Collections',
+    'Snap History',
+    'Wishlist'
+  ];
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     _loadSnapHistory();
     _loadAllRocks();
     _loadWishlist();
+    setState(() {
+      if (widget.showWishlist == true) {
+        _tabController.index = 2;
+      }
+    });
   }
 
   @override
   void dispose() {
-    tabController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
-  
-
   void _loadSnapHistory() async {
     try {
-      List<Map<String, dynamic>> snapHistory = await DatabaseHelper().snapHistory();
+      List<Map<String, dynamic>> snapHistory =
+          await DatabaseHelper().snapHistory();
       setState(() {
         _snapHistory = snapHistory;
       });
@@ -91,16 +104,17 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
     _loadSnapHistory(); // Reload snap history after adding
   }
 
-  
-
   Widget _buildCollectionsTab() {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CollectionGridView(hasAddOption: true, onItemAdded: (){
-            setState(() {});
-          },)
+          CollectionGridView(
+            hasAddOption: true,
+            onItemAdded: () {
+              setState(() {});
+            },
+          )
         ],
       ),
     );
@@ -117,10 +131,10 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
-          onPressed: (){
-            CollectionDialogService().show(context, (){
+          onPressed: () {
+            CollectionDialogService().show(context, () {
               setState(() {});
-            } );
+            });
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),
@@ -133,56 +147,16 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
                 color: Constants.darkGrey,
                 borderRadius: BorderRadius.circular(50),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-              child: TabBar(
-                controller: tabController,
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30), // Creates border radius for the indicator
-                  color: Colors.grey[800], // Change the background color
-                ),
-                unselectedLabelColor: Colors.white,
-                labelColor: Colors.white,
-                dividerHeight: 0,
-                tabs: [
-                  Tab(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text("Collections"),
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text("Snap History"),
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text("Wishlist"),
-                      ),
-                    ),
-                  ),
-                ],
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              child: CustomTabBar(
+                tabController: _tabController,
+                tabsDescriptions: _tabsDescriptions,
               ),
             ),
             Expanded(
               child: TabBarView(
-                controller: tabController,
+                controller: _tabController,
                 children: [
                   _buildCollectionsTab(),
                   _buildSnapHistoryTab(),
@@ -249,14 +223,22 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
                 itemCount: _snapHistory.length,
                 itemBuilder: (context, index) {
                   final rockId = _snapHistory[index]['rockId'];
-                  final rock = _allRocks.firstWhere((rock) => rock.rockId == rockId, orElse: () => Rock.empty());
+                  final rock = _allRocks.firstWhere(
+                      (rock) => rock.rockId == rockId,
+                      orElse: () => Rock.empty());
                   return RockListItem(
-                    imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != '' ? rock.imageURL : 'https://via.placeholder.com/60',
+                    imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
+                        ? rock.imageURL
+                        : 'https://via.placeholder.com/60',
                     title: rock.rockName,
                     tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                     onTap: () {
                       Navigator.push(
-                              context, PageTransition(child: RockDetailPage(rock: rock, isSavingRock: false), type: PageTransitionType.bottomToTop))
+                              context,
+                              PageTransition(
+                                  child: RockDetailPage(
+                                      rock: rock, isSavingRock: false),
+                                  type: PageTransitionType.bottomToTop))
                           .then((value) => Navigator.of(context).pop());
                     },
                   );
@@ -276,9 +258,9 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.list_alt,
+                  Icons.list_alt_rounded,
                   size: 50,
-                  color: Colors.grey,
+                  color: Colors.grey.withOpacity(0.25),
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -286,7 +268,7 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -301,43 +283,99 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Handle Add Rock button press
+                    _showRockSelectionModal();
                   },
                   icon: const Icon(Icons.add),
-                  label: const Text('Add Rock'),
+                  label: const Text(
+                    'Add Rock',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   style: ElevatedButton.styleFrom(
-                    primary: Constants.primaryColor,
+                    backgroundColor: Constants.primaryColor,
+                    foregroundColor: Constants.blackColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     padding: const EdgeInsets.symmetric(
-                      vertical: 16.0,
-                      horizontal: 24.0,
+                      vertical: 10.0,
+                      horizontal: 20.0,
                     ),
                   ),
                 ),
               ],
             ),
           )
-        : ListView.builder(
-            itemCount: _wishlistRocks.length,
-            itemBuilder: (context, index) {
-              final rock = _wishlistRocks[index];
-              return RockListItem(
-                imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != '' ? rock.imageURL : 'https://via.placeholder.com/60', // Placeholder image
-                title: rock.rockName,
-                tags: ['Wishlist'], // Replace with actual tags if any
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      child: RockDetailPage(rock: rock, isSavingRock: false),
-                      type: PageTransitionType.bottomToTop,
-                    ),
-                  ).then((value) => _loadWishlist());
+        : Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _wishlistRocks.length,
+                  itemBuilder: (context, index) {
+                    final rock = _wishlistRocks[index];
+                    return RockListItem(
+                      imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
+                          ? rock.imageURL
+                          : 'https://via.placeholder.com/60', // Placeholder image
+                      title: rock.rockName,
+                      tags: const [
+                        'Wishlist'
+                      ], // Replace with actual tags if any
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            child: RockDetailPage(
+                              rock: rock,
+                              isSavingRock: false,
+                              isFavoritingRock: true,
+                            ),
+                            type: PageTransitionType.bottomToTop,
+                          ),
+                        ).then((value) => _loadWishlist());
+                      },
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: () {
+                  _showRockSelectionModal();
                 },
-              );
-            },
+                icon: const Icon(Icons.add),
+                label: const Text(
+                  'Add Rock',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Constants.primaryColor,
+                  foregroundColor: Constants.blackColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 20.0,
+                  ),
+                ),
+              ),
+            ],
           );
+  }
+
+  void _showRockSelectionModal() {
+    Navigator.push(
+        context,
+        PageTransition(
+            duration: const Duration(milliseconds: 400),
+            child: const SelectRockPage(
+              isSavingRock: false,
+              isFavoritingRock: true,
+            ),
+            type: PageTransitionType.bottomToTop));
   }
 }

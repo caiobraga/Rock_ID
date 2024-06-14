@@ -6,6 +6,7 @@ import '../ui/scan_page.dart';
 import '../constants.dart';
 import '../ui/screens/widgets/collection.dart';
 import '../ui/screens/widgets/collections_grid_view.dart';
+import 'add_new_collection_modal.dart';
 
 class AddToMyCollectionModalService {
   Future<void> show(BuildContext context) async {
@@ -37,7 +38,7 @@ class AddToMyCollectionModalService {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Handle add new action
+                      AddNewCollectionModalService().show(context);
                     },
                     child: Text(
                       '+Add new',
@@ -50,7 +51,14 @@ class AddToMyCollectionModalService {
                 ],
               ),
               const SizedBox(height: 10),
-                CollectionGridView(hasAddOption: false, onItemAdded: (){},)
+              Expanded(
+                child: SingleChildScrollView (
+                  child: CollectionGridView(
+                    hasAddOption: false,
+                    onItemAdded: () {},
+                  ),
+                ),
+              ),
             ],
           ),
         );

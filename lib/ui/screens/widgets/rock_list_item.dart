@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 
+import '../../widgets/text.dart';
+
 class RockListItem extends StatelessWidget {
   final String imageUrl;
   final String title;
@@ -20,10 +22,10 @@ class RockListItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        padding: const EdgeInsets.all(8.0),
+        margin: const EdgeInsets.only(bottom: 8.0),
+        padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Constants.darkGrey,
+          color: AppCollors.naturalBlack,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -46,8 +48,7 @@ class RockListItem extends StatelessWidget {
                     ),
                   );
                 },
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
+                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                   if (loadingProgress == null) return child;
                   return SizedBox(
                     width: 60,
@@ -55,8 +56,7 @@ class RockListItem extends StatelessWidget {
                     child: Center(
                       child: CircularProgressIndicator(
                         value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
+                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                             : null,
                       ),
                     ),
@@ -69,34 +69,33 @@ class RockListItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  DSCustomText(
+                    text: title,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                   const SizedBox(height: 8.0),
-                  Row(
-                    children: tags.map((tag) {
-                      return Container(
-                        margin: const EdgeInsets.only(right: 4.0),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 4.0),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[800],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          tag,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
+                  SizedBox(
+                    height: 24,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: tags.map((tag) {
+                        return Container(
+                          margin: const EdgeInsets.only(right: 4.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[800],
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                          child: DSCustomText(
+                            text: tag,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppCollors.naturalSilver,
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ],
               ),

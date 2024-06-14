@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import '../ui/scan_page.dart';
 import '../constants.dart';
 import '../ui/screens/widgets/collection.dart';
+import '../ui/screens/widgets/collections_grid_view.dart';
 
 class AddToMyCollectionModalService {
   Future<void> show(BuildContext context) async {
@@ -49,21 +50,7 @@ class AddToMyCollectionModalService {
                 ],
               ),
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: CollectionWidget(title: 'Saved', isSavedLayout: true, onTap: () {
-                      
-                    },),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: CollectionWidget(title: 'Saved', onTap: () {
-                      
-                    } ),
-                  ),
-                ],
-              ),
+                CollectionGridView(hasAddOption: false, onItemAdded: (){},)
             ],
           ),
         );

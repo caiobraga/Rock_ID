@@ -6,9 +6,11 @@ import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../services/collection_dialog.dart';
 import '../widgets/text.dart';
 import 'collection_page.dart';
 import 'widgets/collection.dart';
+import 'widgets/collections_grid_view.dart';
 import 'widgets/rock_list_item.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -20,9 +22,7 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderStateMixin {
-  final TextEditingController _collectionNameController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  List<Collection> _collections = [];
+
   List<Map<String, dynamic>> _snapHistory = [];
   List<Rock> _allRocks = [];
   List<Rock> _wishlistRocks = [];
@@ -32,7 +32,6 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
   void initState() {
     super.initState();
     tabController = TabController(length: 3, vsync: this);
-    _loadCollections();
     _loadSnapHistory();
     _loadAllRocks();
     _loadWishlist();
@@ -41,21 +40,10 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
   @override
   void dispose() {
     tabController.dispose();
-    _collectionNameController.dispose();
-    _descriptionController.dispose();
     super.dispose();
   }
 
-  void _loadCollections() async {
-    try {
-      List<Collection> collections = await DatabaseHelper().collections();
-      setState(() {
-        _collections = collections;
-      });
-    } catch (e) {
-      debugPrint('$e');
-    }
-  }
+  
 
   void _loadSnapHistory() async {
     try {
@@ -103,177 +91,16 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
     _loadSnapHistory(); // Reload snap history after adding
   }
 
-  void _showNewCollectionDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          backgroundColor: Colors.black,
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: Colors.black,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  'CREATE NEW COLLECTION',
-                  style: TextStyle(
-                    color: Constants.primaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _collectionNameController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    labelText: 'Name your new collection',
-                    hintText: 'Enter name',
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    labelStyle: TextStyle(color: Constants.primaryColor),
-                    filled: true,
-                    fillColor: Colors.grey[800],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _descriptionController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    labelText: 'Description',
-                    hintText: 'Enter description',
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    labelStyle: TextStyle(color: Constants.primaryColor),
-                    filled: true,
-                    fillColor: Colors.grey[800],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: Constants.primaryColor,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Constants.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                      child: const Text('OK'),
-                      onPressed: () async {
-                        final String collectionName = _collectionNameController.text;
-                        final String description = _descriptionController.text;
-
-                        if (collectionName.isNotEmpty) {
-                          try {
-                            Collection newCollection = Collection(
-                              collectionId: 0,
-                              collectionName: collectionName,
-                              description: description,
-                            );
-
-                            await DatabaseHelper().insertCollection(newCollection);
-                            _loadCollections();
-                            Navigator.of(context).pop();
-                          } catch (e) {
-                            debugPrint('$e');
-                          }
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  
 
   Widget _buildCollectionsTab() {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-            itemCount: _collections.length + 1,
-            itemBuilder: (BuildContext context, int index) {
-              if (index == _collections.length) {
-                return GestureDetector(
-                  onTap: _showNewCollectionDialog,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade800,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.add, color: Colors.white, size: 30),
-                        SizedBox(height: 10),
-                        Text('ADD NEW COLLECTION', style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                );
-              } else {
-                final collection = _collections[index];
-                return CollectionWidget(
-                  title: collection.collectionName,
-                  isSavedLayout: collection.collectionName == 'Saved',
-                  rockCount: 0,
-                  rockImages: collection.collectionName == 'Saved'
-                      ? []
-                      : [
-                          'assets/rock_placeholder.png',
-                          'assets/rock_placeholder.png',
-                          // Add actual rock images here
-                        ],
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CollectionPage(collection: collection),
-                      ),
-                    );
-                  },
-                );
-              }
-            },
-          ),
+          CollectionGridView(hasAddOption: true, onItemAdded: (){
+            setState(() {});
+          },)
         ],
       ),
     );
@@ -290,7 +117,11 @@ class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderSt
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
-          onPressed: _showNewCollectionDialog,
+          onPressed: (){
+            CollectionDialogService().show(context, (){
+              setState(() {});
+            } );
+          },
           child: const Icon(Icons.add, color: Colors.white),
         ),
         body: Column(

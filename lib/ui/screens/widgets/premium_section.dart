@@ -7,14 +7,12 @@ import '../../../constants.dart';
 class PremiumSection extends StatelessWidget {
   const PremiumSection({Key? key}) : super(key: key);
 
-  
-    
-      @override
-      Widget build(BuildContext context) {
-        return GestureDetector(
-      onTap: (){
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
         Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => const PremiumScreen()));
+            context, MaterialPageRoute(builder: (_) => const PremiumScreen()));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -106,5 +104,5 @@ class PremiumSection extends StatelessWidget {
         ),
       ),
     );
-      }
   }
+}

@@ -161,7 +161,7 @@ class DatabaseHelper {
       await db.execute(createTableQuery);
     } catch (e) {
       if (e is DatabaseException && e.isUniqueConstraintError()) {
-        print('Table $tableName already exists. Skipping creation.');
+        debugPrint('Table $tableName already exists. Skipping creation.');
       } else {
         rethrow;
       }
@@ -237,7 +237,7 @@ class DatabaseHelper {
       final List<Map<String, dynamic>> maps = await db.query('rocks');
 
       return List.generate(maps.length, (i) {
-        print(maps[i]);
+        //debugPrint(maps[i]);
         return Rock.fromMap(maps[i]);
       });
     } catch (e) {

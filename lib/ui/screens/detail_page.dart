@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../db/db.dart';
+import '../../services/add_to_my_collection_modal.dart';
 import '../../services/selection_modal.dart';
 import '../../services/snackbar.dart';
 import 'widgets/premium_section.dart';
@@ -123,7 +124,7 @@ class RockDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  PremiumSection(),
+                  const PremiumSection(),
                   const SizedBox(height: 16),
                   _buildHealthRisksSection(),
                   const SizedBox(height: 16),
@@ -423,7 +424,7 @@ class RockDetailPage extends StatelessWidget {
           ),
           child: ExpansionTile(
             title: ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 0),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 0),
               title: Text(question,
                   style: AppTypography.body1(color: AppCollors.primaryMedium)),
             ),
@@ -521,12 +522,13 @@ class RockDetailPage extends StatelessWidget {
               child: const RootPage(),
               type: PageTransitionType.leftToRightWithFade));
     } catch (e) {
-      ShowSnackbarService().showSnackBar('Error ${e}');
+      ShowSnackbarService().showSnackBar('Error $e');
     }
   }
 
   void addToCollection(BuildContext context) {
     // Implement your add to collection logic here
-    ShowSnackbarService().showSnackBar('Added to Collection');
+    AddToMyCollectionModalService().show(context);
+   // ShowSnackbarService().showSnackBar('Added to Collection');
   }
 }

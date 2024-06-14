@@ -22,7 +22,7 @@ class Constants {
   static var descriptionThree =
       "Find almost all types of rocks that you like here.";
 
-  static String GPT_API_KEY = dotenv.env['GPT_API_KEY'] ?? '';
+  static String gptApiKey = dotenv.env['GPT_API_KEY'] ?? '';
 }
 
 class AppCollors {

@@ -24,14 +24,14 @@ class SelectNewRockAndAddToCollection {
               return ListTile(
                 title: Text(
                   rock.rockName,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 subtitle: Text(
                   rock.description,
-                  style: TextStyle(color: Colors.white70),
+                  style: const TextStyle(color: Colors.white70),
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.add, color: Colors.white),
+                  icon: const Icon(Icons.add, color: Colors.white),
                   onPressed: () async {
                     await DatabaseHelper().addRockToCollection(rock.rockId, collectionId);
                     Navigator.pop(context);

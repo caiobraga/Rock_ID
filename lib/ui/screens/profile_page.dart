@@ -63,9 +63,9 @@ class ProfilePage extends StatelessWidget {
             SizedBox(
               height: size.height * .7,
               width: size.width,
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
+                children: [
                   ProfileWidget(
                     icon: Icons.person,
                     title: 'My Profile',

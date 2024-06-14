@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/db/db.dart';
+import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../widgets/text.dart';
+
 import 'collection_page.dart';
-import 'detail_page.dart';
+import 'widgets/collection.dart';
 import 'widgets/rock_list_item.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -18,19 +20,33 @@ class FavoritePage extends StatefulWidget {
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
-  final TextEditingController _collectionNameController = TextEditingController();
+
+class _FavoritePageState extends State<FavoritePage> with SingleTickerProviderStateMixin {
+  final TextEditingController _collectionNameController =
+      TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   List<Collection> _collections = [];
   List<Map<String, dynamic>> _snapHistory = [];
   List<Rock> _allRocks = [];
+  List<Rock> _wishlistRocks = [];
+  late TabController tabController;
 
   @override
   void initState() {
     super.initState();
+    tabController = TabController(length: 3, vsync: this);
     _loadCollections();
     _loadSnapHistory();
     _loadAllRocks();
+    _loadWishlist();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    _collectionNameController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
   }
 
   void _loadCollections() async {
@@ -60,6 +76,24 @@ class _FavoritePageState extends State<FavoritePage> {
       List<Rock> allRocks = await DatabaseHelper().rocks();
       setState(() {
         _allRocks = allRocks;
+      });
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  void _loadWishlist() async {
+    try {
+      List<int> wishlistIds = await DatabaseHelper().wishlist();
+      List<Rock> wishlistRocks = [];
+      for (var rockId in wishlistIds) {
+        Rock? rock = await DatabaseHelper().getRockById(rockId);
+        if (rock != null) {
+          wishlistRocks.add(rock);
+        }
+      }
+      setState(() {
+        _wishlistRocks = wishlistRocks;
       });
     } catch (e) {
       debugPrint('$e');
@@ -184,6 +218,68 @@ class _FavoritePageState extends State<FavoritePage> {
     );
   }
 
+  Widget _buildCollectionsTab() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GridView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+            itemCount: _collections.length + 1,
+            itemBuilder: (BuildContext context, int index) {
+              if (index == _collections.length) {
+                return GestureDetector(
+                  onTap: _showNewCollectionDialog,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade800,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.add, color: Colors.white, size: 30),
+                        SizedBox(height: 10),
+                        Text('ADD NEW COLLECTION', style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                final collection = _collections[index];
+                return CollectionWidget(
+                  title: collection.collectionName,
+                  isSavedLayout: collection.collectionName == 'Saved',
+                  rockCount: 0 , 
+                  rockImages: collection.collectionName == 'Saved' ? [] : [
+                    'assets/rock_placeholder.png',
+                    'assets/rock_placeholder.png',
+                    // Add actual rock images here
+                  ],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CollectionPage(collection: collection),
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -209,6 +305,7 @@ class _FavoritePageState extends State<FavoritePage> {
               ),
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               child: TabBar(
+                controller: tabController,
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(30), // Creates border radius for the indicator
                   color: Colors.grey[800], // Change the background color
@@ -255,6 +352,7 @@ class _FavoritePageState extends State<FavoritePage> {
             ),
             Expanded(
               child: TabBarView(
+                controller: tabController,
                 children: [
                   _buildCollectionsTab(),
                   _buildSnapHistoryTab(),
@@ -268,98 +366,6 @@ class _FavoritePageState extends State<FavoritePage> {
     );
   }
 
-  Widget _buildCollectionsTab() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-            itemCount: _collections.length + 1,
-            itemBuilder: (BuildContext context, int index) {
-              if (index == _collections.length) {
-                return GestureDetector(
-                  onTap: _showNewCollectionDialog,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade800,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.add, color: Colors.white, size: 30),
-                        SizedBox(height: 10),
-                        Text('ADD NEW COLLECTION', style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                );
-              } else {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CollectionPage(collection: _collections[index]),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade800,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            _collections[index].collectionName,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        Expanded(
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 5,
-                              mainAxisSpacing: 5,
-                            ),
-                            itemCount: 6, // Replace with actual number of rocks in the collection
-                            itemBuilder: (context, index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/rock.png'), // Placeholder image
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildSnapHistoryTab() {
     return Padding(
@@ -427,16 +433,106 @@ class _FavoritePageState extends State<FavoritePage> {
                   );
                 },
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _snapHistory.length,
+              itemBuilder: (context, index) {
+                // Find the rock corresponding to the rockId in the snap history
+                final rockId = _snapHistory[index]['rockId'];
+                final rock = _allRocks.firstWhere((rock) => rock.rockId == rockId, orElse: () => Rock.empty());
 
-  Widget _buildWishlistTab() {
+                return RockListItem(
+                      imageUrl: rock.imageURL.isNotEmpty &&  rock.imageURL != ''
+                          ? rock.imageURL
+                          : 'https://via.placeholder.com/60', // Use a placeholder image if none available
+                      title: rock.rockName,
+                      tags: const ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
+                      onTap: () {
+                         Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: RockDetailPage(
+                                          rock: rock, isSavingRock: false),
+                                      type: PageTransitionType.bottomToTop))
+                              .then((value) => Navigator.of(context).pop());
+                      },
+                      );
+              },
+
     return const Center(
       child: Text('Wishlist Tab Content', style: TextStyle(color: Colors.white)),
     );
+    return _wishlistRocks.isEmpty
+        ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.list_alt,
+                  size: 50,
+                  color: Colors.grey,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'The Wishlist is empty!',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Add any new rock to this page by clicking\non the heart icon on the Rock Detail page',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white54,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    // Handle Add Rock button press
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text('Add Rock'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Constants.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16.0,
+                      horizontal: 24.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        : ListView.builder(
+            itemCount: _wishlistRocks.length,
+            itemBuilder: (context, index) {
+              final rock = _wishlistRocks[index];
+              return RockListItem(
+                imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
+                    ? rock.imageURL
+                    : 'https://via.placeholder.com/60', // Placeholder image
+                title: rock.rockName,
+                tags: ['Wishlist'], // Replace with actual tags if any
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      child: RockDetailPage(rock: rock, isSavingRock: false),
+                      type: PageTransitionType.bottomToTop,
+                    ),
+                  ).then((value) => _loadWishlist());
+                },
+              );
+            },
+          );
   }
 }

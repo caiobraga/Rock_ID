@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../constants.dart';
 
 class PremiumSection extends StatelessWidget {
+  const PremiumSection({Key? key}) : super(key: key);
+
   
     
       @override
@@ -12,7 +14,7 @@ class PremiumSection extends StatelessWidget {
         return GestureDetector(
       onTap: (){
         Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => PremiumScreen()));
+                    context, MaterialPageRoute(builder: (_) => const PremiumScreen()));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -52,7 +54,7 @@ class PremiumSection extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 4,
                       ),
                       Container(

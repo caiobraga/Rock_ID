@@ -68,6 +68,38 @@ class Rock {
     required this.uses,
   });
 
+   Rock.empty()
+      : rockId = 0,
+        price = 0.0,
+        category = '',
+        rockName = '',
+        size = '',
+        rating = 0,
+        humidity = 0.0,
+        temperature = '',
+        imageURL = '',
+        isFavorited = false,
+        description = '',
+        isSelected = false,
+        formula = '',
+        hardness = 0.0,
+        color = '',
+        isMagnetic = false,
+        healthRisks = '',
+        askedQuestions = [],
+        crystalSystem = '',
+        Colors = '',
+        Luster = '',
+        Diaphaneity = '',
+        quimicalClassification = '',
+        elementsListed = '',
+        healingPropeties = '',
+        formulation = '',
+        meaning = '',
+        howToSelect = '',
+        types = '',
+        uses = '';
+
   Map<String, dynamic> toMap() {
     return {
       'price': price,

@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import '../../services/select_new_rock_add_to_collection.dart';
 import '../../services/snackbar.dart';
 import 'detail_page.dart';
+import 'widgets/rock_list_item.dart';
 
 class CollectionPage extends StatefulWidget {
   final Collection collection;
@@ -176,34 +177,22 @@ class _CollectionPageState extends State<CollectionPage> {
                           color: Colors.white,
                         ),
                       ),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
+                      child:RockListItem(
+                      imageUrl: rock.imageURL.isNotEmpty &&  rock.imageURL != ''
+                          ? rock.imageURL
+                          : 'https://via.placeholder.com/60', // Use a placeholder image if none available
+                      title: rock.rockName,
+                      tags: ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
+                      onTap: () {
+                         Navigator.push(
                                   context,
                                   PageTransition(
                                       child: RockDetailPage(
                                           rock: rock, isSavingRock: false),
                                       type: PageTransitionType.bottomToTop))
                               .then((value) => Navigator.of(context).pop());
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[900],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ListTile(
-                            title: Text(
-                              rock.rockName,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            subtitle: Text(
-                              rock.description,
-                              style: const TextStyle(color: Colors.white70),
-                            ),
-                          ),
-                        ),
-                      ),
+                      },
+                      )
                     );
                   },
                 ),

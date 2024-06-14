@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/db/db.dart';
+import 'package:flutter_onboarding/models/collection.dart';
+import 'package:flutter_onboarding/models/rock_in_collection.dart';
+import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:page_transition/page_transition.dart';
 
-import '../../db/db.dart';
-import '../../models/collection.dart';
-import '../../models/rocks.dart';
+import '../../services/select_new_rock_add_to_collection.dart';
+import '../../services/snackbar.dart';
 import 'collection_page.dart';
+import 'detail_page.dart';
+import 'widgets/rock_list_item.dart';
 
 class FavoritePage extends StatefulWidget {
   final List<Rock> favoritedRocks;
@@ -20,11 +26,15 @@ class _FavoritePageState extends State<FavoritePage> {
       TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   List<Collection> _collections = [];
+  List<Map<String, dynamic>> _snapHistory = [];
+  List<Rock> _allRocks = [];
 
   @override
   void initState() {
     super.initState();
     _loadCollections();
+    _loadSnapHistory();
+    _loadAllRocks();
   }
 
   void _loadCollections() async {
@@ -36,6 +46,34 @@ class _FavoritePageState extends State<FavoritePage> {
     } catch (e) {
       debugPrint('$e');
     }
+  }
+
+  void _loadSnapHistory() async {
+    try {
+      List<Map<String, dynamic>> snapHistory = await DatabaseHelper().snapHistory();
+      setState(() {
+        _snapHistory = snapHistory;
+      });
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  void _loadAllRocks() async {
+    try {
+      List<Rock> allRocks = await DatabaseHelper().rocks();
+      setState(() {
+        _allRocks = allRocks;
+      });
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  void _addRockToSnapHistory(int rockId) async {
+    String timestamp = DateTime.now().toIso8601String();
+    await DatabaseHelper().addRockToSnapHistory(rockId, timestamp);
+    _loadSnapHistory(); // Reload snap history after adding
   }
 
   void _showNewCollectionDialog() {
@@ -335,8 +373,54 @@ class _FavoritePageState extends State<FavoritePage> {
   }
 
   Widget _buildSnapHistoryTab() {
-    return Center(
-      child: Text('Snap History Tab Content', style: TextStyle(color: Colors.white)),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              // Handle Identify Rock button press
+              // Assuming adding rock with id 1 for demonstration
+              _addRockToSnapHistory(1);
+            },
+            child: Text('Identify Rock'),
+            style: ElevatedButton.styleFrom(
+              primary: Constants.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _snapHistory.length,
+              itemBuilder: (context, index) {
+                // Find the rock corresponding to the rockId in the snap history
+                final rockId = _snapHistory[index]['rockId'];
+                final rock = _allRocks.firstWhere((rock) => rock.rockId == rockId, orElse: () => Rock.empty());
+
+                return RockListItem(
+                      imageUrl: rock.imageURL.isNotEmpty &&  rock.imageURL != ''
+                          ? rock.imageURL
+                          : 'https://via.placeholder.com/60', // Use a placeholder image if none available
+                      title: rock.rockName,
+                      tags: ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
+                      onTap: () {
+                         Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: RockDetailPage(
+                                          rock: rock, isSavingRock: false),
+                                      type: PageTransitionType.bottomToTop))
+                              .then((value) => Navigator.of(context).pop());
+                      },
+                      );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 

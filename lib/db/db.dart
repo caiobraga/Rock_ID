@@ -28,7 +28,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 5,
+      version: 6,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -71,6 +71,23 @@ class DatabaseHelper {
         collectionId INTEGER,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId),
         FOREIGN KEY (collectionId) REFERENCES collections (collectionId)
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE wishlist(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        rockId INTEGER,
+        FOREIGN KEY (rockId) REFERENCES rocks (rockId)
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE snap_history(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        rockId INTEGER,
+        timestamp TEXT,
+        FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
   }
@@ -117,6 +134,24 @@ class DatabaseHelper {
       await _addColumnIfNotExists(db, 'rocks', 'howToSelect', 'TEXT');
       await _addColumnIfNotExists(db, 'rocks', 'types', 'TEXT');
       await _addColumnIfNotExists(db, 'rocks', 'uses', 'TEXT');
+    }
+    if (oldVersion < 6) {
+      await _createTableIfNotExists(db, 'wishlist', '''
+        CREATE TABLE wishlist(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          rockId INTEGER,
+          FOREIGN KEY (rockId) REFERENCES rocks (rockId)
+        )
+      ''');
+
+      await _createTableIfNotExists(db, 'snap_history', '''
+        CREATE TABLE snap_history(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          rockId INTEGER,
+          timestamp TEXT,
+          FOREIGN KEY (rockId) REFERENCES rocks (rockId)
+        )
+      ''');
     }
   }
 
@@ -317,6 +352,72 @@ class DatabaseHelper {
       'rock_in_collection',
       where: 'rockId = ? AND collectionId = ?',
       whereArgs: [rockId, collectionId],
+    );
+  }
+
+  // Functions for wishlist
+
+  Future<void> addRockToWishlist(int rockId) async {
+    final db = await database;
+    await db.insert(
+      'wishlist',
+      {
+        'rockId': rockId,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<int>> wishlist() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('wishlist');
+
+    return List.generate(maps.length, (i) {
+      return maps[i]['rockId'] as int;
+    });
+  }
+
+  Future<void> removeRockFromWishlist(int rockId) async {
+    final db = await database;
+    await db.delete(
+      'wishlist',
+      where: 'rockId = ?',
+      whereArgs: [rockId],
+    );
+  }
+
+  // Functions for snap_history
+
+  Future<void> addRockToSnapHistory(int rockId, String timestamp) async {
+    final db = await database;
+    await db.insert(
+      'snap_history',
+      {
+        'rockId': rockId,
+        'timestamp': timestamp,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> snapHistory() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('snap_history');
+
+    return List.generate(maps.length, (i) {
+      return {
+        'rockId': maps[i]['rockId'],
+        'timestamp': maps[i]['timestamp'],
+      };
+    });
+  }
+
+  Future<void> removeRockFromSnapHistory(int rockId) async {
+    final db = await database;
+    await db.delete(
+      'snap_history',
+      where: 'rockId = ?',
+      whereArgs: [rockId],
     );
   }
 }

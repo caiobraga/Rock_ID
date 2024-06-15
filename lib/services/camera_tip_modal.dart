@@ -29,17 +29,17 @@ class CameraTipModalService {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.close, color: Colors.white),
+                      icon: const Icon(Icons.close, color: Colors.white),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
-                    Icon(Icons.info, color: Colors.white),
-                    Icon(Icons.flash_on, color: Colors.white),
+                    const Icon(Icons.info, color: Colors.white),
+                    const Icon(Icons.flash_on, color: Colors.white),
                   ],
                 ),
                 const SizedBox(height: 10),
-                Center(
+                const Center(
                   child: Text(
                     'SNAP TIPS',
                     style: TextStyle(
@@ -73,10 +73,11 @@ class CameraTipModalService {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.brown,
-                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      backgroundColor: Colors.brown,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 15),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Got it',
                       style: TextStyle(color: Colors.white),
                     ),
@@ -99,7 +100,7 @@ class CameraTipModalService {
         Expanded(
           child: Text(
             text,
-            style: TextStyle(color: Colors.white, fontSize: 16),
+            style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
       ],

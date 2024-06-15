@@ -60,15 +60,17 @@ class _RockDetailPageState extends State<RockDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Constants.primaryColor,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: Navigator.of(context).canPop()
+            ? IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Constants.primaryColor,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            : null,
         title: Text(
           'BEST MATCHES',
           style: TextStyle(
@@ -806,11 +808,13 @@ class _RockDetailPageState extends State<RockDetailPage> {
     try {
       await DatabaseHelper().insertRock(widget.rock);
       ShowSnackbarService().showSnackBar('Rock Saved');
-      Navigator.pushReplacement(
-          context,
-          PageTransition(
-              child: const RootPage(),
-              type: PageTransitionType.leftToRightWithFade));
+      await Navigator.pushReplacement(
+        context,
+        PageTransition(
+          child: const RootPage(),
+          type: PageTransitionType.leftToRightWithFade,
+        ),
+      );
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
     }

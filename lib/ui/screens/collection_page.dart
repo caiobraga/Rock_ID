@@ -163,37 +163,41 @@ class _CollectionPageState extends State<CollectionPage> {
                   itemBuilder: (BuildContext context, int index) {
                     final rock = _collectionRocks[index];
                     return Dismissible(
-                      key: Key(rock.rockId.toString()),
-                      direction: DismissDirection.endToStart,
-                      onDismissed: (direction) {
-                        _removeRockFromCollection(rock.rockId);
-                      },
-                      background: Container(
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        color: Colors.red,
-                        child: const Icon(
-                          Icons.delete,
-                          color: Colors.white,
+                        key: Key(rock.rockId.toString()),
+                        direction: DismissDirection.endToStart,
+                        onDismissed: (direction) {
+                          _removeRockFromCollection(rock.rockId);
+                        },
+                        background: Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          color: Colors.red,
+                          child: const Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      child:RockListItem(
-                      imageUrl: rock.imageURL.isNotEmpty &&  rock.imageURL != ''
-                          ? rock.imageURL
-                          : 'https://via.placeholder.com/60', // Use a placeholder image if none available
-                      title: rock.rockName,
-                      tags: const ['Sulfide minerals', 'Mar', 'Jul'], // Replace with actual tags
-                      onTap: () {
-                         Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      child: RockDetailPage(
-                                          rock: rock, isSavingRock: false),
-                                      type: PageTransitionType.bottomToTop))
-                              .then((value) => Navigator.of(context).pop());
-                      },
-                      )
-                    );
+                        child: RockListItem(
+                          imageUrl: rock.imageURL.isNotEmpty &&
+                                  rock.imageURL != ''
+                              ? rock.imageURL
+                              : 'https://via.placeholder.com/60', // Use a placeholder image if none available
+                          title: rock.rockName,
+                          tags: const [
+                            'Sulfide minerals',
+                            'Mar',
+                            'Jul'
+                          ], // Replace with actual tags
+                          onTap: () {
+                            Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        child: RockDetailPage(
+                                            rock: rock, isSavingRock: false),
+                                        type: PageTransitionType.bottomToTop))
+                                .then((value) => Navigator.of(context).pop());
+                          },
+                        ));
                   },
                 ),
               ),

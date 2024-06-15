@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/services/add_rock_dialog.dart';
 import 'package:flutter_onboarding/services/select_new_rock_add_to_collection.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
 import 'package:page_transition/page_transition.dart';
@@ -42,10 +41,12 @@ class __CollectionListModalState extends State<_CollectionListModal> {
 
   Future<void> _loadCollectionRocks(int collectionId) async {
     try {
-      List<RockInCollection> rocksInCollection = await DatabaseHelper().rocksInCollection(collectionId);
+      List<RockInCollection> rocksInCollection =
+          await DatabaseHelper().rocksInCollection(collectionId);
       List<Rock> collectionRocks = [];
       for (var rockInCollection in rocksInCollection) {
-        Rock? rock = await DatabaseHelper().getRockById(rockInCollection.rockId);
+        Rock? rock =
+            await DatabaseHelper().getRockById(rockInCollection.rockId);
         if (rock != null) {
           collectionRocks.add(rock);
         }
@@ -86,7 +87,7 @@ class __CollectionListModalState extends State<_CollectionListModal> {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.close, color: Colors.white),
+                icon: const Icon(Icons.close, color: Colors.white),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -100,7 +101,9 @@ class __CollectionListModalState extends State<_CollectionListModal> {
               itemBuilder: (BuildContext context, int index) {
                 final rock = _collectionRocks[index];
                 return RockListItem(
-                  imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != '' ? rock.imageURL : 'https://via.placeholder.com/60',
+                  imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
+                      ? rock.imageURL
+                      : 'https://via.placeholder.com/60',
                   title: rock.rockName,
                   tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                   onTap: () {
@@ -110,7 +113,7 @@ class __CollectionListModalState extends State<_CollectionListModal> {
                         child: RockDetailPage(rock: rock, isSavingRock: false),
                         type: PageTransitionType.bottomToTop,
                       ),
-                    ).then((value) => Navigator.of(context).pop());
+                    );
                   },
                 );
               },

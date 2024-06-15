@@ -265,12 +265,15 @@ class _FavoritePageState extends State<FavoritePage>
                     tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                     onTap: () {
                       Navigator.push(
-                              context,
-                              PageTransition(
-                                  child: RockDetailPage(
-                                      rock: rock, isSavingRock: false),
-                                  type: PageTransitionType.bottomToTop))
-                          .then((value) => Navigator.of(context).pop());
+                        context,
+                        PageTransition(
+                          child: RockDetailPage(
+                            rock: rock,
+                            isSavingRock: false,
+                          ),
+                          type: PageTransitionType.bottomToTop,
+                        ),
+                      );
                     },
                   );
                 },

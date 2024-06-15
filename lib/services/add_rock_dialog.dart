@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import '../db/db.dart';
 import '../models/rocks.dart'; // Make sure you have a database helper to fetch rocks
 
 class AddRockDialogService {
@@ -12,8 +11,9 @@ class AddRockDialogService {
 
     _searchController.addListener(() {
       _filteredRocks = _rocks
-          .where((rock) =>
-              rock.rockName.toLowerCase().contains(_searchController.text.toLowerCase()))
+          .where((rock) => rock.rockName
+              .toLowerCase()
+              .contains(_searchController.text.toLowerCase()))
           .toList();
     });
 
@@ -48,7 +48,7 @@ class AddRockDialogService {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.close, color: Colors.white),
+                          icon: const Icon(Icons.close, color: Colors.white),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -71,7 +71,8 @@ class AddRockDialogService {
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide.none,
                               ),
-                              prefixIcon: Icon(Icons.search, color: Colors.white54),
+                              prefixIcon: const Icon(Icons.search,
+                                  color: Colors.white54),
                             ),
                             onChanged: (value) {
                               setState(() {
@@ -91,7 +92,8 @@ class AddRockDialogService {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: IconButton(
-                            icon: Icon(Icons.camera_alt, color: Colors.white),
+                            icon: const Icon(Icons.camera_alt,
+                                color: Colors.white),
                             onPressed: () {
                               // Handle camera action
                             },
@@ -103,7 +105,7 @@ class AddRockDialogService {
                     _searchController.text.isEmpty
                         ? Column(
                             children: [
-                              Align(
+                              const Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   'Popular Rock sets',
@@ -121,10 +123,14 @@ class AddRockDialogService {
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 10,
                                 children: [
-                                  _buildRockSetCard('Igneous', 'Rocks', 'assets/images/igneous.jpg'),
-                                  _buildRockSetCard('Sedimentary', 'Rocks', 'assets/images/sedimentary.jpg'),
-                                  _buildRockSetCard('Metamorphic', 'Rocks', 'assets/images/metamorphic.jpg'),
-                                  _buildRockSetCard('Specific', 'varieties', 'assets/images/specific.jpg'),
+                                  _buildRockSetCard('Igneous', 'Rocks',
+                                      'assets/images/igneous.jpg'),
+                                  _buildRockSetCard('Sedimentary', 'Rocks',
+                                      'assets/images/sedimentary.jpg'),
+                                  _buildRockSetCard('Metamorphic', 'Rocks',
+                                      'assets/images/metamorphic.jpg'),
+                                  _buildRockSetCard('Specific', 'varieties',
+                                      'assets/images/specific.jpg'),
                                 ],
                               ),
                             ],
@@ -136,38 +142,52 @@ class AddRockDialogService {
                                 final rock = _filteredRocks[index];
                                 return ListTile(
                                   leading: Image.network(
-                                    rock.imageURL.isNotEmpty ? rock.imageURL : 'https://via.placeholder.com/60',
+                                    rock.imageURL.isNotEmpty
+                                        ? rock.imageURL
+                                        : 'https://via.placeholder.com/60',
                                     width: 50,
                                     height: 50,
                                     fit: BoxFit.cover,
                                   ),
                                   title: Text(
                                     rock.rockName,
-                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   subtitle: Row(
                                     children: [
-                                      Text('Sulfide minerals', style: TextStyle(color: Colors.white54)),
+                                      const Text('Sulfide minerals',
+                                          style:
+                                              TextStyle(color: Colors.white54)),
                                       const SizedBox(width: 5),
                                       Wrap(
                                         spacing: 5,
-                                        children: ['Mar', 'Jul', 'Dec'].map((tag) {
+                                        children:
+                                            ['Mar', 'Jul', 'Dec'].map((tag) {
                                           return Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 4),
                                             decoration: BoxDecoration(
                                               color: Colors.grey[700],
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                             ),
-                                            child: Text(tag, style: TextStyle(color: Colors.white, fontSize: 12)),
+                                            child: Text(tag,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12)),
                                           );
                                         }).toList(),
                                       ),
                                     ],
                                   ),
                                   trailing: _selectedRock == rock
-                                      ? Icon(Icons.check, color: Constants.primaryColor)
+                                      ? Icon(Icons.check,
+                                          color: Constants.primaryColor)
                                       : IconButton(
-                                          icon: Icon(Icons.add, color: Constants.primaryColor),
+                                          icon: Icon(Icons.add,
+                                              color: Constants.primaryColor),
                                           onPressed: () {
                                             setState(() {
                                               _selectedRock = rock;
@@ -181,7 +201,7 @@ class AddRockDialogService {
                                       _selectedRock = rock;
                                     });
                                     onItemAdded(rock);
-                                    Navigator.of(context).pop();
+                                    // Navigator.of(context).pop();
                                   },
                                 );
                               },
@@ -222,7 +242,7 @@ class AddRockDialogService {
             const SizedBox(height: 5),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -230,7 +250,7 @@ class AddRockDialogService {
             const SizedBox(height: 3),
             Text(
               subtitle,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white54,
               ),
             ),

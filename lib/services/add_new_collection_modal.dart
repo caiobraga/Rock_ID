@@ -44,7 +44,7 @@ class AddNewCollectionModalService {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.close, color: Colors.white),
+                      icon: const Icon(Icons.close, color: Colors.white),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -56,21 +56,21 @@ class AddNewCollectionModalService {
                   controller: _numberController,
                   decoration: InputDecoration(
                     labelText: 'No.',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: const TextStyle(color: Colors.white),
                     hintText: 'Tap to enter the number',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Constants.primaryColor),
                     ),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(height: 10),
-                Text(
+                const Text(
                   'Auto numbered: 3 Use this',
                   style: TextStyle(color: Colors.grey),
                 ),
@@ -79,18 +79,18 @@ class AddNewCollectionModalService {
                   controller: _nameController,
                   decoration: InputDecoration(
                     labelText: 'Name',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: const TextStyle(color: Colors.white),
                     hintText: 'Tap to enter the name',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Constants.primaryColor),
                     ),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(height: 10),
                 Row(
@@ -102,7 +102,7 @@ class AddNewCollectionModalService {
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Icon(Icons.add, color: Colors.white),
                         ),
                       ),
@@ -115,7 +115,7 @@ class AddNewCollectionModalService {
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Icon(Icons.image, color: Colors.white),
                         ),
                       ),
@@ -130,18 +130,19 @@ class AddNewCollectionModalService {
                         controller: _dateController,
                         decoration: InputDecoration(
                           labelText: 'Date acquired',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: const TextStyle(color: Colors.white),
                           hintText: 'Tap to enter',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          border: const OutlineInputBorder(),
+                          enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Constants.primaryColor),
+                            borderSide:
+                                BorderSide(color: Constants.primaryColor),
                           ),
                         ),
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -150,18 +151,19 @@ class AddNewCollectionModalService {
                         controller: _costController,
                         decoration: InputDecoration(
                           labelText: 'Cost',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: const TextStyle(color: Colors.white),
                           hintText: 'Tap to enter',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          border: const OutlineInputBorder(),
+                          enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Constants.primaryColor),
+                            borderSide:
+                                BorderSide(color: Constants.primaryColor),
                           ),
                         ),
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ],
@@ -171,18 +173,18 @@ class AddNewCollectionModalService {
                   controller: _localityController,
                   decoration: InputDecoration(
                     labelText: 'Locality',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: const TextStyle(color: Colors.white),
                     hintText: 'Tap to enter',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Constants.primaryColor),
                     ),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(height: 10),
                 Row(
@@ -192,18 +194,19 @@ class AddNewCollectionModalService {
                         controller: _lengthController,
                         decoration: InputDecoration(
                           labelText: 'Length',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: const TextStyle(color: Colors.white),
                           hintText: 'Tap to enter',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          border: const OutlineInputBorder(),
+                          enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Constants.primaryColor),
+                            borderSide:
+                                BorderSide(color: Constants.primaryColor),
                           ),
                         ),
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -212,18 +215,19 @@ class AddNewCollectionModalService {
                         controller: _widthController,
                         decoration: InputDecoration(
                           labelText: 'Width',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: const TextStyle(color: Colors.white),
                           hintText: 'Tap to enter',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          border: const OutlineInputBorder(),
+                          enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Constants.primaryColor),
+                            borderSide:
+                                BorderSide(color: Constants.primaryColor),
                           ),
                         ),
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -232,18 +236,19 @@ class AddNewCollectionModalService {
                         controller: _heightController,
                         decoration: InputDecoration(
                           labelText: 'Height',
-                          labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: const TextStyle(color: Colors.white),
                           hintText: 'Tap to enter',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          border: const OutlineInputBorder(),
+                          enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Constants.primaryColor),
+                            borderSide:
+                                BorderSide(color: Constants.primaryColor),
                           ),
                         ),
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ],
@@ -253,18 +258,18 @@ class AddNewCollectionModalService {
                   controller: _notesController,
                   decoration: InputDecoration(
                     labelText: 'Notes',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: const TextStyle(color: Colors.white),
                     hintText: 'Tap to add your notes here...',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(),
-                    enabledBorder: OutlineInputBorder(
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: const OutlineInputBorder(),
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Constants.primaryColor),
                     ),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   maxLines: 3,
                 ),
                 const SizedBox(height: 10),
@@ -275,11 +280,15 @@ class AddNewCollectionModalService {
                       final String name = _nameController.text;
                       final String description = _notesController.text;
                       final String dateAcquired = _dateController.text;
-                      final double cost = double.tryParse(_costController.text) ?? 0.0;
+                      final double cost =
+                          double.tryParse(_costController.text) ?? 0.0;
                       final String locality = _localityController.text;
-                      final double length = double.tryParse(_lengthController.text) ?? 0.0;
-                      final double width = double.tryParse(_widthController.text) ?? 0.0;
-                      final double height = double.tryParse(_heightController.text) ?? 0.0;
+                      final double length =
+                          double.tryParse(_lengthController.text) ?? 0.0;
+                      final double width =
+                          double.tryParse(_widthController.text) ?? 0.0;
+                      final double height =
+                          double.tryParse(_heightController.text) ?? 0.0;
                       final String notes = _notesController.text;
 
                       if (name.isNotEmpty) {
@@ -298,8 +307,9 @@ class AddNewCollectionModalService {
                             notes: notes,
                           );
 
-                          await DatabaseHelper().insertCollection(newCollection);
-                          
+                          await DatabaseHelper()
+                              .insertCollection(newCollection);
+
                           Navigator.of(context).pop();
                           onItemAdded();
                         } catch (e) {
@@ -308,10 +318,11 @@ class AddNewCollectionModalService {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Constants.primaryColor,
-                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      backgroundColor: Constants.primaryColor,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 15),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Save',
                       style: TextStyle(color: Colors.white),
                     ),

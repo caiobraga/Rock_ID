@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -9,6 +11,8 @@ import 'package:flutter_onboarding/ui/screens/widgets/custom_tab_bar.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/add_new_collection_modal.dart';
+import '../../services/get_rock.dart';
+import '../../services/image_picker.dart';
 import '../widgets/text.dart';
 import 'widgets/collections_grid_view.dart';
 import 'widgets/rock_list_item.dart';
@@ -38,6 +42,8 @@ class _FavoritePageState extends State<FavoritePage>
     'Snap History',
     'Wishlist'
   ];
+  Rock? _rock;
+  File? _image;
 
   @override
   void initState() {
@@ -117,8 +123,12 @@ class _FavoritePageState extends State<FavoritePage>
   }
 
   void _addRockToSnapHistory(int rockId) async {
+    _image = await ImagePickerService().pickImageFromCamera(context);
+   _rock = await GetRockService().getRock(_image);
     String timestamp = DateTime.now().toIso8601String();
-    await DatabaseHelper().addRockToSnapHistory(rockId, timestamp);
+    if(_rock!= null){
+      await DatabaseHelper().addRockToSnapHistory(_rock!.rockId, timestamp);
+    }
     _loadSnapHistory(); // Reload snap history after adding
   }
 
@@ -269,8 +279,7 @@ class _FavoritePageState extends State<FavoritePage>
                               PageTransition(
                                   child: RockDetailPage(
                                       rock: rock, isSavingRock: false),
-                                  type: PageTransitionType.bottomToTop))
-                          .then((value) => Navigator.of(context).pop());
+                                  type: PageTransitionType.bottomToTop));
                     },
                   );
                 },

@@ -9,6 +9,7 @@ import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../db/db.dart';
 import 'root_page.dart';
 
 class ScanPage extends StatefulWidget {
@@ -66,6 +67,10 @@ class _ScanPageState extends State<ScanPage> {
                       await ImagePickerService().pickImageFromCamera(context);
                   _startScanning(() async {
                     _rock = await GetRockService().getRock(_image);
+                    String timestamp = DateTime.now().toIso8601String();
+                    if(_rock!= null){
+                      await DatabaseHelper().addRockToSnapHistory(_rock!.rockId, timestamp);
+                    }
                   }, navigator);
                 },
               ),

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -11,8 +9,6 @@ import 'package:flutter_onboarding/ui/screens/widgets/custom_tab_bar.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/add_new_collection_modal.dart';
-import '../../services/get_rock.dart';
-import '../../services/image_picker.dart';
 import '../widgets/text.dart';
 import 'widgets/collections_grid_view.dart';
 import 'widgets/rock_list_item.dart';
@@ -35,15 +31,13 @@ class _FavoritePageState extends State<FavoritePage>
   List<Map<String, dynamic>> _snapHistory = [];
   List<Rock> _allRocks = [];
   List<Rock> _wishlistRocks = [];
-  late TabController _tabController;
+  late final TabController _tabController;
   List<Collection> _collections = [];
   final List<String> _tabsDescriptions = [
     'Collections',
     'Snap History',
     'Wishlist'
   ];
-  Rock? _rock;
-  File? _image;
 
   @override
   void initState() {
@@ -123,12 +117,8 @@ class _FavoritePageState extends State<FavoritePage>
   }
 
   void _addRockToSnapHistory(int rockId) async {
-    _image = await ImagePickerService().pickImageFromCamera(context);
-   _rock = await GetRockService().getRock(_image);
     String timestamp = DateTime.now().toIso8601String();
-    if(_rock!= null){
-      await DatabaseHelper().addRockToSnapHistory(_rock!.rockId, timestamp);
-    }
+    await DatabaseHelper().addRockToSnapHistory(rockId, timestamp);
     _loadSnapHistory(); // Reload snap history after adding
   }
 
@@ -137,16 +127,45 @@ class _FavoritePageState extends State<FavoritePage>
   }
 
   Widget _buildCollectionsTab() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CollectionGridView(
-            collections: _collections,
-            hasAddOption: true,
-            onItemAdded: _refreshGrid,
-          )
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 16.0,
+        right: 16.0,
+        bottom: 40.0,
+        left: 16.0,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Constants.darkGrey,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Scaffold(
+          backgroundColor: Constants.darkGrey,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Constants.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            onPressed: () {
+              AddNewCollectionModalService().show(context, _refreshGrid);
+            },
+            child: const Icon(Icons.add, color: Colors.white),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniEndFloat,
+          body: Column(
+            children: [
+              Expanded(
+                child: CollectionGridView(
+                  collections: _collections,
+                  hasAddOption: true,
+                  onItemAdded: _refreshGrid,
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -159,19 +178,6 @@ class _FavoritePageState extends State<FavoritePage>
           length: 3,
           child: Scaffold(
             backgroundColor: Colors.black,
-            floatingActionButton: _tabController.index != 2
-                ? FloatingActionButton(
-                    backgroundColor: Constants.primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    onPressed: () {
-                      AddNewCollectionModalService()
-                          .show(context, _refreshGrid);
-                    },
-                    child: const Icon(Icons.add, color: Colors.white),
-                  )
-                : null,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -186,11 +192,6 @@ class _FavoritePageState extends State<FavoritePage>
                   child: CustomTabBar(
                     tabController: _tabController,
                     tabsDescriptions: _tabsDescriptions,
-                    onTap: (index) {
-                      setState(() {
-                        _tabController.index = index;
-                      });
-                    },
                   ),
                 ),
                 Expanded(
@@ -213,154 +214,156 @@ class _FavoritePageState extends State<FavoritePage>
 
   Widget _buildSnapHistoryTab() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(
+        top: 16.0,
+        right: 16.0,
+        bottom: 40.0,
+        left: 16.0,
+      ),
       child: Container(
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: Constants.darkGrey,
           borderRadius: BorderRadius.circular(16.0),
         ),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: 56,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFFB88F71),
-                    Color(0xFFA16132),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(16.0),
-                  onTap: () {
-                    _addRockToSnapHistory(1);
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.crop_free, color: Colors.white),
-                      SizedBox(width: 12),
-                      DSCustomText(
-                        text: 'Identify Rock',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+        child: Scaffold(
+          backgroundColor: Constants.darkGrey,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Constants.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            onPressed: () {
+              _addRockToSnapHistory(1);
+            },
+            child: const Icon(Icons.add, color: Colors.white),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniEndFloat,
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: double.infinity,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFFB88F71),
+                        Color(0xFFA16132),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(16.0),
+                      onTap: () {
+                        _addRockToSnapHistory(1);
+                      },
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.crop_free, color: Colors.white),
+                          SizedBox(width: 12),
+                          DSCustomText(
+                            text: 'Identify Rock',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _snapHistory.length,
-                itemBuilder: (context, index) {
-                  final rockId = _snapHistory[index]['rockId'];
-                  final rock = _allRocks.firstWhere(
-                      (rock) => rock.rockId == rockId,
-                      orElse: () => Rock.empty());
-                  return RockListItem(
-                    imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
-                        ? rock.imageURL
-                        : 'https://via.placeholder.com/60',
-                    title: rock.rockName,
-                    tags: const ['Sulfide minerals', 'Mar', 'Jul'],
-                    onTap: () {
-                      Navigator.push(
-                              context,
-                              PageTransition(
-                                  child: RockDetailPage(
-                                      rock: rock, isSavingRock: false),
-                                  type: PageTransitionType.bottomToTop));
-                    },
-                  );
-                },
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _snapHistory.length,
+                  itemBuilder: (context, index) {
+                    final rockId = _snapHistory[index]['rockId'];
+                    final rock = _allRocks.firstWhere(
+                        (rock) => rock.rockId == rockId,
+                        orElse: () => Rock.empty());
+                    return RockListItem(
+                      imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
+                          ? rock.imageURL
+                          : 'https://via.placeholder.com/60',
+                      title: rock.rockName,
+                      tags: const ['Sulfide minerals', 'Mar', 'Jul'],
+                      onTap: () {
+                        Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: RockDetailPage(
+                                        rock: rock, isSavingRock: false),
+                                    type: PageTransitionType.bottomToTop))
+                            .then((value) => Navigator.of(context).pop());
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildWishlistTab() {
-    return _wishlistRocks.isEmpty
-        ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.list_alt_rounded,
-                  size: 50,
-                  color: Colors.grey.withOpacity(0.25),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'The Wishlist is empty!',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Add any new rock to this page by clicking\non the heart icon on the Rock Detail page',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white54,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _showRockSelectionModal();
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text(
-                    'Add Rock',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 16.0,
+        right: 16.0,
+        bottom: 40.0,
+        left: 16.0,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(12.0),
+        decoration: BoxDecoration(
+          color: Constants.darkGrey,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: _wishlistRocks.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.list_alt_rounded,
+                      size: 50,
+                      color: Colors.grey.withOpacity(0.25),
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Constants.primaryColor,
-                    foregroundColor: Constants.blackColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'The Wishlist is empty!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10.0,
-                      horizontal: 20.0,
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Add any new rock to this page by clicking\non the heart icon on the Rock Detail page',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white54,
+                        fontSize: 14,
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 20),
+                    _addRockToWishlistButton(),
+                  ],
                 ),
-              ],
-            ),
-          )
-        : Padding(
-            padding: const EdgeInsets.only(
-              top: 16.0,
-              right: 16.0,
-              bottom: 40.0,
-              left: 16.0,
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
-                color: Constants.darkGrey,
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Column(
+              )
+            : Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
@@ -395,33 +398,11 @@ class _FavoritePageState extends State<FavoritePage>
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      _showRockSelectionModal();
-                    },
-                    icon: const Icon(Icons.add),
-                    label: const Text(
-                      'Add Rock',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Constants.primaryColor,
-                      foregroundColor: Constants.blackColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 20.0,
-                      ),
-                    ),
-                  ),
+                  _addRockToWishlistButton(),
                 ],
               ),
-            ),
-          );
+      ),
+    );
   }
 
   void _showRockSelectionModal() {
@@ -434,5 +415,31 @@ class _FavoritePageState extends State<FavoritePage>
               isFavoritingRock: true,
             ),
             type: PageTransitionType.bottomToTop));
+  }
+
+  Widget _addRockToWishlistButton() {
+    return ElevatedButton.icon(
+      onPressed: () {
+        _showRockSelectionModal();
+      },
+      icon: const Icon(Icons.add),
+      label: const Text(
+        'Add Rock',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Constants.primaryColor,
+        foregroundColor: Constants.blackColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        padding: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 20.0,
+        ),
+      ),
+    );
   }
 }

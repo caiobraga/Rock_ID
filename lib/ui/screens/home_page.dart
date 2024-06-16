@@ -25,7 +25,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    init();
     super.initState();
+  }
+
+  Future<void> init() async {
+    _isLoading = true;
     try {
       DatabaseHelper().collections().then((value) {
         _collectionList = value;
@@ -268,8 +273,9 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: GestureDetector(
-                            onTap: () {
-                              ShowSelectionModalService().show(context);
+                            onTap: () async {
+                              await ShowSelectionModalService().show(context);
+                              await init();
                               //
                             },
                             child: Column(

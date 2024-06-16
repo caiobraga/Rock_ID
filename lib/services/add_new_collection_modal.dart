@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants.dart';
 import '../db/db.dart';
+import 'package:intl/intl.dart';
 import '../models/collection.dart';
 
 class AddNewCollectionModalService {
@@ -63,307 +65,338 @@ class AddNewCollectionModalService {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: DraggableScrollableSheet(
-            initialChildSize: 0.88,
-            minChildSize: 0.88,
-            maxChildSize: 0.88,
-            builder: (BuildContext context, ScrollController scrollController) {
-              return GestureDetector(
-                onTap: () {},
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Constants.darkGrey,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          resizeToAvoidBottomInset: true,
+          body: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: DraggableScrollableSheet(
+              initialChildSize: 0.88,
+              minChildSize: 0.88,
+              maxChildSize: 0.88,
+              builder:
+                  (BuildContext context, ScrollController scrollController) {
+                return GestureDetector(
+                  onTap: () {},
+                  child: SingleChildScrollView(
+                    child: Container(
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Constants.darkGrey,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
                       ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'COLLECTION DETAILS',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 28,
-                                  ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.close,
-                                color: Constants.primaryColor,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'COLLECTION DETAILS',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 28,
+                                    ),
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          color: Constants.white,
-                          height: 0.1,
-                        ),
-                        InputWidget(
-                          controller: _numberController,
-                          label: 'No.',
-                          hintText: 'Tap to enter the number',
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '*Auto numbered: 3',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
+                              IconButton(
+                                icon: Icon(
+                                  Icons.close,
+                                  color: Constants.primaryColor,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
-                            ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            Text(
-                              'Use this',
-                              style: TextStyle(
-                                color: Constants.primaryColor,
-                                fontSize: 14,
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            color: Constants.white,
+                            height: 0.1,
+                          ),
+                          InputWidget(
+                            controller: _numberController,
+                            label: 'No.',
+                            hintText: 'Tap to enter the number',
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text(
+                                '*Auto numbered: 3',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
                               ),
-                            )
-                          ],
-                        ),
-                        InputWidget(
-                          label: 'Name',
-                          required: true,
-                          controller: _nameController,
-                          hintText: 'Tap to enter the name',
-                          rightIcon: Padding(
-                            padding: const EdgeInsets.all(8.0).copyWith(
-                              right: 14,
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                _nameController.clear();
-                              },
-                              child: Icon(
-                                Icons.clear,
-                                color: Constants.white,
-                                size: 24,
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Text(
+                                'Use this',
+                                style: TextStyle(
+                                  color: Constants.primaryColor,
+                                  fontSize: 14,
+                                ),
+                              )
+                            ],
+                          ),
+                          InputWidget(
+                            label: 'Name',
+                            required: true,
+                            controller: _nameController,
+                            hintText: 'Tap to enter the name',
+                            rightIcon: Padding(
+                              padding: const EdgeInsets.all(8.0).copyWith(
+                                right: 14,
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  _nameController.clear();
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Constants.white,
+                                  size: 24,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        Wrap(
-                          runSpacing: 16,
-                          spacing: 16,
-                          children: [
-                            ...pathsImage.map((e) {
-                              return Container(
+                          const SizedBox(height: 16),
+                          Wrap(
+                            runSpacing: 16,
+                            spacing: 16,
+                            children: [
+                              ...pathsImage.map((e) {
+                                return Container(
+                                  height: 100,
+                                  width: 100,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Constants.colorInput,
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Image.network(
+                                    e,
+                                    fit: BoxFit.fill,
+                                  ),
+                                );
+                              }).toList(),
+                              Container(
+                                margin: const EdgeInsets.only(right: 16),
                                 height: 100,
                                 width: 100,
-                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Constants.colorInput,
-                                  border: Border.all(),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
-                                child: Image.network(
-                                  e,
-                                  fit: BoxFit.fill,
-                                ),
-                              );
-                            }).toList(),
-                            Container(
-                              margin: const EdgeInsets.only(right: 16),
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                color: Constants.colorInput,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: InkWell(
-                                onTap: () {},
-                                child: Icon(
-                                  Icons.add,
-                                  color: Constants.primaryColor,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: InputWidget(
-                                label: 'Acquisition',
-                                controller: _dateController,
-                                hintText: 'Date acquired',
-                                textInputType: TextInputType.datetime,
-                                rightIcon: Padding(
-                                  padding: const EdgeInsets.all(8.0).copyWith(
-                                    right: 14,
-                                  ),
-                                  child: InkWell(
-                                    onTap: () {
-                                      _dateController.clear();
-                                    },
-                                    child: Icon(
-                                      Icons.arrow_forward_ios_outlined,
-                                      color: Constants.white,
-                                      size: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            SizedBox(
-                              child: InputWidget(
-                                label: '',
-                                controller: _costController,
-                                hintText: 'Cost',
-                                rightIcon: Container(
-                                  height: 52,
-                                  color: Constants.darkGrey,
-                                  padding: const EdgeInsets.all(8.0).copyWith(
-                                    right: 14,
-                                  ),
-                                  child: InkWell(
-                                    onTap: () {
-                                      _costController.clear();
-                                    },
-                                    child: Icon(
-                                      Icons.attach_money_sharp,
-                                      color: Constants.white,
-                                      size: 24,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              width: 150,
-                            ),
-                          ],
-                        ),
-                        InputWidget(
-                          label: 'Locality',
-                          controller: _localityController,
-                          hintText: 'Tap to enter',
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: InputWidget(
-                                label: 'Size',
-                                controller: _lengthController,
-                                hintText: 'Length',
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'X',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Constants.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: InputWidget(
-                                label: '',
-                                controller: _widthController,
-                                hintText: 'Width',
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'X',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Constants.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: InputWidget(
-                                label: '',
-                                controller: _heightController,
-                                hintText: 'Height',
-                              ),
-                            ),
-                          ],
-                        ),
-                        InputWidget(
-                          label: 'Notes',
-                          controller: _notesController,
-                          hintText: 'Tap to add your notes here...',
-                          maxLines: 3,
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 33,
-                                decoration: BoxDecoration(
-                                  color: Constants.primaryColor,
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
                                 child: InkWell(
-                                  onTap: onTap,
-                                  child: Text(
-                                    'Save',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Constants.blackColor,
-                                      fontWeight: FontWeight.bold,
+                                  onTap: () {},
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Constants.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: InputWidget(
+                                  label: 'Acquisition',
+                                  controller: _dateController,
+                                  hintText: 'Date acquired',
+                                  textInputType: TextInputType.datetime,
+                                  rightIcon: Padding(
+                                    padding: const EdgeInsets.all(8.0).copyWith(
+                                      right: 14,
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        _dateController.clear();
+                                      },
+                                      child: Icon(
+                                        Icons.arrow_forward_ios_outlined,
+                                        color: Constants.white,
+                                        size: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ],
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                child: InputWidget(
+                                  label: '',
+                                  controller: _costController,
+                                  hintText: 'Cost',
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  onChanged: (value) {
+                                    if (value.isEmpty) return;
+                                    final formatter = NumberFormat.currency(
+                                      symbol: '',
+                                      decimalDigits: 0,
+                                    );
+                                    final formattedValue =
+                                        formatter.format(double.tryParse(
+                                              value.replaceAll(
+                                                RegExp(r'[^\d.]'),
+                                                '',
+                                              ),
+                                            ) ??
+                                            0.0);
+                                    _costController.value = TextEditingValue(
+                                      text: formattedValue,
+                                      selection: TextSelection.collapsed(
+                                        offset: formattedValue.length,
+                                      ),
+                                    );
+                                  },
+                                  rightIcon: Container(
+                                    height: 52,
+                                    color: Constants.darkGrey,
+                                    padding: const EdgeInsets.all(8.0).copyWith(
+                                      right: 14,
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        _costController.clear();
+                                      },
+                                      child: Icon(
+                                        Icons.attach_money_sharp,
+                                        color: Constants.white,
+                                        size: 24,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                width: 150,
+                              ),
+                            ],
+                          ),
+                          InputWidget(
+                            label: 'Locality',
+                            controller: _localityController,
+                            hintText: 'Tap to enter',
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: InputWidget(
+                                  label: 'Size',
+                                  controller: _lengthController,
+                                  hintText: 'Length',
+                                ),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                height: 60,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'X',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Constants.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: InputWidget(
+                                  label: '',
+                                  controller: _widthController,
+                                  hintText: 'Width',
+                                ),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                height: 60,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'X',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Constants.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: InputWidget(
+                                  label: '',
+                                  controller: _heightController,
+                                  hintText: 'Height',
+                                ),
+                              ),
+                            ],
+                          ),
+                          InputWidget(
+                            label: 'Notes',
+                            controller: _notesController,
+                            hintText: 'Tap to add your notes here...',
+                            maxLines: 3,
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 33,
+                                  decoration: BoxDecoration(
+                                    color: Constants.primaryColor,
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  child: InkWell(
+                                    onTap: onTap,
+                                    child: Text(
+                                      'Save',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Constants.blackColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         );
       },
@@ -379,6 +412,8 @@ class InputWidget extends StatelessWidget {
   final int maxLines;
   final Widget? rightIcon;
   final TextInputType textInputType;
+  final List<TextInputFormatter>? inputFormatters;
+  final Function(String)? onChanged;
   const InputWidget({
     super.key,
     required this.controller,
@@ -388,6 +423,8 @@ class InputWidget extends StatelessWidget {
     this.rightIcon,
     this.maxLines = 1,
     this.hintText,
+    this.inputFormatters,
+    this.onChanged,
   });
 
   @override
@@ -434,15 +471,18 @@ class InputWidget extends StatelessWidget {
                   height: maxLines * 52,
                   child: TextField(
                     maxLines: maxLines,
+                    inputFormatters: inputFormatters,
                     onTap: isDateTime
                         ? () {
                             _selectDate(
                                 context: context, controller: controller);
                           }
                         : null,
+                    onChanged: onChanged,
                     keyboardType: textInputType,
                     readOnly: isDateTime,
                     controller: controller,
+                    cursorColor: Constants.primaryColor,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       labelStyle: GoogleFonts.montserrat().copyWith(

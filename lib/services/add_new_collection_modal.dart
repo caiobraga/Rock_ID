@@ -19,6 +19,7 @@ class AddNewCollectionModalService {
     final TextEditingController _widthController = TextEditingController();
     final TextEditingController _heightController = TextEditingController();
     final TextEditingController _notesController = TextEditingController();
+
     void onTap() async {
       final String number = _numberController.text;
       final String name = _nameController.text;
@@ -62,11 +63,8 @@ class AddNewCollectionModalService {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return InkWell(
-          focusColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () {
             Navigator.of(context).pop();
           },
@@ -75,11 +73,7 @@ class AddNewCollectionModalService {
             minChildSize: 0.88,
             maxChildSize: 0.88,
             builder: (BuildContext context, ScrollController scrollController) {
-              return InkWell(
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
+              return GestureDetector(
                 onTap: () {},
                 child: SingleChildScrollView(
                   child: Container(
@@ -157,7 +151,6 @@ class AddNewCollectionModalService {
                           required: true,
                           controller: _nameController,
                           hintText: 'Tap to enter the name',
-                          // clearButton: true,
                           rightIcon: Padding(
                             padding: const EdgeInsets.all(8.0).copyWith(
                               right: 14,
@@ -254,7 +247,7 @@ class AddNewCollectionModalService {
                                   ),
                                   child: InkWell(
                                     onTap: () {
-                                      _nameController.clear();
+                                      _costController.clear();
                                     },
                                     child: Icon(
                                       Icons.attach_money_sharp,
@@ -390,7 +383,7 @@ class InputWidget extends StatelessWidget {
     super.key,
     required this.controller,
     this.label,
-    this.textInputType = TextInputType.none,
+    this.textInputType = TextInputType.text,
     this.required = false,
     this.rightIcon,
     this.maxLines = 1,

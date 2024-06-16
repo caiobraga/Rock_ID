@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/constants.dart';
 
 import '../../../models/collection.dart';
 import '../../../services/add_new_collection_modal.dart';
@@ -28,7 +29,7 @@ class _CollectionGridViewState extends State<CollectionGridView> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+      padding: const EdgeInsets.all(10),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -53,7 +54,9 @@ class _CollectionGridViewState extends State<CollectionGridView> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(Icons.add_circle_outline, color: Constants.primaryColor, size: 50),
                   const SizedBox(height: 10),

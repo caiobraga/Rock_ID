@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomTabBar extends StatefulWidget {
-  final void Function(int) onTap;
   final TabController tabController;
   final List<String> tabsDescriptions;
 
@@ -9,7 +8,6 @@ class CustomTabBar extends StatefulWidget {
     super.key,
     required this.tabController,
     required this.tabsDescriptions,
-    required this.onTap,
   });
 
   @override
@@ -20,7 +18,6 @@ class _CustomTabBarState extends State<CustomTabBar> {
   @override
   Widget build(BuildContext context) {
     return TabBar(
-      onTap: widget.onTap,
       controller: widget.tabController,
       indicator: BoxDecoration(
         borderRadius: BorderRadius.circular(

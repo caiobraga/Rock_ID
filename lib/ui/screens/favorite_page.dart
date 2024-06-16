@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -11,8 +9,6 @@ import 'package:flutter_onboarding/ui/screens/widgets/custom_tab_bar.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/add_new_collection_modal.dart';
-import '../../services/get_rock.dart';
-import '../../services/image_picker.dart';
 import '../widgets/text.dart';
 import 'widgets/collections_grid_view.dart';
 import 'widgets/rock_list_item.dart';
@@ -35,15 +31,13 @@ class _FavoritePageState extends State<FavoritePage>
   List<Map<String, dynamic>> _snapHistory = [];
   List<Rock> _allRocks = [];
   List<Rock> _wishlistRocks = [];
-  late TabController _tabController;
+  late final TabController _tabController;
   List<Collection> _collections = [];
   final List<String> _tabsDescriptions = [
     'Collections',
     'Snap History',
     'Wishlist'
   ];
-  Rock? _rock;
-  File? _image;
 
   @override
   void initState() {
@@ -137,16 +131,45 @@ class _FavoritePageState extends State<FavoritePage>
   }
 
   Widget _buildCollectionsTab() {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CollectionGridView(
-            collections: _collections,
-            hasAddOption: true,
-            onItemAdded: _refreshGrid,
-          )
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 16.0,
+        right: 16.0,
+        bottom: 40.0,
+        left: 16.0,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Constants.darkGrey,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Scaffold(
+          backgroundColor: Constants.darkGrey,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Constants.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            onPressed: () {
+              AddNewCollectionModalService().show(context, _refreshGrid);
+            },
+            child: const Icon(Icons.add, color: Colors.white),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniEndFloat,
+          body: Column(
+            children: [
+              Expanded(
+                child: CollectionGridView(
+                  collections: _collections,
+                  hasAddOption: true,
+                  onItemAdded: _refreshGrid,
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -198,11 +221,6 @@ class _FavoritePageState extends State<FavoritePage>
                   child: CustomTabBar(
                     tabController: _tabController,
                     tabsDescriptions: _tabsDescriptions,
-                    onTap: (index) {
-                      setState(() {
-                        _tabController.index = index;
-                      });
-                    },
                   ),
                 ),
                 Expanded(
@@ -225,7 +243,12 @@ class _FavoritePageState extends State<FavoritePage>
 
   Widget _buildSnapHistoryTab() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(
+        top: 16.0,
+        right: 16.0,
+        bottom: 40.0,
+        left: 16.0,
+      ),
       child: Container(
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
@@ -391,33 +414,11 @@ class _FavoritePageState extends State<FavoritePage>
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      _showRockSelectionModal();
-                    },
-                    icon: const Icon(Icons.add),
-                    label: const Text(
-                      'Add Rock',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Constants.primaryColor,
-                      foregroundColor: Constants.blackColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 20.0,
-                      ),
-                    ),
-                  ),
+                  _addRockToWishlistButton(),
                 ],
               ),
-            ),
-          );
+      ),
+    );
   }
 
   void _showRockSelectionModal() {
@@ -430,5 +431,31 @@ class _FavoritePageState extends State<FavoritePage>
               isFavoritingRock: true,
             ),
             type: PageTransitionType.bottomToTop));
+  }
+
+  Widget _addRockToWishlistButton() {
+    return ElevatedButton.icon(
+      onPressed: () {
+        _showRockSelectionModal();
+      },
+      icon: const Icon(Icons.add),
+      label: const Text(
+        'Add Rock',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Constants.primaryColor,
+        foregroundColor: Constants.blackColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        padding: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 20.0,
+        ),
+      ),
+    );
   }
 }

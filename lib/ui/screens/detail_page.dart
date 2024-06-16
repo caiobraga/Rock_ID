@@ -333,7 +333,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   Widget _buildHealthRisksSection() {
     return _buildCard('HEALTH RISKS', Icons.error_rounded, [
       Text(
-        '${widget.rock.healthRisks}',
+        widget.rock.healthRisks,
         style: AppTypography.body3(color: AppCollors.naturalWhite),
         textAlign: TextAlign.justify,
       )
@@ -483,7 +483,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // FAQ Section
   Widget _buildFAQSection() {
     List<Widget> body = [];
-    widget.rock.askedQuestions.forEach((Map<String, String> question){
+    widget.rock.askedQuestions.forEach((Map<String, String> question) {
       question.forEach((key, value) {
         body.add(_buildFAQItem(key, value));
       });
@@ -649,7 +649,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.monetization_on,
       [
         ExpandableText(
-          text: 'The price of ${widget.rock.rockName} may vary, but it is approximately ${widget.rock.price} per gram.' ,
+          text:
+              'The price of ${widget.rock.rockName} may vary, but it is approximately ${widget.rock.price} per gram.',
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines:
               4, // Define o número máximo de linhas antes de exibir "Learn More"

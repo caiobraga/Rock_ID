@@ -18,12 +18,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<Collection> _collectionList;
-  late List<Rock> _rockList;
+  List<Collection> _collectionList = [];
+  List<Rock> _rockList = [];
   double price = 0;
   bool _isLoading = true;
-
-
 
   @override
   void initState() {

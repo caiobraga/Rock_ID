@@ -1,4 +1,3 @@
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -73,13 +72,16 @@ class _RootPageState extends State<RootPage> {
     ];
   }
 
- final List<BottomNavigationBarItem> _bottomNavItems = [
+  final List<BottomNavigationBarItem> _bottomNavItems = [
     const BottomNavigationBarItem(
       icon: Icon(Icons.home, size: 40),
       label: 'Home',
     ),
     const BottomNavigationBarItem(
-      icon: Icon(Icons.folder_copy, size: 40,),
+      icon: Icon(
+        Icons.folder_copy,
+        size: 40,
+      ),
       label: 'Favorite',
     ),
   ];
@@ -97,7 +99,7 @@ class _RootPageState extends State<RootPage> {
                 'ROCKAPP',
                 style: TextStyle(
                   color: Constants.primaryColor,
-                  fontSize: 24,
+                  fontSize: 36,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -148,7 +150,7 @@ class _RootPageState extends State<RootPage> {
             },
           ),
           Positioned(
-            bottom: 20, 
+            bottom: 20,
             child: HexagonFloatingActionButton(
               heroTag: "scan",
               onPressed: () {

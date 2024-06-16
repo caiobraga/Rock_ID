@@ -26,15 +26,14 @@ class RoundedHexagonBorder extends ShapeBorder {
     Path path = Path();
 
     for (int i = 0; i < 6; i++) {
-      double x1 = centerX + radius * cos(angle * i - pi / 2);
-      double y1 = centerY + radius * sin(angle * i - pi / 2);
-      double x2 = centerX + radius * cos(angle * (i + 1) - pi / 2);
-      double y2 = centerY + radius * sin(angle * (i + 1) - pi / 2);
-
-      double xMid1 = centerX + (radius - borderRadius) * cos(angle * i - pi / 2);
-      double yMid1 = centerY + (radius - borderRadius) * sin(angle * i - pi / 2);
-      double xMid2 = centerX + (radius - borderRadius) * cos(angle * (i + 1) - pi / 2);
-      double yMid2 = centerY + (radius - borderRadius) * sin(angle * (i + 1) - pi / 2);
+      double xMid1 =
+          centerX + (radius - borderRadius) * cos(angle * i - pi / 2);
+      double yMid1 =
+          centerY + (radius - borderRadius) * sin(angle * i - pi / 2);
+      double xMid2 =
+          centerX + (radius - borderRadius) * cos(angle * (i + 1) - pi / 2);
+      double yMid2 =
+          centerY + (radius - borderRadius) * sin(angle * (i + 1) - pi / 2);
 
       if (i == 0) {
         path.moveTo(xMid1, yMid1);
@@ -79,10 +78,10 @@ class HexagonFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      shape: RoundedHexagonBorder(borderRadius: 5.0),
+      shape: const RoundedHexagonBorder(borderRadius: 5.0),
       color: backgroundColor,
       child: InkWell(
-        customBorder: RoundedHexagonBorder(borderRadius: 5.0),
+        customBorder: const RoundedHexagonBorder(borderRadius: 5.0),
         onTap: onPressed,
         child: Container(
           height: 80.0,

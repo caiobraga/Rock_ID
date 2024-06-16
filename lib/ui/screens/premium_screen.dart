@@ -15,13 +15,13 @@ class _PremiumScreenState extends State<PremiumScreen> {
   final InAppPurchase _iap = InAppPurchase.instance;
   bool _available = true;
   List<ProductDetails> _products = [];
-  List<PurchaseDetails> _purchases = [];
 
   @override
   void initState() {
     super.initState();
     _initialize();
-    final Stream<List<PurchaseDetails>> purchaseUpdated = InAppPurchase.instance.purchaseStream;
+    final Stream<List<PurchaseDetails>> purchaseUpdated =
+        InAppPurchase.instance.purchaseStream;
     purchaseUpdated.listen((purchases) {
       _handlePurchaseUpdates(purchases);
     });
@@ -31,7 +31,8 @@ class _PremiumScreenState extends State<PremiumScreen> {
     _available = await _iap.isAvailable();
     if (_available) {
       const Set<String> _kIds = {'product_id_1', 'product_id_2'};
-      final ProductDetailsResponse response = await _iap.queryProductDetails(_kIds);
+      final ProductDetailsResponse response =
+          await _iap.queryProductDetails(_kIds);
       setState(() {
         _products = response.productDetails;
       });
@@ -44,7 +45,8 @@ class _PremiumScreenState extends State<PremiumScreen> {
         // Handle pending status
       } else if (purchase.status == PurchaseStatus.error) {
         // Handle error status
-      } else if (purchase.status == PurchaseStatus.purchased || purchase.status == PurchaseStatus.restored) {
+      } else if (purchase.status == PurchaseStatus.purchased ||
+          purchase.status == PurchaseStatus.restored) {
         // Handle purchased or restored status
         _verifyPurchase(purchase);
       }
@@ -135,7 +137,9 @@ class _PremiumScreenState extends State<PremiumScreen> {
                       imagePath: 'ad-freeExperience.png',
                       subTitle: 'experience',
                     ),
-                    isFreeTrialEnabled ? isFreeTrialEnabledWidget() : freeTrialNotEnabledWidget(),
+                    isFreeTrialEnabled
+                        ? isFreeTrialEnabledWidget()
+                        : freeTrialNotEnabledWidget(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -171,7 +175,8 @@ class _PremiumScreenState extends State<PremiumScreen> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40, vertical: 16),
                         backgroundColor: AppCollors.primaryMedium,
                       ),
                       child: Row(
@@ -306,7 +311,12 @@ class FeatureItem extends StatelessWidget {
   final String imagePath;
   final String title;
   final String subTitle;
-  const FeatureItem({Key? key, required this.imagePath, required this.title, required this.subTitle}) : super(key: key);
+  const FeatureItem(
+      {Key? key,
+      required this.imagePath,
+      required this.title,
+      required this.subTitle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

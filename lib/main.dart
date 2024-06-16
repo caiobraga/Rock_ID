@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'constants.dart';
 import 'ui/onboarding_screen.dart';
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +31,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
-         inputDecorationTheme: InputDecorationTheme(
+        textTheme: GoogleFonts.montserratTextTheme(
+          Theme.of(context).textTheme,
+        ).copyWith(
+          titleLarge: GoogleFonts.bebasNeue(), // Para título
+          titleMedium: GoogleFonts.bebasNeue(), // Para título
+          titleSmall: GoogleFonts.bebasNeue(), // Para título
+        ),
+        inputDecorationTheme: InputDecorationTheme(
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Constants.primaryColor),
           ),

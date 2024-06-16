@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -42,8 +40,6 @@ class _FavoritePageState extends State<FavoritePage>
     'Snap History',
     'Wishlist'
   ];
-  File? _image;
-  Rock? _rock;
 
   @override
   void initState() {
@@ -119,13 +115,11 @@ class _FavoritePageState extends State<FavoritePage>
   }
 
   void _addRockToSnapHistory() async {
-    _image = await ImagePickerService().pickImageFromCamera(context);
-    _rock = await GetRockService().getRock(_image);
+    final _image = await ImagePickerService().pickImageFromCamera(context);
+    final _rock = await GetRockService().getRock(_image);
     String timestamp = DateTime.now().toIso8601String();
-    if (_rock != null) {
-      await DatabaseHelper().addRockToSnapHistory(_rock!.rockId, timestamp);
-    }
-    _loadSnapHistory(); // Reload snap history after adding
+    await DatabaseHelper().addRockToSnapHistory(_rock.rockId, timestamp);
+    _loadSnapHistory();
   }
 
   void _refreshGrid() {

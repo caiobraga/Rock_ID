@@ -26,6 +26,9 @@ class _CustomTabBarState extends State<CustomTabBar> {
       ),
       unselectedLabelColor: Colors.grey,
       labelColor: Colors.white,
+      labelStyle: const TextStyle(
+        fontWeight: FontWeight.bold,
+      ),
       indicatorSize: TabBarIndicatorSize.tab,
       labelPadding: const EdgeInsets.only(top: 4, bottom: 4),
       dividerHeight: 0,

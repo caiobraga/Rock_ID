@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/services/get_rock.dart';
+import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:flutter_onboarding/ui/screens/select_rock_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/custom_tab_bar.dart';
@@ -38,6 +42,8 @@ class _FavoritePageState extends State<FavoritePage>
     'Snap History',
     'Wishlist'
   ];
+  File? _image;
+  Rock? _rock;
 
   @override
   void initState() {
@@ -185,22 +191,25 @@ class _FavoritePageState extends State<FavoritePage>
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                     onPressed: () {
-                      if (_tabController.index == 0){
+                      if (_tabController.index == 0) {
                         AddNewCollectionModalService()
-                          .show(context, _refreshGrid);
-                      }else{
+                            .show(context, _refreshGrid);
+                      } else {
                         _addRockToSnapHistory();
                       }
-                      
                     },
                     child: Container(
-                      width: 60,
-                      height: 60,
+                        width: 60,
+                        height: 60,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient: Constants.primaryDegrade,
                         ),
-                        child: const Icon(Icons.add, color: Colors.white, size: 40, weight: 40, grade: 20)),
+                        child: const Icon(Icons.add,
+                            color: Colors.white,
+                            size: 40,
+                            weight: 40,
+                            grade: 20)),
                   )
                 : null,
             body: Column(
@@ -327,26 +336,25 @@ class _FavoritePageState extends State<FavoritePage>
                   color: Colors.grey.withOpacity(0.25),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                  'The Wishlist is empty!',
-                  style: AppTypography.body2(color: AppCollors.naturalWhite)
-                ),
+                Text('The Wishlist is empty!',
+                    style: AppTypography.body2(color: AppCollors.naturalWhite)),
                 const SizedBox(height: 10),
                 Text(
-                  'Add any new rock to this page by clicking\non the heart icon on the Rock Detail page',
-                  textAlign: TextAlign.center,
-                    style: AppTypography.body3(color: AppCollors.naturalWhite)
-                ),
+                    'Add any new rock to this page by clicking\non the heart icon on the Rock Detail page',
+                    textAlign: TextAlign.center,
+                    style: AppTypography.body3(color: AppCollors.naturalWhite)),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () {
                     _showRockSelectionModal();
                   },
-                  icon: const Icon(Icons.add, size: 30,),
-                  label: Text(
-                    'Add Rock',
-                    style: AppTypography.body3(color: AppCollors.naturalBlack)
+                  icon: const Icon(
+                    Icons.add,
+                    size: 30,
                   ),
+                  label: Text('Add Rock',
+                      style:
+                          AppTypography.body3(color: AppCollors.naturalBlack)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Constants.primaryColor,
                     foregroundColor: Constants.blackColor,
@@ -413,8 +421,8 @@ class _FavoritePageState extends State<FavoritePage>
                   _addRockToWishlistButton(),
                 ],
               ),
-      ),
-    );
+            ),
+          );
   }
 
   void _showRockSelectionModal() {

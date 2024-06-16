@@ -14,9 +14,9 @@ class RootPage extends StatefulWidget {
   final bool? showFavorites;
 
   const RootPage({
-    super.key,
+    Key? key,
     this.showFavorites,
-  });
+  }) : super(key: key);
 
   @override
   State<RootPage> createState() => _RootPageState();
@@ -29,6 +29,8 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void initState() {
+    super.initState();
+
     List<Rock> favoritedRocks = [];
 
     DatabaseHelper().rocks().then((rocks) {
@@ -58,11 +60,9 @@ class _RootPageState extends State<RootPage> {
         _bottomNavService.setIndex(1);
       });
     }
-
-    super.initState();
   }
 
-  //List of the pages
+  // List of the pages
   List<Widget> _widgetOptions() {
     return [
       const HomePage(),
@@ -73,18 +73,15 @@ class _RootPageState extends State<RootPage> {
     ];
   }
 
-  //List of the pages icons
-  List<IconData> iconList = [
-    Icons.home,
-    Icons.folder_copy,
-  ];
-
-  //List of the pages titles
-  List<String> titleList = [
-    'Home',
-    'Favorite',
-    'Cart',
-    'Profile',
+ final List<BottomNavigationBarItem> _bottomNavItems = [
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.home, size: 40),
+      label: 'Home',
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.folder_copy, size: 40,),
+      label: 'Favorite',
+    ),
   ];
 
   @override
@@ -128,38 +125,44 @@ class _RootPageState extends State<RootPage> {
         index: _bottomNavService.bottomNavIndex,
         children: _widgetOptions(),
       ),
-      floatingActionButton: HexagonFloatingActionButton(
-        heroTag: "scan",
-        onPressed: () {
-          ShowSelectionModalService().show(context);
-        },
-        child: Icon(
-          Icons.camera_alt_rounded,
-          size: 40,
-          color: Constants.white,
-        ),
-        backgroundColor: Constants.primaryColor,
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-        backgroundColor: Constants.darkGrey,
-        splashColor: Constants.primaryColor,
-        activeColor: Constants.primaryColor,
-        inactiveColor: Constants.white.withOpacity(.5),
-        icons: iconList,
-        iconSize: 30,
-        activeIndex: _bottomNavService.bottomNavIndex,
-        gapLocation: GapLocation.center,
-        notchSmoothness: NotchSmoothness.softEdge,
-        onTap: (index) async {
-          final List<Rock> favoritedRocks = await Rock.getFavoritedRocks();
-          final List<Rock> addedToCartRocks = await Rock.addedToCartRocks();
-          setState(() {
-            _bottomNavService.setIndex(index);
-            favorites = favoritedRocks;
-            myCart = addedToCartRocks.toSet().toList();
-          });
-        },
+      bottomNavigationBar: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          BottomNavigationBar(
+            backgroundColor: Constants.darkGrey,
+            selectedItemColor: Constants.primaryColor,
+            enableFeedback: false,
+            unselectedItemColor: Constants.white.withOpacity(.5),
+            items: _bottomNavItems,
+            currentIndex: _bottomNavService.bottomNavIndex,
+            onTap: (index) async {
+              final List<Rock> favoritedRocks = await Rock.getFavoritedRocks();
+              final List<Rock> addedToCartRocks = await Rock.addedToCartRocks();
+              setState(() {
+                _bottomNavService.setIndex(index);
+                favorites = favoritedRocks;
+                myCart = addedToCartRocks.toSet().toList();
+              });
+            },
+          ),
+          Positioned(
+            bottom: 20, 
+            child: HexagonFloatingActionButton(
+              heroTag: "scan",
+              onPressed: () {
+                ShowSelectionModalService().show(context);
+              },
+              child: Icon(
+                Icons.camera_alt_rounded,
+                size: 40,
+                color: Constants.white,
+              ),
+              backgroundColor: Constants.primaryColor,
+            ),
+          ),
+        ],
       ),
     );
   }

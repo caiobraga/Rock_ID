@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 class PremiumScreen extends StatefulWidget {
   const PremiumScreen({Key? key}) : super(key: key);
@@ -11,6 +12,58 @@ class PremiumScreen extends StatefulWidget {
 
 class _PremiumScreenState extends State<PremiumScreen> {
   bool isFreeTrialEnabled = true;
+  final InAppPurchase _iap = InAppPurchase.instance;
+  bool _available = true;
+  List<ProductDetails> _products = [];
+  List<PurchaseDetails> _purchases = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _initialize();
+    final Stream<List<PurchaseDetails>> purchaseUpdated = InAppPurchase.instance.purchaseStream;
+    purchaseUpdated.listen((purchases) {
+      _handlePurchaseUpdates(purchases);
+    });
+  }
+
+  Future<void> _initialize() async {
+    _available = await _iap.isAvailable();
+    if (_available) {
+      const Set<String> _kIds = {'product_id_1', 'product_id_2'};
+      final ProductDetailsResponse response = await _iap.queryProductDetails(_kIds);
+      setState(() {
+        _products = response.productDetails;
+      });
+    }
+  }
+
+  void _handlePurchaseUpdates(List<PurchaseDetails> purchases) {
+    for (var purchase in purchases) {
+      if (purchase.status == PurchaseStatus.pending) {
+        // Handle pending status
+      } else if (purchase.status == PurchaseStatus.error) {
+        // Handle error status
+      } else if (purchase.status == PurchaseStatus.purchased || purchase.status == PurchaseStatus.restored) {
+        // Handle purchased or restored status
+        _verifyPurchase(purchase);
+      }
+    }
+  }
+
+  Future<void> _verifyPurchase(PurchaseDetails purchase) async {
+    // Verifique a compra com o seu servidor ou serviço de backend
+    // Após verificação, consuma ou reconheça a compra
+    if (purchase.pendingCompletePurchase) {
+      await _iap.completePurchase(purchase);
+    }
+  }
+
+  void _buyProduct(ProductDetails product) {
+    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
+    _iap.buyNonConsumable(purchaseParam: purchaseParam);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +166,9 @@ class _PremiumScreenState extends State<PremiumScreen> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        // Continue action
+                        if (_products.isNotEmpty) {
+                          _buyProduct(_products.first);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),

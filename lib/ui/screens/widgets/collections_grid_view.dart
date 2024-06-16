@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/constants.dart';
 
 import '../../../models/collection.dart';
 import '../../../services/add_new_collection_modal.dart';
@@ -49,15 +50,15 @@ class _CollectionGridViewState extends State<CollectionGridView> {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.grey.shade800,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(16),
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.add, color: Colors.white, size: 30),
-                  SizedBox(height: 10),
+                  Icon(Icons.add_circle_outline, color: Constants.primaryColor, size: 50),
+                  const SizedBox(height: 10),
                   Text('ADD NEW COLLECTION',
-                      style: TextStyle(color: Colors.white)),
+                      style: AppTypography.body1(color: Constants.white),  textAlign: TextAlign.center, )
                 ],
               ),
             ),

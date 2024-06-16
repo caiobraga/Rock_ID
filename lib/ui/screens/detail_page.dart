@@ -333,8 +333,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   Widget _buildHealthRisksSection() {
     return _buildCard('HEALTH RISKS', Icons.error_rounded, [
       Text(
-        'Quartz, silica, crystalline silica and flint are non-toxic materials, but very fine dust containing quartz, known as respirable crystalline silica (RCS), can cause serious and fatal lung diseases. '
-        'Lapidaries should exercise caution when cutting silica.',
+        '${widget.rock.healthRisks}',
         style: AppTypography.body3(color: AppCollors.naturalWhite),
         textAlign: TextAlign.justify,
       )
@@ -483,13 +482,16 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   // FAQ Section
   Widget _buildFAQSection() {
-    return _buildCard('PEOPLE OFTEN ASK', Icons.image, [
-      _buildFAQItem('Is ${widget.rock.rockName} valuable?'),
-      _buildFAQItem('Is ${widget.rock.rockName} valuable?')
-    ]);
+    List<Widget> body = [];
+    widget.rock.askedQuestions.forEach((Map<String, String> question){
+      question.forEach((key, value) {
+        body.add(_buildFAQItem(key, value));
+      });
+    });
+    return _buildCard('PEOPLE OFTEN ASK', Icons.image, body);
   }
 
-  Widget _buildFAQItem(String question) {
+  Widget _buildFAQItem(String question, String answer) {
     return Container(
       // padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(bottom: 10),
@@ -515,7 +517,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Cloudy or “milky” crystals that don’t allow light to shine through often are considered less valuable.',
+                  answer,
                   style: AppTypography.body3(color: AppCollors.naturalSilver),
                   textAlign: TextAlign.justify,
                 ),
@@ -647,8 +649,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.monetization_on,
       [
         ExpandableText(
-          text:
-              "Clarity and weight are two decisive factors that affect the price of milky Quartz. The price of a tumbled stone around 1 inch across is usually \$1-\$5/piece. When it comes to natural clusters, the shape of the formation and the integrity of the crystals are also important factors affecting pricing.",
+          text: 'The price of ${widget.rock.rockName} may vary, but it is approximately ${widget.rock.price} per gram.' ,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines:
               4, // Define o número máximo de linhas antes de exibir "Learn More"
@@ -664,9 +665,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.monitor_heart_outlined,
       [
         ExpandableText(
-          text:
-              // widget.rock.healingPropeties,
-              "Milky Quartz is believed to be a powerful stone, cleansing the whole body and linking all of the chakras. it’s said to connect explicitly with the third eye and crown chakras, opening up psychic abilities",
+          text: widget.rock.healingPropeties,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         )
@@ -681,8 +680,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.terrain,
       [
         ExpandableText(
-          text:
-              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          text: widget.rock.formulation,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         ),
@@ -697,8 +695,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.menu_book_outlined,
       [
         ExpandableText(
-            text:
-                "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+            text: widget.rock.meaning,
             style: AppTypography.body3(color: AppCollors.naturalWhite),
             maxLines: 4),
       ],
@@ -712,8 +709,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.shopping_basket,
       [
         ExpandableText(
-          text:
-              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          text: widget.rock.howToSelect,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         ),
@@ -728,8 +724,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.category,
       [
         ExpandableText(
-          text:
-              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          text: widget.rock.types,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         ),
@@ -744,8 +739,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.monetization_on,
       [
         ExpandableText(
-          text:
-              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          text: widget.rock.uses,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         ),

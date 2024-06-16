@@ -11,6 +11,15 @@ class Constants {
   static var darkGrey = const Color.fromRGBO(33, 37, 40, 1);
   static var naturalGrey = const Color.fromRGBO(56, 64, 70, 1);
 
+  static var primaryDegrade = const LinearGradient(
+    colors: [
+      Color(0xFFB88F71),
+      Color(0xFFA16132),
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
   // Onboarding texts
   static var titleOne = "Learn more about rocks";
   static var descriptionOne =
@@ -70,7 +79,7 @@ class AppTypography {
     return GoogleFonts.montserrat(
       textStyle: TextStyle(
           fontSize: 18,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w500,
           color: color,
           decoration: decoration,
           decorationColor: decorationColor),

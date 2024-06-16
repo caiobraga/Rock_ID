@@ -43,16 +43,16 @@ class Collection {
   factory Collection.fromMap(Map<String, dynamic> map) {
     return Collection(
       collectionId: map['collectionId'],
-      collectionName: map['collectionName'],
-      description: map['description'],
+      collectionName: map['collectionName'] ?? '',
+      description: map['description'] ?? '',
       number: map['number'] ?? '',
-      dateAcquired: map['dateAcquired'],
-      cost: map['cost'],
-      locality: map['locality'],
-      length: map['length'],
-      width: map['width'],
-      height: map['height'],
-      notes: map['notes'],
+      dateAcquired: map['dateAcquired'] ?? '',
+      cost: map['cost'] ?? 0,
+      locality: map['locality'] ?? '',
+      length: map['length'] ?? 0,
+      width: map['width'] ?? 0,
+      height: map['height'] ?? 0,
+      notes: map['notes'] ?? '',
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'constants.dart';
 import 'ui/onboarding_screen.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -28,6 +29,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
+         inputDecorationTheme: InputDecorationTheme(
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Constants.primaryColor),
+          ),
+        ),
         scaffoldBackgroundColor: Colors.black,
       ),
       title: 'Onboarding Screen',

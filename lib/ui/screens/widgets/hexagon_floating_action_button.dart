@@ -1,9 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
-class HexagonBorder extends ShapeBorder {
-  const HexagonBorder();
+class RoundedHexagonBorder extends ShapeBorder {
+  final double borderRadius;
+
+  const RoundedHexagonBorder({this.borderRadius = 15.0});
 
   @override
   EdgeInsetsGeometry get dimensions => const EdgeInsets.all(0.0);
@@ -17,21 +18,37 @@ class HexagonBorder extends ShapeBorder {
   Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
     final double width = rect.width;
     final double height = rect.height;
+    final double centerX = width / 2;
+    final double centerY = height / 2;
     final double radius = min(width, height) / 2;
-    final double centerX = rect.width / 2;
-    final double centerY = rect.height / 2;
     const double angle = pi / 3;
 
     Path path = Path();
+
     for (int i = 0; i < 6; i++) {
-      double x = centerX + radius * cos(angle * i - pi / 2);
-      double y = centerY + radius * sin(angle * i - pi / 2);
+      double x1 = centerX + radius * cos(angle * i - pi / 2);
+      double y1 = centerY + radius * sin(angle * i - pi / 2);
+      double x2 = centerX + radius * cos(angle * (i + 1) - pi / 2);
+      double y2 = centerY + radius * sin(angle * (i + 1) - pi / 2);
+
+      double xMid1 = centerX + (radius - borderRadius) * cos(angle * i - pi / 2);
+      double yMid1 = centerY + (radius - borderRadius) * sin(angle * i - pi / 2);
+      double xMid2 = centerX + (radius - borderRadius) * cos(angle * (i + 1) - pi / 2);
+      double yMid2 = centerY + (radius - borderRadius) * sin(angle * (i + 1) - pi / 2);
+
       if (i == 0) {
-        path.moveTo(x, y);
+        path.moveTo(xMid1, yMid1);
       } else {
-        path.lineTo(x, y);
+        path.arcToPoint(
+          Offset(xMid1, yMid1),
+          radius: Radius.circular(borderRadius),
+          clockwise: false,
+        );
       }
+
+      path.lineTo(xMid2, yMid2);
     }
+
     path.close();
     return path;
   }
@@ -41,7 +58,7 @@ class HexagonBorder extends ShapeBorder {
 
   @override
   ShapeBorder scale(double t) {
-    return const HexagonBorder();
+    return RoundedHexagonBorder(borderRadius: borderRadius * t);
   }
 }
 
@@ -62,14 +79,14 @@ class HexagonFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      shape: const HexagonBorder(),
+      shape: RoundedHexagonBorder(borderRadius: 5.0),
       color: backgroundColor,
       child: InkWell(
-        customBorder: const HexagonBorder(),
+        customBorder: RoundedHexagonBorder(borderRadius: 5.0),
         onTap: onPressed,
         child: Container(
-          height: 70.0,
-          width: 70.0,
+          height: 80.0,
+          width: 80.0,
           alignment: Alignment.center,
           child: child,
         ),

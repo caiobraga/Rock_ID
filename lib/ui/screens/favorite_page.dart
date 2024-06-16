@@ -88,15 +88,11 @@ class _FavoritePageState extends State<FavoritePage>
       List<int> wishlistIds = await DatabaseHelper().wishlist();
       List<Rock> wishlistRocks = [];
       for (var rockId in wishlistIds) {
-        debugPrint('$rockId');
         final rock =
             Rock.rockList.firstWhere((element) => element.rockId == rockId);
-        debugPrint('ROCK: $rock');
         wishlistRocks.add(rock);
-        debugPrint('$wishlistRocks');
       }
 
-      debugPrint('$wishlistRocks');
       setState(() {
         _wishlistRocks = wishlistRocks;
       });

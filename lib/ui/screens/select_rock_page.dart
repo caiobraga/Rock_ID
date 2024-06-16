@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
@@ -20,39 +21,40 @@ class SelectRockPage extends StatefulWidget {
 }
 
 class _SelectRockPageState extends State<SelectRockPage> {
-  final List<Rock> _rockList = Rock.rockList;
+  List<Rock> _rockList = Rock.rockList;
   List<Rock> _filteredRockList = Rock.rockList;
 
   final _searchRocks = FocusNode();
 
-  void _saveRock(Rock rock) async {
-    Navigator.push(
-        context,
-        PageTransition(
-            child: RockDetailPage(
-              rock: rock,
-              isSavingRock: widget.isSavingRock,
-              isFavoritingRock: widget.isFavoritingRock,
-            ),
-            type: PageTransitionType.bottomToTop));
-  }
-
-  void _filterRocks(String query) {
-    setState(() {
-      _filteredRockList = _rockList
-          .where((rock) =>
-              rock.rockName.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
-  }
-
   @override
   void initState() {
     super.initState();
+    if (widget.isFavoritingRock == true) {
+      _filterFavoritedRocks();
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(milliseconds: 300), () {
         _searchRocks.requestFocus();
       });
+    });
+  }
+
+  void _filterFavoritedRocks() async {
+    final wishlistIds = await DatabaseHelper().wishlist();
+    List<Rock> unfavoritedRocks = _rockList;
+    debugPrint('$wishlistIds');
+
+    for (var rockId in wishlistIds) {
+      unfavoritedRocks = unfavoritedRocks
+          .where(
+            (element) => element.rockId != rockId,
+          )
+          .toList();
+    }
+
+    setState(() {
+      _rockList = unfavoritedRocks;
+      _filteredRockList = unfavoritedRocks;
     });
   }
 
@@ -128,5 +130,26 @@ class _SelectRockPageState extends State<SelectRockPage> {
         ),
       ),
     );
+  }
+
+  void _saveRock(Rock rock) async {
+    Navigator.push(
+        context,
+        PageTransition(
+            child: RockDetailPage(
+              rock: rock,
+              isSavingRock: widget.isSavingRock,
+              isFavoritingRock: widget.isFavoritingRock,
+            ),
+            type: PageTransitionType.bottomToTop));
+  }
+
+  void _filterRocks(String query) {
+    setState(() {
+      _filteredRockList = _rockList
+          .where((rock) =>
+              rock.rockName.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
   }
 }

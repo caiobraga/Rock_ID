@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/models/collection.dart';
+import 'package:flutter_onboarding/models/collection_image.dart';
+import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+
 import '../models/rock_in_collection.dart';
 
 class DatabaseHelper {
@@ -28,7 +30,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 14,
+      version: 18,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -74,6 +76,17 @@ class DatabaseHelper {
     ''');
 
     await db.execute('''
+      CREATE TABLE collection_images(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        image BLOB,
+        collectionId INTEGER,
+        CONSTRAINT fk_collections FOREIGN KEY (collectionId) REFERENCES collections(collectionId)
+      )
+    ''');
+
+    debugPrint('CRIADAS COLEÇÕES DAS IMAGENS UHULLLL!!!!');
+
+    await db.execute('''
       CREATE TABLE rock_in_collection(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
@@ -104,6 +117,7 @@ class DatabaseHelper {
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // Drop all tables
     await db.execute('DROP TABLE IF EXISTS rocks');
+    await db.execute('DROP TABLE IF EXISTS collection_images');
     await db.execute('DROP TABLE IF EXISTS collections');
     await db.execute('DROP TABLE IF EXISTS rock_in_collection');
     await db.execute('DROP TABLE IF EXISTS wishlist');
@@ -254,21 +268,51 @@ class DatabaseHelper {
   // Functions for collections
 
   Future<void> insertCollection(Collection collection) async {
-    final db = await database;
-    await db.insert(
-      'collections',
-      collection.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    try {
+      final db = await database;
+      final id = await db.insert(
+        'collections',
+        collection.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+
+      final collectionImagesWithCollectionId = collection.collectionImagesFiles
+          .map((e) => e.copyWith(collectionId: id))
+          .toList();
+
+      for (var collectionImageFile in collectionImagesWithCollectionId) {
+        await db.insert(
+          'collection_images',
+          collectionImageFile.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+    } catch (e) {
+      debugPrint('ERROR: $e');
+    }
   }
 
   Future<List<Collection>> collections() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('collections');
+    final List<Map<String, dynamic>> collectionsMap =
+        await db.query('collections');
+    final List<Map<String, dynamic>> collectionImagesMap =
+        await db.query('collection_images');
+    final lstImages =
+        collectionImagesMap.map((e) => CollectionImage.fromMap(e)).toList();
 
-    return List.generate(maps.length, (i) {
-      return Collection.fromMap(maps[i]);
-    });
+    final lstCollections =
+        collectionsMap.map((e) => Collection.fromMap(e)).toList();
+
+    final result = lstCollections
+        .map((collection) => collection.copyWith(
+            collectionImagesFiles: lstImages
+                .where((element) =>
+                    element.collectionId == collection.collectionId)
+                .toList()))
+        .toList();
+
+    return result;
   }
 
   Future<void> updateCollection(Collection collection) async {

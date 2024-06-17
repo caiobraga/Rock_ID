@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter_onboarding/models/collection_image.dart';
+
 class Collection {
   final int collectionId;
   final String collectionName;
@@ -11,6 +14,7 @@ class Collection {
   final double height;
   final String notes;
   final String unitOfMeasurement;
+  final List<CollectionImage> collectionImagesFiles;
 
   Collection({
     required this.collectionId,
@@ -25,6 +29,7 @@ class Collection {
     required this.height,
     required this.notes,
     required this.unitOfMeasurement,
+    this.collectionImagesFiles = const [],
   });
 
   Map<String, dynamic> toMap() {
@@ -57,6 +62,39 @@ class Collection {
       height: map['height'] ?? 0,
       notes: map['notes'] ?? '',
       unitOfMeasurement: map['unitOfMeasurement'] ?? '',
+    );
+  }
+
+  Collection copyWith({
+    int? collectionId,
+    String? collectionName,
+    String? description,
+    String? number,
+    String? dateAcquired,
+    double? cost,
+    String? locality,
+    double? length,
+    double? width,
+    double? height,
+    String? notes,
+    String? unitOfMeasurement,
+    List<CollectionImage>? collectionImagesFiles,
+  }) {
+    return Collection(
+      collectionId: collectionId ?? this.collectionId,
+      collectionName: collectionName ?? this.collectionName,
+      description: description ?? this.description,
+      number: number ?? this.number,
+      dateAcquired: dateAcquired ?? this.dateAcquired,
+      cost: cost ?? this.cost,
+      locality: locality ?? this.locality,
+      length: length ?? this.length,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      notes: notes ?? this.notes,
+      unitOfMeasurement: unitOfMeasurement ?? this.unitOfMeasurement,
+      collectionImagesFiles:
+          collectionImagesFiles ?? this.collectionImagesFiles,
     );
   }
 }

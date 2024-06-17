@@ -17,12 +17,14 @@ class RockDetailPage extends StatefulWidget {
   final Rock rock;
   final bool isSavingRock;
   final bool? isFavoritingRock;
+  final bool? showAddButton;
 
   const RockDetailPage({
     super.key,
     required this.rock,
     required this.isSavingRock,
     this.isFavoritingRock,
+    this.showAddButton,
   });
 
   @override
@@ -218,62 +220,65 @@ class _RockDetailPageState extends State<RockDetailPage> {
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: Colors.black,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      ShowSelectionModalService().show(context);
-                    },
-                    child: SvgPicture.string(
-                          AppIcons.camera,
-                          color: Constants.primaryColor,
-                          width: 50,
-                        ),
-                  ),
-                  const SizedBox(width: 16),
-                  GestureDetector(
-                    onTap: () => widget.isSavingRock
-                        ? saveRock(context)
-                        : toRemoveFromWishlist
-                            ? removeFromWishlist(context)
-                            : toFavoriteRock
-                                ? addToWishlist(context)
-                                : addToCollection(context),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: 50,
-                      decoration: BoxDecoration(
+          Visibility(
+            visible: widget.showAddButton != false,
+            child: Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: Colors.black,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        ShowSelectionModalService().show(context);
+                      },
+                      child: SvgPicture.string(
+                        AppIcons.camera,
                         color: Constants.primaryColor,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 12.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            buttonText,
-                            style: TextStyle(
-                                color: Constants.darkGrey,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                        width: 50,
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 16),
+                    GestureDetector(
+                      onTap: () => widget.isSavingRock
+                          ? saveRock(context)
+                          : toRemoveFromWishlist
+                              ? removeFromWishlist(context)
+                              : toFavoriteRock
+                                  ? addToWishlist(context)
+                                  : addToCollection(context),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Constants.primaryColor,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 12.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              buttonText,
+                              style: TextStyle(
+                                  color: Constants.darkGrey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -311,13 +316,16 @@ class _RockDetailPageState extends State<RockDetailPage> {
   }
 
   Widget _buildHealthRisksSection() {
-    return _buildCard(title: 'HEALTH RISKS', iconData: Icons.error_rounded, body: [
-      Text(
-        widget.rock.healthRisks,
-        style: AppTypography.body3(color: AppColors.naturalWhite),
-        textAlign: TextAlign.justify,
-      )
-    ]);
+    return _buildCard(
+        title: 'HEALTH RISKS',
+        iconData: Icons.error_rounded,
+        body: [
+          Text(
+            widget.rock.healthRisks,
+            style: AppTypography.body3(color: AppColors.naturalWhite),
+            textAlign: TextAlign.justify,
+          )
+        ]);
   }
 
   // Images Section
@@ -469,7 +477,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
         body.add(_buildFAQItem(key, value));
       });
     });
-    return _buildCard(title: 'PEOPLE OFTEN ASK', icon: AppIcons.uncertainty, body: body);
+    return _buildCard(
+        title: 'PEOPLE OFTEN ASK', icon: AppIcons.uncertainty, body: body);
   }
 
   Widget _buildFAQItem(String question, String answer) {
@@ -527,92 +536,99 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   // Identify
   Widget _buildIdentifySection() {
-    return _buildCard(title :"HOW TO IDENTIFY IT?", iconData :Icons.lightbulb_outline, body: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Color",
-              style: AppTypography.body2(color: AppColors.primaryMedium)),
-          Text(widget.rock.color,
-              style: AppTypography.body3(color: AppColors.naturalSilver)),
-          const SizedBox(height: 8),
-          Row(
+    return _buildCard(
+        title: "HOW TO IDENTIFY IT?",
+        iconData: Icons.lightbulb_outline,
+        body: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(8), // Define o border radius
-                  child: Image.asset(
-                    'assets/images/rocha-granito.jpg',
-                    height: 103,
-                    fit: BoxFit.cover,
+              Text("Color",
+                  style: AppTypography.body2(color: AppColors.primaryMedium)),
+              Text(widget.rock.color,
+                  style: AppTypography.body3(color: AppColors.naturalSilver)),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(8), // Define o border radius
+                      child: Image.asset(
+                        'assets/images/rocha-granito.jpg',
+                        height: 103,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(8), // Define o border radius
+                      child: Image.asset(
+                        'assets/images/rocha-granito.jpg',
+                        height: 103,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text("Luster",
+                  style: AppTypography.body2(color: AppColors.primaryMedium)),
+              Text(widget.rock.Luster,
+                  style: AppTypography.body3(color: AppColors.naturalSilver)),
+              const SizedBox(height: 8),
+              ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(8), // Define o border radius
+                child: Image.asset(
+                  'assets/images/rocha-granito.jpg',
+                  height: 182,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.circular(8), // Define o border radius
-                  child: Image.asset(
-                    'assets/images/rocha-granito.jpg',
-                    height: 103,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+              const SizedBox(height: 16),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Text(
+              //       "Learn More",
+              //       style: AppTypography.body3(color: AppCollors.primaryMedium),
+              //     ),
+              //     const SizedBox(width: 4),
+              //     Icon(
+              //       Icons.expand_more,
+              //       color: AppCollors.primaryMedium,
+              //       size: 16,
+              //     )
+              //   ],
+              // )
             ],
-          ),
-          const SizedBox(height: 16),
-          Text("Luster",
-              style: AppTypography.body2(color: AppColors.primaryMedium)),
-          Text(widget.rock.Luster,
-              style: AppTypography.body3(color: AppColors.naturalSilver)),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8), // Define o border radius
-            child: Image.asset(
-              'assets/images/rocha-granito.jpg',
-              height: 182,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Text(
-          //       "Learn More",
-          //       style: AppTypography.body3(color: AppCollors.primaryMedium),
-          //     ),
-          //     const SizedBox(width: 4),
-          //     Icon(
-          //       Icons.expand_more,
-          //       color: AppCollors.primaryMedium,
-          //       size: 16,
-          //     )
-          //   ],
-          // )
-        ],
-      )
-    ]);
+          )
+        ]);
   }
 
   // Physical Properties
   Widget _buildPhysicalPropertiesSection() {
-    return _buildCard(title :"PHYSICAL PROPERTIES", icon: AppIcons.calendarSearch, body: [
-      _buildInfoSection('Crystal System', widget.rock.crystalSystem),
-      _buildInfoSection('Colors', widget.rock.Colors.toString()),
-      _buildInfoSection('Luster', widget.rock.Luster),
-      _buildInfoSection('Diaphaneity', widget.rock.Diaphaneity),
-    ]);
+    return _buildCard(
+        title: "PHYSICAL PROPERTIES",
+        icon: AppIcons.calendarSearch,
+        body: [
+          _buildInfoSection('Crystal System', widget.rock.crystalSystem),
+          _buildInfoSection('Colors', widget.rock.Colors.toString()),
+          _buildInfoSection('Luster', widget.rock.Luster),
+          _buildInfoSection('Diaphaneity', widget.rock.Diaphaneity),
+        ]);
   }
 
   // Chemical Properties
   Widget _buildChemicalPropertiesSession() {
     return _buildCard(
-      title :"CHEMICAL PROPERTIES",
+      title: "CHEMICAL PROPERTIES",
       icon: AppIcons.chemical,
       body: [
         _buildInfoSection(
@@ -687,7 +703,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // Select
   Widget _buildSelectSection() {
     return _buildCard(
-      title :"HOW TO SELECT",
+      title: "HOW TO SELECT",
       icon: AppIcons.shoppingBasket,
       body: [
         ExpandableText(
@@ -702,7 +718,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // TYPES
   Widget _buildTypesSection() {
     return _buildCard(
-      title :"TYPES",
+      title: "TYPES",
       iconData: Icons.category,
       body: [
         ExpandableText(

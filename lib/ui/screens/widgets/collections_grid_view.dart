@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 
@@ -30,7 +32,7 @@ class _CollectionGridViewState extends State<CollectionGridView> {
     return GridView.builder(
       padding: const EdgeInsets.all(8),
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      // physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 10,
@@ -70,17 +72,15 @@ class _CollectionGridViewState extends State<CollectionGridView> {
           );
         } else {
           final collection = widget.collections[index];
+          final List<File> filesNotNull = collection.collectionImagesFiles
+              .where(((element) => element.image != null))
+              .map((e) => e.image!)
+              .toList();
           return CollectionWidget(
             title: collection.collectionName,
             isSavedLayout: collection.collectionName == 'Saved',
             rockCount: 0,
-            rockImages: collection.collectionName == 'Saved'
-                ? []
-                : [
-                    'assets/images/rock1.png',
-                    'assets/images/rock1.png',
-                    // Add actual rock images here
-                  ],
+            rockImages: const [''],
             onTap: () {
               CollectionListModelService()
                   .show(context, widget.collections[index].collectionId);

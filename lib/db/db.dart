@@ -28,7 +28,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 10,
+      version: 14,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -60,7 +60,16 @@ class DatabaseHelper {
       CREATE TABLE collections(
         collectionId INTEGER PRIMARY KEY AUTOINCREMENT,
         collectionName TEXT,
-        description TEXT
+        description TEXT,
+        number TEXT,
+        dateAcquired TEXT,
+        cost REAL,
+        locality TEXT,
+        length REAL,
+        width REAL,
+        height REAL,
+        notes TEXT,
+        unitOfMeasurement TEXT
       )
     ''');
 
@@ -93,84 +102,16 @@ class DatabaseHelper {
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
-      await _createTableIfNotExists(db, 'collections', '''
-      CREATE TABLE collections(
-        collectionId INTEGER PRIMARY KEY AUTOINCREMENT,
-        collectionName TEXT,
-        description TEXT,
-        number TEXT,
-        dateAcquired TEXT,
-        cost REAL,
-        locality TEXT,
-        length REAL,
-        width REAL,
-        height REAL,
-        notes TEXT
-      )
-    ''');
+    // Drop all tables
+    await db.execute('DROP TABLE IF EXISTS rocks');
+    await db.execute('DROP TABLE IF EXISTS collections');
+    await db.execute('DROP TABLE IF EXISTS rock_in_collection');
+    await db.execute('DROP TABLE IF EXISTS wishlist');
+    await db.execute('DROP TABLE IF EXISTS snap_history');
+    debugPrint('DROPOU!!!!!!!');
 
-      await _createTableIfNotExists(db, 'rock_in_collection', '''
-      CREATE TABLE rock_in_collection(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        rockId INTEGER,
-        collectionId INTEGER,
-        FOREIGN KEY (rockId) REFERENCES rocks (rockId),
-        FOREIGN KEY (collectionId) REFERENCES collections (collectionId)
-      )
-    ''');
-    }
-    if (oldVersion < 4) {
-      await _addColumnIfNotExists(db, 'rocks', 'formula', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'hardness', 'REAL');
-      await _addColumnIfNotExists(db, 'rocks', 'color', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'isMagnetic', 'INTEGER');
-    }
-    if (oldVersion < 5) {
-      await _addColumnIfNotExists(db, 'rocks', 'healthRisks', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'askedQuestions', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'crystalSystem', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'Colors', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'Luster', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'Diaphaneity', 'TEXT');
-      await _addColumnIfNotExists(
-          db, 'rocks', 'quimicalClassification', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'elementsListed', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'healingPropeties', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'formulation', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'meaning', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'howToSelect', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'types', 'TEXT');
-      await _addColumnIfNotExists(db, 'rocks', 'uses', 'TEXT');
-    }
-    if (oldVersion < 6) {
-      await _createTableIfNotExists(db, 'wishlist', '''
-      CREATE TABLE wishlist(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        rockId INTEGER,
-        FOREIGN KEY (rockId) REFERENCES rocks (rockId)
-      )
-    ''');
-
-      await _createTableIfNotExists(db, 'snap_history', '''
-      CREATE TABLE snap_history(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        rockId INTEGER,
-        timestamp TEXT,
-        FOREIGN KEY (rockId) REFERENCES rocks (rockId)
-      )
-    ''');
-    }
-    if (oldVersion < 10) {
-      await _addColumnIfNotExists(db, 'collections', 'number', 'TEXT');
-      await _addColumnIfNotExists(db, 'collections', 'dateAcquired', 'TEXT');
-      await _addColumnIfNotExists(db, 'collections', 'cost', 'REAL');
-      await _addColumnIfNotExists(db, 'collections', 'locality', 'TEXT');
-      await _addColumnIfNotExists(db, 'collections', 'length', 'REAL');
-      await _addColumnIfNotExists(db, 'collections', 'width', 'REAL');
-      await _addColumnIfNotExists(db, 'collections', 'height', 'REAL');
-      await _addColumnIfNotExists(db, 'collections', 'notes', 'TEXT');
-    }
+    // Recreate tables
+    await _onCreate(db, newVersion);
   }
 
   Future<void> _createTableIfNotExists(
@@ -222,6 +163,7 @@ class DatabaseHelper {
           notes: '',
           number: '',
           width: 0,
+          unitOfMeasurement: 'cm',
         ),
       );
     }

@@ -801,6 +801,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   void saveRock(BuildContext context) async {
     // Implement your save logic here
     try {
+      debugPrint('${widget.rock.toMap()}');
       await DatabaseHelper().insertRock(widget.rock);
       ShowSnackbarService().showSnackBar('Rock Saved');
       await Navigator.pushReplacement(

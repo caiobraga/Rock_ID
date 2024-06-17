@@ -10,6 +10,7 @@ class Collection {
   final double width;
   final double height;
   final String notes;
+  final String unitOfMeasurement;
 
   Collection({
     required this.collectionId,
@@ -23,6 +24,7 @@ class Collection {
     required this.width,
     required this.height,
     required this.notes,
+    required this.unitOfMeasurement,
   });
 
   Map<String, dynamic> toMap() {
@@ -37,6 +39,7 @@ class Collection {
       'width': width,
       'height': height,
       'notes': notes,
+      'unitOfMeasurement': unitOfMeasurement,
     };
   }
 
@@ -53,6 +56,7 @@ class Collection {
       width: map['width'] ?? 0,
       height: map['height'] ?? 0,
       notes: map['notes'] ?? '',
+      unitOfMeasurement: map['unitOfMeasurement'] ?? '',
     );
   }
 }

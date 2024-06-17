@@ -48,6 +48,7 @@ class AddNewCollectionModalService {
             width: width,
             height: height,
             notes: notes,
+            unitOfMeasurement: 'cm',
           );
 
           await DatabaseHelper().insertCollection(newCollection);

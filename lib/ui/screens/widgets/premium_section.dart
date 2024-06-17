@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
@@ -33,7 +34,12 @@ class PremiumSection extends StatelessWidget {
           crossAxisAlignment:
               CrossAxisAlignment.center, // Ajuste o alinhamento vertical
           children: [
-            Icon(Icons.star_border, color: AppCollors.naturalBlack, size: 40),
+            // Icon(Icons.star_border, color: AppCollors.naturalBlack, size: 40),
+            SvgPicture.string(
+              AppIcons.crown,
+              color: AppColors.naturalBlack,
+              width: 40,
+            ),
             const SizedBox(width: 10), // Espaçamento entre o ícone e o texto
             Flexible(
               fit: FlexFit.loose,
@@ -46,7 +52,7 @@ class PremiumSection extends StatelessWidget {
                         'Go ',
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
-                            color: AppCollors.naturalBlack,
+                            color: AppColors.naturalBlack,
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
                           ),
@@ -59,7 +65,7 @@ class PremiumSection extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
-                          color: AppCollors.white,
+                          color: AppColors.white,
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Text(
@@ -68,7 +74,7 @@ class PremiumSection extends StatelessWidget {
                             textStyle: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: AppCollors.primaryDarkest,
+                              color: AppColors.primaryDarkest,
                             ),
                           ),
                         ),
@@ -81,7 +87,7 @@ class PremiumSection extends StatelessWidget {
                     'Try ROCKAPP Premium for free',
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
-                        color: AppCollors.naturalBlack,
+                        color: AppColors.naturalBlack,
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                       ),
@@ -91,7 +97,7 @@ class PremiumSection extends StatelessWidget {
                     'Claim your offer now',
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
-                        color: AppCollors.naturalBlack,
+                        color: AppColors.naturalBlack,
                         fontWeight: FontWeight.normal,
                         fontSize: 12,
                       ),

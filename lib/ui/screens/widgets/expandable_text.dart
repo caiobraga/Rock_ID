@@ -82,7 +82,7 @@ class _ExpandableTextState extends State<ExpandableText> with SingleTickerProvid
                     children: [
                       Text(
                         isExpanded ? "Show less" : "Learn More",
-                        style: TextStyle(color: AppCollors.primaryMedium),
+                        style: TextStyle(color: AppColors.primaryMedium),
                       ),
                       const SizedBox(width: 4),
                       AnimatedRotation(
@@ -90,7 +90,7 @@ class _ExpandableTextState extends State<ExpandableText> with SingleTickerProvid
                         duration: const Duration(milliseconds: 200),
                         child: Icon(
                           Icons.expand_more,
-                          color: AppCollors.primaryMedium,
+                          color: AppColors.primaryMedium,
                           size: 16,
                         ),
                       ),

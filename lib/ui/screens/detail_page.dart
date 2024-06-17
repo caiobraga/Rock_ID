@@ -3,7 +3,7 @@ import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -146,15 +146,15 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                     TextSpan(
                                       text: 'a variety of ',
                                       style: AppTypography.body3(
-                                          color: AppCollors.naturalSilver),
+                                          color: AppColors.naturalSilver),
                                     ),
                                     TextSpan(
                                       text: widget.rock.category,
                                       style: AppTypography.body3(
-                                        color: AppCollors.primaryMedium,
+                                        color: AppColors.primaryMedium,
                                         decoration: TextDecoration.underline,
                                         decorationColor:
-                                            AppCollors.primaryMedium,
+                                            AppColors.primaryMedium,
                                       ),
                                     ),
                                   ],
@@ -182,8 +182,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
                   _buildHealthRisksSection(),
                   const SizedBox(height: 16),
                   _buildImagesSection(),
-                  const SizedBox(height: 16),
-                  _buildLocationsSection(),
+                  // const SizedBox(height: 16),
+                  // _buildLocationsSection(),
                   const SizedBox(height: 16),
                   _buildFAQSection(),
                   const SizedBox(height: 16),
@@ -225,7 +225,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
             child: Container(
               color: Colors.black,
               padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -233,33 +233,13 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     onTap: () {
                       ShowSelectionModalService().show(context);
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      width: 50.0,
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Constants.primaryColor, width: 1),
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.photo_camera,
+                    child: SvgPicture.string(
+                          AppIcons.camera,
                           color: Constants.primaryColor,
-                          size: 30.0,
+                          width: 50,
                         ),
-                      ),
-                    ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 16),
                   GestureDetector(
                     onTap: () => widget.isSavingRock
                         ? saveRock(context)
@@ -292,7 +272,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -312,14 +292,14 @@ class _RockDetailPageState extends State<RockDetailPage> {
           Expanded(
               flex: 3,
               child: Text(title,
-                  style: AppTypography.body3(color: AppCollors.naturalWhite))),
+                  style: AppTypography.body3(color: AppColors.naturalWhite))),
           Expanded(
             flex: 3,
             child: Text(
               value,
               style: GoogleFonts.montserrat(
                   textStyle: TextStyle(
-                color: AppCollors.naturalWhite,
+                color: AppColors.naturalWhite,
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
               )),
@@ -331,10 +311,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
   }
 
   Widget _buildHealthRisksSection() {
-    return _buildCard('HEALTH RISKS', Icons.error_rounded, [
+    return _buildCard(title: 'HEALTH RISKS', iconData: Icons.error_rounded, body: [
       Text(
         widget.rock.healthRisks,
-        style: AppTypography.body3(color: AppCollors.naturalWhite),
+        style: AppTypography.body3(color: AppColors.naturalWhite),
         textAlign: TextAlign.justify,
       )
     ]);
@@ -343,9 +323,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // Images Section
   Widget _buildImagesSection() {
     return _buildCard(
-      'IMAGES OF "${widget.rock.rockName.toUpperCase()}"',
-      Icons.image,
-      [
+      title: 'IMAGES OF "${widget.rock.rockName.toUpperCase()}"',
+      // iconData: Icons.image,
+      icon: AppIcons.galery,
+      body: [
         Row(
           children: [
             _buildImageCard(
@@ -366,7 +347,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(43),
           border: Border.all(
-            color: AppCollors
+            color: AppColors
                 .naturalGrey, // Cor da borda, substitua por AppCollors.primaryColor
             width: 2, // Espessura da borda
           ),
@@ -391,7 +372,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     title,
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
-                          color: AppCollors.naturalWhite,
+                          color: AppColors.naturalWhite,
                           fontWeight: FontWeight.normal,
                           fontSize: 12),
                     ),
@@ -403,7 +384,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     subtitle,
                     style: GoogleFonts.montserrat(
                       textStyle: TextStyle(
-                          color: AppCollors.primaryMedium,
+                          color: AppColors.primaryMedium,
                           fontWeight: FontWeight.normal,
                           fontSize: 10),
                     ),
@@ -438,7 +419,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                 padding: const EdgeInsets.only(right: 8),
                 child: Icon(
                   Icons.image,
-                  color: AppCollors.primaryMedium,
+                  color: AppColors.primaryMedium,
                   size: 24.0,
                 ),
               ),
@@ -447,7 +428,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                 child: Text(
                   'LOCATIONS FOR "${widget.rock.rockName.toUpperCase()}"',
                   style: AppTypography.headline2(
-                    color: AppCollors.naturalWhite,
+                    color: AppColors.naturalWhite,
                     fontWeight: FontWeight.bold,
                   ),
                   overflow: TextOverflow.visible,
@@ -488,7 +469,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
         body.add(_buildFAQItem(key, value));
       });
     });
-    return _buildCard('PEOPLE OFTEN ASK', Icons.image, body);
+    return _buildCard(title: 'PEOPLE OFTEN ASK', icon: AppIcons.uncertainty, body: body);
   }
 
   Widget _buildFAQItem(String question, String answer) {
@@ -503,22 +484,22 @@ class _RockDetailPageState extends State<RockDetailPage> {
         borderRadius: BorderRadius.circular(8), // Define o border radius
         child: Container(
           decoration: BoxDecoration(
-            color: AppCollors.naturalGrey, // Cor de fundo quando colapsado
+            color: AppColors.naturalGrey, // Cor de fundo quando colapsado
           ),
           child: ExpansionTile(
             title: ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 0),
               title: Text(question,
-                  style: AppTypography.body1(color: AppCollors.primaryMedium)),
+                  style: AppTypography.body1(color: AppColors.primaryMedium)),
             ),
-            iconColor: AppCollors.primaryMedium,
-            collapsedIconColor: AppCollors.primaryMedium,
+            iconColor: AppColors.primaryMedium,
+            collapsedIconColor: AppColors.primaryMedium,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   answer,
-                  style: AppTypography.body3(color: AppCollors.naturalSilver),
+                  style: AppTypography.body3(color: AppColors.naturalSilver),
                   textAlign: TextAlign.justify,
                 ),
               )
@@ -532,12 +513,12 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // Description
   Widget _buildDescription(String description) {
     return _buildCard(
-      'DESCRIPTION',
-      Icons.description,
-      [
+      title: 'DESCRIPTION',
+      icon: AppIcons.description,
+      body: [
         Text(
           description,
-          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          style: AppTypography.body3(color: AppColors.naturalWhite),
           textAlign: TextAlign.justify,
         ),
       ],
@@ -546,14 +527,14 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   // Identify
   Widget _buildIdentifySection() {
-    return _buildCard("HOW TO IDENTIFY IT?", Icons.lightbulb_outline, [
+    return _buildCard(title :"HOW TO IDENTIFY IT?", iconData :Icons.lightbulb_outline, body: [
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Color",
-              style: AppTypography.body2(color: AppCollors.primaryMedium)),
+              style: AppTypography.body2(color: AppColors.primaryMedium)),
           Text(widget.rock.color,
-              style: AppTypography.body3(color: AppCollors.naturalSilver)),
+              style: AppTypography.body3(color: AppColors.naturalSilver)),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -584,9 +565,9 @@ class _RockDetailPageState extends State<RockDetailPage> {
           ),
           const SizedBox(height: 16),
           Text("Luster",
-              style: AppTypography.body2(color: AppCollors.primaryMedium)),
+              style: AppTypography.body2(color: AppColors.primaryMedium)),
           Text(widget.rock.Luster,
-              style: AppTypography.body3(color: AppCollors.naturalSilver)),
+              style: AppTypography.body3(color: AppColors.naturalSilver)),
           const SizedBox(height: 8),
           ClipRRect(
             borderRadius: BorderRadius.circular(8), // Define o border radius
@@ -620,7 +601,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   // Physical Properties
   Widget _buildPhysicalPropertiesSection() {
-    return _buildCard("PHYSICAL PROPERTIES", FontAwesomeIcons.calendarCheck, [
+    return _buildCard(title :"PHYSICAL PROPERTIES", icon: AppIcons.calendarSearch, body: [
       _buildInfoSection('Crystal System', widget.rock.crystalSystem),
       _buildInfoSection('Colors', widget.rock.Colors.toString()),
       _buildInfoSection('Luster', widget.rock.Luster),
@@ -631,9 +612,9 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // Chemical Properties
   Widget _buildChemicalPropertiesSession() {
     return _buildCard(
-      "CHEMICAL PROPERTIES",
-      Icons.science,
-      [
+      title :"CHEMICAL PROPERTIES",
+      icon: AppIcons.chemical,
+      body: [
         _buildInfoSection(
             'Chemical Classification', widget.rock.quimicalClassification),
         _buildInfoSection('Formula', widget.rock.formula),
@@ -645,13 +626,13 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // Price
   Widget _buildPriceSection() {
     return _buildCard(
-      "PRICE",
-      Icons.monetization_on,
-      [
+      title: "PRICE",
+      icon: AppIcons.price,
+      body: [
         ExpandableText(
           text:
               'The price of ${widget.rock.rockName} may vary, but it is approximately ${widget.rock.price} per gram.',
-          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines:
               4, // Define o número máximo de linhas antes de exibir "Learn More"
         ),
@@ -662,12 +643,12 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // Healing Properties
   Widget _buildHealingSection() {
     return _buildCard(
-      "HEALING PROPERTIES",
-      Icons.monitor_heart_outlined,
-      [
+      title: "HEALING PROPERTIES",
+      icon: AppIcons.heart,
+      body: [
         ExpandableText(
           text: widget.rock.healingPropeties,
-          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         )
       ],
@@ -677,12 +658,12 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // Formation
   Widget _buildFormationSection() {
     return _buildCard(
-      "FORMATION",
-      Icons.terrain,
-      [
+      title: "FORMATION",
+      icon: AppIcons.formation,
+      body: [
         ExpandableText(
           text: widget.rock.formulation,
-          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
       ],
@@ -692,12 +673,12 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // Meaning
   Widget _buildMeaningSection() {
     return _buildCard(
-      "MEANING",
-      Icons.menu_book_outlined,
-      [
+      title: "MEANING",
+      icon: AppIcons.meaning,
+      body: [
         ExpandableText(
             text: widget.rock.meaning,
-            style: AppTypography.body3(color: AppCollors.naturalWhite),
+            style: AppTypography.body3(color: AppColors.naturalWhite),
             maxLines: 4),
       ],
     );
@@ -706,12 +687,12 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // Select
   Widget _buildSelectSection() {
     return _buildCard(
-      "HOW TO SELECT",
-      Icons.shopping_basket,
-      [
+      title :"HOW TO SELECT",
+      icon: AppIcons.shoppingBasket,
+      body: [
         ExpandableText(
           text: widget.rock.howToSelect,
-          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
       ],
@@ -721,12 +702,12 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // TYPES
   Widget _buildTypesSection() {
     return _buildCard(
-      "TYPES",
-      Icons.category,
-      [
+      title :"TYPES",
+      iconData: Icons.category,
+      body: [
         ExpandableText(
           text: widget.rock.types,
-          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
       ],
@@ -736,19 +717,23 @@ class _RockDetailPageState extends State<RockDetailPage> {
   // USES
   Widget _buildUsesSection() {
     return _buildCard(
-      "USES",
-      Icons.monetization_on,
-      [
+      title: "USES",
+      icon: AppIcons.monetization,
+      body: [
         ExpandableText(
           text: widget.rock.uses,
-          style: AppTypography.body3(color: AppCollors.naturalWhite),
+          style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
       ],
     );
   }
 
-  Widget _buildCard(String title, IconData iconData, List<Widget> body) {
+  Widget _buildCard(
+      {required String title,
+      IconData? iconData,
+      required List<Widget> body,
+      String? icon}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
@@ -763,20 +748,30 @@ class _RockDetailPageState extends State<RockDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(
-                  iconData,
-                  color: AppCollors.primaryMedium,
-                  size: 24.0,
+              if (iconData != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Icon(
+                    iconData,
+                    color: AppColors.primaryMedium,
+                    size: 24.0,
+                  ),
                 ),
-              ),
+              if (icon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: SvgPicture.string(
+                    icon,
+                    color: AppColors.primaryMedium,
+                    width: 24,
+                  ),
+                ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   title,
                   style: AppTypography.headline2(
-                    color: AppCollors.naturalWhite,
+                    color: AppColors.naturalWhite,
                     fontWeight: FontWeight.bold,
                   ),
                   overflow: TextOverflow.visible,

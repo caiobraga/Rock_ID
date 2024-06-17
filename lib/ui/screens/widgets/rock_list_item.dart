@@ -25,7 +25,7 @@ class RockListItem extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 8.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: AppCollors.naturalBlack,
+          color: AppColors.naturalBlack,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -91,7 +91,7 @@ class RockListItem extends StatelessWidget {
                             text: tag,
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color: AppCollors.naturalSilver,
+                            color: AppColors.naturalSilver,
                           ),
                         );
                       }).toList(),

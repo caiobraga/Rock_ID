@@ -379,13 +379,13 @@ class _FavoritePageState extends State<FavoritePage>
                     const SizedBox(height: 20),
                     Text('The Wishlist is empty!',
                         style: AppTypography.body2(
-                            color: AppCollors.naturalWhite)),
+                            color: AppColors.naturalWhite)),
                     const SizedBox(height: 10),
                     Text(
                         'Add any new rock to this page by clicking\non the heart icon on the Rock Detail page',
                         textAlign: TextAlign.center,
                         style: AppTypography.body3(
-                            color: AppCollors.naturalWhite)),
+                            color: AppColors.naturalWhite)),
                     const SizedBox(height: 20),
                     _addRockToWishlistButton(),
                   ],

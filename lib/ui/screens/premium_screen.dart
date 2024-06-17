@@ -109,7 +109,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                   text: 'GET FULL ACCESS',
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: AppCollors.primaryMedium,
+                  color: AppColors.primaryMedium,
                 ),
                 const SizedBox(height: 12),
                 const DSCustomText(
@@ -143,15 +143,15 @@ class _PremiumScreenState extends State<PremiumScreen> {
                       text: 'Free trial enabled',
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: AppCollors.white,
+                      color: AppColors.white,
                     ),
                     const SizedBox(width: 8),
                     SizedBox(
                       height: 24,
                       child: Switch(
-                        activeColor: AppCollors.naturalBlack,
-                        activeTrackColor: AppCollors.primaryMedium,
-                        inactiveThumbColor: AppCollors.white,
+                        activeColor: AppColors.naturalBlack,
+                        activeTrackColor: AppColors.primaryMedium,
+                        inactiveThumbColor: AppColors.white,
                         inactiveTrackColor: Colors.transparent,
                         value: isFreeTrialEnabled,
                         onChanged: (bool value) {
@@ -173,7 +173,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 16),
-                    backgroundColor: AppCollors.primaryMedium,
+                    backgroundColor: AppColors.primaryMedium,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -182,7 +182,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                         text: 'Continue',
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: AppCollors.naturalBlack,
+                        color: AppColors.naturalBlack,
                       ),
                       const SizedBox(width: 8),
                       const Icon(
@@ -207,16 +207,16 @@ class _PremiumScreenState extends State<PremiumScreen> {
                           text: 'Terms of Use',
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: AppCollors.naturalSilver,
+                          color: AppColors.naturalSilver,
                           decoration: TextDecoration.underline,
-                          decorationColor: AppCollors.naturalSilver,
+                          decorationColor: AppColors.naturalSilver,
                         ),
                       ),
                       const SizedBox(width: 10),
                       Text(
                         '|',
                         style: TextStyle(
-                          color: AppCollors.naturalSilver,
+                          color: AppColors.naturalSilver,
                           fontSize: 12,
                         ),
                       ),
@@ -229,9 +229,9 @@ class _PremiumScreenState extends State<PremiumScreen> {
                           text: 'Privacy Policy',
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
-                          color: AppCollors.naturalSilver,
+                          color: AppColors.naturalSilver,
                           decoration: TextDecoration.underline,
-                          decorationColor: AppCollors.naturalSilver,
+                          decorationColor: AppColors.naturalSilver,
                         ),
                       ),
                     ],
@@ -260,7 +260,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
             text: "TRY 3 DAYS FOR FREE, THEN \$4.99 PER WEEK",
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: AppCollors.primaryMedium,
+            color: AppColors.primaryMedium,
             overflow: TextOverflow.visible,
             textAlign: TextAlign.center,
           ),
@@ -269,7 +269,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
             text: 'Auto-renewable. Cancel anytime.',
             fontSize: 16,
             fontWeight: FontWeight.w400,
-            color: AppCollors.white,
+            color: AppColors.white,
           ),
         ],
       ),
@@ -285,14 +285,14 @@ class _PremiumScreenState extends State<PremiumScreen> {
             text: 'JUST \$24.99 PER YEAR',
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: AppCollors.primaryMedium,
+            color: AppColors.primaryMedium,
           ),
           const SizedBox(height: 4),
           DSCustomText(
             text: 'Auto-renewable. Cancel anytime.',
             fontSize: 16,
             fontWeight: FontWeight.w400,
-            color: AppCollors.white,
+            color: AppColors.white,
           ),
           const SizedBox(height: 20),
         ],
@@ -318,7 +318,7 @@ class FeatureItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: Container(
         decoration: BoxDecoration(
-          color: AppCollors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
           gradient: const LinearGradient(
             colors: [
@@ -351,13 +351,13 @@ class FeatureItem extends StatelessWidget {
                       text: title,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: AppCollors.naturalBlack,
+                      color: AppColors.naturalBlack,
                     ),
                     DSCustomText(
                       text: subTitle,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
-                      color: AppCollors.naturalBlack,
+                      color: AppColors.naturalBlack,
                     ),
                   ],
                 ),

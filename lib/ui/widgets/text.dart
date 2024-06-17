@@ -29,7 +29,7 @@ class DSCustomText extends StatelessWidget {
     return Text(
       text,
       style: GoogleFonts.montserrat(
-        color: color ?? AppCollors.white,
+        color: color ?? AppColors.white,
         fontSize: fontSize,
         fontWeight: fontWeight,
         decoration: decoration,

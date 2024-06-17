@@ -91,7 +91,7 @@ class _ScanPageState extends State<ScanPage> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(15),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.7,
               decoration: const BoxDecoration(
@@ -104,107 +104,109 @@ class _ScanPageState extends State<ScanPage> {
               child: ValueListenableBuilder<int>(
                 valueListenable: _loadingNotifier,
                 builder: (context, value, child) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      if (_isLoading)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              'Identifying $_loadingPercentage%',
-                              style: TextStyle(
-                                color: Constants.primaryColor.withOpacity(.80),
-                                fontSize: 16,
-                              ),
-                            ),
-                            if (_image != null)
-                              Image.file(
-                                File(_image!.path),
-                                height: 200,
-                                fit: BoxFit.cover,
-                              )
-                            else
-                              const CircularProgressIndicator(),
-                          ],
-                        ),
-                      if (_errorMessage != null)
-                        Column(
-                          children: [
-                            const SizedBox(height: 10),
-                            _buildErrorImageRow(
-                              Icons.verified,
-                              Colors.blue,
-                              'assets/images/prefectImage.png',
-                              'This is a good Exemple',
-                            ),
-                            const SizedBox(height: 20),
-                            const Text(
-                              'The following will lead to poor results',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            _buildErrorImageRow(
-                              Icons.close,
-                              Colors.red,
-                              'assets/images/smal_stone.png',
-                              'Too far',
-                              'assets/images/blurred.jpg',
-                              'Blurred images',
-                            ),
-                            const SizedBox(height: 10),
-                            _buildErrorImageRow(
-                              Icons.close,
-                              Colors.red,
-                              'assets/images/varias_rochas.png',
-                              'Too many',
-                              'assets/images/too_dark.png',
-                              'Too dark',
-                            ),
-                            const SizedBox(height: 20),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 15),
-                                decoration: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.circular(20),
+                  return SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (_isLoading)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                'Identifying $_loadingPercentage%',
+                                style: TextStyle(
+                                  color: Constants.primaryColor.withOpacity(.80),
+                                  fontSize: 16,
                                 ),
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.camera_alt,
-                                      size: 30, // Size of the icon
-                                      color: Colors.white, // Color of the icon
-                                    ),
-                                    SizedBox(
-                                        width:
-                                            10), // Space between icon and text
-                                    Text(
-                                      'Retake',
-                                      style: TextStyle(
-                                        fontSize: 18, // Size of the text
-                                        color:
-                                            Colors.white, // Color of the text
+                              ),
+                              if (_image != null)
+                                Image.file(
+                                  File(_image!.path),
+                                  height: 200,
+                                  fit: BoxFit.cover,
+                                )
+                              else
+                                const CircularProgressIndicator(),
+                            ],
+                          ),
+                        if (_errorMessage != null)
+                          Column(
+                            children: [
+                              const SizedBox(height: 10),
+                              _buildErrorImageRow(
+                                Icons.verified,
+                                Colors.blue,
+                                'assets/images/prefectImage.png',
+                                'This is a good Exemple',
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                'The following will lead to poor results',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              _buildErrorImageRow(
+                                Icons.close,
+                                Colors.red,
+                                'assets/images/smal_stone.png',
+                                'Too far',
+                                'assets/images/blurred.jpg',
+                                'Blurred images',
+                              ),
+                              const SizedBox(height: 10),
+                              _buildErrorImageRow(
+                                Icons.close,
+                                Colors.red,
+                                'assets/images/varias_rochas.png',
+                                'Too many',
+                                'assets/images/too_dark.png',
+                                'Too dark',
+                              ),
+                              const SizedBox(height: 20),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.camera_alt,
+                                        size: 30, // Size of the icon
+                                        color: Colors.white, // Color of the icon
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(
+                                          width:
+                                              10), // Space between icon and text
+                                      Text(
+                                        'Retake',
+                                        style: TextStyle(
+                                          fontSize: 18, // Size of the text
+                                          color:
+                                              Colors.white, // Color of the text
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                    ],
+                            ],
+                          ),
+                      ],
+                    ),
                   );
                 },
               ),
@@ -385,26 +387,28 @@ class _ScanPageState extends State<ScanPage> {
                 height: size.height * .8,
                 padding: const EdgeInsets.all(20),
                 child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/code-scan.png',
-                        height: 100,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Tap to Scan',
-                        style: TextStyle(
-                          color: Constants.primaryColor.withOpacity(.80),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/code-scan.png',
+                          height: 100,
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Tap to Scan',
+                          style: TextStyle(
+                            color: Constants.primaryColor.withOpacity(.80),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -8,7 +8,7 @@ class CollectionWidget extends StatelessWidget {
   final List<String> rockImages;
   final VoidCallback onTap;
 
-  CollectionWidget({
+  const CollectionWidget({
     Key? key,
     required this.title,
     this.isSavedLayout = false,
@@ -23,39 +23,33 @@ class CollectionWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 159.5,
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: Constants.naturalGrey,
-            width: 2
-          )
-        ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Constants.naturalGrey, width: 2)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children:[
-                Expanded(
+            Row(children: [
+              Expanded(
                 child: Container(
                   height: 33,
-                  padding: EdgeInsets.all(4),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Constants.naturalGrey,
-                    borderRadius: BorderRadius.all(Radius.circular(41)),
+                    borderRadius: const BorderRadius.all(Radius.circular(41)),
                   ),
                   child: Text(
-                    '  $title',
+                    title,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 14,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
-              ] 
-            ),
+            ]),
             const SizedBox(height: 16),
             if (isSavedLayout)
               Column(
@@ -71,11 +65,11 @@ class CollectionWidget extends StatelessWidget {
                       fontSize: 16,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Rocks',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 14,
                     ),
                   ),
                 ],

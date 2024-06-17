@@ -1,15 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+
 import '../constants.dart';
 import '../db/db.dart';
-import 'package:intl/intl.dart';
 import '../models/collection.dart';
 
 class AddNewCollectionModalService {
-  List<String> pathsImage = [
-    'https://static3.depositphotos.com/1000839/188/i/450/depositphotos_1888666-stock-photo-large-rock-stone-isolated.jpg'
-  ];
+  ValueNotifier<List<File>> pathsImage = ValueNotifier([]);
 
   Future<void> show(BuildContext context, void Function() onItemAdded) async {
     final TextEditingController _numberController = TextEditingController();
@@ -21,6 +23,7 @@ class AddNewCollectionModalService {
     final TextEditingController _widthController = TextEditingController();
     final TextEditingController _heightController = TextEditingController();
     final TextEditingController _notesController = TextEditingController();
+    final ValueNotifier<String> _typeController = ValueNotifier('inch');
 
     void onTap() async {
       final String number = _numberController.text;
@@ -59,6 +62,80 @@ class AddNewCollectionModalService {
           debugPrint('$e');
         }
       }
+    }
+
+    _showImageOptions() {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: const BoxDecoration(
+              color: Colors.black, // Cor de fundo do modal
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    Navigator.pop(context);
+                    final _image =
+                        await ImagePickerService().pickImageFromGallery();
+                    if (_image != null) {
+                      pathsImage.value =
+                          List.from([...pathsImage.value, _image]);
+                    }
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.grey[800],
+                        child: const Icon(Icons.image, color: Colors.white),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Select from gallery',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    Navigator.pop(context);
+                    final _image =
+                        await ImagePickerService().pickImageFromCamera(context);
+                    if (_image != null) {
+                      pathsImage.value =
+                          List.from([...pathsImage.value, _image]);
+                    }
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.grey[800],
+                        child:
+                            const Icon(Icons.camera_alt, color: Colors.white),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Take photo',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
     }
 
     showModalBottomSheet(
@@ -175,44 +252,50 @@ class AddNewCollectionModalService {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          Wrap(
-                            runSpacing: 16,
-                            spacing: 16,
-                            children: [
-                              ...pathsImage.map((e) {
-                                return Container(
-                                  height: 100,
-                                  width: 100,
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: Constants.colorInput,
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Image.network(
-                                    e,
-                                    fit: BoxFit.fill,
-                                  ),
+                          ValueListenableBuilder<List<File>>(
+                              valueListenable: pathsImage,
+                              builder: (context, list, _) {
+                                return Wrap(
+                                  runSpacing: 8,
+                                  spacing: 8,
+                                  children: [
+                                    ...list.map((e) {
+                                      return Container(
+                                        height: 100,
+                                        width: 100,
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: Constants.colorInput,
+                                          border: Border.all(),
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        child: Image.file(
+                                          e,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      );
+                                    }).toList(),
+                                    Container(
+                                      height: 100,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        color: Constants.colorInput,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: InkWell(
+                                        onTap: () async {
+                                          _showImageOptions();
+                                        },
+                                        child: Icon(
+                                          Icons.add,
+                                          color: Constants.primaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 );
-                              }).toList(),
-                              Container(
-                                margin: const EdgeInsets.only(right: 16),
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  color: Constants.colorInput,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Constants.primaryColor,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                              }),
                           Row(
                             children: [
                               Expanded(
@@ -352,7 +435,133 @@ class AddNewCollectionModalService {
                               ),
                               Expanded(
                                 child: InputWidget(
-                                  label: '',
+                                  labelFromWidget: Expanded(
+                                    child: Row(
+                                      children: [
+                                        Expanded(child: Container()),
+                                        SizedBox(
+                                          width: 70,
+                                          child: ValueListenableBuilder(
+                                              valueListenable: _typeController,
+                                              builder: (context, type, _) {
+                                                return Container(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  padding:
+                                                      const EdgeInsets.all(2),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            26),
+                                                    color: Constants.blackColor,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Expanded(
+                                                        child: InkWell(
+                                                          child: Container(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(4),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          24),
+                                                              color: _typeController
+                                                                          .value ==
+                                                                      'inch'
+                                                                  ? Constants
+                                                                      .naturalGrey
+                                                                  : Constants
+                                                                      .blackColor,
+                                                            ),
+                                                            child: Text(
+                                                              'inch',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                color: Constants
+                                                                    .white,
+                                                                fontWeight: _typeController
+                                                                            .value ==
+                                                                        'inch'
+                                                                    ? FontWeight
+                                                                        .w600
+                                                                    : FontWeight
+                                                                        .normal,
+                                                                fontSize: 11,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          onTap: () {
+                                                            _typeController
+                                                                .value = 'inch';
+                                                          },
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: InkWell(
+                                                          child: Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(4),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            24),
+                                                                color: _typeController
+                                                                            .value ==
+                                                                        'cm'
+                                                                    ? Constants
+                                                                        .naturalGrey
+                                                                    : Constants
+                                                                        .blackColor,
+                                                              ),
+                                                              child: Text(
+                                                                'cm',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color:
+                                                                      Constants
+                                                                          .white,
+                                                                  fontWeight: _typeController
+                                                                              .value ==
+                                                                          'cm'
+                                                                      ? FontWeight
+                                                                          .w600
+                                                                      : FontWeight
+                                                                          .normal,
+                                                                  fontSize: 11,
+                                                                ),
+                                                              )),
+                                                          onTap: () {
+                                                            _typeController
+                                                                .value = 'cm';
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              }),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   controller: _heightController,
                                   hintText: 'Height',
                                 ),
@@ -363,7 +572,7 @@ class AddNewCollectionModalService {
                             label: 'Notes',
                             controller: _notesController,
                             hintText: 'Tap to add your notes here...',
-                            maxLines: 3,
+                            maxLines: 5,
                           ),
                           const SizedBox(height: 10),
                           Row(
@@ -407,6 +616,7 @@ class AddNewCollectionModalService {
 
 class InputWidget extends StatelessWidget {
   final TextEditingController controller;
+  final Widget? labelFromWidget;
   final String? label;
   final String? hintText;
   final bool required;
@@ -418,6 +628,7 @@ class InputWidget extends StatelessWidget {
   const InputWidget({
     super.key,
     required this.controller,
+    this.labelFromWidget,
     this.label,
     this.textInputType = TextInputType.text,
     this.required = false,
@@ -440,13 +651,14 @@ class InputWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              label ?? '',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              ),
-            ),
+            labelFromWidget ??
+                Text(
+                  label ?? '',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
             Visibility(
               visible: required,
               child: const Text(

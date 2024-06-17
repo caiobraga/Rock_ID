@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
+import 'package:flutter_onboarding/models/collection.dart'; // Assuming you have a Collection model
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/bottom_nav_service.dart';
 import '../../services/selection_modal.dart';
 import 'select_rock_page.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,14 +18,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late List<Rock> _rockList;
+  List<Collection> _collectionList = [];
+  List<Rock> _rockList = [];
   double price = 0;
   bool _isLoading = true;
 
   @override
   void initState() {
+    init();
     super.initState();
+  }
+
+  Future<void> init() async {
+    _isLoading = true;
     try {
+      DatabaseHelper().collections().then((value) {
+        _collectionList = value;
+        _calculateTotalPrice();
+        setState(() {
+          _isLoading = false;
+        });
+      });
       DatabaseHelper().rocks().then((value) {
         _rockList = value;
         _calculateTotalPrice();
@@ -38,8 +53,8 @@ class _HomePageState extends State<HomePage> {
 
   _calculateTotalPrice() {
     double totalPrice = 0;
-    for (var rock in _rockList) {
-      totalPrice += rock.price;
+    for (var collection in _collectionList) {
+      totalPrice += collection.cost;
     }
     price = totalPrice;
   }
@@ -116,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                                     vertical: 10, horizontal: 20),
                                 decoration: BoxDecoration(
                                   color: Constants.darkGrey,
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(41),
                                 ),
                                 child: Row(
                                   children: [
@@ -147,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                                     vertical: 10, horizontal: 20),
                                 decoration: BoxDecoration(
                                   color: Constants.darkGrey,
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(41),
                                 ),
                                 child: Row(
                                   children: [
@@ -185,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                             Column(
                               children: [
                                 Icon(
-                                  Icons.minimize,
+                                  Symbols.diamond,
                                   color: Constants.primaryColor,
                                 ),
                                 Text(
@@ -225,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                             Column(
                               children: [
                                 Icon(
-                                  Icons.science_rounded,
+                                  Symbols.globe,
                                   color: Constants.primaryColor,
                                 ),
                                 Text(
@@ -258,8 +273,9 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: GestureDetector(
-                            onTap: () {
-                              ShowSelectionModalService().show(context);
+                            onTap: () async {
+                              await ShowSelectionModalService().show(context);
+                              await init();
                               //
                             },
                             child: Column(

@@ -1,60 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 
-import '../../../db/db.dart';
 import '../../../models/collection.dart';
 import '../../../services/add_new_collection_modal.dart';
-import '../../../services/collection_dialog.dart';
 import '../../../services/collection_list_model.dart';
-import '../collection_page.dart';
 import 'collection.dart';
 
 class CollectionGridView extends StatefulWidget {
   final bool hasAddOption;
   final List<Collection> collections;
   final void Function() onItemAdded;
-    final GlobalKey<_CollectionGridViewState> gridKey = GlobalKey<_CollectionGridViewState>();
-
+  final GlobalKey<_CollectionGridViewState> gridKey =
+      GlobalKey<_CollectionGridViewState>();
 
   CollectionGridView({
-    Key? key,
+    super.key,
     required this.hasAddOption,
-    required this.collections,
     required this.onItemAdded,
-  }) : super(key: key);
-
-  void refreshCollections() {
-    gridKey.currentState?._loadCollections();
-  }
+    required this.collections,
+  });
 
   @override
   State<CollectionGridView> createState() => _CollectionGridViewState();
 }
 
 class _CollectionGridViewState extends State<CollectionGridView> {
-
-  List<Collection> _collections = [];
-
-  void _loadCollections() async {
-    try {
-      List<Collection> collections = await DatabaseHelper().collections();
-      setState(() {
-        _collections = collections;
-      });
-    } catch (e) {
-      debugPrint('$e');
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+      padding: const EdgeInsets.all(8),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -62,27 +36,34 @@ class _CollectionGridViewState extends State<CollectionGridView> {
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
-      itemCount: widget.hasAddOption ? widget.collections.length + 1 : widget.collections.length,
+      itemCount: widget.hasAddOption
+          ? widget.collections.length + 1
+          : widget.collections.length,
       itemBuilder: (BuildContext context, int index) {
         if (index == widget.collections.length && widget.hasAddOption) {
           return GestureDetector(
             onTap: () {
               AddNewCollectionModalService().show(context, () {
                 widget.onItemAdded();
-                _loadCollections();
               });
             },
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.grey.shade800,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(16),
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(Icons.add, color: Colors.white, size: 30),
-                  SizedBox(height: 10),
-                  Text('ADD NEW COLLECTION', style: TextStyle(color: Colors.white)),
+                  Icon(Icons.add_circle_outline,
+                      color: Constants.primaryColor, size: 50),
+                  const SizedBox(height: 10),
+                  Text(
+                    'ADD NEW COLLECTION',
+                    style: AppTypography.body1(color: Constants.white),
+                    textAlign: TextAlign.center,
+                  )
                 ],
               ),
             ),
@@ -96,12 +77,13 @@ class _CollectionGridViewState extends State<CollectionGridView> {
             rockImages: collection.collectionName == 'Saved'
                 ? []
                 : [
-                    'assets/rock_placeholder.png',
-                    'assets/rock_placeholder.png',
+                    'assets/images/rock1.png',
+                    'assets/images/rock1.png',
                     // Add actual rock images here
                   ],
             onTap: () {
-              CollectionListModelService().show(context, widget.collections[index].collectionId);
+              CollectionListModelService()
+                  .show(context, widget.collections[index].collectionId);
             },
           );
         }

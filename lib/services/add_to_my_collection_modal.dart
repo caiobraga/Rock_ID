@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/ui/screens/select_rock_page.dart';
-import 'package:page_transition/page_transition.dart';
 
 import '../db/db.dart';
 import '../models/collection.dart';
-import '../ui/scan_page.dart';
 import '../constants.dart';
-import '../ui/screens/widgets/collection.dart';
 import '../ui/screens/widgets/collections_grid_view.dart';
 import 'add_new_collection_modal.dart';
 
@@ -15,7 +11,8 @@ class AddToMyCollectionModalService {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return _AddToMyCollectionModal(onNewCollectionAdded: onNewCollectionAdded);
+        return _AddToMyCollectionModal(
+            onNewCollectionAdded: onNewCollectionAdded);
       },
     );
   }
@@ -24,10 +21,11 @@ class AddToMyCollectionModalService {
 class _AddToMyCollectionModal extends StatefulWidget {
   final void Function() onNewCollectionAdded;
 
-  _AddToMyCollectionModal({required this.onNewCollectionAdded});
+  const _AddToMyCollectionModal({required this.onNewCollectionAdded});
 
   @override
-  __AddToMyCollectionModalState createState() => __AddToMyCollectionModalState();
+  __AddToMyCollectionModalState createState() =>
+      __AddToMyCollectionModalState();
 }
 
 class __AddToMyCollectionModalState extends State<_AddToMyCollectionModal> {

@@ -16,34 +16,61 @@ import 'widgets/premium_section.dart';
 class RockDetailPage extends StatefulWidget {
   final Rock rock;
   final bool isSavingRock;
+  final bool? isFavoritingRock;
 
-  const RockDetailPage(
-      {Key? key, required this.rock, required this.isSavingRock})
-      : super(key: key);
+  const RockDetailPage({
+    super.key,
+    required this.rock,
+    required this.isSavingRock,
+    this.isFavoritingRock,
+  });
 
   @override
   State<RockDetailPage> createState() => _RockDetailPageState();
 }
 
 class _RockDetailPageState extends State<RockDetailPage> {
+  String buttonText = '';
+  bool toFavoriteRock = false;
+  bool toRemoveFromWishlist = false;
+
   @override
   void initState() {
     super.initState();
+    DatabaseHelper().wishlist().then((wishlist) {
+      setState(() {
+        toFavoriteRock = widget.isFavoritingRock == true;
+        for (final rockId in wishlist) {
+          if (toFavoriteRock && widget.rock.rockId == rockId) {
+            toRemoveFromWishlist = true;
+          }
+        }
+        buttonText = widget.isSavingRock
+            ? 'Save'
+            : toRemoveFromWishlist
+                ? 'Remove from Wishlist'
+                : toFavoriteRock
+                    ? 'Add to Wishlist'
+                    : 'Add to My Collection';
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Constants.primaryColor,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        leading: Navigator.of(context).canPop()
+            ? IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Constants.primaryColor,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            : null,
         title: Text(
           'BEST MATCHES',
           style: TextStyle(
@@ -60,6 +87,20 @@ class _RockDetailPageState extends State<RockDetailPage> {
                 color: Constants.primaryColor,
               ),
               onPressed: () => saveRock(context),
+            ),
+          if (widget.isFavoritingRock == true)
+            IconButton(
+              onPressed: () async {
+                setState(() {
+                  toRemoveFromWishlist
+                      ? removeFromWishlist(context)
+                      : addToWishlist(context);
+                });
+              },
+              icon: Icon(
+                toRemoveFromWishlist ? Icons.favorite : Icons.favorite_border,
+                color: Constants.primaryColor,
+              ),
             ),
         ],
       ),
@@ -220,9 +261,13 @@ class _RockDetailPageState extends State<RockDetailPage> {
                   ),
                   const SizedBox(width: 8),
                   GestureDetector(
-                    onTap: widget.isSavingRock
-                        ? () => saveRock(context)
-                        : () => addToCollection(context),
+                    onTap: () => widget.isSavingRock
+                        ? saveRock(context)
+                        : toRemoveFromWishlist
+                            ? removeFromWishlist(context)
+                            : toFavoriteRock
+                                ? addToWishlist(context)
+                                : addToCollection(context),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.7,
                       height: 50,
@@ -238,9 +283,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            widget.isSavingRock
-                                ? 'Save'
-                                : 'Add to My Collection',
+                            buttonText,
                             style: TextStyle(
                                 color: Constants.darkGrey,
                                 fontSize: 14,
@@ -290,8 +333,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   Widget _buildHealthRisksSection() {
     return _buildCard('HEALTH RISKS', Icons.error_rounded, [
       Text(
-        'Quartz, silica, crystalline silica and flint are non-toxic materials, but very fine dust containing quartz, known as respirable crystalline silica (RCS), can cause serious and fatal lung diseases. '
-        'Lapidaries should exercise caution when cutting silica.',
+        widget.rock.healthRisks,
         style: AppTypography.body3(color: AppCollors.naturalWhite),
         textAlign: TextAlign.justify,
       )
@@ -440,13 +482,16 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   // FAQ Section
   Widget _buildFAQSection() {
-    return _buildCard('PEOPLE OFTEN ASK', Icons.image, [
-      _buildFAQItem('Is ${widget.rock.rockName} valuable?'),
-      _buildFAQItem('Is ${widget.rock.rockName} valuable?')
-    ]);
+    List<Widget> body = [];
+    widget.rock.askedQuestions.forEach((Map<String, String> question) {
+      question.forEach((key, value) {
+        body.add(_buildFAQItem(key, value));
+      });
+    });
+    return _buildCard('PEOPLE OFTEN ASK', Icons.image, body);
   }
 
-  Widget _buildFAQItem(String question) {
+  Widget _buildFAQItem(String question, String answer) {
     return Container(
       // padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(bottom: 10),
@@ -472,7 +517,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Cloudy or “milky” crystals that don’t allow light to shine through often are considered less valuable.',
+                  answer,
                   style: AppTypography.body3(color: AppCollors.naturalSilver),
                   textAlign: TextAlign.justify,
                 ),
@@ -553,21 +598,21 @@ class _RockDetailPageState extends State<RockDetailPage> {
             ),
           ),
           const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Learn More",
-                style: AppTypography.body3(color: AppCollors.primaryMedium),
-              ),
-              const SizedBox(width: 4),
-              Icon(
-                Icons.expand_more,
-                color: AppCollors.primaryMedium,
-                size: 16,
-              )
-            ],
-          )
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Text(
+          //       "Learn More",
+          //       style: AppTypography.body3(color: AppCollors.primaryMedium),
+          //     ),
+          //     const SizedBox(width: 4),
+          //     Icon(
+          //       Icons.expand_more,
+          //       color: AppCollors.primaryMedium,
+          //       size: 16,
+          //     )
+          //   ],
+          // )
         ],
       )
     ]);
@@ -605,7 +650,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       [
         ExpandableText(
           text:
-              "Clarity and weight are two decisive factors that affect the price of milky Quartz. The price of a tumbled stone around 1 inch across is usually \$1-\$5/piece. When it comes to natural clusters, the shape of the formation and the integrity of the crystals are also important factors affecting pricing.",
+              'The price of ${widget.rock.rockName} may vary, but it is approximately ${widget.rock.price} per gram.',
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines:
               4, // Define o número máximo de linhas antes de exibir "Learn More"
@@ -621,9 +666,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.monitor_heart_outlined,
       [
         ExpandableText(
-          text:
-              // widget.rock.healingPropeties,
-              "Milky Quartz is believed to be a powerful stone, cleansing the whole body and linking all of the chakras. it’s said to connect explicitly with the third eye and crown chakras, opening up psychic abilities",
+          text: widget.rock.healingPropeties,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         )
@@ -638,8 +681,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.terrain,
       [
         ExpandableText(
-          text:
-              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          text: widget.rock.formulation,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         ),
@@ -654,8 +696,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.menu_book_outlined,
       [
         ExpandableText(
-            text:
-                "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+            text: widget.rock.meaning,
             style: AppTypography.body3(color: AppCollors.naturalWhite),
             maxLines: 4),
       ],
@@ -669,8 +710,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.shopping_basket,
       [
         ExpandableText(
-          text:
-              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          text: widget.rock.howToSelect,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         ),
@@ -685,8 +725,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.category,
       [
         ExpandableText(
-          text:
-              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          text: widget.rock.types,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         ),
@@ -701,8 +740,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       Icons.monetization_on,
       [
         ExpandableText(
-          text:
-              "Milky Quartz or milky quartz is the most common variety of crystalline quartz. The white color is caused by minute fluid inclusions of gas, liquid, or both, trapped during crystal formation, making it",
+          text: widget.rock.uses,
           style: AppTypography.body3(color: AppCollors.naturalWhite),
           maxLines: 4,
         ),
@@ -765,11 +803,13 @@ class _RockDetailPageState extends State<RockDetailPage> {
     try {
       await DatabaseHelper().insertRock(widget.rock);
       ShowSnackbarService().showSnackBar('Rock Saved');
-      Navigator.pushReplacement(
-          context,
-          PageTransition(
-              child: const RootPage(),
-              type: PageTransitionType.leftToRightWithFade));
+      await Navigator.pushReplacement(
+        context,
+        PageTransition(
+          child: const RootPage(),
+          type: PageTransitionType.leftToRightWithFade,
+        ),
+      );
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
     }
@@ -782,5 +822,35 @@ class _RockDetailPageState extends State<RockDetailPage> {
       () {},
     );
     // ShowSnackbarService().showSnackBar('Added to Collection');
+  }
+
+  void addToWishlist(BuildContext context) async {
+    try {
+      await DatabaseHelper().addRockToWishlist(widget.rock.rockId);
+      Navigator.pushAndRemoveUntil(
+        context,
+        PageTransition(
+            child: const RootPage(showFavorites: true),
+            type: PageTransitionType.leftToRightWithFade),
+        (route) => false,
+      );
+    } catch (e) {
+      ShowSnackbarService().showSnackBar('Error $e');
+    }
+  }
+
+  void removeFromWishlist(BuildContext context) async {
+    try {
+      await DatabaseHelper().removeRockFromWishlist(widget.rock.rockId);
+      Navigator.pushAndRemoveUntil(
+        context,
+        PageTransition(
+            child: const RootPage(showFavorites: true),
+            type: PageTransitionType.leftToRightWithFade),
+        (route) => false,
+      );
+    } catch (e) {
+      ShowSnackbarService().showSnackBar('Error $e');
+    }
   }
 }

@@ -5,11 +5,20 @@ import 'package:google_fonts/google_fonts.dart';
 class Constants {
   // Primary color
   static var primaryColor = const Color.fromRGBO(184, 143, 113, 1);
-  static var blackColor = const Color.fromRGBO(0, 0, 0, 1);
+  static var blackColor = const Color(0xFF1A1918);
   static var white = const Color.fromRGBO(255, 255, 255, 1);
-
+  static var colorInput = blackColor;
   static var darkGrey = const Color.fromRGBO(33, 37, 40, 1);
   static var naturalGrey = const Color.fromRGBO(56, 64, 70, 1);
+
+  static var primaryDegrade = const LinearGradient(
+    colors: [
+      Color(0xFFB88F71),
+      Color(0xFFA16132),
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 
   // Onboarding texts
   static var titleOne = "Learn more about rocks";
@@ -70,7 +79,7 @@ class AppTypography {
     return GoogleFonts.montserrat(
       textStyle: TextStyle(
           fontSize: 18,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w500,
           color: color,
           decoration: decoration,
           decorationColor: decorationColor),

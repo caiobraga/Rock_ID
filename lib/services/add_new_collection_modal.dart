@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_onboarding/models/collection_image.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -11,8 +12,6 @@ import '../db/db.dart';
 import '../models/collection.dart';
 
 class AddNewCollectionModalService {
-  ValueNotifier<List<File>> pathsImage = ValueNotifier([]);
-
   Future<void> show(BuildContext context, void Function() onItemAdded) async {
     final TextEditingController _numberController = TextEditingController();
     final TextEditingController _nameController = TextEditingController();
@@ -23,7 +22,18 @@ class AddNewCollectionModalService {
     final TextEditingController _widthController = TextEditingController();
     final TextEditingController _heightController = TextEditingController();
     final TextEditingController _notesController = TextEditingController();
-    final ValueNotifier<String> _typeController = ValueNotifier('inch');
+    final ValueNotifier<List<File>> _photosNotifier = ValueNotifier([]);
+    final ValueNotifier<String> _unitOfMeasurementNotifier =
+        ValueNotifier('inch');
+
+    void toggleUnitOfMeasurement() {
+      if (_unitOfMeasurementNotifier.value == 'inch') {
+        _unitOfMeasurementNotifier.value = 'cm';
+        return;
+      }
+
+      _unitOfMeasurementNotifier.value = 'inch';
+    }
 
     void onTap() async {
       final String number = _numberController.text;
@@ -36,23 +46,31 @@ class AddNewCollectionModalService {
       final double width = double.tryParse(_widthController.text) ?? 0.0;
       final double height = double.tryParse(_heightController.text) ?? 0.0;
       final String notes = _notesController.text;
+      final String unitOfMeasurement = _unitOfMeasurementNotifier.value;
+      final List<File> collectionImageFiles = _photosNotifier.value;
 
       if (name.isNotEmpty) {
         try {
           Collection newCollection = Collection(
-            collectionId: 0,
-            collectionName: name,
-            description: description,
-            number: number,
-            dateAcquired: dateAcquired,
-            cost: cost,
-            locality: locality,
-            length: length,
-            width: width,
-            height: height,
-            notes: notes,
-            unitOfMeasurement: 'cm',
-          );
+              collectionId: 0,
+              collectionName: name,
+              description: description,
+              number: number,
+              dateAcquired: dateAcquired,
+              cost: cost,
+              locality: locality,
+              length: length,
+              width: width,
+              height: height,
+              notes: notes,
+              unitOfMeasurement: unitOfMeasurement,
+              collectionImagesFiles: collectionImageFiles.map((e) {
+                return CollectionImage(
+                  collectionId: 0,
+                  id: 0,
+                  image: e,
+                );
+              }).toList());
 
           await DatabaseHelper().insertCollection(newCollection);
 
@@ -61,6 +79,8 @@ class AddNewCollectionModalService {
         } catch (e) {
           debugPrint('$e');
         }
+
+        return;
       }
     }
 
@@ -86,8 +106,8 @@ class AddNewCollectionModalService {
                     final _image =
                         await ImagePickerService().pickImageFromGallery();
                     if (_image != null) {
-                      pathsImage.value =
-                          List.from([...pathsImage.value, _image]);
+                      _photosNotifier.value =
+                          List.from([..._photosNotifier.value, _image]);
                     }
                   },
                   child: Column(
@@ -111,8 +131,8 @@ class AddNewCollectionModalService {
                     final _image =
                         await ImagePickerService().pickImageFromCamera(context);
                     if (_image != null) {
-                      pathsImage.value =
-                          List.from([...pathsImage.value, _image]);
+                      _photosNotifier.value =
+                          List.from([..._photosNotifier.value, _image]);
                     }
                   },
                   child: Column(
@@ -252,8 +272,16 @@ class AddNewCollectionModalService {
                             ),
                           ),
                           const SizedBox(height: 16),
+                          const Text(
+                            'Photos',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
                           ValueListenableBuilder<List<File>>(
-                              valueListenable: pathsImage,
+                              valueListenable: _photosNotifier,
                               builder: (context, list, _) {
                                 return Wrap(
                                   runSpacing: 8,
@@ -268,7 +296,7 @@ class AddNewCollectionModalService {
                                           color: Constants.colorInput,
                                           border: Border.all(),
                                           borderRadius:
-                                              BorderRadius.circular(4),
+                                              BorderRadius.circular(10),
                                         ),
                                         child: Image.file(
                                           e,
@@ -281,7 +309,7 @@ class AddNewCollectionModalService {
                                       width: 100,
                                       decoration: BoxDecoration(
                                         color: Constants.colorInput,
-                                        borderRadius: BorderRadius.circular(4),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: InkWell(
                                         onTap: () async {
@@ -381,7 +409,8 @@ class AddNewCollectionModalService {
                             hintText: 'Tap to enter',
                           ),
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Expanded(
                                 child: InputWidget(
@@ -395,16 +424,13 @@ class AddNewCollectionModalService {
                                     const EdgeInsets.symmetric(horizontal: 8),
                                 height: 60,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      'X',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Constants.white,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    )
+                                    Icon(
+                                      Icons.close,
+                                      size: 15,
+                                      color: Constants.white,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -420,16 +446,13 @@ class AddNewCollectionModalService {
                                     const EdgeInsets.symmetric(horizontal: 8),
                                 height: 60,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      'X',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Constants.white,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    )
+                                    Icon(
+                                      Icons.close,
+                                      size: 15,
+                                      color: Constants.white,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -442,7 +465,8 @@ class AddNewCollectionModalService {
                                         SizedBox(
                                           width: 70,
                                           child: ValueListenableBuilder(
-                                              valueListenable: _typeController,
+                                              valueListenable:
+                                                  _unitOfMeasurementNotifier,
                                               builder: (context, type, _) {
                                                 return Container(
                                                   clipBehavior: Clip.hardEdge,
@@ -472,7 +496,7 @@ class AddNewCollectionModalService {
                                                                   BorderRadius
                                                                       .circular(
                                                                           24),
-                                                              color: _typeController
+                                                              color: _unitOfMeasurementNotifier
                                                                           .value ==
                                                                       'inch'
                                                                   ? Constants
@@ -488,7 +512,7 @@ class AddNewCollectionModalService {
                                                               style: TextStyle(
                                                                 color: Constants
                                                                     .white,
-                                                                fontWeight: _typeController
+                                                                fontWeight: _unitOfMeasurementNotifier
                                                                             .value ==
                                                                         'inch'
                                                                     ? FontWeight
@@ -499,10 +523,8 @@ class AddNewCollectionModalService {
                                                               ),
                                                             ),
                                                           ),
-                                                          onTap: () {
-                                                            _typeController
-                                                                .value = 'inch';
-                                                          },
+                                                          onTap:
+                                                              toggleUnitOfMeasurement,
                                                         ),
                                                       ),
                                                       Expanded(
@@ -520,7 +542,7 @@ class AddNewCollectionModalService {
                                                                     BorderRadius
                                                                         .circular(
                                                                             24),
-                                                                color: _typeController
+                                                                color: _unitOfMeasurementNotifier
                                                                             .value ==
                                                                         'cm'
                                                                     ? Constants
@@ -538,7 +560,7 @@ class AddNewCollectionModalService {
                                                                   color:
                                                                       Constants
                                                                           .white,
-                                                                  fontWeight: _typeController
+                                                                  fontWeight: _unitOfMeasurementNotifier
                                                                               .value ==
                                                                           'cm'
                                                                       ? FontWeight
@@ -548,10 +570,8 @@ class AddNewCollectionModalService {
                                                                   fontSize: 11,
                                                                 ),
                                                               )),
-                                                          onTap: () {
-                                                            _typeController
-                                                                .value = 'cm';
-                                                          },
+                                                          onTap:
+                                                              toggleUnitOfMeasurement,
                                                         ),
                                                       ),
                                                     ],
@@ -575,31 +595,34 @@ class AddNewCollectionModalService {
                             maxLines: 5,
                           ),
                           const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 33,
-                                  decoration: BoxDecoration(
-                                    color: Constants.primaryColor,
-                                    borderRadius: BorderRadius.circular(24),
-                                  ),
-                                  child: InkWell(
-                                    onTap: onTap,
-                                    child: Text(
-                                      'Save',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Constants.blackColor,
-                                        fontWeight: FontWeight.bold,
+                          InkWell(
+                              onTap: onTap,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        height: 33,
+                                        decoration: BoxDecoration(
+                                          color: Constants.primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                        child: Text(
+                                          'Save',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Constants.blackColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
-                          ),
+                              )),
                         ],
                       ),
                     ),
@@ -674,7 +697,7 @@ class InputWidget extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: Constants.colorInput,
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,

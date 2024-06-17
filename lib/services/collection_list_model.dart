@@ -110,7 +110,10 @@ class __CollectionListModalState extends State<_CollectionListModal> {
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: RockDetailPage(rock: rock, isSavingRock: false),
+                        child: RockDetailPage(
+                            rock: rock,
+                            isSavingRock: false,
+                            showAddButton: false),
                         type: PageTransitionType.bottomToTop,
                       ),
                     );

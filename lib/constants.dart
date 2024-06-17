@@ -46,6 +46,9 @@ class AppCollors {
   // Primary
   static Color primaryMedium = const Color(0xFFB88F71);
   static Color primaryDarkest = const Color(0xFF7E4E2B);
+
+  // Danger
+  static Color darkestRed = const Color(0xFFC33025);
 }
 
 class AppTypography {

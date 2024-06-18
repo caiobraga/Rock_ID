@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   int contRocks = 0;
   double price = 0;
   bool _isLoading = true;
+  final _bottomNavService = BottomNavService.instance;
 
   @override
   void initState() {
@@ -95,9 +96,9 @@ class _HomePageState extends State<HomePage> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Constants.darkGrey,
-                            hintStyle: TextStyle(color: Constants.white),
+                            hintStyle: const TextStyle(color: Constants.white),
                             hintText: 'Search for rocks',
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.search,
                               color: Constants.primaryColor,
                             ),
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                          style: TextStyle(color: Constants.white),
+                          style: const TextStyle(color: Constants.white),
                           onTap: _showRockSelectionModal,
                           onChanged: (query) {
                             _filterRocks(query);
@@ -128,19 +129,20 @@ class _HomePageState extends State<HomePage> {
                                 color: Constants.darkGrey,
                                 borderRadius: BorderRadius.circular(41),
                               ),
-                              child: Row(
+                              child: const Row(
                                 children: [
                                   Icon(
                                     Icons.share,
                                     color: Constants.primaryColor,
                                   ),
-                                  const SizedBox(
+                                  SizedBox(
                                     width: 4,
                                   ),
                                   Text(
                                     'Share App',
                                     style: TextStyle(
                                       color: Constants.white,
+                                      fontSize: 13.2,
                                     ),
                                   )
                                 ],
@@ -148,7 +150,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                BottomNavService().setIndex(1);
+                                _bottomNavService.setIndex(1);
+                                _bottomNavService.rockCollectionClicked();
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -157,19 +160,20 @@ class _HomePageState extends State<HomePage> {
                                   color: Constants.darkGrey,
                                   borderRadius: BorderRadius.circular(41),
                                 ),
-                                child: Row(
+                                child: const Row(
                                   children: [
                                     Icon(
                                       Icons.folder_copy_rounded,
                                       color: Constants.primaryColor,
                                     ),
-                                    const SizedBox(
+                                    SizedBox(
                                       width: 4,
                                     ),
                                     Text(
                                       'Rock Collection',
                                       style: TextStyle(
                                         color: Constants.white,
+                                        fontSize: 13.2,
                                       ),
                                     )
                                   ],
@@ -192,13 +196,13 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Column(
                               children: [
-                                Icon(
+                                const Icon(
                                   Symbols.diamond,
                                   color: Constants.primaryColor,
                                 ),
                                 Text(
                                   '$contRocks',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Constants.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -212,13 +216,13 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Column(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.attach_money,
                                   color: Constants.primaryColor,
                                 ),
                                 Text(
                                   '\$${price.toStringAsFixed(2)}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Constants.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -232,11 +236,11 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Column(
                               children: [
-                                Icon(
+                                const Icon(
                                   Symbols.globe,
                                   color: Constants.primaryColor,
                                 ),
-                                Text(
+                                const Text(
                                   '1',
                                   style: TextStyle(
                                     color: Constants.white,
@@ -288,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     borderRadius: BorderRadius.circular(50),
                                   ),
-                                  child: Text(
+                                  child: const Text(
                                     'TAP HERE',
                                     style: TextStyle(
                                       fontSize: 24,
@@ -298,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const SizedBox(height: 10),
-                                Text(
+                                const Text(
                                   'TO RECOGNIZE YOUR ROCK',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(

@@ -1,20 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-class BottomNavService extends ChangeNotifier {
-  static final BottomNavService _instance = BottomNavService._internal();
+class BottomNavService {
+  BottomNavService._();
 
-  int _bottomNavIndex = 0;
+  static BottomNavService? _instance;
 
-  BottomNavService._internal();
-
-  factory BottomNavService() {
-    return _instance;
+  static BottomNavService get instance {
+    _instance ??= BottomNavService._();
+    return _instance!;
   }
 
-  int get bottomNavIndex => _bottomNavIndex;
+  final ValueNotifier<int> _bottomNavIndexNotifier = ValueNotifier<int>(0);
+  final StreamController<String> _rockCollectionClickController =
+      StreamController<String>.broadcast();
+
+  int get bottomNavIndex => _bottomNavIndexNotifier.value;
+  ValueNotifier<int> get bottomNavIndexNotifier => _bottomNavIndexNotifier;
+  Stream<String> get rockCollectionClickStream =>
+      _rockCollectionClickController.stream;
 
   void setIndex(int index) {
-    _bottomNavIndex = index;
-    notifyListeners();
+    _bottomNavIndexNotifier.value = index;
+  }
+
+  void rockCollectionClicked() {
+    _rockCollectionClickController.add('rock_collection');
+  }
+
+  void dispose() {
+    _rockCollectionClickController.close();
   }
 }

@@ -99,7 +99,7 @@ class SignUp extends StatelessWidget {
                       height: 30,
                       child: Image.asset('assets/images/google.png'),
                     ),
-                    Text(
+                    const Text(
                       'Sign Up with Google',
                       style: TextStyle(
                         color: Constants.blackColor,
@@ -120,7 +120,7 @@ class SignUp extends StatelessWidget {
                           child: const SignIn(),
                           type: PageTransitionType.bottomToTop));
                 },
-                child: Center(
+                child: const Center(
                   child: Text.rich(
                     TextSpan(children: [
                       TextSpan(

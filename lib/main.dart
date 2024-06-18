@@ -35,12 +35,15 @@ class _MyAppState extends State<MyApp> {
           Theme.of(context).textTheme,
         ).copyWith(
           titleLarge: GoogleFonts.bebasNeue(), // Para título
-          titleMedium: GoogleFonts.bebasNeue(), // Para título
-          titleSmall: GoogleFonts.bebasNeue(), // Para título
+          titleMedium: GoogleFonts.montserrat(), // Para título
+          titleSmall: GoogleFonts.bebasNeue(), // Para título // Para título
         ),
         inputDecorationTheme: InputDecorationTheme(
+          hintStyle: const TextStyle(color: Constants.white),
+          fillColor: Constants.darkGrey,
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Constants.primaryColor),
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(color: Constants.primaryColor),
           ),
         ),
         scaffoldBackgroundColor: Colors.black,

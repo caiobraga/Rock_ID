@@ -32,9 +32,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: const Text(
                 'Skip',
                 style: TextStyle(
-                  color: Colors.grey,
+                  color: Constants.silver,
                   fontSize: 16.0,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -51,7 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               });
             },
             controller: _pageController,
-            children: [
+            children: const [
               CreatePage(
                 image: 'assets/images/rocha-granito.png',
                 title: Constants.titleOne,
@@ -99,13 +99,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       }
                     });
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_forward_ios,
                     size: 24,
                     color: Constants.white,
                   )),
               padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Constants.primaryColor,
               ),
@@ -167,16 +167,14 @@ class CreatePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Image.asset(image),
-          ),
+          Image.asset(image),
           const SizedBox(
             height: 20,
           ),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Constants.primaryColor,
               fontSize: 30,
               fontWeight: FontWeight.bold,

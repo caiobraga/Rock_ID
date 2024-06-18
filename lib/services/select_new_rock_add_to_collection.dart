@@ -9,12 +9,17 @@ class SelectNewRockAndAddToCollection {
   final BuildContext context;
   final int collectionId;
 
-  SelectNewRockAndAddToCollection(this.context, this.collectionId);
+  SelectNewRockAndAddToCollection(
+    this.context,
+    this.collectionId,
+  );
 
   Future<void> action() async {
-    List<Rock> rocks = await DatabaseHelper().rocks();
-    List<RockInCollection> rocksInCollection = await DatabaseHelper().rocksInCollection(collectionId);
-    List<int> rocksInCollectionIds = rocksInCollection.map((rock) => rock.rockId).toList();
+    List<Rock> rocksSaves = Rock.rockList;
+    List<RockInCollection> rocksInCollection =
+        await DatabaseHelper().rocksInCollection(collectionId);
+    List<int> rocksInCollectionIds =
+        rocksInCollection.map((rock) => rock.rockId).toList();
 
     final TextEditingController _searchController = TextEditingController();
 
@@ -22,12 +27,14 @@ class SelectNewRockAndAddToCollection {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return Container(
+        return SizedBox(
           height: MediaQuery.of(context).size.height * 0.8,
           child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              List<Rock> filteredRocks = rocks.where((rock) {
-                return rock.rockName.toLowerCase().contains(_searchController.text.toLowerCase());
+              List<Rock> filteredRocks = rocksSaves.where((rock) {
+                return rock.rockName
+                    .toLowerCase()
+                    .contains(_searchController.text.toLowerCase());
               }).toList();
 
               return Container(
@@ -42,10 +49,10 @@ class SelectNewRockAndAddToCollection {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'ADD ROCK',
                           style: TextStyle(
                             color: Colors.white,
@@ -53,12 +60,12 @@ class SelectNewRockAndAddToCollection {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.close, color: Colors.white),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
+                        // IconButton(
+                        //   icon: const Icon(Icons.close, color: Colors.white),
+                        //   onPressed: () {
+                        //     Navigator.of(context).pop();
+                        //   },
+                        // ),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -68,9 +75,11 @@ class SelectNewRockAndAddToCollection {
                         setState(() {});
                       },
                       decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.search, color: Colors.white),
+                        prefixIcon:
+                            const Icon(Icons.search, color: Colors.white),
                         suffixIcon: IconButton(
-                          icon: const Icon(Icons.camera_alt, color: Colors.white),
+                          icon:
+                              const Icon(Icons.camera_alt, color: Colors.white),
                           onPressed: () {
                             // Implement camera functionality if needed
                           },
@@ -92,7 +101,8 @@ class SelectNewRockAndAddToCollection {
                         itemCount: filteredRocks.length,
                         itemBuilder: (BuildContext context, int index) {
                           final rock = filteredRocks[index];
-                          final bool isInCollection = rocksInCollectionIds.contains(rock.rockId);
+                          final bool isInCollection =
+                              rocksInCollectionIds.contains(rock.rockId);
 
                           return Card(
                             color: Colors.grey[850],
@@ -126,21 +136,32 @@ class SelectNewRockAndAddToCollection {
                               trailing: IconButton(
                                 icon: Icon(
                                   isInCollection ? Icons.check : Icons.add,
-                                  color: isInCollection ? Colors.green : Colors.white,
+                                  color: isInCollection
+                                      ? Colors.green
+                                      : Colors.white,
                                 ),
                                 onPressed: () async {
                                   if (isInCollection) {
-                                    await DatabaseHelper().removeRockFromCollection(rock.rockId, collectionId);
+                                    await DatabaseHelper()
+                                        .removeRockFromCollection(
+                                      rock.rockId,
+                                      collectionId,
+                                    );
                                     setState(() {
                                       rocksInCollectionIds.remove(rock.rockId);
                                     });
-                                    ShowSnackbarService().showSnackBar('${rock.rockName} was removed from the collection!');
+                                    ShowSnackbarService().showSnackBar(
+                                        '${rock.rockName} was removed from the collection!');
                                   } else {
-                                    await DatabaseHelper().addRockToCollection(rock.rockId, collectionId);
+                                    await DatabaseHelper().addRockToCollection(
+                                      rock.rockId,
+                                      collectionId,
+                                    );
                                     setState(() {
                                       rocksInCollectionIds.add(rock.rockId);
                                     });
-                                    ShowSnackbarService().showSnackBar('${rock.rockName} was added to the collection!');
+                                    ShowSnackbarService().showSnackBar(
+                                        '${rock.rockName} was added to the collection!');
                                   }
                                 },
                               ),

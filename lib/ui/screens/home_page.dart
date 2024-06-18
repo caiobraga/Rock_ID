@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
-import 'package:flutter_onboarding/models/collection.dart'; // Assuming you have a Collection model
-import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/models/collection.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/bottom_nav_service.dart';
@@ -19,7 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Collection> _collectionList = [];
-  List<Rock> _rockList = [];
+  int contRocks = 0;
   double price = 0;
   bool _isLoading = true;
 
@@ -39,8 +38,8 @@ class _HomePageState extends State<HomePage> {
           _isLoading = false;
         });
       });
-      DatabaseHelper().rocks().then((value) {
-        _rockList = value;
+      DatabaseHelper().snapHistory().then((value) {
+        contRocks = value.length;
         _calculateTotalPrice();
         setState(() {
           _isLoading = false;
@@ -122,40 +121,34 @@ class _HomePageState extends State<HomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                // Handle rock collection functionality
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 20),
-                                decoration: BoxDecoration(
-                                  color: Constants.darkGrey,
-                                  borderRadius: BorderRadius.circular(41),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.share,
-                                      color: Constants.primaryColor,
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              decoration: BoxDecoration(
+                                color: Constants.darkGrey,
+                                borderRadius: BorderRadius.circular(41),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.share,
+                                    color: Constants.primaryColor,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    'Share App',
+                                    style: TextStyle(
+                                      color: Constants.white,
                                     ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      'Share App',
-                                      style: TextStyle(
-                                        color: Constants.white,
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
                             ),
                             GestureDetector(
                               onTap: () {
                                 BottomNavService().setIndex(1);
-                                // Handle rock collection functionality
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -204,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                                   color: Constants.primaryColor,
                                 ),
                                 Text(
-                                  '${_rockList.length}',
+                                  '$contRocks',
                                   style: TextStyle(
                                     color: Constants.white,
                                     fontSize: 20,

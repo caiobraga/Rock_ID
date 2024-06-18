@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/services/select_new_rock_add_to_collection.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
 import 'package:page_transition/page_transition.dart';
@@ -10,24 +11,24 @@ import '../models/rocks.dart';
 import '../ui/screens/detail_page.dart';
 
 class CollectionListModelService {
-  Future<void> show(BuildContext context, int collectionId) async {
+  Future<void> show(BuildContext context, Collection collection) async {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return _CollectionListModal(collectionId: collectionId);
+        return _CollectionListModal(collection: collection);
       },
     );
   }
 }
 
 class _CollectionListModal extends StatefulWidget {
-  final int collectionId;
+  final Collection collection;
 
-  _CollectionListModal({required this.collectionId});
+  const _CollectionListModal({required this.collection});
 
   @override
-  __CollectionListModalState createState() => __CollectionListModalState();
+  State<_CollectionListModal> createState() => __CollectionListModalState();
 }
 
 class __CollectionListModalState extends State<_CollectionListModal> {
@@ -36,23 +37,23 @@ class __CollectionListModalState extends State<_CollectionListModal> {
   @override
   void initState() {
     super.initState();
-    _loadCollectionRocks(widget.collectionId);
+    _loadCollectionRocks(widget.collection.collectionId);
   }
 
   Future<void> _loadCollectionRocks(int collectionId) async {
     try {
       List<RockInCollection> rocksInCollection =
           await DatabaseHelper().rocksInCollection(collectionId);
-      List<Rock> collectionRocks = [];
-      for (var rockInCollection in rocksInCollection) {
-        Rock? rock =
-            await DatabaseHelper().getRockById(rockInCollection.rockId);
-        if (rock != null) {
-          collectionRocks.add(rock);
+      final rocks = <Rock>[];
+      for (var element in rocksInCollection) {
+        final item = Rock.rockListFirstWhere(element.rockId);
+        if (item != null) {
+          rocks.add(item);
         }
       }
+
       setState(() {
-        _collectionRocks = collectionRocks;
+        _collectionRocks = rocks;
       });
     } catch (e) {
       debugPrint('$e');
@@ -79,7 +80,7 @@ class __CollectionListModalState extends State<_CollectionListModal> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'SAVED (${_collectionRocks.length})',
+                '${widget.collection.collectionName} (${_collectionRocks.length})',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -125,12 +126,11 @@ class __CollectionListModalState extends State<_CollectionListModal> {
           const SizedBox(height: 10),
           Center(
             child: TextButton(
-              onPressed: () {
-                SelectNewRockAndAddToCollection(context, widget.collectionId)
-                    .action()
-                    .then((value) {
-                  _loadCollectionRocks(widget.collectionId);
-                });
+              onPressed: () async {
+                await SelectNewRockAndAddToCollection(
+                        context, widget.collection.collectionId)
+                    .action();
+                await _loadCollectionRocks(widget.collection.collectionId);
               },
               child: Text(
                 '+Add Rock',

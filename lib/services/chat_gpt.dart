@@ -60,9 +60,6 @@ class ChatGPTService {
             .trim();
         return jsonDecode(responseString);
       } else {
-        final responseBody = jsonDecode(response.body);
-        debugPrint('Response data: $responseBody');
-        debugPrint('Request failed with status: ${response.statusCode}');
         return null;
       }
     } catch (e) {

@@ -51,26 +51,29 @@ class AddNewCollectionModalService {
 
       if (name.isNotEmpty) {
         try {
-          Collection newCollection = Collection(
+          List<CollectionImage> images = [];
+          for (var element in collectionImageFiles) {
+            images.add(CollectionImage(
               collectionId: 0,
-              collectionName: name,
-              description: description,
-              number: number,
-              dateAcquired: dateAcquired,
-              cost: cost,
-              locality: locality,
-              length: length,
-              width: width,
-              height: height,
-              notes: notes,
-              unitOfMeasurement: unitOfMeasurement,
-              collectionImagesFiles: collectionImageFiles.map((e) {
-                return CollectionImage(
-                  collectionId: 0,
-                  id: 0,
-                  image: e,
-                );
-              }).toList());
+              id: 0,
+              image: await element.readAsBytes(),
+            ));
+          }
+          Collection newCollection = Collection(
+            collectionId: 0,
+            collectionName: name,
+            description: description,
+            number: number,
+            dateAcquired: dateAcquired,
+            cost: cost,
+            locality: locality,
+            length: length,
+            width: width,
+            height: height,
+            notes: notes,
+            unitOfMeasurement: unitOfMeasurement,
+            collectionImagesFiles: images,
+          );
 
           await DatabaseHelper().insertCollection(newCollection);
 

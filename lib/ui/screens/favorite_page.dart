@@ -79,7 +79,7 @@ class _FavoritePageState extends State<FavoritePage>
 
   void _loadAllRocks() async {
     try {
-      List<Rock> allRocks = await DatabaseHelper().rocks();
+      List<Rock> allRocks = Rock.rockList;
       setState(() {
         _allRocks = allRocks;
       });
@@ -93,9 +93,10 @@ class _FavoritePageState extends State<FavoritePage>
       List<int> wishlistIds = await DatabaseHelper().wishlist();
       List<Rock> wishlistRocks = [];
       for (var rockId in wishlistIds) {
-        final rock =
-            Rock.rockList.firstWhere((element) => element.rockId == rockId);
-        wishlistRocks.add(rock);
+        final rock = Rock.rockListFirstWhere(rockId);
+        if (rock != null) {
+          wishlistRocks.add(rock);
+        }
       }
 
       setState(() {
@@ -404,9 +405,7 @@ class _FavoritePageState extends State<FavoritePage>
                               ? rock.imageURL
                               : 'https://via.placeholder.com/60', // Placeholder image
                           title: rock.rockName,
-                          tags: const [
-                            'Wishlist'
-                          ], // Replace with actual tags if any
+                          tags: const ['Wishlist'],
                           onTap: () {
                             Navigator.push(
                               context,

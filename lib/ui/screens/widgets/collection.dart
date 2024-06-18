@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 
@@ -5,7 +7,7 @@ class CollectionWidget extends StatelessWidget {
   final String title;
   final bool isSavedLayout;
   final int rockCount;
-  final List<String> rockImages;
+  final List<Uint8List> rockImages;
   final VoidCallback onTap;
 
   const CollectionWidget({
@@ -34,7 +36,8 @@ class CollectionWidget extends StatelessWidget {
               Expanded(
                 child: Container(
                   height: 33,
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
                     color: Constants.naturalGrey,
                     borderRadius: const BorderRadius.all(Radius.circular(41)),
@@ -81,7 +84,7 @@ class CollectionWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 5),
                       child: CircleAvatar(
-                        backgroundImage: AssetImage(rockImages[i]),
+                        backgroundImage: MemoryImage(rockImages[i]),
                         radius: 15,
                       ),
                     ),

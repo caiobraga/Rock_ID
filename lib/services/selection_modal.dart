@@ -8,8 +8,8 @@ import '../ui/scan_page.dart';
 class ShowSelectionModalService {
   Future<void> show(BuildContext context) async {
     Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const RootPage()));
-   showModalBottomSheet(
+        context, MaterialPageRoute(builder: (_) => const RootPage()));
+    showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return Container(
@@ -25,26 +25,41 @@ class ShowSelectionModalService {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               GestureDetector(
-                onTap: (){
-                  Navigator.push(context, PageTransition(child: const SelectRockPage(isSavingRock: true), type: PageTransitionType.bottomToTop)).then((value) => Navigator.of(context).pop());
+                onTap: () {
+                  Navigator.push(
+                          context,
+                          PageTransition(
+                              child: const SelectRockPage(isSavingRock: true),
+                              type: PageTransitionType.bottomToTop))
+                      .then(
+                    (value) => Navigator.of(context).pop(),
+                  );
                 },
                 child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.grey[800],
-                    child: const Icon(Icons.search, color: Colors.white),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Search by name',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),),
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.grey[800],
+                      child: const Icon(Icons.search, color: Colors.white),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Search by name',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
               GestureDetector(
-                onTap: (){
-                  Navigator.push(context, PageTransition(child: const ScanPage(), type: PageTransitionType.bottomToTop)).then((value) => Navigator.of(context).pop());
+                onTap: () {
+                  Navigator.push(
+                          context,
+                          PageTransition(
+                              child: const ScanPage(),
+                              type: PageTransitionType.bottomToTop))
+                      .then(
+                    (value) => Navigator.of(context).pop(),
+                  );
                 },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

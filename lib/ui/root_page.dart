@@ -63,25 +63,17 @@ class _RootPageState extends State<RootPage> {
 
     List<Rock> favoritedRocks = [];
 
-    DatabaseHelper().rocks().then((rocks) {
-      DatabaseHelper().wishlist().then((wishlist) {
-        for (final rock in rocks) {
-          for (final rockId in wishlist) {
-            if (rockId == rock.rockId) {
-              favoritedRocks.add(rock);
-            }
+    DatabaseHelper().wishlist().then((wishlist) {
+      for (final rock in Rock.rockList) {
+        for (final rockId in wishlist) {
+          if (rockId == rock.rockId) {
+            favoritedRocks.add(rock);
           }
         }
-      });
+      }
 
       setState(() {
         favorites = favoritedRocks;
-      });
-    });
-
-    Rock.addedToCartRocks().then((cartRocks) {
-      setState(() {
-        myCart = cartRocks;
       });
     });
 
@@ -161,12 +153,8 @@ class _RootPageState extends State<RootPage> {
             items: _bottomNavItems,
             currentIndex: _bottomNavService.bottomNavIndex,
             onTap: (index) async {
-              final List<Rock> favoritedRocks = await Rock.getFavoritedRocks();
-              final List<Rock> addedToCartRocks = await Rock.addedToCartRocks();
               setState(() {
                 _bottomNavService.setIndex(index);
-                favorites = favoritedRocks;
-                myCart = addedToCartRocks.toSet().toList();
               });
             },
           ),

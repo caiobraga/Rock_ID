@@ -38,7 +38,7 @@ class _CollectionPageState extends State<CollectionPage> {
         .rocksInCollection(widget.collection.collectionId);
     List<Rock> collectionRocks = [];
     for (var rockInCollection in rocksInCollection) {
-      Rock? rock = await DatabaseHelper().getRockById(rockInCollection.rockId);
+      final rock = Rock.rockListFirstWhere(rockInCollection.rockId);
       if (rock != null) {
         collectionRocks.add(rock);
       }
@@ -122,7 +122,6 @@ class _CollectionPageState extends State<CollectionPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  // Handle add new rock action
                   SelectNewRockAndAddToCollection(
                           context, widget.collection.collectionId)
                       .action()
@@ -178,24 +177,22 @@ class _CollectionPageState extends State<CollectionPage> {
                           ),
                         ),
                         child: RockListItem(
-                          imageUrl: rock.imageURL.isNotEmpty &&
-                                  rock.imageURL != ''
-                              ? rock.imageURL
-                              : 'https://via.placeholder.com/60', // Use a placeholder image if none available
+                          imageUrl:
+                              rock.imageURL.isNotEmpty && rock.imageURL != ''
+                                  ? rock.imageURL
+                                  : 'https://via.placeholder.com/60',
                           title: rock.rockName,
-                          tags: const [
-                            'Sulfide minerals',
-                            'Mar',
-                            'Jul'
-                          ], // Replace with actual tags
+                          tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                           onTap: () {
                             Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        child: RockDetailPage(
-                                            rock: rock, isSavingRock: false),
-                                        type: PageTransitionType.bottomToTop))
-                                .then((value) => Navigator.of(context).pop());
+                                context,
+                                PageTransition(
+                                  child: RockDetailPage(
+                                      rock: rock, isSavingRock: false),
+                                  type: PageTransitionType.bottomToTop,
+                                )).then(
+                              (value) => Navigator.of(context).pop(),
+                            );
                           },
                         ));
                   },

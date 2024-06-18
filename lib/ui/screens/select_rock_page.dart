@@ -42,7 +42,6 @@ class _SelectRockPageState extends State<SelectRockPage> {
   void _filterFavoritedRocks() async {
     final wishlistIds = await DatabaseHelper().wishlist();
     List<Rock> unfavoritedRocks = _rockList;
-    debugPrint('$wishlistIds');
 
     for (var rockId in wishlistIds) {
       unfavoritedRocks = unfavoritedRocks

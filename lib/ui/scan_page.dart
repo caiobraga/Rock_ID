@@ -47,9 +47,7 @@ class _ScanPageState extends State<ScanPage> {
                   final navigator = Navigator.of(context);
                   navigator.pop();
                   _image = await ImagePickerService().pickImageFromGallery();
-                  _startScanning(() async {
-                    _rock = await GetRockService().getRock(_image);
-                  }, navigator);
+                  _startScanning(addToSnap, navigator);
                 },
               ),
               ListTile(
@@ -65,13 +63,7 @@ class _ScanPageState extends State<ScanPage> {
                   navigator.pop();
                   _image =
                       await ImagePickerService().pickImageFromCamera(context);
-                  _startScanning(() async {
-                    _rock = await GetRockService().getRock(_image);
-                    String timestamp = DateTime.now().toIso8601String();
-                    if(_rock!= null){
-                      await DatabaseHelper().addRockToSnapHistory(_rock!.rockId, timestamp);
-                    }
-                  }, navigator);
+                  _startScanning(addToSnap, navigator);
                 },
               ),
             ],
@@ -79,6 +71,14 @@ class _ScanPageState extends State<ScanPage> {
         );
       },
     );
+  }
+
+  Future<void> addToSnap() async {
+    _rock = await GetRockService().getRock(_image);
+    String timestamp = DateTime.now().toIso8601String();
+    if (_rock != null) {
+      await DatabaseHelper().addRockToSnapHistory(_rock!.rockId, timestamp);
+    }
   }
 
   void _showLoadingBottomSheet(BuildContext context) {
@@ -117,7 +117,8 @@ class _ScanPageState extends State<ScanPage> {
                               Text(
                                 'Identifying $_loadingPercentage%',
                                 style: TextStyle(
-                                  color: Constants.primaryColor.withOpacity(.80),
+                                  color:
+                                      Constants.primaryColor.withOpacity(.80),
                                   fontSize: 16,
                                 ),
                               ),
@@ -186,7 +187,8 @@ class _ScanPageState extends State<ScanPage> {
                                       Icon(
                                         Icons.camera_alt,
                                         size: 30, // Size of the icon
-                                        color: Colors.white, // Color of the icon
+                                        color:
+                                            Colors.white, // Color of the icon
                                       ),
                                       SizedBox(
                                           width:
@@ -356,9 +358,7 @@ class _ScanPageState extends State<ScanPage> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      debugPrint('favorite');
-                    },
+                    onTap: () {},
                     child: Container(
                       height: 40,
                       width: 40,

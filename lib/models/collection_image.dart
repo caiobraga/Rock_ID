@@ -1,10 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
+import 'dart:typed_data';
 
 class CollectionImage {
   final int id;
   final int collectionId;
-  final File? image;
+  final Uint8List? image;
 
   CollectionImage({
     required this.id,
@@ -15,7 +14,7 @@ class CollectionImage {
   Map<String, dynamic> toMap() {
     return {
       'collectionId': collectionId,
-      'image': image?.readAsBytesSync(),
+      'image': image,
     };
   }
 
@@ -23,14 +22,14 @@ class CollectionImage {
     return CollectionImage(
       id: map['id'],
       collectionId: map['collectionId'] ?? '',
-      image: map['image'] == null ? null : File.fromRawPath(map['image']),
+      image: map['image'] == null ? null : map['image'] as Uint8List,
     );
   }
 
   CollectionImage copyWith({
     int? id,
     int? collectionId,
-    File? image,
+    Uint8List? image,
   }) {
     return CollectionImage(
       id: id ?? this.id,

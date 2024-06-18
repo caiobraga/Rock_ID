@@ -26,8 +26,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: InkWell(
               onTap: () {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const RootPage()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const RootPage()));
               }, //to login screen. We will update later
               child: const Text(
                 'Skip',
@@ -92,10 +92,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         }
                       } else {
                         Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                            child: const RootPage(),
-                            type: PageTransitionType.bottomToTop));
+                            context,
+                            PageTransition(
+                                child: const RootPage(),
+                                type: PageTransitionType.bottomToTop));
                       }
                     });
                   },
@@ -167,8 +167,7 @@ class CreatePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 350,
+          Expanded(
             child: Image.asset(image),
           ),
           const SizedBox(

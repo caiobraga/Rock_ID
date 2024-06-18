@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/chat_gpt.dart';
 
@@ -10,15 +8,11 @@ class GetRockService {
   Future<Rock> getRock(File? image) async {
     if (image != null) {
       Map<String, dynamic>? chatResponse =
-          await ChatGPTService(apiKey: Constants.gptApiKey)
-              .identifyRock(image);
+          await ChatGPTService(apiKey: Constants.gptApiKey).identifyRock(image);
       if (chatResponse == null) {
         throw Exception('Unable to get a response. Please try again later.');
       }
-      debugPrint('$chatResponse');
       if (chatResponse['error'] != null) {
-        debugPrint('Error: ${chatResponse['error']}');
-        //ShowSnackbarService().showSnackBar('Error: ${chatResponse['error']}');
         throw Exception(chatResponse['error']);
       }
       String rockName = chatResponse['rock'];

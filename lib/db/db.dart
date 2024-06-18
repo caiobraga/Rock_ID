@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/collection_image.dart';
-import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -19,7 +18,6 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-
     _database = await _initDatabase();
     return _database!;
   }
@@ -84,8 +82,6 @@ class DatabaseHelper {
       )
     ''');
 
-    debugPrint('CRIADAS COLEÇÕES DAS IMAGENS UHULLLL!!!!');
-
     await db.execute('''
       CREATE TABLE rock_in_collection(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -122,37 +118,9 @@ class DatabaseHelper {
     await db.execute('DROP TABLE IF EXISTS rock_in_collection');
     await db.execute('DROP TABLE IF EXISTS wishlist');
     await db.execute('DROP TABLE IF EXISTS snap_history');
-    debugPrint('DROPOU!!!!!!!');
 
     // Recreate tables
     await _onCreate(db, newVersion);
-  }
-
-  Future<void> _createTableIfNotExists(
-      Database db, String tableName, String createTableQuery) async {
-    try {
-      await db.execute(createTableQuery);
-    } catch (e) {
-      if (e is DatabaseException && e.isUniqueConstraintError()) {
-        debugPrint('Table $tableName already exists. Skipping creation.');
-      } else {
-        rethrow;
-      }
-    }
-  }
-
-  Future<void> _addColumnIfNotExists(Database db, String tableName,
-      String columnName, String columnType) async {
-    try {
-      await db.rawQuery('SELECT $columnName FROM $tableName LIMIT 1');
-    } catch (e) {
-      if (e is DatabaseException) {
-        await db.execute(
-            'ALTER TABLE $tableName ADD COLUMN $columnName $columnType');
-      } else {
-        rethrow;
-      }
-    }
   }
 
   Future<void> ensureSavedCollectionExists() async {
@@ -198,75 +166,6 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> insertRock(Rock rock) async {
-    final db = await database;
-    await db.insert(
-      'rocks',
-      rock.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-
-    // Ensure the "Saved" collection exists
-    await ensureSavedCollectionExists();
-    final int? savedCollectionId = await getSavedCollectionId();
-
-    if (savedCollectionId != null) {
-      // Add the rock to the "Saved" collection
-      await addRockToCollection(rock.rockId, savedCollectionId);
-    }
-  }
-
-  Future<List<Rock>> rocks() async {
-    try {
-      final db = await database;
-      final List<Map<String, dynamic>> maps = await db.query('rocks');
-
-      return List.generate(maps.length, (i) {
-        //debugPrint(maps[i]);
-        return Rock.fromMap(maps[i]);
-      });
-    } catch (e) {
-      debugPrint('$e');
-      return [];
-    }
-  }
-
-  Future<Rock?> getRockById(int id) async {
-    final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'rocks',
-      where: 'rockId = ?',
-      whereArgs: [id],
-    );
-
-    if (maps.isNotEmpty) {
-      return Rock.fromMap(maps.first);
-    } else {
-      return null;
-    }
-  }
-
-  Future<void> updateRock(Rock rock) async {
-    final db = await database;
-    await db.update(
-      'rocks',
-      rock.toMap(),
-      where: 'rockId = ?',
-      whereArgs: [rock.rockId],
-    );
-  }
-
-  Future<void> deleteRock(int id) async {
-    final db = await database;
-    await db.delete(
-      'rocks',
-      where: 'rockId = ?',
-      whereArgs: [id],
-    );
-  }
-
-  // Functions for collections
-
   Future<void> insertCollection(Collection collection) async {
     try {
       final db = await database;
@@ -281,9 +180,10 @@ class DatabaseHelper {
           .toList();
 
       for (var collectionImageFile in collectionImagesWithCollectionId) {
+        final map = await collectionImageFile.toMap();
         await db.insert(
           'collection_images',
-          collectionImageFile.toMap(),
+          map,
           conflictAlgorithm: ConflictAlgorithm.replace,
         );
       }

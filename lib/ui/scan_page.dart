@@ -37,7 +37,7 @@ class _ScanPageState extends State<ScanPage> {
             children: <Widget>[
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: Text(
+                title: const Text(
                   'Gallery',
                   style: TextStyle(
                     color: Constants.primaryColor,
@@ -52,7 +52,7 @@ class _ScanPageState extends State<ScanPage> {
               ),
               ListTile(
                 leading: const Icon(Icons.photo_camera),
-                title: Text(
+                title: const Text(
                   'Camera',
                   style: TextStyle(
                     color: Constants.primaryColor,
@@ -351,7 +351,7 @@ class _ScanPageState extends State<ScanPage> {
                         borderRadius: BorderRadius.circular(25),
                         color: Constants.primaryColor.withOpacity(.15),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         color: Constants.primaryColor,
                       ),
@@ -368,7 +368,7 @@ class _ScanPageState extends State<ScanPage> {
                       ),
                       child: IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.share,
                           color: Constants.primaryColor,
                         ),

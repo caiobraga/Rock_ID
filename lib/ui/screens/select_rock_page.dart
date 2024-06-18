@@ -63,7 +63,7 @@ class _SelectRockPageState extends State<SelectRockPage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Constants.primaryColor,
           ),
@@ -87,9 +87,9 @@ class _SelectRockPageState extends State<SelectRockPage> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Constants.darkGrey,
-                    hintStyle: TextStyle(color: Constants.white),
+                    hintStyle: const TextStyle(color: Constants.white),
                     hintText: 'Search for rocks',
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.search,
                       color: Constants.primaryColor,
                     ),
@@ -97,7 +97,7 @@ class _SelectRockPageState extends State<SelectRockPage> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  style: TextStyle(color: Constants.white),
+                  style: const TextStyle(color: Constants.white),
                   onChanged: (query) {
                     _filterRocks(query);
                   },

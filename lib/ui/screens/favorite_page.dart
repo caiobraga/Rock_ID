@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -13,6 +15,7 @@ import 'package:flutter_onboarding/ui/screens/widgets/loading_component.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/add_new_collection_modal.dart';
+import '../../services/bottom_nav_service.dart';
 import '../widgets/text.dart';
 import 'widgets/collections_grid_view.dart';
 import 'widgets/rock_list_item.dart';
@@ -44,6 +47,9 @@ class _FavoritePageState extends State<FavoritePage>
   ];
   bool _isLoading = false;
 
+  final _bottomNavService = BottomNavService.instance;
+  StreamSubscription<int>? _bottomNavIndexSubscription;
+
   @override
   void initState() {
     super.initState();
@@ -52,16 +58,27 @@ class _FavoritePageState extends State<FavoritePage>
     _loadAllRocks();
     _loadWishlist();
     _loadCollections();
+
     if (widget.showWishlist == true) {
       setState(() {
         _tabController.index = 2;
       });
     }
+
+    // Escute as mudanças no índice do BottomNavigationBar
+    _bottomNavService.rockCollectionClickStream.listen((event) {
+      if (event == 'rock_collection') {
+        setState(() {
+          _tabController.index = 0;
+        });
+      }
+    });
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _bottomNavIndexSubscription?.cancel();
     super.dispose();
   }
 

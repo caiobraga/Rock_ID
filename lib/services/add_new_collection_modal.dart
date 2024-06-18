@@ -185,9 +185,9 @@ class AddNewCollectionModalService {
                   child: SingleChildScrollView(
                     child: Container(
                       padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Constants.darkGrey,
-                        borderRadius: const BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20),
                         ),
@@ -209,7 +209,7 @@ class AddNewCollectionModalService {
                                     ),
                               ),
                               IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.close,
                                   color: Constants.primaryColor,
                                 ),
@@ -231,17 +231,17 @@ class AddNewCollectionModalService {
                             label: 'No.',
                             hintText: 'Tap to enter the number',
                           ),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 '*Auto numbered: 3',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
                                 ),
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 6,
                               ),
                               Text(
@@ -266,7 +266,7 @@ class AddNewCollectionModalService {
                                 onTap: () {
                                   _nameController.clear();
                                 },
-                                child: Icon(
+                                child: const Icon(
                                   Icons.clear,
                                   color: Constants.white,
                                   size: 24,
@@ -318,7 +318,7 @@ class AddNewCollectionModalService {
                                         onTap: () async {
                                           _showImageOptions();
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           Icons.add,
                                           color: Constants.primaryColor,
                                         ),
@@ -343,7 +343,7 @@ class AddNewCollectionModalService {
                                       onTap: () {
                                         _dateController.clear();
                                       },
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.arrow_forward_ios_outlined,
                                         color: Constants.white,
                                         size: 16,
@@ -394,7 +394,7 @@ class AddNewCollectionModalService {
                                       onTap: () {
                                         _costController.clear();
                                       },
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.attach_money_sharp,
                                         color: Constants.white,
                                         size: 24,
@@ -426,7 +426,7 @@ class AddNewCollectionModalService {
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 8),
                                 height: 60,
-                                child: Column(
+                                child: const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -448,7 +448,7 @@ class AddNewCollectionModalService {
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 8),
                                 height: 60,
-                                child: Column(
+                                child: const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
@@ -613,7 +613,7 @@ class AddNewCollectionModalService {
                                           borderRadius:
                                               BorderRadius.circular(24),
                                         ),
-                                        child: Text(
+                                        child: const Text(
                                           'Save',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
@@ -736,7 +736,7 @@ class InputWidget extends StatelessWidget {
                           color: Colors.transparent,
                         ),
                       ),
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Constants.primaryColor,
                         ),

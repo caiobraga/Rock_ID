@@ -58,7 +58,7 @@ class _CollectionGridViewState extends State<CollectionGridView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(Icons.add_circle_outline,
+                  const Icon(Icons.add_circle_outline,
                       color: Constants.primaryColor, size: 50),
                   const SizedBox(height: 10),
                   Text(

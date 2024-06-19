@@ -68,44 +68,33 @@ class _PremiumScreenState extends State<PremiumScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF0F2027), Color(0xFF2C5364)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-            image: DecorationImage(
-              image: AssetImage('assets/images/background.png'),
-              fit: BoxFit.cover,
-              alignment: Alignment.topCenter,
-            ),
-          ),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF0F2027), Color(0xFF2C5364)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.png'),
+          fit: BoxFit.cover,
+          alignment: Alignment.topCenter,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          foregroundColor: Constants.naturalGrey,
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                const SizedBox(height: 40),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    child: IconButton(
-                      padding: const EdgeInsets.all(0),
-                      icon: const Icon(Icons.close, color: Colors.white),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                DSCustomText(
+                const DSCustomText(
                   text: 'GET FULL ACCESS',
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -139,7 +128,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    DSCustomText(
+                    const DSCustomText(
                       text: 'Free trial enabled',
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -175,7 +164,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                         horizontal: 40, vertical: 16),
                     backgroundColor: AppColors.primaryMedium,
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DSCustomText(
@@ -184,8 +173,8 @@ class _PremiumScreenState extends State<PremiumScreen> {
                         fontWeight: FontWeight.bold,
                         color: AppColors.naturalBlack,
                       ),
-                      const SizedBox(width: 8),
-                      const Icon(
+                      SizedBox(width: 8),
+                      Icon(
                         Icons.arrow_forward,
                         color: Colors.black,
                         size: 20,
@@ -203,7 +192,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                         onPressed: () {
                           // Terms of Use action
                         },
-                        child: DSCustomText(
+                        child: const DSCustomText(
                           text: 'Terms of Use',
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -213,7 +202,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Text(
+                      const Text(
                         '|',
                         style: TextStyle(
                           color: AppColors.naturalSilver,
@@ -225,7 +214,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                         onPressed: () {
                           // Privacy Policy action
                         },
-                        child: DSCustomText(
+                        child: const DSCustomText(
                           text: 'Privacy Policy',
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -247,11 +236,11 @@ class _PremiumScreenState extends State<PremiumScreen> {
   }
 
   Widget isFreeTrialEnabledWidget() {
-    return SizedBox(
+    return const SizedBox(
       height: 188,
       child: Column(
         children: [
-          const FeatureItem(
+          FeatureItem(
             title: 'No Payment',
             imagePath: 'ad-freeExperience.png',
             subTitle: 'now',
@@ -264,7 +253,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
             overflow: TextOverflow.visible,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           DSCustomText(
             text: 'Auto-renewable. Cancel anytime.',
             fontSize: 16,
@@ -277,7 +266,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
   }
 
   Widget freeTrialNotEnabledWidget() {
-    return SizedBox(
+    return const SizedBox(
       height: 188,
       child: Column(
         children: [
@@ -287,14 +276,14 @@ class _PremiumScreenState extends State<PremiumScreen> {
             fontWeight: FontWeight.bold,
             color: AppColors.primaryMedium,
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           DSCustomText(
             text: 'Auto-renewable. Cancel anytime.',
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: AppColors.white,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
         ],
       ),
     );

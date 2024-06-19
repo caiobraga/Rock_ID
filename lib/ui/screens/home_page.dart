@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/collection.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/bottom_nav_service.dart';
 import '../../services/selection_modal.dart';
 import 'select_rock_page.dart';
-import 'package:material_symbols_icons/symbols.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -74,8 +74,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: _isLoading
           ? const Center(
@@ -129,20 +127,17 @@ class _HomePageState extends State<HomePage> {
                                 color: Constants.darkGrey,
                                 borderRadius: BorderRadius.circular(41),
                               ),
-                              child: const Row(
+                              child: Row(
                                 children: [
-                                  Icon(
-                                    Icons.share,
-                                    color: Constants.primaryColor,
+                                  SvgPicture.string(AppIcons.share),
+                                  const SizedBox(
+                                    width: 6,
                                   ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                  Text(
+                                  const Text(
                                     'Share App',
                                     style: TextStyle(
                                       color: Constants.white,
-                                      fontSize: 13.2,
+                                      fontSize: 14,
                                     ),
                                   )
                                 ],
@@ -160,20 +155,17 @@ class _HomePageState extends State<HomePage> {
                                   color: Constants.darkGrey,
                                   borderRadius: BorderRadius.circular(41),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   children: [
-                                    Icon(
-                                      Icons.folder_copy_rounded,
-                                      color: Constants.primaryColor,
+                                    SvgPicture.string(AppIcons.folderSmall),
+                                    const SizedBox(
+                                      width: 6,
                                     ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
+                                    const Text(
                                       'Rock Collection',
                                       style: TextStyle(
                                         color: Constants.white,
-                                        fontSize: 13.2,
+                                        fontSize: 14,
                                       ),
                                     )
                                   ],
@@ -192,14 +184,13 @@ class _HomePageState extends State<HomePage> {
                         ),
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Column(
                               children: [
-                                const Icon(
-                                  Symbols.diamond,
-                                  color: Constants.primaryColor,
-                                ),
+                                SvgPicture.string(AppIcons.rock, height: 22),
+                                const SizedBox(height: 5),
                                 Text(
                                   '$contRocks',
                                   style: const TextStyle(
@@ -216,10 +207,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Column(
                               children: [
-                                const Icon(
-                                  Icons.attach_money,
-                                  color: Constants.primaryColor,
-                                ),
+                                SvgPicture.string(AppIcons.coins, height: 22),
+                                const SizedBox(height: 5),
                                 Text(
                                   '\$${price.toStringAsFixed(2)}',
                                   style: const TextStyle(
@@ -236,12 +225,10 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Column(
                               children: [
-                                const Icon(
-                                  Symbols.globe,
-                                  color: Constants.primaryColor,
-                                ),
+                                SvgPicture.string(AppIcons.globe, height: 22),
+                                const SizedBox(height: 5),
                                 const Text(
-                                  '1',
+                                  '0',
                                   style: TextStyle(
                                     color: Constants.white,
                                     fontSize: 20,
@@ -258,60 +245,56 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          // Handle recognition functionality
+                        onTap: () async {
+                          await ShowSelectionModalService().show(context);
+                          await init();
+                          //
                         },
                         child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 20),
-                          width: size.width * 0.8,
-                          height: size.width * 0.8,
+                          margin: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 20, bottom: 15),
                           decoration: BoxDecoration(
                             color: Constants.darkGrey,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: GestureDetector(
-                            onTap: () async {
-                              await ShowSelectionModalService().show(context);
-                              await init();
-                              //
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset('assets/images/rocktap.png',
-                                    height: 100),
-                                const SizedBox(height: 10),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4.0, horizontal: 16),
-                                  margin: const EdgeInsets.all(4.0),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Constants.primaryColor,
-                                      width: 2,
-                                    ),
-                                    borderRadius: BorderRadius.circular(50),
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/rocktap.png',
+                                  height: 100),
+                              const SizedBox(height: 15),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 4.0, horizontal: 16),
+                                margin: const EdgeInsets.all(4.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Constants.primaryColor,
+                                    width: 1,
                                   ),
-                                  child: const Text(
-                                    'TAP HERE',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      color: Constants.primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
-                                const SizedBox(height: 10),
-                                const Text(
-                                  'TO RECOGNIZE YOUR ROCK',
-                                  textAlign: TextAlign.center,
+                                child: const Text(
+                                  'TAP HERE',
                                   style: TextStyle(
                                     fontSize: 24,
-                                    color: Constants.white,
+                                    color: Constants.primaryColor,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                'TO RECOGNIZE YOUR ROCK',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Constants.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

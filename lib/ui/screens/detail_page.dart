@@ -64,7 +64,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       appBar: AppBar(
         leading: Navigator.of(context).canPop()
             ? IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back,
                   color: Constants.primaryColor,
                 ),
@@ -73,7 +73,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                 },
               )
             : null,
-        title: Text(
+        title: const Text(
           'BEST MATCHES',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
         actions: [
           if (widget.isSavingRock)
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.save,
                 color: Constants.primaryColor,
               ),
@@ -127,8 +127,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
                         children: [
                           Image.asset('assets/images/rock1.png',
                               height: 175.75, width: 255, fit: BoxFit.cover),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
                             child: Divider(
                               color: Constants.naturalGrey,
                               thickness: 1,
@@ -268,7 +268,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                           children: [
                             Text(
                               buttonText,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Constants.darkGrey,
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold),
@@ -303,7 +303,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
             child: Text(
               value,
               style: GoogleFonts.montserrat(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                 color: AppColors.naturalWhite,
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -379,7 +379,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                   Text(
                     title,
                     style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: AppColors.naturalWhite,
                           fontWeight: FontWeight.normal,
                           fontSize: 12),
@@ -391,7 +391,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                   Text(
                     subtitle,
                     style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: AppColors.primaryMedium,
                           fontWeight: FontWeight.normal,
                           fontSize: 10),
@@ -423,8 +423,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
+              const Padding(
+                padding: EdgeInsets.only(right: 8),
                 child: Icon(
                   Icons.image,
                   color: AppColors.primaryMedium,
@@ -445,8 +445,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16, bottom: 16),
+          const Padding(
+            padding: EdgeInsets.only(top: 16, bottom: 16),
             child: Divider(
               color: Constants.naturalGrey,
               thickness: 1,
@@ -492,7 +492,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8), // Define o border radius
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: AppColors.naturalGrey, // Cor de fundo quando colapsado
           ),
           child: ExpansionTile(
@@ -796,8 +796,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16, bottom: 16),
+          const Padding(
+            padding: EdgeInsets.only(top: 16, bottom: 16),
             child: Divider(
               color: Constants.naturalGrey,
               thickness: 1,
@@ -816,12 +816,13 @@ class _RockDetailPageState extends State<RockDetailPage> {
           .addRockToSnapHistory(widget.rock.rockId, timestamp);
 
       ShowSnackbarService().showSnackBar('Rock Saved');
-      await Navigator.pushReplacement(
+      await Navigator.pushAndRemoveUntil(
         context,
         PageTransition(
           child: const RootPage(),
           type: PageTransitionType.leftToRightWithFade,
         ),
+        (route) => false,
       );
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');

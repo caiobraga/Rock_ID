@@ -66,7 +66,7 @@ class _CollectionPageState extends State<CollectionPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Constants.primaryColor,
           ),
@@ -74,7 +74,7 @@ class _CollectionPageState extends State<CollectionPage> {
             Navigator.of(context).pop();
           },
         ),
-        title: Text(
+        title: const Text(
           'STONE ID',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -137,14 +137,14 @@ class _CollectionPageState extends State<CollectionPage> {
                     color: Constants.darkGrey,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(
                         Icons.add,
                         color: Constants.primaryColor,
                       ),
-                      const SizedBox(width: 5),
-                      const Text(
+                      SizedBox(width: 5),
+                      Text(
                         'Add new rock',
                         style: TextStyle(
                           color: Colors.white,

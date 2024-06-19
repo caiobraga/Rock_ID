@@ -43,30 +43,33 @@ class _CollectionGridViewState extends State<CollectionGridView> {
           : widget.collections.length,
       itemBuilder: (BuildContext context, int index) {
         if (index == widget.collections.length && widget.hasAddOption) {
-          return GestureDetector(
-            onTap: () {
-              AddNewCollectionModalService().show(context, () {
-                widget.onItemAdded();
-              });
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade800,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(Icons.add_circle_outline,
-                      color: Constants.primaryColor, size: 50),
-                  const SizedBox(height: 10),
-                  Text(
-                    'ADD NEW COLLECTION',
-                    style: AppTypography.body1(color: Constants.white),
-                    textAlign: TextAlign.center,
-                  )
-                ],
+          return Visibility(
+            visible: widget.collections.length < 6,
+            child: GestureDetector(
+              onTap: () {
+                AddNewCollectionModalService().show(context, () {
+                  widget.onItemAdded();
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade800,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.add_circle_outline,
+                        color: Constants.primaryColor, size: 50),
+                    const SizedBox(height: 10),
+                    Text(
+                      'ADD NEW COLLECTION',
+                      style: AppTypography.body1(color: Constants.white),
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                ),
               ),
             ),
           );

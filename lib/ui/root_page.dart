@@ -1,10 +1,9 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/favorite_page.dart';
 import 'package:flutter_onboarding/ui/screens/home_page.dart';
+import 'package:flutter_onboarding/ui/screens/my_rocks_page.dart';
 import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,7 +23,6 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  List<Rock> favorites = [];
   List<Rock> myCart = [];
 
   final _bottomNavService = BottomNavService.instance;
@@ -32,23 +30,6 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     super.initState();
-
-    List<Rock> favoritedRocks = [];
-
-    DatabaseHelper().wishlist().then((wishlist) {
-      for (final rock in Rock.rockList) {
-        for (final rockId in wishlist) {
-          if (rockId == rock.rockId) {
-            favoritedRocks.add(rock);
-          }
-        }
-      }
-
-      setState(() {
-        favorites = favoritedRocks;
-      });
-    });
-
     if (widget.showFavorites == true) {
       _bottomNavService.setIndex(1);
     }
@@ -58,8 +39,7 @@ class _RootPageState extends State<RootPage> {
   List<Widget> _widgetOptions() {
     return [
       const HomePage(),
-      FavoritePage(
-        favoritedRocks: favorites,
+      MyRocksPage(
         showWishlist: widget.showFavorites == true,
       ),
     ];

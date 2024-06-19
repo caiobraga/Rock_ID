@@ -578,7 +578,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
               const SizedBox(height: 16),
               Text("Luster",
                   style: AppTypography.body2(color: AppColors.primaryMedium)),
-              Text(widget.rock.Luster,
+              Text(widget.rock.luster,
                   style: AppTypography.body3(color: AppColors.naturalSilver)),
               const SizedBox(height: 8),
               ClipRRect(
@@ -619,9 +619,9 @@ class _RockDetailPageState extends State<RockDetailPage> {
         icon: AppIcons.calendarSearch,
         body: [
           _buildInfoSection('Crystal System', widget.rock.crystalSystem),
-          _buildInfoSection('Colors', widget.rock.Colors.toString()),
-          _buildInfoSection('Luster', widget.rock.Luster),
-          _buildInfoSection('Diaphaneity', widget.rock.Diaphaneity),
+          _buildInfoSection('Colors', widget.rock.colors.toString()),
+          _buildInfoSection('Luster', widget.rock.luster),
+          _buildInfoSection('Diaphaneity', widget.rock.diaphaneity),
         ]);
   }
 

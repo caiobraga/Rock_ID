@@ -183,120 +183,184 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         margin: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              children: [
-                                SvgPicture.string(AppIcons.rock, height: 22),
-                                const SizedBox(height: 5),
-                                Text(
-                                  '$contRocks',
-                                  style: const TextStyle(
-                                    color: Constants.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text('Rocks',
-                                    style: TextStyle(
-                                      color: Constants.white.withAlpha(100),
-                                    )),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                SvgPicture.string(AppIcons.coins, height: 22),
-                                const SizedBox(height: 5),
-                                Text(
-                                  '\$${price.toStringAsFixed(2)}',
-                                  style: const TextStyle(
-                                    color: Constants.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text('Value (USD)',
-                                    style: TextStyle(
-                                      color: Constants.white.withAlpha(100),
-                                    )),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                SvgPicture.string(AppIcons.globe, height: 22),
-                                const SizedBox(height: 5),
-                                const Text(
-                                  '0',
-                                  style: TextStyle(
-                                    color: Constants.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text('Country',
-                                    style: TextStyle(
-                                      color: Constants.white.withAlpha(100),
-                                    )),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          await ShowSelectionModalService().show(context);
-                          await init();
-                          //
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 10),
-                          padding: const EdgeInsets.only(top: 20, bottom: 15),
-                          decoration: BoxDecoration(
-                            color: Constants.darkGrey,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
+                        child: IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/images/rocktap.png',
-                                  height: 100),
-                              const SizedBox(height: 15),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 4.0, horizontal: 16),
-                                margin: const EdgeInsets.all(4.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Constants.primaryColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: const Text(
-                                  'TAP HERE',
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    color: Constants.primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    SvgPicture.string(AppIcons.rock,
+                                        height: 22),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      '$contRocks',
+                                      style: const TextStyle(
+                                        color: Constants.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text('Rocks',
+                                        style: TextStyle(
+                                          color: Constants.white.withAlpha(100),
+                                        )),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                'TO RECOGNIZE YOUR ROCK',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Constants.white,
+                              const VerticalDivider(
+                                color: Constants.naturalGrey,
+                                thickness: 1.2,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    SvgPicture.string(AppIcons.coins,
+                                        height: 22),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      '\$${price.toStringAsFixed(2)}',
+                                      style: const TextStyle(
+                                        color: Constants.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text('Value (USD)',
+                                        style: TextStyle(
+                                          color: Constants.white.withAlpha(100),
+                                        )),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                await ShowSelectionModalService().show(context);
+                                await init();
+                                //
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    top: 20, bottom: 15, right: 10, left: 10),
+                                decoration: BoxDecoration(
+                                  color: Constants.darkGrey,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'TO RECOGNIZE THE DETAILS OF A ROCK',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Constants.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Image.asset('assets/images/rocktap.png',
+                                        height: 55),
+                                    const SizedBox(height: 15),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 16),
+                                      margin: const EdgeInsets.all(4.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Constants.primaryColor,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: const Text(
+                                        'TAP HERE',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Constants.primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                await ShowSelectionModalService().show(
+                                  context,
+                                  isScanningForRockDetails: false,
+                                );
+                                await init();
+                                //
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    top: 20, bottom: 15, right: 10, left: 10),
+                                decoration: BoxDecoration(
+                                  color: Constants.darkGrey,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'TO RECOGNIZE THE VALUE OF A ROCK',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Constants.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Image.asset('assets/images/coinstap.png',
+                                        height: 55),
+                                    const SizedBox(height: 15),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 16),
+                                      margin: const EdgeInsets.all(4.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Constants.primaryColor,
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: const Text(
+                                        'TAP HERE',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Constants.primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

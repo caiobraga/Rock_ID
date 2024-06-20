@@ -38,9 +38,9 @@ class CollectionWidget extends StatelessWidget {
                   height: 33,
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Constants.naturalGrey,
-                    borderRadius: const BorderRadius.all(Radius.circular(41)),
+                    borderRadius: BorderRadius.all(Radius.circular(41)),
                   ),
                   child: Text(
                     title,
@@ -59,7 +59,8 @@ class CollectionWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.bookmark, color: Constants.primaryColor, size: 20),
+                  const Icon(Icons.bookmark,
+                      color: Constants.primaryColor, size: 20),
                   const SizedBox(width: 5),
                   Text(
                     '$rockCount',
@@ -89,8 +90,8 @@ class CollectionWidget extends StatelessWidget {
                       ),
                     ),
                   for (int i = rockImages.length; i < 3; i++)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 5),
                       child: CircleAvatar(
                         backgroundColor: Constants.naturalGrey,
                         radius: 15,

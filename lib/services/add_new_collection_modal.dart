@@ -182,453 +182,479 @@ class AddNewCollectionModalService {
                   (BuildContext context, ScrollController scrollController) {
                 return GestureDetector(
                   onTap: () {},
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: const BoxDecoration(
-                        color: Constants.darkGrey,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'COLLECTION DETAILS',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
-                                    ?.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 28,
-                                    ),
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.close,
-                                  color: Constants.primaryColor,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Container(
-                            color: Constants.white,
-                            height: 0.1,
-                          ),
-                          InputWidget(
-                            controller: _numberController,
-                            label: 'No.',
-                            hintText: 'Tap to enter the number',
-                          ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                '*Auto numbered: 3',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 6,
-                              ),
-                              Text(
-                                'Use this',
-                                style: TextStyle(
-                                  color: Constants.primaryColor,
-                                  fontSize: 14,
-                                ),
-                              )
-                            ],
-                          ),
-                          InputWidget(
-                            label: 'Name',
-                            required: true,
-                            controller: _nameController,
-                            hintText: 'Tap to enter the name',
-                            rightIcon: Padding(
-                              padding: const EdgeInsets.all(8.0).copyWith(
-                                right: 14,
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  _nameController.clear();
-                                },
-                                child: const Icon(
-                                  Icons.clear,
-                                  color: Constants.white,
-                                  size: 24,
-                                ),
-                              ),
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        controller: scrollController,
+                        child: Container(
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: const BoxDecoration(
+                            color: Constants.darkGrey,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
                             ),
                           ),
-                          const SizedBox(height: 16),
-                          const Text(
-                            'Photos',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          ValueListenableBuilder<List<File>>(
-                              valueListenable: _photosNotifier,
-                              builder: (context, list, _) {
-                                return Wrap(
-                                  runSpacing: 8,
-                                  spacing: 8,
-                                  children: [
-                                    ...list.map((e) {
-                                      return Container(
-                                        height: 100,
-                                        width: 100,
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          color: Constants.colorInput,
-                                          border: Border.all(),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Image.file(
-                                          e,
-                                          fit: BoxFit.fill,
-                                        ),
-                                      );
-                                    }).toList(),
-                                    Container(
-                                      height: 100,
-                                      width: 100,
-                                      decoration: BoxDecoration(
-                                        color: Constants.colorInput,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: InkWell(
-                                        onTap: () async {
-                                          _showImageOptions();
-                                        },
-                                        child: const Icon(
-                                          Icons.add,
-                                          color: Constants.primaryColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }),
-                          Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: InputWidget(
-                                  label: 'Acquisition',
-                                  controller: _dateController,
-                                  hintText: 'Date acquired',
-                                  textInputType: TextInputType.datetime,
-                                  rightIcon: Padding(
-                                    padding: const EdgeInsets.all(8.0).copyWith(
-                                      right: 14,
-                                    ),
-                                    child: InkWell(
-                                      onTap: () {
-                                        _dateController.clear();
-                                      },
-                                      child: const Icon(
-                                        Icons.arrow_forward_ios_outlined,
-                                        color: Constants.white,
-                                        size: 16,
-                                      ),
-                                    ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'COLLECTION DETAILS',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 28,
+                                        ),
                                   ),
-                                ),
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.close,
+                                      color: Constants.primaryColor,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
                               ),
                               const SizedBox(
-                                width: 10,
+                                height: 8,
                               ),
-                              SizedBox(
-                                child: InputWidget(
-                                  label: '',
-                                  controller: _costController,
-                                  hintText: 'Cost',
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly
-                                  ],
-                                  onChanged: (value) {
-                                    if (value.isEmpty) return;
-                                    final formatter = NumberFormat.currency(
-                                      symbol: '',
-                                      decimalDigits: 0,
-                                    );
-                                    final formattedValue =
-                                        formatter.format(double.tryParse(
-                                              value.replaceAll(
-                                                RegExp(r'[^\d.]'),
-                                                '',
-                                              ),
-                                            ) ??
-                                            0.0);
-                                    _costController.value = TextEditingValue(
-                                      text: formattedValue,
-                                      selection: TextSelection.collapsed(
-                                        offset: formattedValue.length,
-                                      ),
-                                    );
-                                  },
-                                  rightIcon: Container(
-                                    height: 52,
-                                    color: Constants.darkGrey,
-                                    padding: const EdgeInsets.all(8.0).copyWith(
-                                      right: 14,
+                              Container(
+                                color: Constants.white,
+                                height: 0.1,
+                              ),
+                              InputWidget(
+                                controller: _numberController,
+                                label: 'No.',
+                                hintText: 'Tap to enter the number',
+                              ),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '*Auto numbered: 3',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
                                     ),
-                                    child: InkWell(
-                                      onTap: () {
-                                        _costController.clear();
-                                      },
-                                      child: const Icon(
-                                        Icons.attach_money_sharp,
-                                        color: Constants.white,
-                                        size: 24,
-                                      ),
+                                  ),
+                                  SizedBox(
+                                    width: 6,
+                                  ),
+                                  Text(
+                                    'Use this',
+                                    style: TextStyle(
+                                      color: Constants.primaryColor,
+                                      fontSize: 14,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              InputWidget(
+                                label: 'Name',
+                                required: true,
+                                controller: _nameController,
+                                hintText: 'Tap to enter the name',
+                                rightIcon: Padding(
+                                  padding: const EdgeInsets.all(8.0).copyWith(
+                                    right: 14,
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {
+                                      _nameController.clear();
+                                    },
+                                    child: const Icon(
+                                      Icons.clear,
+                                      color: Constants.white,
+                                      size: 24,
                                     ),
                                   ),
                                 ),
-                                width: 150,
                               ),
-                            ],
-                          ),
-                          InputWidget(
-                            label: 'Locality',
-                            controller: _localityController,
-                            hintText: 'Tap to enter',
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: InputWidget(
-                                  label: 'Size',
-                                  controller: _lengthController,
-                                  hintText: 'Length',
+                              const SizedBox(height: 16),
+                              const Text(
+                                'Photos',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
                                 ),
                               ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                height: 60,
-                                child: const Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.close,
-                                      size: 15,
-                                      color: Constants.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: InputWidget(
-                                  label: '',
-                                  controller: _widthController,
-                                  hintText: 'Width',
-                                ),
-                              ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                height: 60,
-                                child: const Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.close,
-                                      size: 15,
-                                      color: Constants.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: InputWidget(
-                                  labelFromWidget: Expanded(
-                                    child: Row(
+                              const SizedBox(height: 4),
+                              ValueListenableBuilder<List<File>>(
+                                  valueListenable: _photosNotifier,
+                                  builder: (context, list, _) {
+                                    return Wrap(
+                                      runSpacing: 8,
+                                      spacing: 8,
                                       children: [
-                                        Expanded(child: Container()),
-                                        SizedBox(
-                                          width: 70,
-                                          child: ValueListenableBuilder(
-                                              valueListenable:
-                                                  _unitOfMeasurementNotifier,
-                                              builder: (context, type, _) {
-                                                return Container(
-                                                  clipBehavior: Clip.hardEdge,
-                                                  padding:
-                                                      const EdgeInsets.all(2),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            26),
-                                                    color: Constants.blackColor,
+                                        ...list.map((e) {
+                                          return Container(
+                                            height: 100,
+                                            width: 100,
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                              color: Constants.colorInput,
+                                              border: Border.all(),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Image.file(
+                                              e,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          );
+                                        }).toList(),
+                                        Container(
+                                          height: 100,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            color: Constants.colorInput,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              _showImageOptions();
+                                            },
+                                            child: const Icon(
+                                              Icons.add,
+                                              color: Constants.primaryColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: InputWidget(
+                                      label: 'Acquisition',
+                                      controller: _dateController,
+                                      hintText: 'Date acquired',
+                                      textInputType: TextInputType.datetime,
+                                      rightIcon: Padding(
+                                        padding: const EdgeInsets.all(8.0)
+                                            .copyWith(right: 2),
+                                        child: InkWell(
+                                          onTap: () {
+                                            _dateController.clear();
+                                          },
+                                          child: const Icon(
+                                            Icons.arrow_forward_ios_outlined,
+                                            color: Constants.white,
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  SizedBox(
+                                    child: InputWidget(
+                                      label: '',
+                                      controller: _costController,
+                                      hintText: 'Cost',
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      onChanged: (value) {
+                                        if (value.isEmpty) return;
+                                        final formatter = NumberFormat.currency(
+                                          symbol: '',
+                                          decimalDigits: 0,
+                                        );
+                                        final formattedValue =
+                                            formatter.format(double.tryParse(
+                                                  value.replaceAll(
+                                                    RegExp(r'[^\d.]'),
+                                                    '',
                                                   ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      Expanded(
-                                                        child: InkWell(
-                                                          child: Container(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(4),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          24),
-                                                              color: _unitOfMeasurementNotifier
-                                                                          .value ==
-                                                                      'inch'
-                                                                  ? Constants
-                                                                      .naturalGrey
-                                                                  : Constants
-                                                                      .blackColor,
-                                                            ),
-                                                            child: Text(
-                                                              'inch',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                color: Constants
-                                                                    .white,
-                                                                fontWeight: _unitOfMeasurementNotifier
-                                                                            .value ==
-                                                                        'inch'
-                                                                    ? FontWeight
-                                                                        .w600
-                                                                    : FontWeight
-                                                                        .normal,
-                                                                fontSize: 11,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          onTap:
-                                                              toggleUnitOfMeasurement,
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: InkWell(
-                                                          child: Container(
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(4),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            24),
-                                                                color: _unitOfMeasurementNotifier
-                                                                            .value ==
-                                                                        'cm'
-                                                                    ? Constants
-                                                                        .naturalGrey
-                                                                    : Constants
-                                                                        .blackColor,
-                                                              ),
-                                                              child: Text(
-                                                                'cm',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color:
-                                                                      Constants
-                                                                          .white,
-                                                                  fontWeight: _unitOfMeasurementNotifier
-                                                                              .value ==
-                                                                          'cm'
-                                                                      ? FontWeight
-                                                                          .w600
-                                                                      : FontWeight
-                                                                          .normal,
-                                                                  fontSize: 11,
-                                                                ),
-                                                              )),
-                                                          onTap:
-                                                              toggleUnitOfMeasurement,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              }),
+                                                ) ??
+                                                0.0);
+                                        _costController.value =
+                                            TextEditingValue(
+                                          text: formattedValue,
+                                          selection: TextSelection.collapsed(
+                                            offset: formattedValue.length,
+                                          ),
+                                        );
+                                      },
+                                      rightIcon: Container(
+                                        height: 52,
+                                        color: Constants.darkGrey,
+                                        padding:
+                                            const EdgeInsets.all(8.0).copyWith(
+                                          right: 14,
+                                        ),
+                                        child: InkWell(
+                                          onTap: () {
+                                            _costController.clear();
+                                          },
+                                          child: const Icon(
+                                            Icons.attach_money_sharp,
+                                            color: Constants.white,
+                                            size: 24,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    width: 150,
+                                  ),
+                                ],
+                              ),
+                              InputWidget(
+                                label: 'Locality',
+                                controller: _localityController,
+                                hintText: 'Tap to enter',
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                    child: InputWidget(
+                                      label: 'Size',
+                                      controller: _lengthController,
+                                      hintText: 'Length',
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    height: 60,
+                                    child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.close,
+                                          size: 15,
+                                          color: Constants.white,
                                         ),
                                       ],
                                     ),
                                   ),
-                                  controller: _heightController,
-                                  hintText: 'Height',
-                                ),
-                              ),
-                            ],
-                          ),
-                          InputWidget(
-                            label: 'Notes',
-                            controller: _notesController,
-                            hintText: 'Tap to add your notes here...',
-                            maxLines: 5,
-                          ),
-                          const SizedBox(height: 10),
-                          InkWell(
-                              onTap: onTap,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        height: 33,
-                                        decoration: BoxDecoration(
-                                          color: Constants.primaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(24),
+                                  Expanded(
+                                    child: InputWidget(
+                                      label: '',
+                                      controller: _widthController,
+                                      hintText: 'Width',
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    height: 60,
+                                    child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.close,
+                                          size: 15,
+                                          color: Constants.white,
                                         ),
-                                        child: const Text(
-                                          'Save',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Constants.blackColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: InputWidget(
+                                      labelFromWidget: Expanded(
+                                        child: Row(
+                                          children: [
+                                            Expanded(child: Container()),
+                                            SizedBox(
+                                              width: 70,
+                                              child: ValueListenableBuilder(
+                                                  valueListenable:
+                                                      _unitOfMeasurementNotifier,
+                                                  builder: (context, type, _) {
+                                                    return Container(
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              2),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(26),
+                                                        color: Constants
+                                                            .blackColor,
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Expanded(
+                                                            child: InkWell(
+                                                              child: Container(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(4),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              24),
+                                                                  color: _unitOfMeasurementNotifier
+                                                                              .value ==
+                                                                          'inch'
+                                                                      ? Constants
+                                                                          .naturalGrey
+                                                                      : Constants
+                                                                          .blackColor,
+                                                                ),
+                                                                child: Text(
+                                                                  'inch',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Constants
+                                                                        .white,
+                                                                    fontWeight: _unitOfMeasurementNotifier.value ==
+                                                                            'inch'
+                                                                        ? FontWeight
+                                                                            .w600
+                                                                        : FontWeight
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        11,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              onTap:
+                                                                  toggleUnitOfMeasurement,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: InkWell(
+                                                              child: Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          4),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            24),
+                                                                    color: _unitOfMeasurementNotifier.value ==
+                                                                            'cm'
+                                                                        ? Constants
+                                                                            .naturalGrey
+                                                                        : Constants
+                                                                            .blackColor,
+                                                                  ),
+                                                                  child: Text(
+                                                                    'cm',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Constants
+                                                                          .white,
+                                                                      fontWeight: _unitOfMeasurementNotifier.value ==
+                                                                              'cm'
+                                                                          ? FontWeight
+                                                                              .w600
+                                                                          : FontWeight
+                                                                              .normal,
+                                                                      fontSize:
+                                                                          11,
+                                                                    ),
+                                                                  )),
+                                                              onTap:
+                                                                  toggleUnitOfMeasurement,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              )),
-                        ],
+                                      controller: _heightController,
+                                      hintText: 'Height',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              InputWidget(
+                                label: 'Notes',
+                                controller: _notesController,
+                                hintText: 'Tap to add your notes here...',
+                                maxLines: 5,
+                              ),
+                              const SizedBox(
+                                height: 45,
+                              ), // Adicionado espaço para o botão "Save"
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      Positioned(
+                        bottom: 16,
+                        left: 16,
+                        right: 16,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Constants.darkGrey,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          child: InkWell(
+                              onTap: onTap,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 33,
+                                      decoration: BoxDecoration(
+                                        color: Constants.primaryColor,
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      child: const Text(
+                                        'Save',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Constants.blackColor,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -723,7 +749,9 @@ class InputWidget extends StatelessWidget {
                     controller: controller,
                     cursorColor: Constants.primaryColor,
                     decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       labelStyle: GoogleFonts.montserrat().copyWith(
                         color: Constants.naturalGrey,
                       ),
@@ -731,13 +759,15 @@ class InputWidget extends StatelessWidget {
                       hintStyle: GoogleFonts.montserrat().copyWith(
                         color: Constants.naturalGrey,
                       ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(
                           color: Colors.transparent,
                         ),
                       ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(
                           color: Constants.primaryColor,
                         ),
                       ),
@@ -770,6 +800,8 @@ class InputWidget extends StatelessWidget {
       if (picked != null) {
         controller.text = picked.toLocal().toString().split(' ').first;
       }
-    } catch (e) {}
+    } catch (e) {
+      debugPrint('$e');
+    }
   }
 }

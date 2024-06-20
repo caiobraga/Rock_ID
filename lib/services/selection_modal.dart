@@ -7,7 +7,10 @@ import 'package:page_transition/page_transition.dart';
 import '../ui/scan_page.dart';
 
 class ShowSelectionModalService {
-  Future<void> show(BuildContext context) async {
+  Future<void> show(
+    BuildContext context, {
+    bool isScanningForRockDetails = true,
+  }) async {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -55,7 +58,9 @@ class ShowSelectionModalService {
                   Navigator.pushReplacement(
                     context,
                     PageTransition(
-                      child: const ScanPage(),
+                      child: ScanPage(
+                        isScanningForRockDetails: isScanningForRockDetails,
+                      ),
                       type: PageTransitionType.bottomToTop,
                     ),
                   );

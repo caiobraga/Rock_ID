@@ -63,10 +63,10 @@ class __CollectionListModalState extends State<_CollectionListModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.6,
       padding: const EdgeInsets.all(16.0),
       decoration: const BoxDecoration(
-        color: Colors.black,
+        color: Constants.darkGrey,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -79,12 +79,15 @@ class __CollectionListModalState extends State<_CollectionListModal> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '${widget.collection.collectionName} (${_collectionRocks.length})',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  '${widget.collection.collectionName} (${_collectionRocks.length})',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible,
+                  ),
                 ),
               ),
               IconButton(
@@ -125,20 +128,41 @@ class __CollectionListModalState extends State<_CollectionListModal> {
           ),
           const SizedBox(height: 10),
           Center(
-            child: TextButton(
-              onPressed: () async {
-                await SelectNewRockAndAddToCollection(
-                        context, widget.collection.collectionId)
-                    .action();
-                await _loadCollectionRocks(widget.collection.collectionId);
-              },
-              child: Text(
-                '+Add Rock',
-                style: TextStyle(
-                  color: Constants.primaryColor,
-                  fontSize: 16,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () async {
+                    await SelectNewRockAndAddToCollection(
+                            context, widget.collection.collectionId)
+                        .action();
+                    await _loadCollectionRocks(widget.collection.collectionId);
+                  },
+                  style: TextButton.styleFrom(
+                    foregroundColor: Constants.darkGrey,
+                    backgroundColor: Constants.primaryColor,
+                  ),
+                  icon: const Icon(Icons.delete),
                 ),
-              ),
+                TextButton.icon(
+                  onPressed: () async {
+                    await SelectNewRockAndAddToCollection(
+                            context, widget.collection.collectionId)
+                        .action();
+                    await _loadCollectionRocks(widget.collection.collectionId);
+                  },
+                  style: TextButton.styleFrom(
+                    foregroundColor: Constants.darkGrey,
+                    backgroundColor: Constants.primaryColor,
+                  ),
+                  icon: const Icon(Icons.add),
+                  label: const Text(
+                    'Add Rock',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

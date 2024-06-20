@@ -5,6 +5,7 @@ import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/chat_gpt.dart';
 
 import '../constants.dart';
+import 'snackbar.dart';
 
 class GetRockService {
   Future<Rock> getRock(File? image) async {
@@ -27,7 +28,7 @@ class GetRockService {
       if (localRock != null) {
         return localRock;
       }
-
+      ShowSnackbarService().showSnackBar("we don't have ${chatResponse['rock']} info in our database.");
       return Rock(
           rockId: 0,
           price: 0,
@@ -67,7 +68,7 @@ class GetRockService {
   Rock? _getLocalRockByName(String rockName) {
     List<Rock> localRocks = Rock.rockList;
     for (Rock rock in localRocks) {
-      if (rock.rockName.toLowerCase() == rockName.toLowerCase()) {
+      if (rockName.toLowerCase().contains(rock.rockName.toLowerCase())) {
         return rock;
       }
     }

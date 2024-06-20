@@ -7,13 +7,19 @@ import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
+import 'package:flutter_onboarding/ui/screens/widgets/loading_component.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../db/db.dart';
 import 'root_page.dart';
 
 class ScanPage extends StatefulWidget {
-  const ScanPage({Key? key}) : super(key: key);
+  final bool isScanningForRockDetails;
+
+  const ScanPage({
+    Key? key,
+    required this.isScanningForRockDetails,
+  }) : super(key: key);
 
   @override
   State<ScanPage> createState() => _ScanPageState();
@@ -32,30 +38,27 @@ class _ScanPageState extends State<ScanPage> {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return SafeArea(
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+          decoration: const BoxDecoration(
+            color: Constants.darkGrey, // Cor de fundo do modal
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
           child: Wrap(
             children: <Widget>[
               ListTile(
-                leading: const Icon(Icons.photo_library),
-                title: const Text(
-                  'Gallery',
-                  style: TextStyle(
-                    color: Constants.primaryColor,
-                  ),
+                leading: const Icon(
+                  Icons.photo_camera,
+                  color: Constants.silver,
                 ),
-                onTap: () async {
-                  final navigator = Navigator.of(context);
-                  navigator.pop();
-                  _image = await ImagePickerService().pickImageFromGallery();
-                  _startScanning(addToSnap, navigator);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_camera),
                 title: const Text(
-                  'Camera',
+                  'Take a photo',
                   style: TextStyle(
-                    color: Constants.primaryColor,
+                    color: Constants.white,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 onTap: () async {
@@ -63,6 +66,25 @@ class _ScanPageState extends State<ScanPage> {
                   navigator.pop();
                   _image =
                       await ImagePickerService().pickImageFromCamera(context);
+                  _startScanning(addToSnap, navigator);
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.photo_library,
+                  color: Constants.silver,
+                ),
+                title: const Text(
+                  'Pick from gallery',
+                  style: TextStyle(
+                    color: Constants.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                onTap: () async {
+                  final navigator = Navigator.of(context);
+                  navigator.pop();
+                  _image = await ImagePickerService().pickImageFromGallery();
                   _startScanning(addToSnap, navigator);
                 },
               ),
@@ -95,7 +117,7 @@ class _ScanPageState extends State<ScanPage> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.7,
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: Constants.darkGrey,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -104,49 +126,63 @@ class _ScanPageState extends State<ScanPage> {
               child: ValueListenableBuilder<int>(
                 valueListenable: _loadingNotifier,
                 builder: (context, value, child) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (_isLoading)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                'Identifying $_loadingPercentage%',
-                                style: TextStyle(
-                                  color:
-                                      Constants.primaryColor.withOpacity(.80),
-                                  fontSize: 16,
+                  return Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if (_isLoading)
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Identifying $_loadingPercentage%',
+                                  style: const TextStyle(
+                                    color: Constants.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                              if (_image != null)
-                                Image.file(
-                                  File(_image!.path),
-                                  height: 200,
-                                  fit: BoxFit.cover,
-                                )
-                              else
-                                const CircularProgressIndicator(),
-                            ],
+                                const SizedBox(height: 10),
+                                if (_image != null)
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: Image.file(
+                                      File(_image!.path),
+                                      fit: BoxFit.cover,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              2,
+                                    ),
+                                  )
+                                else
+                                  const LoadingComponent(),
+                              ],
+                            ),
                           ),
-                        if (_errorMessage != null)
-                          Column(
+                        ),
+                      if (_errorMessage != null)
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const SizedBox(height: 10),
                               _buildErrorImageRow(
                                 Icons.verified,
-                                Colors.blue,
+                                Constants.mediumGreen,
                                 'assets/images/prefectImage.png',
                                 'This is a good Exemple',
+                                Constants.lightestGreen,
                               ),
                               const SizedBox(height: 20),
                               const Text(
                                 'The following will lead to poor results',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Constants.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
@@ -154,20 +190,22 @@ class _ScanPageState extends State<ScanPage> {
                               const SizedBox(height: 10),
                               _buildErrorImageRow(
                                 Icons.close,
-                                Colors.red,
+                                Constants.mediumRed,
                                 'assets/images/smal_stone.png',
                                 'Too far',
-                                'assets/images/blurred.jpg',
-                                'Blurred images',
+                                Constants.lightestRed,
+                                assetPath2: 'assets/images/blurred.jpg',
+                                label2: 'Image blurred',
                               ),
                               const SizedBox(height: 10),
                               _buildErrorImageRow(
                                 Icons.close,
-                                Colors.red,
+                                Constants.mediumRed,
                                 'assets/images/varias_rochas.png',
                                 'Too many',
-                                'assets/images/too_dark.png',
-                                'Too dark',
+                                Constants.lightestRed,
+                                assetPath2: 'assets/images/too_dark.png',
+                                label2: 'Too dark',
                               ),
                               const SizedBox(height: 20),
                               GestureDetector(
@@ -177,8 +215,9 @@ class _ScanPageState extends State<ScanPage> {
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 30, vertical: 10),
+                                  margin: const EdgeInsets.only(top: 10),
                                   decoration: BoxDecoration(
-                                    color: Colors.orange,
+                                    color: Constants.primaryColor,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: const Row(
@@ -187,8 +226,8 @@ class _ScanPageState extends State<ScanPage> {
                                       Icon(
                                         Icons.camera_alt,
                                         size: 30, // Size of the icon
-                                        color:
-                                            Colors.white, // Color of the icon
+                                        color: Constants
+                                            .darkGrey, // Color of the icon
                                       ),
                                       SizedBox(
                                           width:
@@ -197,8 +236,9 @@ class _ScanPageState extends State<ScanPage> {
                                         'Retake',
                                         style: TextStyle(
                                           fontSize: 18, // Size of the text
-                                          color:
-                                              Colors.white, // Color of the text
+                                          color: Constants
+                                              .darkGrey, // Color of the text,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ],
@@ -207,8 +247,8 @@ class _ScanPageState extends State<ScanPage> {
                               ),
                             ],
                           ),
-                      ],
-                    ),
+                        ),
+                    ],
                   );
                 },
               ),
@@ -223,48 +263,58 @@ class _ScanPageState extends State<ScanPage> {
     IconData icon,
     Color color,
     String assetPath1,
-    String label1, [
+    String label1,
+    Color labelColor, {
     String? assetPath2,
     String? label2,
-  ]) {
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Expanded(child: _buildErrorImage(assetPath1, label1, icon, color)),
+        Expanded(
+            child:
+                _buildErrorImage(assetPath1, label1, icon, color, labelColor)),
         if (assetPath2 != null && label2 != null)
-          Expanded(child: _buildErrorImage(assetPath2, label2, icon, color)),
+          Expanded(
+              child: _buildErrorImage(
+                  assetPath2, label2, icon, color, labelColor)),
       ],
     );
   }
 
-  Widget _buildErrorImage(
-      String assetPath, String label, IconData icon, Color color) {
+  Widget _buildErrorImage(String assetPath, String label, IconData icon,
+      Color color, Color labelColor) {
     return Column(
       children: [
         Stack(
           children: [
-            Image.asset(
-              assetPath,
-              height: 100,
-              fit: BoxFit.cover,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                assetPath,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 10),
             Positioned(
-              right: 0,
-              top: 0,
+              right: 3,
+              top: 3,
               child: Icon(
                 icon,
                 color: color,
-                size: 30,
+                size: 24,
               ),
             ),
           ],
         ),
+        const SizedBox(height: 5),
         Text(
           label,
-          style: const TextStyle(
-            color: Colors.black,
+          style: TextStyle(
+            color: labelColor,
             fontSize: 14,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
@@ -283,20 +333,26 @@ class _ScanPageState extends State<ScanPage> {
     try {
       await scanningFunction();
       if (_rock != null) {
-        navigator
-            .push(PageTransition(
-                child: RockDetailPage(rock: _rock!, isSavingRock: true),
-                type: PageTransitionType.fade))
-            .then((value) {
-          if (Navigator.of(context).canPop()) {
-            Navigator.of(context).pop();
-          }
-          if (Navigator.of(context).canPop()) {
-            Navigator.of(context).pop();
-          }
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const RootPage()));
-        });
+        if (widget.isScanningForRockDetails) {
+          navigator
+              .push(PageTransition(
+                  child: RockDetailPage(rock: _rock!, isSavingRock: true),
+                  type: PageTransitionType.fade))
+              .then((value) {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => const RootPage()));
+          });
+
+          return;
+        }
+
+        Navigator.pop(context);
       }
     } catch (e) {
       debugPrint('$e');

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/constants.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class LoadingComponent extends StatelessWidget {
@@ -12,7 +13,7 @@ class LoadingComponent extends StatelessWidget {
       children: [
         // Blurred background
         Container(
-          color: Colors.black.withOpacity(0.5), // Semi-transparent background
+          color: Constants.primaryColor, // Semi-transparent background
         ),
         Center(
           child: Padding(

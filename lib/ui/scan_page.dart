@@ -355,18 +355,7 @@ class _ScanPageState extends State<ScanPage> {
       await scanningFunction();
       if (_rock != null) {
         if (widget.isScanningForRockDetails) {
-          navigator
-              .push(PageTransition(
-                  child: RockDetailPage(rock: _rock!, isSavingRock: true),
-                  type: PageTransitionType.fade))
-              .then((value) {
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            }
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => const RootPage()));
-          });
-
+          _showRockDetails(navigator);
           return;
         }
 
@@ -633,9 +622,10 @@ class _ScanPageState extends State<ScanPage> {
                                       onTap: () {
                                         setState(() {
                                           _chosenImagePath = imagePaths[index];
+                                          _showRockDetails(
+                                            Navigator.of(context),
+                                          );
                                         });
-
-                                        Navigator.pop(context);
                                       },
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(12),
@@ -656,5 +646,22 @@ class _ScanPageState extends State<ScanPage> {
         );
       },
     );
+  }
+
+  void _showRockDetails(NavigatorState navigator) {
+    navigator
+        .push(PageTransition(
+            child: RockDetailPage(rock: _rock!, isSavingRock: true),
+            type: PageTransitionType.fade))
+        .then((value) {
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const RootPage()),
+        (route) => false,
+      );
+    });
   }
 }

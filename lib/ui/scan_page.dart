@@ -172,12 +172,27 @@ class _ScanPageState extends State<ScanPage> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     clipBehavior: Clip.hardEdge,
-                                    child: Image.file(
-                                      File(_image!.path),
+                                    child: Image(
+                                      image: FileImage(_image!),
                                       fit: BoxFit.cover,
                                       height:
                                           MediaQuery.of(context).size.height /
                                               2,
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress != null &&
+                                            loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null &&
+                                            loadingProgress
+                                                    .cumulativeBytesLoaded <
+                                                loadingProgress
+                                                    .expectedTotalBytes!) {
+                                          return const LoadingComponent();
+                                        }
+
+                                        return child;
+                                      },
                                     ),
                                   )
                                 else
@@ -355,6 +370,7 @@ class _ScanPageState extends State<ScanPage> {
       await scanningFunction();
       if (_rock != null) {
         if (widget.isScanningForRockDetails) {
+          _image = null;
           _showRockDetails(navigator);
           return;
         }
@@ -526,7 +542,9 @@ class _ScanPageState extends State<ScanPage> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.pop(context);
+                                _showRockDetails(
+                                  Navigator.of(context),
+                                );
                               }, //to login screen. We will update later
                               child: const Text(
                                 'Skip',
@@ -651,7 +669,11 @@ class _ScanPageState extends State<ScanPage> {
   void _showRockDetails(NavigatorState navigator) {
     navigator
         .push(PageTransition(
-            child: RockDetailPage(rock: _rock!, isSavingRock: true),
+            child: RockDetailPage(
+              rock: _rock!,
+              isSavingRock: true,
+              pickedImage: _image,
+            ),
             type: PageTransitionType.fade))
         .then((value) {
       if (Navigator.of(context).canPop()) {

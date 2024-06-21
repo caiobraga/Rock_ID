@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
@@ -18,6 +20,7 @@ class RockDetailPage extends StatefulWidget {
   final bool isSavingRock;
   final bool? isFavoritingRock;
   final bool? showAddButton;
+  final File? pickedImage;
 
   const RockDetailPage({
     super.key,
@@ -25,6 +28,7 @@ class RockDetailPage extends StatefulWidget {
     required this.isSavingRock,
     this.isFavoritingRock,
     this.showAddButton,
+    this.pickedImage,
   });
 
   @override
@@ -125,8 +129,18 @@ class _RockDetailPageState extends State<RockDetailPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset('assets/images/rock1.png',
-                              height: 175.75, width: 255, fit: BoxFit.cover),
+                          widget.pickedImage == null
+                              ? Image.asset('assets/images/rock1.png',
+                                  height: 175.75, width: 255, fit: BoxFit.cover)
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.file(
+                                    widget.pickedImage!,
+                                    height: 175.75,
+                                    width: 255,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 16.0),
                             child: Divider(
@@ -163,15 +177,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                 ),
                               ),
                               const SizedBox(height: 16),
-                              _buildInfoSection('Formula', widget.rock.formula),
-                              _buildInfoSection(
-                                  'Hardness', widget.rock.hardness.toString()),
-                              _buildInfoSection('Color', widget.rock.color),
-                              _buildInfoSection(
-                                  'Magnetic',
-                                  widget.rock.isMagnetic
-                                      ? 'Magnetic'
-                                      : 'Non-magnetic'),
+                              if (widget.pickedImage == null)
+                                ..._buildInfoSectionRock(),
+                              if (widget.pickedImage != null)
+                                ..._buildInfoSectionCost()
                             ],
                           ),
                         ],
@@ -866,5 +875,22 @@ class _RockDetailPageState extends State<RockDetailPage> {
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
     }
+  }
+
+  List<Widget> _buildInfoSectionRock() {
+    return <Widget>[
+      _buildInfoSection('Formula', widget.rock.formula),
+      _buildInfoSection('Hardness', widget.rock.hardness.toString()),
+      _buildInfoSection('Color', widget.rock.color),
+      _buildInfoSection(
+          'Magnetic', widget.rock.isMagnetic ? 'Magnetic' : 'Non-magnetic'),
+    ];
+  }
+
+  List<Widget> _buildInfoSectionCost() {
+    return <Widget>[
+      _buildInfoSection('Estimated value', '\$20'),
+      _buildInfoSection('Possible price range', '\$13 ~ \$70'),
+    ];
   }
 }

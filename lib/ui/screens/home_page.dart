@@ -264,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     const Text(
-                                      'TO RECOGNIZE THE DETAILS OF A ROCK',
+                                      'RECOGNIZE THE DETAILS OF A ROCK',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Constants.white,
@@ -309,7 +309,6 @@ class _HomePageState extends State<HomePage> {
                                   isScanningForRockDetails: false,
                                 );
                                 await init();
-                                //
                               },
                               child: Container(
                                 padding: const EdgeInsets.only(
@@ -323,10 +322,9 @@ class _HomePageState extends State<HomePage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     const Text(
-                                      'TO RECOGNIZE THE VALUE OF A ROCK',
+                                      'RECOGNIZE THE VALUE OF A ROCK',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 14,
                                         color: Constants.white,
                                         fontWeight: FontWeight.bold,
                                       ),

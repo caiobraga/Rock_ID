@@ -16,6 +16,8 @@ class Constants {
   static const lightestRed = Color.fromRGBO(240, 133, 125, 1);
   static const lightestGreen = Color.fromRGBO(132, 223, 193, 1);
   static const mediumGreen = Color.fromRGBO(0, 146, 98, 1);
+  static const lightestBrown = Color.fromRGBO(243, 206, 178, 1);
+  static const darkestBrown = Color.fromRGBO(126, 78, 43, 1);
 
   static const primaryDegrade = LinearGradient(
     colors: [

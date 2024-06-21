@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
@@ -39,6 +40,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   String buttonText = '';
   bool toFavoriteRock = false;
   bool toRemoveFromWishlist = false;
+  bool _feedbackGiven = false;
 
   @override
   void initState() {
@@ -77,16 +79,16 @@ class _RockDetailPageState extends State<RockDetailPage> {
                 },
               )
             : null,
-        title: const Text(
-          'BEST MATCHES',
-          style: TextStyle(
+        title: Text(
+          widget.pickedImage == null ? 'BEST MATCHES' : 'ESTIMATED VALUE',
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Constants.primaryColor,
           ),
         ),
         backgroundColor: Colors.black,
         actions: [
-          if (widget.isSavingRock)
+          if (widget.isSavingRock && widget.pickedImage == null)
             IconButton(
               icon: const Icon(
                 Icons.save,
@@ -136,8 +138,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                   borderRadius: BorderRadius.circular(12),
                                   child: Image.file(
                                     widget.pickedImage!,
-                                    height: 175.75,
-                                    width: 255,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -151,86 +151,24 @@ class _RockDetailPageState extends State<RockDetailPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                widget.rock.rockName,
-                                style: AppTypography.headline1(
-                                    color: Constants.primaryColor),
-                              ),
-                              Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'a variety of ',
-                                      style: AppTypography.body3(
-                                          color: AppColors.naturalSilver),
-                                    ),
-                                    TextSpan(
-                                      text: widget.rock.category,
-                                      style: AppTypography.body3(
-                                        color: AppColors.primaryMedium,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor:
-                                            AppColors.primaryMedium,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              if (widget.pickedImage == null)
-                                ..._buildInfoSectionRock(),
                               if (widget.pickedImage != null)
                                 ..._buildInfoSectionCost()
+                              else
+                                ..._buildInfoSectionRock(),
                             ],
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  const PremiumSection(),
-                  const SizedBox(height: 16),
-                  _buildHealthRisksSection(),
-                  const SizedBox(height: 16),
-                  _buildImagesSection(),
-                  // const SizedBox(height: 16),
-                  // _buildLocationsSection(),
-                  const SizedBox(height: 16),
-                  _buildFAQSection(),
-                  const SizedBox(height: 16),
-                  _buildDescription(widget.rock.description),
-                  const SizedBox(height: 16),
-                  _buildIdentifySection(),
-                  const SizedBox(height: 16),
-                  const PremiumSection(),
-                  const SizedBox(height: 16),
-                  _buildPhysicalPropertiesSection(),
-                  const SizedBox(height: 16),
-                  _buildChemicalPropertiesSession(),
-                  const SizedBox(height: 16),
-                  _buildPriceSection(),
-                  const SizedBox(height: 16),
-                  _buildHealingSection(),
-                  const SizedBox(height: 16),
-                  _buildFormationSection(),
-                  const SizedBox(height: 16),
-                  _buildMeaningSection(),
-                  const SizedBox(height: 16),
-                  const PremiumSection(),
-                  const SizedBox(height: 16),
-                  _buildSelectSection(),
-                  const SizedBox(height: 16),
-                  _buildTypesSection(),
-                  const SizedBox(height: 16),
-                  _buildUsesSection(),
-                  const SizedBox(height: 16),
-                  const SizedBox(height: 80)
+                  if (widget.pickedImage == null) ..._buildDetailsAboutRock(),
                 ],
               ),
             ),
           ),
           Visibility(
-            visible: widget.showAddButton != false,
+            visible:
+                widget.pickedImage == null && widget.showAddButton != false,
             child: Positioned(
               bottom: 0,
               left: 0,
@@ -311,6 +249,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
             flex: 3,
             child: Text(
               value,
+              textAlign: TextAlign.right,
               style: GoogleFonts.montserrat(
                   textStyle: const TextStyle(
                 color: AppColors.naturalWhite,
@@ -879,6 +818,29 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   List<Widget> _buildInfoSectionRock() {
     return <Widget>[
+      Text(
+        widget.rock.rockName,
+        style: AppTypography.headline1(color: Constants.primaryColor),
+      ),
+      Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: 'a variety of ',
+              style: AppTypography.body3(color: AppColors.naturalSilver),
+            ),
+            TextSpan(
+              text: widget.rock.category,
+              style: AppTypography.body3(
+                color: AppColors.primaryMedium,
+                decoration: TextDecoration.underline,
+                decorationColor: AppColors.primaryMedium,
+              ),
+            ),
+          ],
+        ),
+      ),
+      const SizedBox(height: 16),
       _buildInfoSection('Formula', widget.rock.formula),
       _buildInfoSection('Hardness', widget.rock.hardness.toString()),
       _buildInfoSection('Color', widget.rock.color),
@@ -887,10 +849,165 @@ class _RockDetailPageState extends State<RockDetailPage> {
     ];
   }
 
+  List<Widget> _buildDetailsAboutRock() {
+    return <Widget>[
+      const SizedBox(height: 16),
+      const PremiumSection(),
+      const SizedBox(height: 16),
+      _buildHealthRisksSection(),
+      const SizedBox(height: 16),
+      _buildImagesSection(),
+      // const SizedBox(height: 16),
+      // _buildLocationsSection(),
+      const SizedBox(height: 16),
+      _buildFAQSection(),
+      const SizedBox(height: 16),
+      _buildDescription(widget.rock.description),
+      const SizedBox(height: 16),
+      _buildIdentifySection(),
+      const SizedBox(height: 16),
+      const PremiumSection(),
+      const SizedBox(height: 16),
+      _buildPhysicalPropertiesSection(),
+      const SizedBox(height: 16),
+      _buildChemicalPropertiesSession(),
+      const SizedBox(height: 16),
+      _buildPriceSection(),
+      const SizedBox(height: 16),
+      _buildHealingSection(),
+      const SizedBox(height: 16),
+      _buildFormationSection(),
+      const SizedBox(height: 16),
+      _buildMeaningSection(),
+      const SizedBox(height: 16),
+      const PremiumSection(),
+      const SizedBox(height: 16),
+      _buildSelectSection(),
+      const SizedBox(height: 16),
+      _buildTypesSection(),
+      const SizedBox(height: 16),
+      _buildUsesSection(),
+      const SizedBox(height: 16),
+      const SizedBox(height: 80)
+    ];
+  }
+
   List<Widget> _buildInfoSectionCost() {
     return <Widget>[
       _buildInfoSection('Estimated value', '\$20'),
       _buildInfoSection('Possible price range', '\$13 ~ \$70'),
+      Container(
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Constants.lightestBrown,
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Note',
+              style: TextStyle(
+                color: Constants.darkestBrown,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              'The estimated price shown above is for reference only. We recommend using our AI valuation tool for raw stones and tumbled stones.',
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                color: Color.fromRGBO(126, 78, 43, 1),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+      if (!_feedbackGiven)
+        Column(
+          children: [
+            const SizedBox(height: 25),
+            const Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Are you satisfied with the result?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Constants.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _feedbackGiven = true;
+                    });
+                    scaffoldMessengerKey.currentState?.showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Thanks for your feedback!',
+                          textAlign: TextAlign.center,
+                        ),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.sentiment_satisfied_alt,
+                  ),
+                  label: const Text('Yes'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Constants.white,
+                    side: const BorderSide(
+                      width: 1,
+                      color: Constants.silver,
+                    ),
+                    iconColor: Constants.lightestGreen,
+                  ),
+                ),
+                const SizedBox(width: 20),
+                TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _feedbackGiven = true;
+                    });
+                    scaffoldMessengerKey.currentState?.showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Thanks for your feedback!',
+                          textAlign: TextAlign.center,
+                        ),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.sentiment_dissatisfied_sharp),
+                  label: const Text('No'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Constants.white,
+                    side: const BorderSide(
+                      width: 1,
+                      color: Constants.silver,
+                    ),
+                    iconColor: Constants.lightestRed,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
     ];
   }
 }

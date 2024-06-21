@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/services/get_rock.dart';
-import 'package:flutter_onboarding/services/image_picker.dart';
-import 'package:flutter_onboarding/services/snackbar.dart';
+import 'package:flutter_onboarding/services/selection_modal.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/loading_component.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
 import 'package:page_transition/page_transition.dart';
@@ -21,7 +18,6 @@ class SnapHistoryTab extends StatefulWidget {
 class _SnapHistoryTabState extends State<SnapHistoryTab> {
   final List<Map<String, dynamic>> _history = [];
   final List<Rock> _allRocks = [];
-  bool _isLoading = false;
 
   @override
   void initState() {
@@ -79,8 +75,8 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),
               ),
-              onPressed: () {
-                _addRockToSnapHistory();
+              onPressed: () async {
+                await ShowSelectionModalService().show(context);
               },
               child: Container(
                   width: 60,
@@ -109,8 +105,8 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                         color: Colors.transparent,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(16.0),
-                          onTap: () {
-                            _addRockToSnapHistory();
+                          onTap: () async {
+                            await ShowSelectionModalService().show(context);
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -161,34 +157,11 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                     ),
                   ],
                 ),
-                if (_isLoading)
-                  const Center(
-                    child: LoadingComponent(),
-                  ),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  void _addRockToSnapHistory() async {
-    try {
-      setState(() {
-        _isLoading = true;
-      });
-      final _image = await ImagePickerService().pickImageFromCamera(context);
-      final _rock = await GetRockService().getRock(_image);
-      String timestamp = DateTime.now().toIso8601String();
-      await DatabaseHelper().addRockToSnapHistory(_rock.rockId, timestamp);
-      _loadSnapHistory;
-    } catch (e) {
-      ShowSnackbarService().showSnackBar(e.toString());
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
   }
 }

@@ -122,12 +122,13 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 20),
+                                  vertical: 10, horizontal: 15),
                               decoration: BoxDecoration(
                                 color: Constants.darkGrey,
                                 borderRadius: BorderRadius.circular(41),
                               ),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SvgPicture.string(AppIcons.share),
                                   const SizedBox(
@@ -143,32 +144,36 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                _bottomNavService.setIndex(1);
-                                _bottomNavService.rockCollectionClicked();
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 20),
-                                decoration: BoxDecoration(
-                                  color: Constants.darkGrey,
-                                  borderRadius: BorderRadius.circular(41),
-                                ),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.string(AppIcons.folderSmall),
-                                    const SizedBox(
-                                      width: 6,
-                                    ),
-                                    const Text(
-                                      'Rock Collection',
-                                      style: TextStyle(
-                                        color: Constants.white,
-                                        fontSize: 14,
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  _bottomNavService.setIndex(1);
+                                  _bottomNavService.rockCollectionClicked();
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 15),
+                                  margin: const EdgeInsets.only(left: 20),
+                                  decoration: BoxDecoration(
+                                    color: Constants.darkGrey,
+                                    borderRadius: BorderRadius.circular(41),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.string(AppIcons.folderSmall),
+                                      const SizedBox(
+                                        width: 6,
                                       ),
-                                    )
-                                  ],
+                                      const Text(
+                                        'Rock Collection',
+                                        style: TextStyle(
+                                          color: Constants.white,
+                                          fontSize: 14,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

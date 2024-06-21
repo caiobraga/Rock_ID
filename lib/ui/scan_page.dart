@@ -504,7 +504,8 @@ class _ScanPageState extends State<ScanPage> {
 
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true,
+      isScrollControlled:
+          true, // Permite que a bottom sheet ocupe toda a tela se necessário
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
@@ -518,10 +519,10 @@ class _ScanPageState extends State<ScanPage> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Column(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -545,7 +546,7 @@ class _ScanPageState extends State<ScanPage> {
                                 _showRockDetails(
                                   Navigator.of(context),
                                 );
-                              }, //to login screen. We will update later
+                              },
                               child: const Text(
                                 'Skip',
                                 style: TextStyle(
@@ -616,7 +617,9 @@ class _ScanPageState extends State<ScanPage> {
                                   );
                                 }).toList(),
                               )
-                            : Expanded(
+                            : SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
                                 child: GridView.builder(
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
@@ -656,8 +659,8 @@ class _ScanPageState extends State<ScanPage> {
                               ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },

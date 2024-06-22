@@ -87,7 +87,7 @@ class _ScanPageState extends State<ScanPage> {
                   navigator.pop();
                   _image =
                       await ImagePickerService().pickImageFromCamera(context);
-                  _startScanning(addToSnap, navigator);
+                  _startScanning(_scanningFunction, navigator);
                 },
               ),
               ListTile(
@@ -106,7 +106,7 @@ class _ScanPageState extends State<ScanPage> {
                   final navigator = Navigator.of(context);
                   navigator.pop();
                   _image = await ImagePickerService().pickImageFromGallery();
-                  _startScanning(addToSnap, navigator);
+                  _startScanning(_scanningFunction, navigator);
                 },
               ),
             ],
@@ -116,12 +116,8 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-  Future<void> addToSnap() async {
+  Future<void> _scanningFunction() async {
     _rock = await GetRockService().getRock(_image);
-    String timestamp = DateTime.now().toIso8601String();
-    if (_rock != null) {
-      await DatabaseHelper().addRockToSnapHistory(_rock!.rockId, timestamp);
-    }
   }
 
   void _showLoadingBottomSheet(BuildContext context) {
@@ -370,6 +366,8 @@ class _ScanPageState extends State<ScanPage> {
       await scanningFunction();
       if (_rock != null) {
         if (widget.isScanningForRockDetails) {
+          String timestamp = DateTime.now().toIso8601String();
+          await DatabaseHelper().addRockToSnapHistory(_rock!.rockId, timestamp);
           _image = null;
           _showRockDetails(navigator);
           return;
@@ -377,6 +375,8 @@ class _ScanPageState extends State<ScanPage> {
 
         Navigator.pop(context);
         _showSelectRockDetailsBottomSheet();
+      } else {
+        Navigator.pop(context);
       }
     } catch (e) {
       debugPrint('$e');
@@ -669,13 +669,20 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-  void _showRockDetails(NavigatorState navigator) {
+  void _showRockDetails(NavigatorState navigator) async {
+    bool isRemovingFromCollection = false;
+    final allRocks = await DatabaseHelper().findAllRocks();
+    if (allRocks.where((rock) => rock.rockName == _rock?.rockName).isNotEmpty) {
+      isRemovingFromCollection = true;
+    }
+
     navigator
         .push(PageTransition(
             child: RockDetailPage(
               rock: _rock!,
-              isSavingRock: true,
+              isSavingRock: false,
               pickedImage: _image,
+              isRemovingFromCollection: isRemovingFromCollection,
             ),
             type: PageTransitionType.fade))
         .then((value) {

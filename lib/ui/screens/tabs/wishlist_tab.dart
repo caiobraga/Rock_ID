@@ -105,7 +105,7 @@ class _WishlistTabState extends State<WishlistTab> {
                                 child: RockDetailPage(
                                   rock: rock,
                                   isSavingRock: false,
-                                  isFavoritingRock: true,
+                                  isUnfavoritingRock: true,
                                 ),
                                 type: PageTransitionType.bottomToTop,
                               ),
@@ -151,13 +151,15 @@ class _WishlistTabState extends State<WishlistTab> {
 
   void _showRockSelectionModal() {
     Navigator.push(
-        context,
-        PageTransition(
-            duration: const Duration(milliseconds: 400),
-            child: const SelectRockPage(
-              isSavingRock: false,
-              isFavoritingRock: true,
-            ),
-            type: PageTransitionType.bottomToTop));
+      context,
+      PageTransition(
+        duration: const Duration(milliseconds: 400),
+        child: const SelectRockPage(
+          isSavingRock: false,
+          isFavoritingRock: true,
+        ),
+        type: PageTransitionType.bottomToTop,
+      ),
+    );
   }
 }

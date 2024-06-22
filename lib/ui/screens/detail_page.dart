@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/services/bottom_nav_service.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,7 +12,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../db/db.dart';
-import '../../services/add_to_my_collection_modal.dart';
 import '../../services/selection_modal.dart';
 import '../../services/snackbar.dart';
 import 'widgets/premium_section.dart';
@@ -19,16 +19,20 @@ import 'widgets/premium_section.dart';
 class RockDetailPage extends StatefulWidget {
   final Rock rock;
   final bool isSavingRock;
-  final bool? isFavoritingRock;
-  final bool? showAddButton;
+  final bool isFavoritingRock;
+  final bool isUnfavoritingRock;
+  final bool showAddButton;
+  final bool isRemovingFromCollection;
   final File? pickedImage;
 
   const RockDetailPage({
     super.key,
     required this.rock,
     required this.isSavingRock,
-    this.isFavoritingRock,
-    this.showAddButton,
+    this.isFavoritingRock = false,
+    this.isUnfavoritingRock = false,
+    this.showAddButton = true,
+    this.isRemovingFromCollection = false,
     this.pickedImage,
   });
 
@@ -38,29 +42,21 @@ class RockDetailPage extends StatefulWidget {
 
 class _RockDetailPageState extends State<RockDetailPage> {
   String buttonText = '';
-  bool toFavoriteRock = false;
-  bool toRemoveFromWishlist = false;
   bool _feedbackGiven = false;
 
   @override
   void initState() {
     super.initState();
-    DatabaseHelper().wishlist().then((wishlist) {
-      setState(() {
-        toFavoriteRock = widget.isFavoritingRock == true;
-        for (final rockId in wishlist) {
-          if (toFavoriteRock && widget.rock.rockId == rockId) {
-            toRemoveFromWishlist = true;
-          }
-        }
-        buttonText = widget.isSavingRock
-            ? 'Save'
-            : toRemoveFromWishlist
-                ? 'Remove from Wishlist'
-                : toFavoriteRock
-                    ? 'Add to Wishlist'
-                    : 'Add to My Collection';
-      });
+    setState(() {
+      buttonText = widget.isSavingRock
+          ? 'Save'
+          : widget.isUnfavoritingRock
+              ? 'Remove from Wishlist'
+              : widget.isFavoritingRock
+                  ? 'Add to Wishlist'
+                  : widget.isRemovingFromCollection
+                      ? 'Remove from My Collection'
+                      : 'Add to My Collection';
     });
   }
 
@@ -94,19 +90,21 @@ class _RockDetailPageState extends State<RockDetailPage> {
                 Icons.save,
                 color: Constants.primaryColor,
               ),
-              onPressed: () => saveRock(context),
+              onPressed: () => saveRock(),
             ),
-          if (widget.isFavoritingRock == true)
+          if (widget.isFavoritingRock || widget.isUnfavoritingRock)
             IconButton(
               onPressed: () async {
                 setState(() {
-                  toRemoveFromWishlist
-                      ? removeFromWishlist(context)
-                      : addToWishlist(context);
+                  widget.isUnfavoritingRock
+                      ? _removeFromWishlist()
+                      : _addToWishlist();
                 });
               },
               icon: Icon(
-                toRemoveFromWishlist ? Icons.favorite : Icons.favorite_border,
+                widget.isUnfavoritingRock
+                    ? Icons.favorite
+                    : Icons.favorite_border,
                 color: Constants.primaryColor,
               ),
             ),
@@ -193,12 +191,14 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     const SizedBox(width: 16),
                     GestureDetector(
                       onTap: () => widget.isSavingRock
-                          ? saveRock(context)
-                          : toRemoveFromWishlist
-                              ? removeFromWishlist(context)
-                              : toFavoriteRock
-                                  ? addToWishlist(context)
-                                  : addToCollection(context),
+                          ? saveRock()
+                          : widget.isUnfavoritingRock
+                              ? _removeFromWishlist()
+                              : widget.isFavoritingRock
+                                  ? _addToWishlist()
+                                  : widget.isRemovingFromCollection
+                                      ? _removeFromCollection()
+                                      : _addToCollection(),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.7,
                         height: 50,
@@ -757,7 +757,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
     );
   }
 
-  void saveRock(BuildContext context) async {
+  void saveRock() async {
     try {
       String timestamp = DateTime.now().toIso8601String();
       await DatabaseHelper()
@@ -777,19 +777,34 @@ class _RockDetailPageState extends State<RockDetailPage> {
     }
   }
 
-  void addToCollection(BuildContext context) {
-    // Implement your add to collection logic here
-    AddToMyCollectionModalService().show(
+  void _removeFromCollection() async {
+    await DatabaseHelper().removeRock(widget.rock.rockName);
+    Navigator.pushAndRemoveUntil(
       context,
-      () {},
+      PageTransition(
+          child: const RootPage(),
+          type: PageTransitionType.leftToRightWithFade),
+      (route) => false,
     );
-    // ShowSnackbarService().showSnackBar('Added to Collection');
+    BottomNavService.instance.setIndex(1);
   }
 
-  void addToWishlist(BuildContext context) async {
+  void _addToCollection() async {
+    await DatabaseHelper().insertRock(widget.rock);
+    Navigator.pushAndRemoveUntil(
+      context,
+      PageTransition(
+          child: const RootPage(),
+          type: PageTransitionType.leftToRightWithFade),
+      (route) => false,
+    );
+    BottomNavService.instance.setIndex(1);
+  }
+
+  void _addToWishlist() async {
     try {
       await DatabaseHelper().addRockToWishlist(widget.rock.rockId);
-      Navigator.pushAndRemoveUntil(
+      await Navigator.pushAndRemoveUntil(
         context,
         PageTransition(
             child: const RootPage(showFavorites: true),
@@ -801,10 +816,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
     }
   }
 
-  void removeFromWishlist(BuildContext context) async {
+  void _removeFromWishlist() async {
     try {
       await DatabaseHelper().removeRockFromWishlist(widget.rock.rockId);
-      Navigator.pushAndRemoveUntil(
+      await Navigator.pushAndRemoveUntil(
         context,
         PageTransition(
             child: const RootPage(showFavorites: true),

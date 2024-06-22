@@ -6,7 +6,7 @@ import '../constants.dart';
 import 'snackbar.dart';
 
 class GetRockService {
-  Future<Rock> getRock(File? image) async {
+  Future<Rock?> getRock(File? image) async {
     if (image != null) {
       Map<String, dynamic>? chatResponse =
           await ChatGPTService(apiKey: Constants.gptApiKey).identifyRock(image);
@@ -22,38 +22,9 @@ class GetRockService {
       if (localRock != null) {
         return localRock;
       }
-      ShowSnackbarService().showSnackBar("we don't have ${chatResponse['rock']} info in our database.");
-      return Rock(
-          rockId: 0,
-          price: 0,
-          category: chatResponse['type'],
-          rockName: chatResponse['rock'],
-          size: "",
-          rating: 5,
-          humidity: 0,
-          temperature: "",
-          imageURL: 'assets/images/rock1.png',
-          isFavorited: false,
-          description: "",
-          isSelected: false,
-          color: '',
-          formula: '',
-          hardness: 0,
-          isMagnetic: false,
-          healthRisks: '',
-          askedQuestions: [],
-          crystalSystem: '',
-          colors: '',
-          luster: '',
-          diaphaneity: '',
-          quimicalClassification: '',
-          elementsListed: '',
-          healingPropeties: '',
-          formulation: '',
-          meaning: '',
-          howToSelect: '',
-          types: '',
-          uses: '');
+      ShowSnackbarService().showSnackBar(
+          "we don't have ${chatResponse['rock']} info in our database.");
+      return null;
     } else {
       throw Exception('No image identifyed');
     }

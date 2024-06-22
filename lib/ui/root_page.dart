@@ -11,11 +11,11 @@ import '../services/bottom_nav_service.dart';
 import '../services/selection_modal.dart';
 
 class RootPage extends StatefulWidget {
-  final bool? showFavorites;
+  final bool showFavorites;
 
   const RootPage({
     Key? key,
-    this.showFavorites,
+    this.showFavorites = false,
   }) : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.showFavorites == true) {
+    if (widget.showFavorites) {
       _bottomNavService.setIndex(1);
     }
   }
@@ -40,7 +40,7 @@ class _RootPageState extends State<RootPage> {
     return [
       const HomePage(),
       MyRocksPage(
-        showWishlist: widget.showFavorites == true,
+        showWishlist: widget.showFavorites,
       ),
     ];
   }

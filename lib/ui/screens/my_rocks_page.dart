@@ -10,10 +10,10 @@ import 'package:flutter_onboarding/ui/screens/widgets/custom_tab_bar.dart';
 import '../../services/bottom_nav_service.dart';
 
 class MyRocksPage extends StatefulWidget {
-  final bool? showWishlist;
+  final bool showWishlist;
   const MyRocksPage({
     super.key,
-    this.showWishlist,
+    this.showWishlist = false,
   });
 
   @override
@@ -24,7 +24,7 @@ class _MyRocksPageState extends State<MyRocksPage>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
   final List<String> _tabsDescriptions = [
-    'Collections',
+    'Collection',
     'Snap History',
     'Wishlist'
   ];
@@ -36,7 +36,7 @@ class _MyRocksPageState extends State<MyRocksPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    if (widget.showWishlist == true) {
+    if (widget.showWishlist) {
       setState(() {
         _tabController.index = 2;
       });

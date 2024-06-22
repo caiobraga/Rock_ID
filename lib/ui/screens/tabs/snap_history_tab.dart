@@ -61,104 +61,113 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
         left: 16.0,
       ),
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
           color: Constants.darkGrey,
           borderRadius: BorderRadius.circular(16.0),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Scaffold(
-            backgroundColor: Constants.darkGrey,
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: Constants.primaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              onPressed: () async {
-                await ShowSelectionModalService().show(context);
-              },
-              child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: Constants.primaryDegrade,
-                  ),
-                  child: const Icon(Icons.add,
-                      color: Colors.white, size: 40, weight: 40, grade: 20)),
+        child: Scaffold(
+          backgroundColor: Constants.darkGrey,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Constants.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.miniEndFloat,
-            body: Stack(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        gradient: Constants.primaryDegrade,
+            onPressed: () async {
+              await ShowSelectionModalService().show(context);
+            },
+            child: Container(
+                width: 60,
+                height: 60,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: Constants.primaryDegrade,
+                ),
+                child: const Icon(Icons.add,
+                    color: Colors.white, size: 40, weight: 40, grade: 20)),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.miniEndFloat,
+          body: Stack(
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      gradient: Constants.primaryDegrade,
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
                         borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(16.0),
-                          onTap: () async {
-                            await ShowSelectionModalService().show(context);
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.crop_free, color: Colors.white),
-                              SizedBox(width: 12),
-                              DSCustomText(
-                                text: 'Identify Rock',
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
+                        onTap: () async {
+                          await ShowSelectionModalService().show(context);
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.crop_free, color: Colors.white),
+                            SizedBox(width: 12),
+                            DSCustomText(
+                              text: 'Identify Rock',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: _history.length,
-                        itemBuilder: (context, index) {
-                          final rockId = _history[index]['rockId'];
-                          final rock = _allRocks.firstWhere(
-                              (rock) => rock.rockId == rockId,
-                              orElse: () => Rock.empty());
-                          return RockListItem(
-                            imageUrl:
-                                rock.imageURL.isNotEmpty && rock.imageURL != ''
-                                    ? rock.imageURL
-                                    : 'https://via.placeholder.com/60',
-                            title: rock.rockName,
-                            tags: const ['Sulfide minerals', 'Mar', 'Jul'],
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  child: RockDetailPage(
-                                    rock: rock,
-                                    isSavingRock: false,
-                                  ),
-                                  type: PageTransitionType.bottomToTop,
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: _history.length,
+                      itemBuilder: (context, index) {
+                        final rockId = _history[index]['rockId'];
+                        final rock = _allRocks.firstWhere(
+                            (rock) => rock.rockId == rockId,
+                            orElse: () => Rock.empty());
+                        return RockListItem(
+                          imageUrl:
+                              rock.imageURL.isNotEmpty && rock.imageURL != ''
+                                  ? rock.imageURL
+                                  : 'https://via.placeholder.com/60',
+                          title: rock.rockName,
+                          tags: const ['Sulfide minerals', 'Mar', 'Jul'],
+                          onTap: () async {
+                            bool isRemovingFromCollection = false;
+                            final allRocks =
+                                await DatabaseHelper().findAllRocks();
+                            if (allRocks
+                                .where((rockFromAll) =>
+                                    rockFromAll.rockName == rock.rockName)
+                                .isNotEmpty) {
+                              isRemovingFromCollection = true;
+                            }
+
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                child: RockDetailPage(
+                                  rock: rock,
+                                  isSavingRock: false,
+                                  isRemovingFromCollection:
+                                      isRemovingFromCollection,
                                 ),
-                              );
-                            },
-                          );
-                        },
-                      ),
+                                type: PageTransitionType.bottomToTop,
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

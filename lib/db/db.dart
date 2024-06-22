@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/collection_image.dart';
+import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -180,7 +181,7 @@ class DatabaseHelper {
           .toList();
 
       for (var collectionImageFile in collectionImagesWithCollectionId) {
-        final map = await collectionImageFile.toMap();
+        final map = collectionImageFile.toMap();
         await db.insert(
           'collection_images',
           map,
@@ -333,6 +334,30 @@ class DatabaseHelper {
       'snap_history',
       where: 'rockId = ?',
       whereArgs: [rockId],
+    );
+  }
+
+  Future<List<Rock>> findAllRocks() async {
+    final db = await database;
+    final _dbRocks = await db.query('rocks');
+    return _dbRocks.map((dbRock) => Rock.fromMap(dbRock)).toList();
+  }
+
+  Future<void> insertRock(Rock rock) async {
+    final db = await database;
+    await db.insert(
+      'rocks',
+      rock.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<void> removeRock(String rockName) async {
+    final db = await database;
+    await db.delete(
+      'rocks',
+      where: 'rockName = ?',
+      whereArgs: [rockName],
     );
   }
 }

@@ -11,6 +11,7 @@ class RockListItem extends StatelessWidget {
   final List<String> tags;
   final VoidCallback onTap;
   final Uint8List? image;
+  final VoidCallback? onDelete;
 
   const RockListItem({
     Key? key,
@@ -18,6 +19,7 @@ class RockListItem extends StatelessWidget {
     required this.title,
     required this.tags,
     required this.onTap,
+    this.onDelete,
     this.image,
   }) : super(key: key);
 
@@ -125,6 +127,19 @@ class RockListItem extends StatelessWidget {
                 ],
               ),
             ),
+            Visibility(
+              visible: onDelete != null,
+              child: IconButton(
+                onPressed: onDelete,
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.all(0),
+                icon: const Icon(
+                  Icons.remove_circle,
+                  color: Constants.lightestRed,
+                  size: 24,
+                ),
+              ),
+            )
           ],
         ),
       ),

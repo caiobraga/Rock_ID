@@ -52,8 +52,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   @override
   void initState() {
-    super.initState();
     setState(() {
+      _addRockToCollectionService.setRockData(widget.rock);
       buttonText = widget.isSavingRock
           ? 'Save'
           : widget.isUnfavoritingRock
@@ -64,6 +64,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                       ? 'Remove from My Collection'
                       : 'Add to My Collection';
     });
+    super.initState();
   }
 
   @override
@@ -1128,20 +1129,15 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                 controller:
                                     _addRockToCollectionService.nameController,
                                 hintText: 'Tap to enter the name',
-                                rightIcon: Padding(
-                                  padding: const EdgeInsets.all(8.0).copyWith(
-                                    right: 14,
-                                  ),
-                                  child: InkWell(
-                                    onTap: () {
-                                      _addRockToCollectionService.nameController
-                                          .clear();
-                                    },
-                                    child: const Icon(
-                                      Icons.clear,
-                                      color: Constants.white,
-                                      size: 24,
-                                    ),
+                                rightIcon: InkWell(
+                                  onTap: () {
+                                    _addRockToCollectionService.nameController
+                                        .clear();
+                                  },
+                                  child: const Icon(
+                                    Icons.clear,
+                                    color: Constants.white,
+                                    size: 20,
                                   ),
                                 ),
                               ),
@@ -1217,9 +1213,9 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                                 .clear();
                                           },
                                           child: const Icon(
-                                            Icons.arrow_forward_ios_outlined,
+                                            Icons.clear,
                                             color: Constants.white,
-                                            size: 16,
+                                            size: 20,
                                           ),
                                         ),
                                       ),
@@ -1260,26 +1256,19 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                           ),
                                         );
                                       },
-                                      rightIcon: Container(
-                                        height: 52,
-                                        color: Constants.darkGrey,
-                                        padding:
-                                            const EdgeInsets.all(8.0).copyWith(
-                                          right: 14,
-                                        ),
-                                        child: InkWell(
-                                          onTap: () {
-                                            _addRockToCollectionService
-                                                .costController
-                                                .clear();
-                                          },
-                                          child: const Icon(
-                                            Icons.attach_money_sharp,
-                                            color: Constants.white,
-                                            size: 24,
-                                          ),
+                                      rightIcon: InkWell(
+                                        onTap: () {
+                                          _addRockToCollectionService
+                                              .costController
+                                              .clear();
+                                        },
+                                        child: const Icon(
+                                          Icons.attach_money_sharp,
+                                          color: Constants.white,
+                                          size: 20,
                                         ),
                                       ),
+                                      textInputType: TextInputType.number,
                                     ),
                                     width: 150,
                                   ),
@@ -1514,7 +1503,15 @@ class _RockDetailPageState extends State<RockDetailPage> {
                               if (_formKey.currentState!.validate()) {
                                 await _addRockToCollectionService
                                     .addRockToCollection(widget.rock);
-                                Navigator.pop(context);
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  PageTransition(
+                                      child: const RootPage(),
+                                      type: PageTransitionType
+                                          .leftToRightWithFade),
+                                  (route) => false,
+                                );
+                                BottomNavService.instance.setIndex(1);
                               }
                             },
                             child: Row(

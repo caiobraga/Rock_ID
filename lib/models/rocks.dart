@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:typed_data';
+
 class Rock {
   final int rockId;
   final double price;
@@ -32,6 +35,18 @@ class Rock {
   final String types;
   final String uses;
 
+  //collection fields
+  final String number;
+  final String dateAcquired;
+  final double cost;
+  final String locality;
+  final double length;
+  final double width;
+  final double height;
+  final String notes;
+  final String unitOfMeasurement;
+  final Uint8List? image;
+
   Rock({
     required this.rockId,
     required this.price,
@@ -63,39 +78,50 @@ class Rock {
     required this.howToSelect,
     required this.types,
     required this.uses,
+    this.cost = 0.0,
+    this.dateAcquired = '',
+    this.height = 0.0,
+    this.length = 0.0,
+    this.locality = '',
+    this.notes = '',
+    this.number = '',
+    this.unitOfMeasurement = '',
+    this.width = 0.0,
+    this.image,
   });
 
-  Rock.empty()
-      : rockId = 0,
-        price = 0.0,
-        category = '',
-        rockName = '',
-        size = '',
-        rating = 0,
-        humidity = 0.0,
-        temperature = '',
-        imageURL = '',
-        isFavorited = false,
-        description = '',
-        isSelected = false,
-        formula = '',
-        hardness = 0.0,
-        color = '',
-        isMagnetic = false,
-        healthRisks = '',
-        askedQuestions = [],
-        crystalSystem = '',
-        colors = '',
-        luster = '',
-        diaphaneity = '',
-        quimicalClassification = '',
-        elementsListed = '',
-        healingPropeties = '',
-        formulation = '',
-        meaning = '',
-        howToSelect = '',
-        types = '',
-        uses = '';
+  factory Rock.empty() => Rock(
+        rockId: 0,
+        price: 0.0,
+        category: '',
+        rockName: '',
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        imageURL: '',
+        isFavorited: false,
+        description: '',
+        isSelected: false,
+        formula: '',
+        hardness: 0.0,
+        color: '',
+        isMagnetic: false,
+        healthRisks: '',
+        askedQuestions: [],
+        crystalSystem: '',
+        colors: '',
+        luster: '',
+        diaphaneity: '',
+        quimicalClassification: '',
+        elementsListed: '',
+        healingPropeties: '',
+        formulation: '',
+        meaning: '',
+        howToSelect: '',
+        types: '',
+        uses: '',
+      );
 
   Map<String, dynamic> toMap() {
     return {
@@ -114,6 +140,16 @@ class Rock {
       'hardness': hardness,
       'color': color,
       'isMagnetic': isMagnetic ? 1 : 0,
+      'cost': cost,
+      'dateAcquired': dateAcquired,
+      'height': height,
+      'length': length,
+      'locality': locality,
+      'notes': notes,
+      'number': number,
+      'unitOfMeasurement': unitOfMeasurement,
+      'width': width,
+      'image': image,
     };
   }
 
@@ -150,6 +186,16 @@ class Rock {
       howToSelect: map['howToSelect'] ?? '',
       types: map['types'] ?? '',
       uses: map['uses'] ?? '',
+      cost: map['cost'] ?? 0.0,
+      dateAcquired: map['dateAcquired'] ?? '',
+      height: map['height'] ?? 0.0,
+      length: map['length'] ?? 0.0,
+      locality: map['locality'] ?? '',
+      notes: map['notes'] ?? '',
+      number: map['number'] ?? '',
+      unitOfMeasurement: map['unitOfMeasurement'] ?? '',
+      width: map['width'] ?? 0.0,
+      image: map['image'] == null ? null : map['image'] as Uint8List,
     );
   }
 
@@ -29739,4 +29785,91 @@ class Rock {
 
     //end of new rocks and gems
   ];
+
+  Rock copyWith({
+    int? rockId,
+    double? price,
+    String? size,
+    int? rating,
+    double? humidity,
+    String? temperature,
+    String? category,
+    String? rockName,
+    String? imageURL,
+    bool? isFavorited,
+    String? description,
+    bool? isSelected,
+    String? formula,
+    double? hardness,
+    String? color,
+    bool? isMagnetic,
+    String? healthRisks,
+    List<Map<String, String>>? askedQuestions,
+    String? crystalSystem,
+    String? colors,
+    String? luster,
+    String? diaphaneity,
+    String? quimicalClassification,
+    String? elementsListed,
+    String? healingPropeties,
+    String? formulation,
+    String? meaning,
+    String? howToSelect,
+    String? types,
+    String? uses,
+    String? number,
+    String? dateAcquired,
+    double? cost,
+    String? locality,
+    double? length,
+    double? width,
+    double? height,
+    String? notes,
+    String? unitOfMeasurement,
+    Uint8List? image,
+  }) {
+    return Rock(
+      rockId: rockId ?? this.rockId,
+      price: price ?? this.price,
+      size: size ?? this.size,
+      rating: rating ?? this.rating,
+      humidity: humidity ?? this.humidity,
+      temperature: temperature ?? this.temperature,
+      category: category ?? this.category,
+      rockName: rockName ?? this.rockName,
+      imageURL: imageURL ?? this.imageURL,
+      isFavorited: isFavorited ?? this.isFavorited,
+      description: description ?? this.description,
+      isSelected: isSelected ?? this.isSelected,
+      formula: formula ?? this.formula,
+      hardness: hardness ?? this.hardness,
+      color: color ?? this.color,
+      isMagnetic: isMagnetic ?? this.isMagnetic,
+      healthRisks: healthRisks ?? this.healthRisks,
+      askedQuestions: askedQuestions ?? this.askedQuestions,
+      crystalSystem: crystalSystem ?? this.crystalSystem,
+      colors: colors ?? this.colors,
+      luster: luster ?? this.luster,
+      diaphaneity: diaphaneity ?? this.diaphaneity,
+      quimicalClassification:
+          quimicalClassification ?? this.quimicalClassification,
+      elementsListed: elementsListed ?? this.elementsListed,
+      healingPropeties: healingPropeties ?? this.healingPropeties,
+      formulation: formulation ?? this.formulation,
+      meaning: meaning ?? this.meaning,
+      howToSelect: howToSelect ?? this.howToSelect,
+      types: types ?? this.types,
+      uses: uses ?? this.uses,
+      number: number ?? this.number,
+      dateAcquired: dateAcquired ?? this.dateAcquired,
+      cost: cost ?? this.cost,
+      locality: locality ?? this.locality,
+      length: length ?? this.length,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      notes: notes ?? this.notes,
+      unitOfMeasurement: unitOfMeasurement ?? this.unitOfMeasurement,
+      image: image ?? this.image,
+    );
+  }
 }

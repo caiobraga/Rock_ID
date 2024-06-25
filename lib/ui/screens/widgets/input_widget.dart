@@ -57,74 +57,80 @@ class InputWidget extends StatelessWidget {
             )
           ],
         ),
-        Container(
-          margin: const EdgeInsets.only(
-            top: 4,
-          ),
-          decoration: BoxDecoration(
-            color: Constants.colorInput,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: maxLines * 52,
-                  child: TextFormField(
-                    maxLines: maxLines,
-                    inputFormatters: inputFormatters,
-                    onTap: isDateTime
-                        ? () {
-                            _selectDate(
-                                context: context, controller: controller);
-                          }
-                        : null,
-                    onChanged: onChanged,
-                    keyboardType: textInputType,
-                    readOnly: isDateTime,
-                    controller: controller,
-                    cursorColor: Constants.primaryColor,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      labelStyle: GoogleFonts.montserrat().copyWith(
-                        color: Constants.naturalGrey,
-                      ),
-                      hintText: hintText,
-                      hintStyle: GoogleFonts.montserrat().copyWith(
-                        color: Constants.naturalGrey,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
-                          color: Constants.primaryColor,
-                        ),
-                      ),
-                    ),
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                    validator: (value) {
-                      if (required && (value == null || value.isEmpty)) {
-                        return 'Campo obrigatório!';
+        const SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: TextFormField(
+                maxLines: maxLines,
+                inputFormatters: inputFormatters,
+                onTap: isDateTime
+                    ? () {
+                        _selectDate(context: context, controller: controller);
                       }
-
-                      return null;
-                    },
+                    : null,
+                onChanged: onChanged,
+                keyboardType: textInputType,
+                readOnly: isDateTime,
+                controller: controller,
+                cursorColor: Constants.primaryColor,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Constants.colorInput,
+                  constraints: const BoxConstraints(
+                    minHeight: 52,
                   ),
+                  isDense: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  labelStyle: GoogleFonts.montserrat().copyWith(
+                    color: Constants.naturalGrey,
+                  ),
+                  hintText: hintText,
+                  hintStyle: GoogleFonts.montserrat().copyWith(
+                    color: Constants.naturalGrey,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Constants.primaryColor,
+                    ),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Constants.mediumRed,
+                    ),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Constants.mediumRed,
+                    ),
+                  ),
+                  suffixIcon: rightIcon,
                 ),
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+                validator: (value) {
+                  if (required && (value == null || value.isEmpty)) {
+                    return 'Mandatory field!';
+                  }
+
+                  return null;
+                },
               ),
-              rightIcon ?? Container(),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

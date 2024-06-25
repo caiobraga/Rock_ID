@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/models/collection_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 
 import '../db/db.dart';
-import '../models/collection.dart';
 
 class AddRockToCollectionService {
   AddRockToCollectionService._();
@@ -29,6 +27,17 @@ class AddRockToCollectionService {
   final ValueNotifier<List<File>> photosNotifier = ValueNotifier([]);
   final ValueNotifier<String> unitOfMeasurementNotifier = ValueNotifier('inch');
 
+  void setRockData(Rock rock) {
+    numberController.text = rock.number;
+    nameController.text = rock.rockName;
+    dateController.text = rock.dateAcquired;
+    costController.text = rock.cost.toString();
+    lengthController.text = rock.length.toString();
+    widthController.text = rock.width.toString();
+    heightController.text = rock.height.toString();
+    notesController.text == rock.notes;
+  }
+
   void toggleUnitOfMeasurement() {
     if (unitOfMeasurementNotifier.value == 'inch') {
       unitOfMeasurementNotifier.value = 'cm';
@@ -50,40 +59,27 @@ class AddRockToCollectionService {
     final double height = double.tryParse(heightController.text) ?? 0.0;
     final String notes = notesController.text;
     final String unitOfMeasurement = unitOfMeasurementNotifier.value;
-    final List<File> collectionImageFiles = photosNotifier.value;
+    // final List<File> collectionImageFiles = photosNotifier.value;
 
-    if (name.isNotEmpty) {
-      try {
-        List<CollectionImage> images = [];
-        for (var element in collectionImageFiles) {
-          images.add(CollectionImage(
-            collectionId: 0,
-            id: 0,
-            image: await element.readAsBytes(),
-          ));
-        }
-        Collection newCollection = Collection(
-          collectionId: 0,
-          collectionName: name,
-          description: description,
-          number: number,
-          dateAcquired: dateAcquired,
-          cost: cost,
-          locality: locality,
-          length: length,
-          width: width,
-          height: height,
-          notes: notes,
-          unitOfMeasurement: unitOfMeasurement,
-          collectionImagesFiles: images,
-        );
+    try {
+      final newRock = rock.copyWith(
+        rockName: name,
+        description: description,
+        number: number,
+        dateAcquired: dateAcquired,
+        cost: cost,
+        locality: locality,
+        length: length,
+        width: width,
+        height: height,
+        notes: notes,
+        unitOfMeasurement: unitOfMeasurement,
+        image: null,
+      );
 
-        await DatabaseHelper().insertCollection(newCollection);
-      } catch (e) {
-        debugPrint('$e');
-      }
-
-      return;
+      await DatabaseHelper().insertRock(newRock);
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }

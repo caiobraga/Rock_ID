@@ -29,7 +29,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 18,
+      version: 19,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -53,7 +53,17 @@ class DatabaseHelper {
         formula TEXT,
         hardness REAL,
         color TEXT,
-        isMagnetic INTEGER
+        isMagnetic INTEGER,
+        number TEXT,
+        dateAcquired TEXT,
+        cost REAL,
+        locality TEXT,
+        length REAL,
+        width REAL,
+        height REAL,
+        notes TEXT,
+        unitOfMeasurement TEXT,
+        image BLOB
       )
     ''');
 

@@ -145,6 +145,7 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                             (rock) => rock.rockId == rockId,
                             orElse: () => Rock.empty());
                         return RockListItem(
+                          image: _history[index]['image'],
                           imageUrl:
                               rock.imageURL.isNotEmpty && rock.imageURL != ''
                                   ? rock.imageURL

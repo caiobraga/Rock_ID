@@ -7,6 +7,7 @@ import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/add_rock_to_collection_service.dart';
 import 'package:flutter_onboarding/services/bottom_nav_service.dart';
+import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/input_widget.dart';
@@ -137,8 +138,19 @@ class _RockDetailPageState extends State<RockDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           widget.pickedImage == null
-                              ? Image.asset('assets/images/rock1.png',
-                                  height: 175.75, width: 255, fit: BoxFit.cover)
+                              ? widget.rock.image != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.memory(
+                                        widget.rock.image!,
+                                        fit: BoxFit.cover,
+                                        height: 255,
+                                      ),
+                                    )
+                                  : Image.asset('assets/images/rock1.png',
+                                      height: 175.75,
+                                      width: 255,
+                                      fit: BoxFit.cover)
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child: Image.file(
@@ -767,8 +779,11 @@ class _RockDetailPageState extends State<RockDetailPage> {
   void saveRock() async {
     try {
       String timestamp = DateTime.now().toIso8601String();
-      await DatabaseHelper()
-          .addRockToSnapHistory(widget.rock.rockId, timestamp);
+      await DatabaseHelper().addRockToSnapHistory(
+        widget.rock.rockId,
+        timestamp,
+        image: widget.rock.image,
+      );
 
       ShowSnackbarService().showSnackBar('Rock Saved');
       await Navigator.pushAndRemoveUntil(
@@ -1150,32 +1165,72 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              ValueListenableBuilder<List<File>>(
-                                  valueListenable: _addRockToCollectionService
-                                      .photosNotifier,
-                                  builder: (context, list, _) {
-                                    return Wrap(
-                                      runSpacing: 8,
-                                      spacing: 8,
-                                      children: [
-                                        ...list.map((e) {
-                                          return Container(
-                                            height: 100,
-                                            width: 100,
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                              color: Constants.colorInput,
-                                              border: Border.all(),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                              ValueListenableBuilder(
+                                valueListenable:
+                                    _addRockToCollectionService.imageNotifier,
+                                builder: (context, value, child) => InkWell(
+                                  onTap: () async {
+                                    final _imageFile =
+                                        await ImagePickerService()
+                                            .pickImageFromGallery();
+                                    final _image =
+                                        await _imageFile?.readAsBytes();
+                                    if (_image != null) {
+                                      setState(() {
+                                        _addRockToCollectionService
+                                            .imageNotifier.value = _image;
+                                      });
+                                    }
+                                  },
+                                  child: widget.rock.image != null ||
+                                          _addRockToCollectionService
+                                                  .imageNotifier.value !=
+                                              null ||
+                                          widget.rock.imageURL.isNotEmpty
+                                      ? Stack(
+                                          children: [
+                                            Container(
+                                              height: 100,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                color: Constants.colorInput,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: widget.rock.image !=
+                                                            null ||
+                                                        (value as Uint8List?) !=
+                                                            null
+                                                    ? Image.memory(
+                                                        value as Uint8List? ??
+                                                            widget.rock.image!,
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : widget.rock.imageURL
+                                                            .isNotEmpty
+                                                        ? Image.network(
+                                                            widget
+                                                                .rock.imageURL,
+                                                            fit: BoxFit.cover,
+                                                          )
+                                                        : null,
+                                              ),
                                             ),
-                                            child: Image.file(
-                                              e,
-                                              fit: BoxFit.fill,
+                                            const Positioned(
+                                              right: 3,
+                                              bottom: 3,
+                                              child: Icon(
+                                                Icons.image_search,
+                                                color: Constants.white,
+                                                size: 20,
+                                              ),
                                             ),
-                                          );
-                                        }).toList(),
-                                        Container(
+                                          ],
+                                        )
+                                      : Container(
                                           height: 100,
                                           width: 100,
                                           decoration: BoxDecoration(
@@ -1183,17 +1238,13 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
-                                          child: InkWell(
-                                            onTap: () {},
-                                            child: const Icon(
-                                              Icons.add,
-                                              color: Constants.primaryColor,
-                                            ),
+                                          child: const Icon(
+                                            Icons.add,
+                                            color: Constants.primaryColor,
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  }),
+                                ),
+                              ),
                               Row(
                                 children: [
                                   Expanded(
@@ -1203,22 +1254,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                           .dateController,
                                       hintText: 'Date acquired',
                                       textInputType: TextInputType.datetime,
-                                      rightIcon: Padding(
-                                        padding: const EdgeInsets.all(8.0)
-                                            .copyWith(right: 2),
-                                        child: InkWell(
-                                          onTap: () {
-                                            _addRockToCollectionService
-                                                .dateController
-                                                .clear();
-                                          },
-                                          child: const Icon(
-                                            Icons.clear,
-                                            color: Constants.white,
-                                            size: 20,
-                                          ),
-                                        ),
-                                      ),
                                     ),
                                   ),
                                   const SizedBox(
@@ -1256,17 +1291,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                           ),
                                         );
                                       },
-                                      rightIcon: InkWell(
-                                        onTap: () {
-                                          _addRockToCollectionService
-                                              .costController
-                                              .clear();
-                                        },
-                                        child: const Icon(
-                                          Icons.attach_money_sharp,
-                                          color: Constants.white,
-                                          size: 20,
-                                        ),
+                                      rightIcon: const Icon(
+                                        Icons.attach_money_sharp,
+                                        color: Constants.white,
+                                        size: 20,
                                       ),
                                       textInputType: TextInputType.number,
                                     ),
@@ -1341,31 +1369,78 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                             SizedBox(
                                               width: 70,
                                               child: ValueListenableBuilder(
-                                                  valueListenable:
-                                                      _addRockToCollectionService
-                                                          .unitOfMeasurementNotifier,
-                                                  builder: (context, type, _) {
-                                                    return Container(
-                                                      clipBehavior:
-                                                          Clip.hardEdge,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              2),
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(26),
-                                                        color: Constants
-                                                            .blackColor,
-                                                      ),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Expanded(
-                                                            child: InkWell(
-                                                              child: Container(
+                                                valueListenable:
+                                                    _addRockToCollectionService
+                                                        .unitOfMeasurementNotifier,
+                                                builder: (context, type, _) {
+                                                  return Container(
+                                                    clipBehavior: Clip.hardEdge,
+                                                    padding:
+                                                        const EdgeInsets.all(2),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              26),
+                                                      color:
+                                                          Constants.blackColor,
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        Expanded(
+                                                          child: InkWell(
+                                                            child: Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(4),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            24),
+                                                                color: _addRockToCollectionService
+                                                                            .unitOfMeasurementNotifier
+                                                                            .value ==
+                                                                        'inch'
+                                                                    ? Constants
+                                                                        .naturalGrey
+                                                                    : Constants
+                                                                        .blackColor,
+                                                              ),
+                                                              child: Text(
+                                                                'inch',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color:
+                                                                      Constants
+                                                                          .white,
+                                                                  fontWeight: _addRockToCollectionService
+                                                                              .unitOfMeasurementNotifier
+                                                                              .value ==
+                                                                          'inch'
+                                                                      ? FontWeight
+                                                                          .w600
+                                                                      : FontWeight
+                                                                          .normal,
+                                                                  fontSize: 11,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            onTap: _addRockToCollectionService
+                                                                .toggleUnitOfMeasurement,
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: InkWell(
+                                                            child: Container(
                                                                 alignment:
                                                                     Alignment
                                                                         .center,
@@ -1381,14 +1456,14 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                                                   color: _addRockToCollectionService
                                                                               .unitOfMeasurementNotifier
                                                                               .value ==
-                                                                          'inch'
+                                                                          'cm'
                                                                       ? Constants
                                                                           .naturalGrey
                                                                       : Constants
                                                                           .blackColor,
                                                                 ),
                                                                 child: Text(
-                                                                  'inch',
+                                                                  'cm',
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
@@ -1397,7 +1472,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                                                     color: Constants
                                                                         .white,
                                                                     fontWeight: _addRockToCollectionService.unitOfMeasurementNotifier.value ==
-                                                                            'inch'
+                                                                            'cm'
                                                                         ? FontWeight
                                                                             .w600
                                                                         : FontWeight
@@ -1405,61 +1480,16 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                                                     fontSize:
                                                                         11,
                                                                   ),
-                                                                ),
-                                                              ),
-                                                              onTap: _addRockToCollectionService
-                                                                  .toggleUnitOfMeasurement,
-                                                            ),
+                                                                )),
+                                                            onTap: _addRockToCollectionService
+                                                                .toggleUnitOfMeasurement,
                                                           ),
-                                                          Expanded(
-                                                            child: InkWell(
-                                                              child: Container(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .center,
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          4),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            24),
-                                                                    color: _addRockToCollectionService.unitOfMeasurementNotifier.value ==
-                                                                            'cm'
-                                                                        ? Constants
-                                                                            .naturalGrey
-                                                                        : Constants
-                                                                            .blackColor,
-                                                                  ),
-                                                                  child: Text(
-                                                                    'cm',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Constants
-                                                                          .white,
-                                                                      fontWeight: _addRockToCollectionService.unitOfMeasurementNotifier.value ==
-                                                                              'cm'
-                                                                          ? FontWeight
-                                                                              .w600
-                                                                          : FontWeight
-                                                                              .normal,
-                                                                      fontSize:
-                                                                          11,
-                                                                    ),
-                                                                  )),
-                                                              onTap: _addRockToCollectionService
-                                                                  .toggleUnitOfMeasurement,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ),
                                             ),
                                           ],
                                         ),

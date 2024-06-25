@@ -126,6 +126,7 @@ class _CollectionsTabState extends State<CollectionsTab> {
                     final rock = _collectionRocks[index];
 
                     return RockListItem(
+                      image: rock.image,
                       imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
                           ? rock.imageURL
                           : 'https://via.placeholder.com/60',

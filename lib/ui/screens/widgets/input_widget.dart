@@ -116,7 +116,13 @@ class InputWidget extends StatelessWidget {
                       color: Constants.mediumRed,
                     ),
                   ),
-                  suffixIcon: rightIcon,
+                  suffixIcon: isDateTime
+                      ? const Icon(
+                          Icons.edit_calendar_outlined,
+                          color: Constants.white,
+                          size: 20,
+                        )
+                      : rightIcon,
                 ),
                 style: const TextStyle(
                   color: Colors.white,

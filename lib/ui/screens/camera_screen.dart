@@ -549,7 +549,11 @@ class _CameraScreenState extends State<CameraScreen> {
       if (_rock != null) {
         if (widget.isScanningForRockDetails) {
           String timestamp = DateTime.now().toIso8601String();
-          await DatabaseHelper().addRockToSnapHistory(_rock!.rockId, timestamp);
+          await DatabaseHelper().addRockToSnapHistory(
+            _rock!.rockId,
+            timestamp,
+            image: _rock?.image,
+          );
           _image = null;
           _showRockDetails(navigator);
           return;

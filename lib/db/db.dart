@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/collection_image.dart';
@@ -29,7 +31,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 19,
+      version: 21,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -116,6 +118,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
         timestamp TEXT,
+        image BLOB,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -314,13 +317,15 @@ class DatabaseHelper {
 
   // Functions for snap_history
 
-  Future<void> addRockToSnapHistory(int rockId, String timestamp) async {
+  Future<void> addRockToSnapHistory(int rockId, String timestamp,
+      {Uint8List? image}) async {
     final db = await database;
     await db.insert(
       'snap_history',
       {
         'rockId': rockId,
         'timestamp': timestamp,
+        'image': image,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -334,6 +339,7 @@ class DatabaseHelper {
       return {
         'rockId': maps[i]['rockId'],
         'timestamp': maps[i]['timestamp'],
+        'image': maps[i]['image'],
       };
     });
   }

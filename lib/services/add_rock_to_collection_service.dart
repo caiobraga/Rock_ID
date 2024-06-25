@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
@@ -26,6 +27,7 @@ class AddRockToCollectionService {
   final TextEditingController notesController = TextEditingController();
   final ValueNotifier<List<File>> photosNotifier = ValueNotifier([]);
   final ValueNotifier<String> unitOfMeasurementNotifier = ValueNotifier('inch');
+  final ValueNotifier<Uint8List?> imageNotifier = ValueNotifier(null);
 
   void setRockData(Rock rock) {
     numberController.text = rock.number;
@@ -59,7 +61,6 @@ class AddRockToCollectionService {
     final double height = double.tryParse(heightController.text) ?? 0.0;
     final String notes = notesController.text;
     final String unitOfMeasurement = unitOfMeasurementNotifier.value;
-    // final List<File> collectionImageFiles = photosNotifier.value;
 
     try {
       final newRock = rock.copyWith(
@@ -74,7 +75,7 @@ class AddRockToCollectionService {
         height: height,
         notes: notes,
         unitOfMeasurement: unitOfMeasurement,
-        image: null,
+        image: imageNotifier.value,
       );
 
       await DatabaseHelper().insertRock(newRock);

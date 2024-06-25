@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
+import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -26,8 +27,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             padding: const EdgeInsets.only(right: 20, top: 20),
             child: InkWell(
               onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const RootPage()));
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    PageTransition(
+                        child: const RootPage(),
+                        type: PageTransitionType.bottomToTop),
+                    (route) => false);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const PremiumScreen(),
+                        type: PageTransitionType.bottomToTop));
               }, //to login screen. We will update later
               child: const Text(
                 'Skip',
@@ -91,10 +101,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               curve: Curves.easeIn);
                         }
                       } else {
-                        Navigator.pushReplacement(
+                        Navigator.pushAndRemoveUntil(
                             context,
                             PageTransition(
                                 child: const RootPage(),
+                                type: PageTransitionType.bottomToTop),
+                            (route) => false);
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: const PremiumScreen(),
                                 type: PageTransitionType.bottomToTop));
                       }
                     });

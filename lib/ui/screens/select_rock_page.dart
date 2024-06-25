@@ -9,11 +9,11 @@ import './widgets/rock_list_item.dart'; // Import the RockListItem widget
 
 class SelectRockPage extends StatefulWidget {
   final bool isSavingRock;
-  final bool? isFavoritingRock;
+  final bool isFavoritingRock;
   const SelectRockPage({
     super.key,
     required this.isSavingRock,
-    this.isFavoritingRock,
+    this.isFavoritingRock = false,
   });
 
   @override
@@ -29,14 +29,39 @@ class _SelectRockPageState extends State<SelectRockPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.isFavoritingRock == true) {
+    _orderCollectionRocks();
+
+    if (widget.isFavoritingRock) {
       _filterFavoritedRocks();
     }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(milliseconds: 300), () {
         _searchRocks.requestFocus();
       });
     });
+  }
+
+  void _orderCollectionRocks() async {
+    // Recupera todas as rochas da coleção do banco de dados
+    final collectionRocks = await DatabaseHelper().findAllRocks();
+
+    // Extrai os nomes das rochas da coleção
+    final collectionRockNames =
+        collectionRocks.map((rock) => rock.rockName).toSet();
+
+    // Ordena a _rockList baseada na presença das rochas na coleção
+    _rockList.sort((rock1, rock2) {
+      final rock1InCollection = collectionRockNames.contains(rock1.rockName);
+      final rock2InCollection = collectionRockNames.contains(rock2.rockName);
+
+      // Coloca as rochas que não estão na coleção antes das que estão na coleção
+      if (rock1InCollection && !rock2InCollection) return 1;
+      if (!rock1InCollection && rock2InCollection) return -1;
+      return 0;
+    });
+
+    setState(() {});
   }
 
   void _filterFavoritedRocks() async {
@@ -132,15 +157,26 @@ class _SelectRockPageState extends State<SelectRockPage> {
   }
 
   void _saveRock(Rock rock) async {
+    bool isRemovingFromCollection = false;
+    final allRocks = await DatabaseHelper().findAllRocks();
+    if (allRocks
+        .where((rockFromAll) => rockFromAll.rockName == rock.rockName)
+        .isNotEmpty) {
+      isRemovingFromCollection = true;
+    }
+
     Navigator.push(
-        context,
-        PageTransition(
-            child: RockDetailPage(
-              rock: rock,
-              isSavingRock: widget.isSavingRock,
-              isFavoritingRock: widget.isFavoritingRock,
-            ),
-            type: PageTransitionType.bottomToTop));
+      context,
+      PageTransition(
+        child: RockDetailPage(
+          rock: rock,
+          isSavingRock: widget.isSavingRock,
+          isFavoritingRock: widget.isFavoritingRock,
+          isRemovingFromCollection: isRemovingFromCollection,
+        ),
+        type: PageTransitionType.bottomToTop,
+      ),
+    );
   }
 
   void _filterRocks(String query) {

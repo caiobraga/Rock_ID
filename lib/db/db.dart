@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/collection.dart';
 import 'package:flutter_onboarding/models/collection_image.dart';
+import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -28,7 +31,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 18,
+      version: 21,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -52,7 +55,17 @@ class DatabaseHelper {
         formula TEXT,
         hardness REAL,
         color TEXT,
-        isMagnetic INTEGER
+        isMagnetic INTEGER,
+        number TEXT,
+        dateAcquired TEXT,
+        cost REAL,
+        locality TEXT,
+        length REAL,
+        width REAL,
+        height REAL,
+        notes TEXT,
+        unitOfMeasurement TEXT,
+        image BLOB
       )
     ''');
 
@@ -105,6 +118,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
         timestamp TEXT,
+        image BLOB,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -180,7 +194,7 @@ class DatabaseHelper {
           .toList();
 
       for (var collectionImageFile in collectionImagesWithCollectionId) {
-        final map = await collectionImageFile.toMap();
+        final map = collectionImageFile.toMap();
         await db.insert(
           'collection_images',
           map,
@@ -303,13 +317,15 @@ class DatabaseHelper {
 
   // Functions for snap_history
 
-  Future<void> addRockToSnapHistory(int rockId, String timestamp) async {
+  Future<void> addRockToSnapHistory(int rockId, String timestamp,
+      {Uint8List? image}) async {
     final db = await database;
     await db.insert(
       'snap_history',
       {
         'rockId': rockId,
         'timestamp': timestamp,
+        'image': image,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -323,6 +339,7 @@ class DatabaseHelper {
       return {
         'rockId': maps[i]['rockId'],
         'timestamp': maps[i]['timestamp'],
+        'image': maps[i]['image'],
       };
     });
   }
@@ -333,6 +350,30 @@ class DatabaseHelper {
       'snap_history',
       where: 'rockId = ?',
       whereArgs: [rockId],
+    );
+  }
+
+  Future<List<Rock>> findAllRocks() async {
+    final db = await database;
+    final _dbRocks = await db.query('rocks');
+    return _dbRocks.map((dbRock) => Rock.fromMap(dbRock)).toList();
+  }
+
+  Future<void> insertRock(Rock rock) async {
+    final db = await database;
+    await db.insert(
+      'rocks',
+      rock.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<void> removeRock(String rockName) async {
+    final db = await database;
+    await db.delete(
+      'rocks',
+      where: 'rockName = ?',
+      whereArgs: [rockName],
     );
   }
 }

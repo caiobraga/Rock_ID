@@ -1,35 +1,45 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
-import 'package:flutter_onboarding/services/image_picker.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
+import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/loading_component.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-import '../db/db.dart';
-import 'root_page.dart';
-
-class ScanPage extends StatefulWidget {
+class CameraScreen extends StatefulWidget {
   final bool isScanningForRockDetails;
 
-  const ScanPage({
-    Key? key,
-    required this.isScanningForRockDetails,
-  }) : super(key: key);
+  const CameraScreen({
+    super.key,
+    this.isScanningForRockDetails = true,
+  });
 
   @override
-  State<ScanPage> createState() => _ScanPageState();
+  _CameraScreenState createState() => _CameraScreenState();
 }
 
-class _ScanPageState extends State<ScanPage> {
+class _CameraScreenState extends State<CameraScreen> {
+  CameraController? _cameraController;
+  List<CameraDescription>? cameras;
+  final ImagePicker _picker = ImagePicker();
+  bool _isCameraInitialized = false;
+  bool _isLoadingCamera = true;
+  bool _isLoading = false;
+  Timer? _loadingTimer;
+  bool _flashOn = false;
+
   Rock? _rock;
   File? _image;
-  bool _isLoading = false;
-  int _loadingPercentage = 0;
   String? _errorMessage;
 
   final ValueNotifier<int> _loadingNotifier = ValueNotifier<int>(0);
@@ -55,84 +65,255 @@ class _ScanPageState extends State<ScanPage> {
     },
   ];
 
-  Future<void> _showImageSourceActionSheet(BuildContext context) async {
-    return showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-          decoration: const BoxDecoration(
-            color: Constants.darkGrey, // Cor de fundo do modal
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+  @override
+  void initState() {
+    initializeCamera();
+    super.initState();
+  }
+
+  Future<void> initializeCamera() async {
+    cameras = await availableCameras();
+    if (cameras != null && cameras!.isNotEmpty) {
+      _cameraController = CameraController(cameras![0], ResolutionPreset.max);
+      await _cameraController!.initialize();
+      setState(() {
+        _isCameraInitialized = true;
+        _isLoadingCamera = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _cameraController?.dispose();
+    _loadingTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Constants.darkGrey,
+        toolbarHeight: 40,
+        centerTitle: false,
+        titleSpacing: 0,
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(
+                Icons.close,
+                color: Constants.white,
+                size: 30,
+              ),
+            ),
+            TextButton.icon(
+              label: const Text('Unlimited IDs'),
+              onPressed: () => Navigator.push(
+                  context,
+                  PageTransition(
+                      child: const PremiumScreen(),
+                      type: PageTransitionType.bottomToTop)),
+              icon: SvgPicture.string(
+                AppIcons.crownOnly,
+                height: 14,
+              ),
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.darkGrey,
+                backgroundColor: Constants.primaryColor,
+                textStyle: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+                minimumSize: Size.zero,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (!_flashOn) {
+                setState(() {
+                  _flashOn = true;
+                });
+                _cameraController?.setFlashMode(FlashMode.torch);
+                return;
+              }
+
+              setState(() {
+                _flashOn = false;
+              });
+              _cameraController?.setFlashMode(FlashMode.off);
+            },
+            icon: Icon(
+              _flashOn ? Icons.flash_off : Icons.flash_on,
+              color: Constants.white,
+              size: 28,
             ),
           ),
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(
-                  Icons.photo_camera,
-                  color: Constants.silver,
-                ),
-                title: const Text(
-                  'Take a photo',
-                  style: TextStyle(
-                    color: Constants.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                onTap: () async {
-                  final navigator = Navigator.of(context);
-                  navigator.pop();
-                  _image =
-                      await ImagePickerService().pickImageFromCamera(context);
-                  _startScanning(_scanningFunction, navigator);
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.photo_library,
-                  color: Constants.silver,
-                ),
-                title: const Text(
-                  'Pick from gallery',
-                  style: TextStyle(
-                    color: Constants.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                onTap: () async {
-                  final navigator = Navigator.of(context);
-                  navigator.pop();
-                  _image = await ImagePickerService().pickImageFromGallery();
-                  _startScanning(_scanningFunction, navigator);
-                },
-              ),
-            ],
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: _isLoadingCamera
+                ? const LoadingComponent()
+                : _isCameraInitialized && _cameraController != null
+                    ? FittedBox(
+                        fit: BoxFit.contain,
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: _cameraController!.value.previewSize!.height,
+                          height: _cameraController!.value.previewSize!.width,
+                          child: CameraPreview(_cameraController!),
+                        ),
+                      )
+                    : Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Welcome to the Rock ID Camera!',
+                              textAlign: TextAlign.center,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'Take a photo and identify the rocks like a professional.',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 14),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: _requestCameraPermission,
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                backgroundColor: Constants.primaryColor,
+                                foregroundColor: Constants.darkGrey,
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              child: const Text(
+                                'Allow Access',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
           ),
-        );
-      },
+          Padding(
+            padding: const EdgeInsets.only(bottom: 80, top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: _requestGalleryPermission,
+                    customBorder: const CircleBorder(),
+                    child: const Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.photo, color: Colors.white),
+                          Text(
+                            'Photos',
+                            style: TextStyle(color: Constants.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  splashColor: Constants.primaryColor,
+                  onTap: () async {
+                    if (await Permission.camera.isGranted) {
+                      if (_isCameraInitialized) {
+                        final takenPicture =
+                            await _cameraController!.takePicture();
+                        setState(() {
+                          _image = File(takenPicture.path);
+                        });
+                        _startScanning(
+                            _scanningFunction, Navigator.of(context));
+                      } else {
+                        await _requestCameraPermission();
+                      }
+                    } else {
+                      await _requestCameraPermission();
+                    }
+                  },
+                  customBorder: const CircleBorder(),
+                  child: Ink(
+                    decoration: const ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: Constants.white,
+                    ),
+                    child: const Icon(
+                      Icons.circle,
+                      color: Constants.primaryColor,
+                      size: 66,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      _showLoadingBottomSheet(showTips: true);
+                    },
+                    customBorder: const CircleBorder(),
+                    child: const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.help, color: Colors.white),
+                          Text(
+                            'Snap Tips',
+                            style: TextStyle(color: Constants.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: Constants.darkGrey,
     );
   }
 
-  Future<void> _scanningFunction() async {
-    _rock = await GetRockService().getRock(_image);
-  }
-
-  void _showLoadingBottomSheet(BuildContext context) {
+  void _showLoadingBottomSheet({final bool showTips = false}) {
     showModalBottomSheet(
       context: context,
       isDismissible: true,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Constants.blackColor,
+      clipBehavior: Clip.none,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Container(
-              padding: const EdgeInsets.all(15),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.7,
+              height: _errorMessage != null || showTips
+                  ? MediaQuery.of(context).size.height * 0.7
+                  : MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
                 color: Constants.darkGrey,
                 borderRadius: BorderRadius.only(
@@ -147,57 +328,58 @@ class _ScanPageState extends State<ScanPage> {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      if (_isLoading && _errorMessage == null)
+                      if (_isLoading && _errorMessage == null && !showTips) ...[
+                        Image(
+                          image: FileImage(_image!),
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 3,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress != null &&
+                                loadingProgress.expectedTotalBytes != null &&
+                                loadingProgress.cumulativeBytesLoaded <
+                                    loadingProgress.expectedTotalBytes!) {
+                              return const LoadingComponent();
+                            }
+
+                            return child;
+                          },
+                        ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsets.all(12.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 50,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Identifying $_loadingPercentage%',
-                                  style: const TextStyle(
+                                const Text(
+                                  'Wait for a moment',
+                                  style: TextStyle(
                                     color: Constants.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16,
                                   ),
                                 ),
                                 const SizedBox(height: 10),
-                                if (_image != null)
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    clipBehavior: Clip.hardEdge,
-                                    child: Image(
-                                      image: FileImage(_image!),
-                                      fit: BoxFit.cover,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              2,
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress != null &&
-                                            loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null &&
-                                            loadingProgress
-                                                    .cumulativeBytesLoaded <
-                                                loadingProgress
-                                                    .expectedTotalBytes!) {
-                                          return const LoadingComponent();
-                                        }
-
-                                        return child;
-                                      },
-                                    ),
-                                  )
-                                else
-                                  const LoadingComponent(),
+                                Text(
+                                  'Identifying $value%',
+                                  style: const TextStyle(
+                                    color: Constants.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 100),
+                                const LoadingComponent()
                               ],
                             ),
                           ),
                         ),
-                      if (_errorMessage != null)
+                      ],
+                      if (_errorMessage != null || showTips)
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -219,7 +401,7 @@ class _ScanPageState extends State<ScanPage> {
                                   fontSize: 16,
                                 ),
                               ),
-                              const SizedBox(height: 10),
+                              const SizedBox(height: 15),
                               _buildErrorImageRow(
                                 Icons.close,
                                 Constants.mediumRed,
@@ -252,21 +434,21 @@ class _ScanPageState extends State<ScanPage> {
                                     color: Constants.primaryColor,
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.camera_alt,
                                         size: 30, // Size of the icon
                                         color: Constants
                                             .darkGrey, // Color of the icon
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                           width:
                                               10), // Space between icon and text
                                       Text(
-                                        'Retake',
-                                        style: TextStyle(
+                                        !showTips ? 'Retake' : 'Got it!',
+                                        style: const TextStyle(
                                           fontSize: 18, // Size of the text
                                           color: Constants
                                               .darkGrey, // Color of the text,
@@ -358,10 +540,10 @@ class _ScanPageState extends State<ScanPage> {
     setState(() {
       _isLoading = true;
       _errorMessage = null;
+      _loadingNotifier.value = 0;
     });
-    _loadingNotifier.value = 0;
     _startLoading();
-    _showLoadingBottomSheet(context);
+    _showLoadingBottomSheet();
     try {
       await scanningFunction();
       if (_rock != null) {
@@ -387,120 +569,27 @@ class _ScanPageState extends State<ScanPage> {
       setState(() {
         _errorMessage = e.toString().substring(11);
         _isLoading = false;
+        _loadingNotifier.value = 0;
+        _loadingTimer?.cancel();
       });
     } finally {
       setState(() {
         _isLoading = false;
-        _loadingPercentage = 0;
+        _loadingNotifier.value = 0;
+        _loadingTimer?.cancel();
       });
     }
   }
 
   void _startLoading() {
-    Timer.periodic(const Duration(milliseconds: 200), (Timer timer) {
-      if (_loadingPercentage >= 99) {
+    _loadingTimer =
+        Timer.periodic(const Duration(milliseconds: 200), (Timer timer) {
+      if (_loadingNotifier.value >= 99) {
         timer.cancel();
       } else {
-        _loadingPercentage += 1;
-        _loadingNotifier.value = _loadingPercentage;
+        _loadingNotifier.value += 1;
       }
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: () async {
-        _showImageSourceActionSheet(context);
-      },
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Positioned(
-              top: 50,
-              left: 20,
-              right: 20,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Constants.primaryColor.withOpacity(.15),
-                      ),
-                      child: const Icon(
-                        Icons.close,
-                        color: Constants.primaryColor,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Constants.primaryColor.withOpacity(.15),
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.share,
-                          color: Constants.primaryColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: 100,
-              right: 20,
-              left: 20,
-              child: Container(
-                width: size.width * .8,
-                height: size.height * .8,
-                padding: const EdgeInsets.all(20),
-                child: Center(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/code-scan.png',
-                          height: 100,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Tap to Scan',
-                          style: TextStyle(
-                            color: Constants.primaryColor.withOpacity(.80),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   void _showSelectRockDetailsBottomSheet() {
@@ -699,5 +788,35 @@ class _ScanPageState extends State<ScanPage> {
         (route) => false,
       );
     });
+  }
+
+  Future<void> _requestCameraPermission() async {
+    PermissionStatus status = await Permission.camera.request();
+    if (status.isGranted) {
+      if (!_isCameraInitialized) {
+        initializeCamera();
+      }
+    } else if (status.isPermanentlyDenied) {
+      await openAppSettings();
+    }
+  }
+
+  Future<void> _requestGalleryPermission() async {
+    PermissionStatus status = await Permission.photos.request();
+    if (status.isGranted) {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _image = File(pickedFile.path);
+        });
+        _startScanning(_scanningFunction, Navigator.of(context));
+      }
+    } else if (status.isPermanentlyDenied) {
+      await openAppSettings();
+    }
+  }
+
+  Future<void> _scanningFunction() async {
+    _rock = await GetRockService().getRock(_image);
   }
 }

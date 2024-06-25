@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 
@@ -8,6 +10,7 @@ class RockListItem extends StatelessWidget {
   final String title;
   final List<String> tags;
   final VoidCallback onTap;
+  final Uint8List? image;
 
   const RockListItem({
     Key? key,
@@ -15,6 +18,7 @@ class RockListItem extends StatelessWidget {
     required this.title,
     required this.tags,
     required this.onTap,
+    this.image,
   }) : super(key: key);
 
   @override
@@ -32,37 +36,57 @@ class RockListItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                imageUrl,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    width: 60,
-                    height: 60,
-                    color: Colors.grey,
-                    child: const Icon(
-                      Icons.error,
-                      color: Colors.red,
+              child: image == null
+                  ? Image.network(
+                      imageUrl,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 60,
+                          height: 60,
+                          color: Colors.grey,
+                          child: const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                        );
+                      },
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return SizedBox(
+                          width: 60,
+                          height: 60,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : Image.memory(
+                      image!,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 60,
+                          height: 60,
+                          color: Colors.grey,
+                          child: const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    ),
-                  );
-                },
-              ),
             ),
             const SizedBox(width: 12.0),
             Expanded(
@@ -82,7 +106,8 @@ class RockListItem extends StatelessWidget {
                       children: tags.map((tag) {
                         return Container(
                           margin: const EdgeInsets.only(right: 4.0),
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 4.0),
                           decoration: BoxDecoration(
                             color: Colors.grey[800],
                             borderRadius: BorderRadius.circular(12),

@@ -13,7 +13,7 @@ class LoadingComponent extends StatelessWidget {
       children: [
         // Blurred background
         Container(
-          color: Constants.primaryColor, // Semi-transparent background
+          color: Constants.blackColor, // Semi-transparent background
         ),
         Center(
           child: Padding(

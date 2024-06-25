@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/services/selection_modal.dart';
+import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
@@ -74,7 +74,14 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
               borderRadius: BorderRadius.circular(30.0),
             ),
             onPressed: () async {
-              await ShowSelectionModalService().show(context);
+              await Navigator.push(
+                context,
+                PageTransition(
+                  duration: const Duration(milliseconds: 400),
+                  child: const CameraScreen(),
+                  type: PageTransitionType.bottomToTop,
+                ),
+              );
             },
             child: Container(
                 width: 60,
@@ -104,7 +111,14 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(16.0),
                         onTap: () async {
-                          await ShowSelectionModalService().show(context);
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              duration: const Duration(milliseconds: 400),
+                              child: const CameraScreen(),
+                              type: PageTransitionType.bottomToTop,
+                            ),
+                          );
                         },
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,

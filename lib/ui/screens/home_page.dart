@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/collection.dart';
+import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/bottom_nav_service.dart';
-import '../../services/selection_modal.dart';
 import 'select_rock_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -255,9 +255,14 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () async {
-                                await ShowSelectionModalService().show(context);
-                                await init();
-                                //
+                                await Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    duration: const Duration(milliseconds: 200),
+                                    child: const CameraScreen(),
+                                    type: PageTransitionType.bottomToTop,
+                                  ),
+                                );
                               },
                               child: Container(
                                 padding: const EdgeInsets.only(
@@ -311,11 +316,16 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () async {
-                                await ShowSelectionModalService().show(
+                                await Navigator.push(
                                   context,
-                                  isScanningForRockDetails: false,
+                                  PageTransition(
+                                    duration: const Duration(milliseconds: 200),
+                                    child: const CameraScreen(
+                                      isScanningForRockDetails: false,
+                                    ),
+                                    type: PageTransitionType.bottomToTop,
+                                  ),
                                 );
-                                await init();
                               },
                               child: Container(
                                 padding: const EdgeInsets.only(

@@ -2,13 +2,14 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
 import 'package:flutter_onboarding/ui/screens/home_page.dart';
 import 'package:flutter_onboarding/ui/screens/my_rocks_page.dart';
 import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../services/bottom_nav_service.dart';
-import '../services/selection_modal.dart';
 
 class RootPage extends StatefulWidget {
   final bool showFavorites;
@@ -201,7 +202,16 @@ class _RootPageState extends State<RootPage> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: InkWell(
-          onTap: () => ShowSelectionModalService().show(context),
+          onTap: () async {
+            await Navigator.push(
+              context,
+              PageTransition(
+                duration: const Duration(milliseconds: 400),
+                child: const CameraScreen(),
+                type: PageTransitionType.bottomToTop,
+              ),
+            );
+          },
           child: SvgPicture.string(AppIcons.polygonCamera),
         ),
       ),

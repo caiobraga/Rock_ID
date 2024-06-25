@@ -165,7 +165,7 @@ class Rock {
   static List<Rock> rockList = [
     //redy rocks 1
     Rock(
-        rockId: 1,
+        rockId: 6,
         price: 0,
         size: '',
         rating: 0,
@@ -201,7 +201,7 @@ class Rock {
         uses:
             'Construction material, architectural stone, decorative stone for buildings, monuments, and gravestones.'),
     Rock(
-        rockId: 2,
+        rockId: 7,
         price: 0,
         size: '',
         rating: 0,
@@ -236,7 +236,7 @@ class Rock {
         uses:
             'Used in construction and as aggregate for concrete due to its hardness and resistance to weathering'),
     Rock(
-        rockId: 3,
+        rockId: 8,
         price: 0,
         size: '',
         rating: 0,
@@ -272,7 +272,7 @@ class Rock {
         uses:
             'Construction material, cobblestones, making tools, statues, and decoration.'),
     Rock(
-        rockId: 4,
+        rockId: 9,
         price: 0,
         size: '',
         rating: 0,
@@ -310,7 +310,7 @@ class Rock {
         uses:
             'Can be used in landscaping and as a building material in certain contexts, primarily in Hawaii'),
     Rock(
-        rockId: 5,
+        rockId: 10,
         price: 0,
         size: '',
         rating: 0,
@@ -344,7 +344,7 @@ class Rock {
         types: 'Not applicable',
         uses: 'Scientific research, educational use, stone cutting'),
     Rock(
-        rockId: 6,
+        rockId: 11,
         price: 0,
         size: '',
         rating: 0,
@@ -379,7 +379,7 @@ class Rock {
             'There are no specific types, but samples vary in textures and specific mineral compositions',
         uses: 'Scientific study, Some types of construction'),
     Rock(
-        rockId: 7,
+        rockId: 12,
         price: 0,
         size: '',
         rating: 0,
@@ -418,7 +418,7 @@ class Rock {
             'Various sub-types based on mineral composition and geologic history, including absarokite, banakite and highlandite',
         uses: 'Mainly studied in geologic and geochemical research'),
     Rock(
-        rockId: 8,
+        rockId: 13,
         price: 0,
         size: '',
         rating: 0,
@@ -454,7 +454,7 @@ class Rock {
         uses:
             'Primarily used for ornamental purposes due to its attractive blue sodalite. Can also be used for lapidary work.'),
     Rock(
-        rockId: 9,
+        rockId: 14,
         price: 0,
         size: '',
         rating: 0,
@@ -491,7 +491,7 @@ class Rock {
         uses:
             'Scientific research to understand subduction zones and the formation of the Earths mantle'),
     Rock(
-        rockId: 10,
+        rockId: 15,
         price: 0,
         size: '',
         rating: 0,
@@ -527,7 +527,7 @@ class Rock {
         types: 'Typically grouped by the type of minerals present',
         uses: 'Building material, aggregate, scientific study'),
     Rock(
-        rockId: 11,
+        rockId: 16,
         price: 0,
         size: '',
         rating: 0,
@@ -563,7 +563,7 @@ class Rock {
         uses:
             'Mainly as a crushed stone for road construction, as a fill material, and in production of concrete and asphalt.'),
     Rock(
-        rockId: 12,
+        rockId: 17,
         price: 0,
         size: '',
         rating: 0,
@@ -599,7 +599,7 @@ class Rock {
         uses:
             'Civil engineering materials, architectural stones, sculpture materials'),
     Rock(
-        rockId: 13,
+        rockId: 18,
         price: 0,
         size: '',
         rating: 0,
@@ -637,7 +637,7 @@ class Rock {
         uses:
             'Apart from geological studies, Essexite when polished is sometimes used in decorative stone applications.'),
     Rock(
-        rockId: 14,
+        rockId: 19,
         price: 0,
         size: '',
         rating: 0,
@@ -675,7 +675,7 @@ class Rock {
         uses:
             'Foidolite itself has limited uses due to its rarity. However, feldspathoid minerals are occasionally used in ceramics and glass manufacturing.'),
     Rock(
-        rockId: 15,
+        rockId: 20,
         price: 0,
         size: '',
         rating: 0,
@@ -711,7 +711,7 @@ class Rock {
         uses:
             'Construction materials, dimension stones, paving, gravestones, and in architecture for black granite countertops and panels.'),
     Rock(
-        rockId: 16,
+        rockId: 21,
         price: 0,
         size: '',
         rating: 0,
@@ -748,7 +748,7 @@ class Rock {
         uses:
             'Building materials, counter tops, decorative aggregates, monuments, and in the Smithsonian Institute'),
     Rock(
-        rockId: 17,
+        rockId: 22,
         price: 0,
         size: '',
         rating: 0,
@@ -784,7 +784,7 @@ class Rock {
         uses:
             'Construction material, road construction, decorative stone, and tombstones'),
     Rock(
-        rockId: 18,
+        rockId: 23,
         price: 0,
         size: '',
         rating: 0,
@@ -823,7 +823,7 @@ class Rock {
         uses:
             'As a building stone and for decorative purposes due to attractive texture and hardness'),
     Rock(
-        rockId: 19,
+        rockId: 24,
         price: 0,
         size: '',
         rating: 0,
@@ -859,7 +859,7 @@ class Rock {
         uses:
             'Used as aggregate in construction, decorative stone, and in some areas as a source of asbestos'),
     Rock(
-        rockId: 20,
+        rockId: 25,
         price: 0,
         size: '',
         rating: 0,
@@ -898,7 +898,7 @@ class Rock {
         uses:
             'Geological study, educational purposes, sometimes used in landscaping'),
     Rock(
-        rockId: 21,
+        rockId: 26,
         price: 0,
         size: '',
         rating: 0,
@@ -932,7 +932,7 @@ class Rock {
         uses:
             'Study volcanic activities, used as building and decoration materials in some cases due to hardness'),
     Rock(
-        rockId: 22,
+        rockId: 27,
         price: 0,
         size: '',
         rating: 0,
@@ -968,7 +968,7 @@ class Rock {
         uses:
             'Due to its rarity, Ijolite is primary use is in geological studies and mineral collections.'),
     Rock(
-        rockId: 23,
+        rockId: 28,
         price: 0,
         size: '',
         rating: 0,
@@ -1005,7 +1005,7 @@ class Rock {
         types: 'Blue ground Kimberlite, Yellow ground Kimberlite',
         uses: 'Primarily used for mining diamonds'),
     Rock(
-        rockId: 24,
+        rockId: 29,
         price: 0,
         size: '',
         rating: 0,
@@ -1044,7 +1044,7 @@ class Rock {
         uses:
             'Primarily academic - komatiites provide information on the thermal gradients of Earth is mantle 3.5 billion years ago'),
     Rock(
-        rockId: 25,
+        rockId: 30,
         price: 0,
         size: '',
         rating: 0,
@@ -1080,7 +1080,7 @@ class Rock {
         uses:
             'Gemstone, Study of deep mantle melting processes, diamond Indicator'),
     Rock(
-        rockId: 26,
+        rockId: 31,
         price: 0,
         size: '',
         rating: 0,
@@ -1114,7 +1114,7 @@ class Rock {
         types: 'Not applicable as Latite is itself a type of rock',
         uses: 'Construction, aggregates, production of dimension stone'),
     Rock(
-        rockId: 27,
+        rockId: 32,
         price: 0,
         size: '',
         rating: 0,
@@ -1152,7 +1152,7 @@ class Rock {
         uses:
             'Building and decorative stone for interior and exterior applications, as well as construction aggregate'),
     Rock(
-        rockId: 28,
+        rockId: 33,
         price: 0,
         size: '',
         rating: 0,
@@ -1190,7 +1190,7 @@ class Rock {
         uses:
             'As a dimension stone for decoration, in construction and for aggregate'),
     Rock(
-        rockId: 29,
+        rockId: 34,
         price: 0,
         size: '',
         rating: 0,
@@ -1227,7 +1227,7 @@ class Rock {
         uses:
             'Due to its relative rarity, Nephelinite is primarily used for scientific study and academic purposes.'),
     Rock(
-        rockId: 30,
+        rockId: 35,
         price: 0,
         size: '',
         rating: 0,
@@ -1261,7 +1261,7 @@ class Rock {
         uses:
             'Used to make many types of construction and architectural materials, as well as for decorative purposes. It is also used in the production of stone wool insulation and as a filler in the paint, plastic, and rubber industries.'),
     Rock(
-        rockId: 31,
+        rockId: 36,
         price: 0,
         size: '',
         rating: 0,
@@ -1299,7 +1299,7 @@ class Rock {
         uses:
             'Uses include tools in primitive cultures, ornamental mirrors and jewelry, surgical scalpel blades, and gemstone. Also widely popular in spiritual and healing practices'),
     Rock(
-        rockId: 32,
+        rockId: 37,
         price: 0,
         size: '',
         rating: 0,
@@ -1336,7 +1336,7 @@ class Rock {
         uses:
             'Source of rare mineral commodities such as lithium, rare earth elements, crystals for jewelry, decorative stones, and heat-resistant ceramics.'),
     Rock(
-        rockId: 33,
+        rockId: 38,
         price: 0,
         size: '',
         rating: 0,
@@ -1372,7 +1372,7 @@ class Rock {
         uses:
             'Phonolite has limited uses due to its rarity. It is occasionally used in specialized industrial applications such as ceramics and glass manufacturing.'),
     Rock(
-        rockId: 34,
+        rockId: 39,
         price: 0,
         size: '',
         rating: 0,
@@ -1408,7 +1408,7 @@ class Rock {
             'Phonotephrite can vary depending on the specific mineral composition. Varieties are generally unnamed.',
         uses: 'Scientific research, decorative stone, geological education'),
     Rock(
-        rockId: 35,
+        rockId: 40,
         price: 0,
         size: '',
         rating: 0,
@@ -1445,7 +1445,7 @@ class Rock {
         uses:
             'Not typically used commercially. Can be interesting to collectors and for educational purposes'),
     Rock(
-        rockId: 36,
+        rockId: 41,
         price: 0,
         size: '',
         rating: 0,
@@ -1484,7 +1484,7 @@ class Rock {
         uses:
             'Often used in decorative architecture and stoneware, as well as a source of metal ores'),
     Rock(
-        rockId: 37,
+        rockId: 42,
         price: 0,
         size: '',
         rating: 0,
@@ -1524,7 +1524,7 @@ class Rock {
         uses:
             'Pumice is commonly used to smooth and exfoliate skin, in construction for light-weight and insulating materials, and as an abrasive in various industrial applications.'),
     Rock(
-        rockId: 38,
+        rockId: 43,
         price: 0,
         size: '',
         rating: 0,
@@ -1561,7 +1561,7 @@ class Rock {
         uses:
             'Quartz Diorite is used for making a wide range of tools and weapons, and it is widely used in construction for things like countertops, tiles, and other decorative elements.'),
     Rock(
-        rockId: 39,
+        rockId: 44,
         price: 0,
         size: '',
         rating: 0,
@@ -1598,7 +1598,7 @@ class Rock {
         uses:
             'Used both decoratively and structurally. It is used in construction for things like countertops, tiles and monuments. It is also used as a gemstone for spiritual healing.'),
     Rock(
-        rockId: 40,
+        rockId: 45,
         price: 0,
         size: '',
         rating: 0,
@@ -1635,7 +1635,7 @@ class Rock {
         uses:
             'Used in making glass and other industrial applications, spiritual healing, meditation, and as a gemstone in jewelry'),
     Rock(
-        rockId: 41,
+        rockId: 46,
         price: 0,
         size: '',
         rating: 0,
@@ -1678,7 +1678,7 @@ class Rock {
         uses:
             'Often used in aggregate for construction, for geological study, and creating decorative aggregates.'),
     Rock(
-        rockId: 42,
+        rockId: 47,
         price: 0,
         size: '',
         rating: 0,
@@ -1716,7 +1716,7 @@ class Rock {
         uses:
             'Used in jewelry and ornamental designs, construction, aggregate in the building industry, and is also used as a decorative stone'),
     Rock(
-        rockId: 43,
+        rockId: 48,
         price: 0,
         size: '',
         rating: 0,
@@ -1753,7 +1753,7 @@ class Rock {
         uses:
             'It is utilized for research & educational purposes more than commercial or practical uses due to its unique mixture of minerals that make it interesting to study.'),
     Rock(
-        rockId: 44,
+        rockId: 49,
         price: 0,
         size: '',
         rating: 0,
@@ -1791,7 +1791,7 @@ class Rock {
             'There are no subtypes, but variation exists depending on specific mineral content.',
         uses: 'Primarily of interest for geological studies'),
     Rock(
-        rockId: 45,
+        rockId: 50,
         price: 0,
         size: '',
         rating: 0,
@@ -1827,7 +1827,7 @@ class Rock {
         uses:
             'Used for landscaping and drainage works. It is also used in gas barbecue grills.'),
     Rock(
-        rockId: 46,
+        rockId: 51,
         price: 0,
         size: '',
         rating: 0,
@@ -1865,7 +1865,7 @@ class Rock {
         uses:
             'Scientific research, especially in studying seismology and volcanic processes.'),
     Rock(
-        rockId: 47,
+        rockId: 52,
         price: 0,
         size: '',
         rating: 0,
@@ -1902,7 +1902,7 @@ class Rock {
         uses:
             'Used as general construction material, as aggregate in concrete and road construction, and occasionally as decorative stone.'),
     Rock(
-        rockId: 48,
+        rockId: 53,
         price: 0,
         size: '',
         rating: 0,
@@ -1940,7 +1940,7 @@ class Rock {
         uses:
             'Decorative stone, construction material, occasionally in the manufacturing of specific types of ceramics'),
     Rock(
-        rockId: 49,
+        rockId: 54,
         price: 0,
         size: '',
         rating: 0,
@@ -1977,7 +1977,7 @@ class Rock {
         types: 'Basaltic Trachyandesite, Mugearitic Trachyandesite',
         uses: 'Primarily in construction and as decorative stones.'),
     Rock(
-        rockId: 50,
+        rockId: 55,
         price: 0,
         size: '',
         rating: 0,
@@ -2014,7 +2014,7 @@ class Rock {
         uses:
             'Primarily scientific - useful in study of geology, petrology and earth is history.'),
     Rock(
-        rockId: 51,
+        rockId: 56,
         price: 0,
         size: '',
         rating: 0,
@@ -2051,7 +2051,7 @@ class Rock {
         uses:
             'Geological and educational research. Also used in the creation of certain types of stone tools in prehistoric times.'),
     Rock(
-        rockId: 52,
+        rockId: 57,
         price: 0,
         size: '',
         rating: 0,
@@ -2089,7 +2089,7 @@ class Rock {
         uses:
             'Due to its durability and aesthetic appeal, Trachyte is commonly used in construction and decorative stonework'),
     Rock(
-        rockId: 53,
+        rockId: 58,
         price: 0,
         size: '',
         rating: 0,
@@ -2126,7 +2126,7 @@ class Rock {
         uses:
             'Used in the manufacture of some ceramics, as a building material, and occasionally for countertops'),
     Rock(
-        rockId: 54,
+        rockId: 59,
         price: 0,
         size: '',
         rating: 0,
@@ -2163,7 +2163,7 @@ class Rock {
             'There are many types of tuff, including welded tuff, rhyolite tuff, basaltic tuff, and others, depending on the composition and specifics of formation',
         uses: 'Construction material, as it can be cut and carved easily'),
     Rock(
-        rockId: 55,
+        rockId: 60,
         price: 0,
         size: '',
         rating: 0,
@@ -2197,7 +2197,7 @@ class Rock {
         types: 'Spinel Websterite, Garnet Websterite',
         uses: 'Scientific research, collection'),
     Rock(
-        rockId: 56,
+        rockId: 61,
         price: 0,
         size: '',
         rating: 0,
@@ -2233,7 +2233,7 @@ class Rock {
         uses:
             'Used as a building stone, and for the manufacturing of Glass and ceramics.'),
     Rock(
-        rockId: 57,
+        rockId: 62,
         price: 0,
         size: '',
         rating: 0,
@@ -2270,7 +2270,7 @@ class Rock {
         uses:
             'BIFs are important ores of iron. The iron from these ores is used to manufacture steel.'),
     Rock(
-        rockId: 58,
+        rockId: 63,
         price: 0,
         size: '',
         rating: 0,
@@ -2308,7 +2308,7 @@ class Rock {
         uses:
             'Used as a decorative stone in architecture, and in some cases in healing practices or crystal energy work'),
     Rock(
-        rockId: 59,
+        rockId: 64,
         price: 0,
         size: '',
         rating: 0,
@@ -2344,7 +2344,7 @@ class Rock {
         uses:
             'Used in construction, as a building stone, and for the production of lime'),
     Rock(
-        rockId: 60,
+        rockId: 65,
         price: 0,
         size: '',
         rating: 0,
@@ -2381,7 +2381,7 @@ class Rock {
         uses:
             'Schools (blackboard chalk), athletic activities like rock climbing and weightlifting (grip), construction (mark structures), farming (adjusting soil pH), arts'),
     Rock(
-        rockId: 61,
+        rockId: 66,
         price: 0,
         size: '',
         rating: 0,
@@ -2416,7 +2416,7 @@ class Rock {
         uses:
             'Tool making in ancient times, flints for starting a fire, gemstones, decorative items, and potentially for metaphysical purposes.'),
     Rock(
-        rockId: 62,
+        rockId: 67,
         price: 0,
         size: '',
         rating: 0,
@@ -2455,7 +2455,7 @@ class Rock {
         uses:
             'Primarily used as a building material, in ceramics and in the production of bricks and tiles. Also used in the oil industry for drilling muds.'),
     Rock(
-        rockId: 63,
+        rockId: 68,
         price: 0,
         size: '',
         rating: 0,
@@ -2493,7 +2493,7 @@ class Rock {
         uses:
             'Due to its relative softness, it is used in situations where the aesthetics of the rock are more important than its durability, such as in decorative stone and wall cladding. Large quantities were used in the past in the construction of buildings and fortifications.'),
     Rock(
-        rockId: 64,
+        rockId: 69,
         price: 0,
         size: '',
         rating: 0,
@@ -2532,7 +2532,7 @@ class Rock {
         uses:
             'Research into past geological environments, particularly past ice ages and glaciations'),
     Rock(
-        rockId: 65,
+        rockId: 70,
         price: 0,
         size: '',
         rating: 0,
@@ -2570,7 +2570,7 @@ class Rock {
         uses:
             'Industrial applications, such as making plaster (gypsum), rock salt (halite), and fertilizers (potash)'),
     Rock(
-        rockId: 66,
+        rockId: 71,
         price: 0,
         size: '',
         rating: 0,
@@ -2606,7 +2606,7 @@ class Rock {
         uses:
             'Historically used as a tool for construction and survival, today used for archeological and geological studies'),
     Rock(
-        rockId: 67,
+        rockId: 72,
         price: 0,
         size: '',
         rating: 0,
@@ -2643,7 +2643,7 @@ class Rock {
         uses:
             'Ornamental purposes, jewelry, some use in alternative healing practices'),
     Rock(
-        rockId: 68,
+        rockId: 73,
         price: 0,
         size: '',
         rating: 0,
@@ -2677,7 +2677,7 @@ class Rock {
         uses:
             'Construction (particularly road construction), educational uses for geological studies'),
     Rock(
-        rockId: 69,
+        rockId: 74,
         price: 0,
         size: '',
         rating: 0,
@@ -2713,7 +2713,7 @@ class Rock {
         uses:
             'Primarily used in construction and as a building material, also popular among rock climbers for its rough texture and grip'),
     Rock(
-        rockId: 70,
+        rockId: 75,
         price: 0,
         size: '',
         rating: 0,
@@ -2749,7 +2749,7 @@ class Rock {
         uses:
             'Fuel in industrial processes, soil conditioner, source of low-grade coal'),
     Rock(
-        rockId: 71,
+        rockId: 76,
         price: 0,
         size: '',
         rating: 0,
@@ -2786,7 +2786,7 @@ class Rock {
         uses:
             'Construction material, aggregate for the base of roads, white pigment or filler in products such as toothpaste or paints, and as a chemical feedstock'),
     Rock(
-        rockId: 72,
+        rockId: 77,
         price: 0,
         size: '',
         rating: 0,
@@ -2821,7 +2821,7 @@ class Rock {
         types: 'Claystone, Siltstone',
         uses: 'Building material, production of pottery and bricks'),
     Rock(
-        rockId: 73,
+        rockId: 78,
         price: 0,
         size: '',
         rating: 0,
@@ -2857,7 +2857,7 @@ class Rock {
         uses:
             'Primarily used as a fuel source, oil shale is also used in the chemical industry and for construction materials.'),
     Rock(
-        rockId: 74,
+        rockId: 79,
         price: 0,
         size: '',
         rating: 0,
@@ -2894,7 +2894,7 @@ class Rock {
         uses:
             'Used as a decorative stone in building and construction, also used in aquariums to construct reef tanks'),
     Rock(
-        rockId: 75,
+        rockId: 80,
         price: 0,
         size: '',
         rating: 0,
@@ -2931,7 +2931,7 @@ class Rock {
         uses:
             'Used in architecture and construction. It’s also carved for decorative elements and is used in landscaping for patios or garden walkways.'),
     Rock(
-        rockId: 76,
+        rockId: 81,
         price: 0,
         size: '',
         rating: 0,
@@ -2969,7 +2969,7 @@ class Rock {
         uses:
             'Commonly used in the construction industry for cement and bricks. Also used to produce oil and natural gas.'),
     Rock(
-        rockId: 77,
+        rockId: 82,
         price: 0,
         size: '',
         rating: 0,
@@ -3004,7 +3004,7 @@ class Rock {
         uses:
             'Building material, strong enough for construction but soft enough for carving intricate detail work'),
     Rock(
-        rockId: 78,
+        rockId: 83,
         price: 0,
         size: '',
         rating: 0,
@@ -3041,7 +3041,7 @@ class Rock {
         uses:
             'Primarily used in the manufacture of potash, a type of water-soluble fertilizer.'),
     Rock(
-        rockId: 79,
+        rockId: 84,
         price: 0,
         size: '',
         rating: 0,
@@ -3079,7 +3079,7 @@ class Rock {
         uses:
             'Used in geological studies, understanding earth is past climate (paleoclimate), as evidence of former glacial activity, and of continental drift'),
     Rock(
-        rockId: 80,
+        rockId: 85,
         price: 0,
         size: '',
         rating: 0,
@@ -3115,7 +3115,7 @@ class Rock {
         uses:
             'Architectural stone for indoor and outdoor applications, significant as a building material in Ancient Rome, paving material, landscaping, wall cladding, backsplashes, floor tiles'),
     Rock(
-        rockId: 81,
+        rockId: 86,
         price: 0,
         size: '',
         rating: 0,
@@ -3151,7 +3151,7 @@ class Rock {
         uses:
             'Used in geological studies, understanding ancient geological events, in construction as a building material'),
     Rock(
-        rockId: 82,
+        rockId: 87,
         price: 0,
         size: '',
         rating: 0,
@@ -3188,7 +3188,7 @@ class Rock {
         uses:
             'Wackestone is commonly used as a building material, aggregate in concrete, and raw material in cement production.'),
     Rock(
-        rockId: 83,
+        rockId: 88,
         price: 0,
         size: '',
         rating: 0,
@@ -3225,7 +3225,7 @@ class Rock {
         uses:
             'Primarily used for residential and commercial heating, water filtration, manufacturing of steel, and production of energy.'),
     Rock(
-        rockId: 84,
+        rockId: 89,
         price: 0,
         size: '',
         rating: 0,
@@ -3260,7 +3260,7 @@ class Rock {
         uses:
             'Geological studies, decorative stone, healing and meditation practices'),
     Rock(
-        rockId: 85,
+        rockId: 90,
         price: 0,
         size: '',
         rating: 0,
@@ -3295,7 +3295,7 @@ class Rock {
         uses:
             'Important for understanding geological faulting processes, also used as dimension stone in construction and decorative features'),
     Rock(
-        rockId: 86,
+        rockId: 91,
         price: 0,
         size: '',
         rating: 0,
@@ -3331,7 +3331,7 @@ class Rock {
         uses:
             'Used as aggregate in the construction industry, decorative stone in building construction, and a source of lithium'),
     Rock(
-        rockId: 87,
+        rockId: 92,
         price: 0,
         size: '',
         rating: 0,
@@ -3367,7 +3367,7 @@ class Rock {
         uses:
             'Used in construction and as road aggregate due to its hardness and resistance to weathering'),
     Rock(
-        rockId: 88,
+        rockId: 93,
         price: 0,
         size: '',
         rating: 0,
@@ -3401,7 +3401,7 @@ class Rock {
         uses:
             'While not commonly utilized due to its rarity, litchfieldite is primarily used for ornamental stone, gemstone, or as mineral specimens.'),
     Rock(
-        rockId: 89,
+        rockId: 94,
         price: 0,
         size: '',
         rating: 0,
@@ -3438,7 +3438,7 @@ class Rock {
         uses:
             'Marble is widely used in constructions and architectural designs; it is also used in sculpture because of its beauty and resistance. Because of its beautiful pattern and colors, marble is also often used to make jewelry and decorative items.'),
     Rock(
-        rockId: 90,
+        rockId: 95,
         price: 0,
         size: '',
         rating: 0,
@@ -3473,7 +3473,7 @@ class Rock {
         uses:
             'Geologic studies, understanding geologic history and tectonic processes'),
     Rock(
-        rockId: 91,
+        rockId: 96,
         price: 0,
         size: '',
         rating: 0,
@@ -3508,7 +3508,7 @@ class Rock {
         types: 'Pelitic schist, Mudrock, Mica schist, Quartz-feldspar schist',
         uses: 'Predominantly research and geological mapping purposes'),
     Rock(
-        rockId: 92,
+        rockId: 97,
         price: 0,
         size: '',
         rating: 0,
@@ -3545,7 +3545,7 @@ class Rock {
         uses:
             'Primarily used for scientific study, especially in the fields of geology and seismology.'),
     Rock(
-        rockId: 93,
+        rockId: 98,
         price: 0,
         size: '',
         rating: 0,
@@ -3581,7 +3581,7 @@ class Rock {
         uses:
             'Construction, Decorative stone, Garden paths, Jewellery, and sometimes in spiritual healing'),
     Rock(
-        rockId: 94,
+        rockId: 99,
         price: 0,
         size: '',
         rating: 0,
@@ -3618,7 +3618,7 @@ class Rock {
         uses:
             'Used for landscaping, ornamental stones, construction projects. It is also used in the creation of various household objects.'),
     Rock(
-        rockId: 95,
+        rockId: 100,
         price: 0,
         size: '',
         rating: 0,
@@ -3654,7 +3654,7 @@ class Rock {
         uses:
             'Used as decorative stone, in architecture for facades, and sometimes for carvings and sculptures. Also used metaphysically for numerous healing and energizing applications.'),
     Rock(
-        rockId: 96,
+        rockId: 101,
         price: 0,
         size: '',
         rating: 0,
@@ -3692,7 +3692,7 @@ class Rock {
         uses:
             'Ore for extraction of various metals, educational or collection purposes'),
     Rock(
-        rockId: 97,
+        rockId: 102,
         price: 0,
         size: '',
         rating: 0,
@@ -3728,7 +3728,7 @@ class Rock {
         uses:
             'Roofing, flooring, paving, landscaping, and interior and exterior decoration'),
     Rock(
-        rockId: 98,
+        rockId: 103,
         price: 0,
         size: '',
         rating: 0,
@@ -3764,7 +3764,7 @@ class Rock {
         uses:
             'Scientific study - particularly related to meteorite impacts, occasionally used as a gemstone in jewelry'),
     Rock(
-        rockId: 99,
+        rockId: 104,
         price: 0,
         size: '',
         rating: 0,
@@ -3799,7 +3799,7 @@ class Rock {
         types: 'Talc, Soapstone',
         uses: 'Cosmetics, ceramics, pitch control in paper making'),
     Rock(
-        rockId: 100,
+        rockId: 105,
         price: 0,
         size: '',
         rating: 0,
@@ -3835,7 +3835,7 @@ class Rock {
         uses:
             'Used in sculpting, jewelry, and architectural applications. Also used for kitchen utensils and bowls.'),
     Rock(
-        rockId: 101,
+        rockId: 106,
         price: 0,
         size: '',
         rating: 0,
@@ -3872,7 +3872,7 @@ class Rock {
             'Depending on the minerals present within, but there is no specific classification',
         uses: 'Scientific study, artistic purposes, rock collections'),
     Rock(
-        rockId: 102,
+        rockId: 107,
         price: 0,
         size: '',
         rating: 0,
@@ -3908,7 +3908,7 @@ class Rock {
         uses:
             'Often used as decorative stone for building interiors and exteriors. It is also used in the production of dimension stone.'),
     Rock(
-        rockId: 103,
+        rockId: 108,
         price: 0,
         size: '',
         rating: 0,
@@ -3944,7 +3944,7 @@ class Rock {
         uses:
             'Building material, ornamental stones, aggregates, and as an aggregate in certain types of skid-resistant road surfaces'),
     Rock(
-        rockId: 104,
+        rockId: 109,
         price: 0,
         size: '',
         rating: 0,
@@ -3983,7 +3983,7 @@ class Rock {
         uses:
             'Useful for road and building construction, and decorative stones due to its dark, sleek appearance.'),
     Rock(
-        rockId: 105,
+        rockId: 110,
         price: 0,
         size: '',
         rating: 0,
@@ -4019,7 +4019,7 @@ class Rock {
         uses:
             'Commonly used as a decorative stone and in jewelry due to its distinctive color. It is also used by geologists as an indicator of certain geological formations and processes.'),
     Rock(
-        rockId: 106,
+        rockId: 111,
         price: 0,
         size: '',
         rating: 0,
@@ -4057,7 +4057,7 @@ class Rock {
         uses:
             'Used as a material for stone tools in prehistoric times. Nowadays, typically studied for scientific purposes rather than commercial usage'),
     Rock(
-        rockId: 107,
+        rockId: 112,
         price: 0,
         size: '',
         rating: 0,
@@ -4094,7 +4094,7 @@ class Rock {
         uses:
             'Used in ancient times for tools and weapons, today it is used for decorative stone and is also sometimes used for fire starting and craft work'),
     Rock(
-        rockId: 108,
+        rockId: 113,
         price: 0,
         size: '',
         rating: 0,
@@ -4129,7 +4129,7 @@ class Rock {
         uses:
             'Refractory material for lining steelmaking and glassmaking furnaces'),
     Rock(
-        rockId: 109,
+        rockId: 114,
         price: 0,
         size: '',
         rating: 0,
@@ -4167,7 +4167,7 @@ class Rock {
         uses:
             'Primarily used for scientific and geological study, not typically used in industrial applications or jewelry due to its softness and tendency to break apart'),
     Rock(
-        rockId: 110,
+        rockId: 115,
         price: 0,
         size: '',
         rating: 0,
@@ -4204,7 +4204,7 @@ class Rock {
         uses:
             'Scientific research due to its unique mineralogical composition, also a collector is item for rock enthusiasts'),
     Rock(
-        rockId: 111,
+        rockId: 116,
         price: 0,
         size: '',
         rating: 0,
@@ -4241,7 +4241,7 @@ class Rock {
         uses:
             'Primarily for collection, geological studies and scientific research. Not typically used in jewelry or industrial applications.'),
     Rock(
-        rockId: 112,
+        rockId: 117,
         price: 0,
         size: '',
         rating: 0,
@@ -4278,7 +4278,7 @@ class Rock {
         uses:
             'Primarily used for ornamental purposes, gemstones, or metaphysical healing.'),
     Rock(
-        rockId: 113,
+        rockId: 118,
         price: 0,
         size: '',
         rating: 0,
@@ -4316,7 +4316,7 @@ class Rock {
         uses:
             'Luxullianite can be polished to a high sheen and used as decorative stone in jewellery, countertops, architectural accents and landscaping stones, as well as used in meditative practices.'),
     Rock(
-        rockId: 114,
+        rockId: 119,
         price: 0,
         size: '',
         rating: 0,
@@ -4351,7 +4351,7 @@ class Rock {
         uses:
             'Broadly used in building and decorative stones, aggregate, and as a source of aluminium'),
     Rock(
-        rockId: 115,
+        rockId: 120,
         price: 0,
         size: '',
         rating: 0,
@@ -4389,7 +4389,7 @@ class Rock {
         uses:
             'Whetstones for sharpening tools, abrasive cleansers, soil conditioner'),
     Rock(
-        rockId: 116,
+        rockId: 121,
         price: 0,
         size: '',
         rating: 0,
@@ -4423,7 +4423,7 @@ class Rock {
         types: 'Blue Pietersite, Red Pietersite',
         uses: 'Jewelry, meditation, energy healing'),
     Rock(
-        rockId: 117,
+        rockId: 122,
         price: 0,
         size: '',
         rating: 0,
@@ -4459,7 +4459,7 @@ class Rock {
             'There are no types or variations as pyrolite is a theoretical rock used for scientific modeling.',
         uses: 'Scientific modeling of Earth is mantle'),
     Rock(
-        rockId: 118,
+        rockId: 123,
         price: 0,
         size: '',
         rating: 0,
@@ -4494,7 +4494,7 @@ class Rock {
         uses:
             'Building material, Architectural stone, Cemetery monuments, Whetstones, Gemstones'),
     Rock(
-        rockId: 119,
+        rockId: 124,
         price: 0,
         size: '',
         rating: 0,
@@ -4529,7 +4529,7 @@ class Rock {
         types: 'Not applicable for this specific rock',
         uses: 'Primarily used for decorative purposes, landscaping'),
     Rock(
-        rockId: 120,
+        rockId: 125,
         price: 0,
         size: '',
         rating: 0,
@@ -4566,7 +4566,7 @@ class Rock {
         uses:
             'Primarily used for ornamental purposes and as a minor gemstone due to its unique appearance.'),
     Rock(
-        rockId: 121,
+        rockId: 126,
         price: 0,
         size: '',
         rating: 0,
@@ -4601,7 +4601,7 @@ class Rock {
             'Shonkinite varies based on the minerals and elements it contains, and it is rare so not many types exist.',
         uses: 'Educational or scientific purposes'),
     Rock(
-        rockId: 122,
+        rockId: 127,
         price: 0,
         size: '',
         rating: 0,
@@ -4637,7 +4637,7 @@ class Rock {
         uses:
             'Due to its rarity, it is often used for decorative purposes, or in the manufacturing of specialized scientific instruments'),
     Rock(
-        rockId: 123,
+        rockId: 128,
         price: 0,
         size: '',
         rating: 0,
@@ -4673,7 +4673,7 @@ class Rock {
         uses:
             'Construction materials, railtrack ballast, paving stones, occasionally in jewelry making'),
     Rock(
-        rockId: 124,
+        rockId: 129,
         price: 0,
         size: '',
         rating: 0,
@@ -4710,7 +4710,7 @@ class Rock {
         uses:
             'Theralite is primarily used in construction materials such as concrete and asphalt due to its hardness and durability. It is also popular in landscaping and decoration.'),
     Rock(
-        rockId: 125,
+        rockId: 130,
         price: 0,
         size: '',
         rating: 0,
@@ -4747,7 +4747,7 @@ class Rock {
         uses:
             'Decorative purposes for its distinct color contrasts, also used in certain construction processes'),
     Rock(
-        rockId: 126,
+        rockId: 131,
         price: 0,
         size: '',
         rating: 0,
@@ -4784,7 +4784,7 @@ class Rock {
         uses:
             'Scientific and geological studies, it is not commonly used for commercial purposes'),
     Rock(
-        rockId: 127,
+        rockId: 132,
         price: 0,
         size: '',
         rating: 0,
@@ -4824,7 +4824,7 @@ class Rock {
     //end of redy rocks 1
     //redy gems 1
     Rock(
-        rockId: 1,
+        rockId: 133,
         price: 0,
         size: '',
         rating: 0,
@@ -4860,7 +4860,7 @@ class Rock {
         uses:
             'Primarily used for geological research and study, not typically used in jewelry or industrial applications'),
     Rock(
-        rockId: 2,
+        rockId: 134,
         price: 0,
         size: '',
         rating: 0,
@@ -4898,7 +4898,7 @@ class Rock {
         uses:
             'Construction materials, landscaping, aggregates, and in the production of lightweight aggregates.'),
     Rock(
-        rockId: 3,
+        rockId: 135,
         price: 0,
         size: '',
         rating: 0,
@@ -4934,7 +4934,7 @@ class Rock {
         uses:
             'Used in the production of aluminum, as aggregate in construction, and for both scientific and gemological purposes'),
     Rock(
-        rockId: 4,
+        rockId: 136,
         price: 0,
         size: '',
         rating: 0,
@@ -4969,7 +4969,7 @@ class Rock {
         uses:
             'Used as a decorative stone and in the manufacturing of ceramic tiles, porcelain, and glass.'),
     Rock(
-        rockId: 5,
+        rockId: 137,
         price: 0,
         size: '',
         rating: 0,
@@ -5006,7 +5006,7 @@ class Rock {
         uses:
             'Construction materials, floor tiles, cobblestones, stone wool insulation, explored as a means of removing carbon dioxide to combat climate change'),
     Rock(
-        rockId: 6,
+        rockId: 138,
         price: 0,
         size: '',
         rating: 0,
@@ -5041,7 +5041,7 @@ class Rock {
         uses:
             'As aggregate for construction, road-building, and in the production of concrete and asphalt.'),
     Rock(
-        rockId: 7,
+        rockId: 139,
         price: 0,
         size: '',
         rating: 0,
@@ -5078,7 +5078,7 @@ class Rock {
         uses:
             'Primarily of interest in geological study or as a piece in a rock collection. Not typically used in commercial or industrial applications.'),
     Rock(
-        rockId: 8,
+        rockId: 140,
         price: 0,
         size: '',
         rating: 0,
@@ -5114,7 +5114,7 @@ class Rock {
             'There are not specific types of shoshonite, but it is a type of basaltic rock.',
         uses: 'Collecting, geological studies, potentially in construction'),
     Rock(
-        rockId: 9,
+        rockId: 141,
         price: 0,
         size: '',
         rating: 0,
@@ -5151,7 +5151,7 @@ class Rock {
         uses:
             'Primarily for academic and research purposes in geology as its formation provides insight into subduction processes.'),
     Rock(
-        rockId: 10,
+        rockId: 142,
         price: 0,
         size: '',
         rating: 0,
@@ -5190,7 +5190,7 @@ class Rock {
         uses:
             'Carbonatites are important sources of niobium, a metal used in producing superalloys and special types of steel.'),
     Rock(
-        rockId: 11,
+        rockId: 143,
         price: 0,
         size: '',
         rating: 0,
@@ -5226,7 +5226,7 @@ class Rock {
         uses:
             'Building material, ornamental stone, components for cement production, scientific geological studies'),
     Rock(
-        rockId: 12,
+        rockId: 144,
         price: 0,
         size: '',
         rating: 0,
@@ -5265,7 +5265,7 @@ class Rock {
         uses:
             'Research and educational purposes in geology; rarely, decorative stone.'),
     Rock(
-        rockId: 13,
+        rockId: 145,
         price: 0,
         size: '',
         rating: 0,
@@ -5301,7 +5301,7 @@ class Rock {
         uses:
             'Used as crushed stone for construction aggregate, concrete, and asphalt aggregate. Also used as dimension stone, cobblestones, and stone sculptures.'),
     Rock(
-        rockId: 14,
+        rockId: 146,
         price: 0,
         size: '',
         rating: 0,
@@ -5339,7 +5339,7 @@ class Rock {
         uses:
             'Building material, decorative stone, paving, facing of buildings'),
     Rock(
-        rockId: 15,
+        rockId: 147,
         price: 0,
         size: '',
         rating: 0,
@@ -5375,7 +5375,7 @@ class Rock {
         uses:
             'Used in construction and for decorative architectural features due to its aesthetic appeal and durability.'),
     Rock(
-        rockId: 16,
+        rockId: 148,
         price: 0,
         size: '',
         rating: 0,
@@ -5409,7 +5409,7 @@ class Rock {
         uses:
             'Dimension stones, flooring tiles, cemetery markers, kitchen countertops'),
     Rock(
-        rockId: 17,
+        rockId: 149,
         price: 0,
         size: '',
         rating: 0,
@@ -5444,7 +5444,7 @@ class Rock {
         uses:
             'Building material, ornamental stone, aggregate in the construction industry'),
     Rock(
-        rockId: 18,
+        rockId: 150,
         price: 0,
         size: '',
         rating: 0,
@@ -5481,7 +5481,7 @@ class Rock {
         uses:
             'Primarily of interest for geological study. Its distinct micrographic texture can help in understanding crystallization processes in igneous rocks rather than for direct use.'),
     Rock(
-        rockId: 19,
+        rockId: 151,
         price: 0,
         size: '',
         rating: 0,
@@ -5518,7 +5518,7 @@ class Rock {
         uses:
             'Its significance lies in its contribution to our understanding of Earth mantle and plate tectonics.'),
     Rock(
-        rockId: 20,
+        rockId: 152,
         price: 0,
         size: '',
         rating: 0,
@@ -5557,7 +5557,7 @@ class Rock {
         uses:
             'Hornblendite has limited applicable uses due to its rarity; mostly of geological interest'),
     Rock(
-        rockId: 21,
+        rockId: 153,
         price: 0,
         size: '',
         rating: 0,
@@ -5592,7 +5592,7 @@ class Rock {
         types: 'Predominantly homogenous type',
         uses: 'Aggregate, building stone, as a mineral specimen'),
     Rock(
-        rockId: 22,
+        rockId: 154,
         price: 0,
         size: '',
         rating: 0,
@@ -5629,7 +5629,7 @@ class Rock {
         uses:
             'Used as a building material and in the extraction of precious minerals'),
     Rock(
-        rockId: 23,
+        rockId: 155,
         price: 0,
         size: '',
         rating: 0,
@@ -5663,7 +5663,7 @@ class Rock {
         types: 'N/A',
         uses: 'Scientific study, mineral collections due to its rarity'),
     Rock(
-        rockId: 24,
+        rockId: 156,
         price: 0,
         size: '',
         rating: 0,
@@ -5700,7 +5700,7 @@ class Rock {
         uses:
             'Primarily of interest for scientific study, some types (like serpentinite) used for decorative stonework'),
     Rock(
-        rockId: 25,
+        rockId: 157,
         price: 0,
         size: '',
         rating: 0,
@@ -5737,7 +5737,7 @@ class Rock {
         uses:
             'Economic geology, study of partial melting, and magma evolution'),
     Rock(
-        rockId: 26,
+        rockId: 158,
         price: 0,
         size: '',
         rating: 0,
@@ -5772,7 +5772,7 @@ class Rock {
         types: 'Not known for variations',
         uses: 'Used in construction and as a decorative stone.'),
     Rock(
-        rockId: 27,
+        rockId: 159,
         price: 0,
         size: '',
         rating: 0,
@@ -5810,7 +5810,7 @@ class Rock {
         uses:
             'Used as a construction material, architectural stone, for monuments and in the manufacturing of various products like ceramics and glass'),
     Rock(
-        rockId: 28,
+        rockId: 160,
         price: 0,
         size: '',
         rating: 0,
@@ -5846,7 +5846,7 @@ class Rock {
         uses:
             'Used in construction for things such as building and decorative stones owing to its aesthetic appeal and stability'),
     Rock(
-        rockId: 29,
+        rockId: 161,
         price: 0,
         size: '',
         rating: 0,
@@ -5882,7 +5882,7 @@ class Rock {
         uses:
             'Primarily used in ceramics to lower the melting temperature of the mixture, also used in manufacturing glass and dinnerware'),
     Rock(
-        rockId: 30,
+        rockId: 162,
         price: 0,
         size: '',
         rating: 0,
@@ -5920,7 +5920,7 @@ class Rock {
         uses:
             'Construction material, ornamental stones, aggregate, and can also be used in certain industrial processes.'),
     Rock(
-        rockId: 31,
+        rockId: 163,
         price: 0,
         size: '',
         rating: 0,
@@ -5953,7 +5953,7 @@ class Rock {
         uses:
             'Used in construction and decor due to its hardness and color range'),
     Rock(
-        rockId: 32,
+        rockId: 164,
         price: 0,
         size: '',
         rating: 0,
@@ -5988,7 +5988,7 @@ class Rock {
         types: 'Feldspar Porphyry, Quartz Porphyry',
         uses: 'Landscaping, Sculpture, Architectural stone, Crushed stone'),
     Rock(
-        rockId: 33,
+        rockId: 165,
         price: 0,
         size: '',
         rating: 0,
@@ -6025,7 +6025,7 @@ class Rock {
         uses:
             'Used in the building and construction industry, abrasive in cosmetic products, soil conditioner'),
     Rock(
-        rockId: 34,
+        rockId: 166,
         price: 0,
         size: '',
         rating: 0,
@@ -6062,7 +6062,7 @@ class Rock {
         uses:
             'Decorative stone, facing stone, paving stone, interior decorations, monuments, architectural elements'),
     Rock(
-        rockId: 35,
+        rockId: 167,
         price: 0,
         size: '',
         rating: 0,
@@ -6098,7 +6098,7 @@ class Rock {
         uses:
             'Construction, building materials, and decorative functions (countertops, floor tiles etc.)'),
     Rock(
-        rockId: 36,
+        rockId: 168,
         price: 0,
         size: '',
         rating: 0,
@@ -6135,7 +6135,7 @@ class Rock {
         uses:
             'Used in the construction industry, decorative rock, and sometimes used in spiritual practices similar to quartz.'),
     Rock(
-        rockId: 37,
+        rockId: 169,
         price: 0,
         size: '',
         rating: 0,
@@ -6171,7 +6171,7 @@ class Rock {
         uses:
             'Used in the construction industry for its strength and durability, and as a decorative stone in some architectural applications.'),
     Rock(
-        rockId: 38,
+        rockId: 170,
         price: 0,
         size: '',
         rating: 0,
@@ -6210,7 +6210,7 @@ class Rock {
         uses:
             'Primarily of interest to researchers, rockhounds, and collectors.'),
     Rock(
-        rockId: 39,
+        rockId: 171,
         price: 0,
         size: '',
         rating: 0,
@@ -6246,7 +6246,7 @@ class Rock {
         uses:
             'Due to its rarity, it is mainly used for research purposes and is not generally used commercially or industrially.'),
     Rock(
-        rockId: 40,
+        rockId: 172,
         price: 0,
         size: '',
         rating: 0,
@@ -6284,7 +6284,7 @@ class Rock {
         uses:
             'Sovite has been used in the production of concrete and ceramics, and as a source of niobium and other rare earth elements.'),
     Rock(
-        rockId: 41,
+        rockId: 173,
         price: 0,
         size: '',
         rating: 0,
@@ -6322,7 +6322,7 @@ class Rock {
         uses:
             'Most commonly studied in geology, volcanology and petrology. Also as interest for mineral collectors.'),
     Rock(
-        rockId: 42,
+        rockId: 174,
         price: 0,
         size: '',
         rating: 0,
@@ -6355,7 +6355,7 @@ class Rock {
         types: 'Based on mineral composition',
         uses: 'Limited to scientific and educational purposes'),
     Rock(
-        rockId: 43,
+        rockId: 175,
         price: 0,
         size: '',
         rating: 0,
@@ -6391,7 +6391,7 @@ class Rock {
         uses:
             'Mostly used in geology for the study of volcanic activity and mineralogy. Not commonly used for jewelry or decorative purposes.'),
     Rock(
-        rockId: 44,
+        rockId: 176,
         price: 0,
         size: '',
         rating: 0,
@@ -6426,7 +6426,7 @@ class Rock {
         uses:
             'Used as dimension stone and in aggregate for highway construction and general building.'),
     Rock(
-        rockId: 45,
+        rockId: 177,
         price: 0,
         size: '',
         rating: 0,
@@ -6461,7 +6461,7 @@ class Rock {
         uses:
             'Primarily of interest for geological study due to its unique formation process'),
     Rock(
-        rockId: 46,
+        rockId: 178,
         price: 0,
         size: '',
         rating: 0,
@@ -6498,7 +6498,7 @@ class Rock {
         uses:
             'Primarily for scientific study and classifications, not typically used in commercial applications'),
     Rock(
-        rockId: 47,
+        rockId: 179,
         price: 0,
         size: '',
         rating: 0,
@@ -6533,7 +6533,7 @@ class Rock {
         uses:
             'Used in construction or as a leveling agent, in aggregate, and for scientific study'),
     Rock(
-        rockId: 48,
+        rockId: 180,
         price: 0,
         size: '',
         rating: 0,
@@ -6569,7 +6569,7 @@ class Rock {
         uses:
             'Can be used in the making of stonework and in collection for geological study and interests. Also important in understanding volcanic activities and the history of the Earth crust.'),
     Rock(
-        rockId: 49,
+        rockId: 181,
         price: 0,
         size: '',
         rating: 0,
@@ -6603,7 +6603,7 @@ class Rock {
         types: 'Rhomb porphyry, Comendite, Pantellerite',
         uses: 'Carvings, decorative stone, and small indoor sculptures'),
     Rock(
-        rockId: 50,
+        rockId: 182,
         price: 0,
         size: '',
         rating: 0,
@@ -6639,7 +6639,7 @@ class Rock {
         uses:
             'Valuable for studying the Earth mantle, moon rocks, and meteorite samples. Also used in construction or sculpture due to its somewhat consistent mineral content and appearance.'),
     Rock(
-        rockId: 51,
+        rockId: 183,
         price: 0,
         size: '',
         rating: 0,
@@ -6675,7 +6675,7 @@ class Rock {
         uses:
             'Trondhjemite has limited commercial applications due to its rarity. It is sometimes used in construction, decorative stonework, or in geological studies.'),
     Rock(
-        rockId: 52,
+        rockId: 184,
         price: 0,
         size: '',
         rating: 0,
@@ -6711,7 +6711,7 @@ class Rock {
         types: 'Rhyolitic Tuff, Andesitic Tuff, Basaltic Tuff',
         uses: 'Building stones, aggregates, cement, and landscaping'),
     Rock(
-        rockId: 53,
+        rockId: 185,
         price: 0,
         size: '',
         rating: 0,
@@ -6746,7 +6746,7 @@ class Rock {
         types: 'Clinopyroxenite, Orthopyroxenite',
         uses: 'Scientific research, Geology'),
     Rock(
-        rockId: 54,
+        rockId: 186,
         price: 0,
         size: '',
         rating: 0,
@@ -6781,7 +6781,7 @@ class Rock {
         types: 'Based on the color variations and geological formation process',
         uses: 'Carving, construction, occasionally as a dimension stone'),
     Rock(
-        rockId: 55,
+        rockId: 187,
         price: 0,
         size: '',
         rating: 0,
@@ -6818,7 +6818,7 @@ class Rock {
         uses:
             'Construction aggregate, landscaping stones, occasionally in the manufacture of glass and ceramics'),
     Rock(
-        rockId: 56,
+        rockId: 188,
         price: 0,
         size: '',
         rating: 0,
@@ -6854,7 +6854,7 @@ class Rock {
         uses:
             'Iron ore for steel production, ornamental stone for architectural & landscape use'),
     Rock(
-        rockId: 57,
+        rockId: 189,
         price: 0,
         size: '',
         rating: 0,
@@ -6891,7 +6891,7 @@ class Rock {
         uses:
             'Often used as a building and sculptural material, as well as in the cement industry'),
     Rock(
-        rockId: 58,
+        rockId: 190,
         price: 0,
         size: '',
         rating: 0,
@@ -6926,7 +6926,7 @@ class Rock {
         types: 'Coquina Calcarenite, Packed Calcarenite, Granular Calcarenite',
         uses: 'Construction, road base, soil treatment, ornamental stone'),
     Rock(
-        rockId: 59,
+        rockId: 191,
         price: 0,
         size: '',
         rating: 0,
@@ -6961,7 +6961,7 @@ class Rock {
         uses:
             'Used in classrooms and industries. For crafting, to soak up oil spills on concrete, for temporary markings on various surfaces, and even by gymnasts, athletes and rock climbers for hand grip.'),
     Rock(
-        rockId: 60,
+        rockId: 192,
         price: 0,
         size: '',
         rating: 0,
@@ -6996,7 +6996,7 @@ class Rock {
         uses:
             'proxies for climate change and ocean chemistry, tools in prehistoric times, gemstones in jewelry'),
     Rock(
-        rockId: 61,
+        rockId: 193,
         price: 0,
         size: '',
         rating: 0,
@@ -7034,7 +7034,7 @@ class Rock {
         uses:
             'Commonly used in construction and manufacturing of bricks, pottery, ceramics. It is also used in the oil industry for drilling purposes and in science for geological studies.'),
     Rock(
-        rockId: 62,
+        rockId: 194,
         price: 0,
         size: '',
         rating: 0,
@@ -7069,7 +7069,7 @@ class Rock {
         uses:
             'Coquina is used in construction and as a substrate in roadbeds and driveways. It is also used in landscaping for decorative purposes.'),
     Rock(
-        rockId: 63,
+        rockId: 195,
         price: 0,
         size: '',
         rating: 0,
@@ -7105,7 +7105,7 @@ class Rock {
         uses:
             'Studying past glacial activity, rock gardens, rule-of-thumb for ancient glaciations'),
     Rock(
-        rockId: 64,
+        rockId: 196,
         price: 0,
         size: '',
         rating: 0,
@@ -7140,7 +7140,7 @@ class Rock {
         uses:
             'Used in industries as a filtration material, filler in paint and plastic, and as thermal insulator in buildings.'),
     Rock(
-        rockId: 65,
+        rockId: 197,
         price: 0,
         size: '',
         rating: 0,
@@ -7175,7 +7175,7 @@ class Rock {
         uses:
             'Industrial chemicals, fertilizers, construction materials, health and wellness'),
     Rock(
-        rockId: 66,
+        rockId: 198,
         price: 0,
         size: '',
         rating: 0,
@@ -7210,7 +7210,7 @@ class Rock {
         uses:
             'Flint has been used since antiquity for making tools and weapons, flint knapping, and as a fire starter. It is also often ground into a powder and used as an abrasive.'),
     Rock(
-        rockId: 67,
+        rockId: 199,
         price: 0,
         size: '',
         rating: 0,
@@ -7247,7 +7247,7 @@ class Rock {
         uses:
             'Greater portion of geyserite is maintained intact as a part of natural formations and geyser fields. However, it can also be used in jewelry and stone collections.'),
     Rock(
-        rockId: 68,
+        rockId: 200,
         price: 0,
         size: '',
         rating: 0,
@@ -7285,7 +7285,7 @@ class Rock {
         uses:
             'Used in the construction industry for building and roadmaking materials, and can also be found in some jewelry pieces.'),
     Rock(
-        rockId: 69,
+        rockId: 201,
         price: 0,
         size: '',
         rating: 0,
@@ -7319,7 +7319,7 @@ class Rock {
             'There are several types of gritstone named after the places they’re found e.g., Chatsworth Grit, Roaches Grit',
         uses: 'Building materials, grindstones, millstones, and glassmaking'),
     Rock(
-        rockId: 70,
+        rockId: 202,
         price: 0,
         size: '',
         rating: 0,
@@ -7357,7 +7357,7 @@ class Rock {
         uses:
             'Building materials (bricks, tiles, etc.), road fill, iron and aluminum extraction'),
     Rock(
-        rockId: 71,
+        rockId: 203,
         price: 0,
         size: '',
         rating: 0,
@@ -7391,7 +7391,7 @@ class Rock {
         types: 'Leonardite, Jet',
         uses: 'Electricity generation, manufacture of synthetic natural gas'),
     Rock(
-        rockId: 72,
+        rockId: 204,
         price: 0,
         size: '',
         rating: 0,
@@ -7427,7 +7427,7 @@ class Rock {
         uses:
             'Commonly used as a soil conditioner and a raw material in cement production. Also used in pottery and ceramics.'),
     Rock(
-        rockId: 73,
+        rockId: 205,
         price: 0,
         size: '',
         rating: 0,
@@ -7465,7 +7465,7 @@ class Rock {
         uses:
             'Mudstone is frequently used in the construction industry for making bricks, tiles, and cement. It is also used as a filler in the fertilizer industry and as a reservoir for oil and gas.'),
     Rock(
-        rockId: 74,
+        rockId: 206,
         price: 0,
         size: '',
         rating: 0,
@@ -7502,7 +7502,7 @@ class Rock {
         uses:
             'Primarily used as a fuel, heat and electricity generation and for producing synthetic crude oil. It is also used in cement and brick manufacture, soil amendment, and for chemical industries.'),
     Rock(
-        rockId: 75,
+        rockId: 207,
         price: 0,
         size: '',
         rating: 0,
@@ -7537,7 +7537,7 @@ class Rock {
         uses:
             'Building material, road construction, soil conditioning, source of lime for cement'),
     Rock(
-        rockId: 76,
+        rockId: 208,
         price: 0,
         size: '',
         rating: 0,
@@ -7573,7 +7573,7 @@ class Rock {
         uses:
             'Primarily used as a source of phosphorus for fertilizers, and can also be used in animal feed supplements, production of phosphoric acid and direct application to soil.'),
     Rock(
-        rockId: 77,
+        rockId: 209,
         price: 0,
         size: '',
         rating: 0,
@@ -7609,7 +7609,7 @@ class Rock {
         uses:
             'Building material, paving roads, glass making, raw material for ceramics, landscaping, water filtration systems'),
     Rock(
-        rockId: 78,
+        rockId: 210,
         price: 0,
         size: '',
         rating: 0,
@@ -7646,7 +7646,7 @@ class Rock {
         uses:
             'Often used in construction and industrial applications. In landscaping, it is used as ground cover or paving.'),
     Rock(
-        rockId: 79,
+        rockId: 211,
         price: 0,
         size: '',
         rating: 0,
@@ -7682,7 +7682,7 @@ class Rock {
         uses:
             'Some uses for siltstone include as a building material, in the production of ceramics, and in decorative features.'),
     Rock(
-        rockId: 80,
+        rockId: 212,
         price: 0,
         size: '',
         rating: 0,
@@ -7716,7 +7716,7 @@ class Rock {
         uses:
             'Mainly used in the production of fertilizers, also in medicinal products and chemical industry'),
     Rock(
-        rockId: 81,
+        rockId: 213,
         price: 0,
         size: '',
         rating: 0,
@@ -7752,7 +7752,7 @@ class Rock {
         uses:
             'Studies in geology, particularly in understanding past glacial activity.'),
     Rock(
-        rockId: 82,
+        rockId: 214,
         price: 0,
         size: '',
         rating: 0,
@@ -7788,7 +7788,7 @@ class Rock {
         uses:
             'Popular in flooring, roofing materials, countertops, patio pavers, and for constructing pools.'),
     Rock(
-        rockId: 83,
+        rockId: 215,
         price: 0,
         size: '',
         rating: 0,
@@ -7825,7 +7825,7 @@ class Rock {
         uses:
             'Used as a building material, ornamental stone in architecture, can be cut and polished for jewelry.'),
     Rock(
-        rockId: 84,
+        rockId: 216,
         price: 0,
         size: '',
         rating: 0,
@@ -7861,7 +7861,7 @@ class Rock {
         uses:
             'Used in construction, as building stones, and in production of lime mortar cement. It can also be used as a neutralizer of acids in the soil or water.'),
     Rock(
-        rockId: 85,
+        rockId: 217,
         price: 0,
         size: '',
         rating: 0,
@@ -7896,7 +7896,7 @@ class Rock {
         uses:
             'Residential heating, Industrial fuel, Water filtration, Making of steel'),
     Rock(
-        rockId: 86,
+        rockId: 218,
         price: 0,
         size: '',
         rating: 0,
@@ -7933,7 +7933,7 @@ class Rock {
         uses:
             'Primarily in geological studies and research. It may be a constituent of building stones.'),
     Rock(
-        rockId: 87,
+        rockId: 219,
         price: 0,
         size: '',
         rating: 0,
@@ -7968,7 +7968,7 @@ class Rock {
         uses:
             'Gemstones, ornamental stone, study of geologic subduction zones'),
     Rock(
-        rockId: 88,
+        rockId: 220,
         price: 0,
         size: '',
         rating: 0,
@@ -8005,7 +8005,7 @@ class Rock {
         uses:
             'Used to study the conditions of high-grade metamorphism and in understanding plate tectonics, sometimes used as decorative stone'),
     Rock(
-        rockId: 89,
+        rockId: 221,
         price: 0,
         size: '',
         rating: 0,
@@ -8043,7 +8043,7 @@ class Rock {
         uses:
             'Primarily used in landscaping and construction, as well as in some types of ceramic production'),
     Rock(
-        rockId: 90,
+        rockId: 222,
         price: 0,
         size: '',
         rating: 0,
@@ -8079,7 +8079,7 @@ class Rock {
         types: 'N/A',
         uses: 'Scientific research, specimen for rock collections'),
     Rock(
-        rockId: 91,
+        rockId: 223,
         price: 0,
         size: '',
         rating: 0,
@@ -8116,7 +8116,7 @@ class Rock {
         uses:
             'Construction material, sculpturing, building and decorations, creating monuments, paper industry, agriculture'),
     Rock(
-        rockId: 92,
+        rockId: 224,
         price: 0,
         size: '',
         rating: 0,
@@ -8154,7 +8154,7 @@ class Rock {
         uses:
             'Studying the Earth crust, as the layering can provide information about geological history. Can also be used in construction or as decorative stone.'),
     Rock(
-        rockId: 93,
+        rockId: 225,
         price: 0,
         size: '',
         rating: 0,
@@ -8192,7 +8192,7 @@ class Rock {
         uses:
             'Often used for studying geological history and processes, particularly those related to fault zones. Not typically used in construction or jewelry due to its fine-grained, fractured nature.'),
     Rock(
-        rockId: 94,
+        rockId: 226,
         price: 0,
         size: '',
         rating: 0,
@@ -8228,7 +8228,7 @@ class Rock {
         uses:
             'Primarily scientific - used in research about earthquakes and tectonic processes'),
     Rock(
-        rockId: 95,
+        rockId: 227,
         price: 0,
         size: '',
         rating: 0,
@@ -8265,7 +8265,7 @@ class Rock {
         uses:
             'Interior and exterior decoration, making of glass and ceramics, source of silica for metallurgical purposes, and for the manufacture of brick.'),
     Rock(
-        rockId: 96,
+        rockId: 228,
         price: 0,
         size: '',
         rating: 0,
@@ -8301,7 +8301,7 @@ class Rock {
         uses:
             'It is often used in construction and decorative applications because of its ability to be split into layers.'),
     Rock(
-        rockId: 97,
+        rockId: 229,
         price: 0,
         size: '',
         rating: 0,
@@ -8339,7 +8339,7 @@ class Rock {
         uses:
             'Roofing, Flooring, Landscaping, Making billiard tables and laboratory bench tops'),
     Rock(
-        rockId: 98,
+        rockId: 230,
         price: 0,
         size: '',
         rating: 0,
@@ -8375,7 +8375,7 @@ class Rock {
         uses:
             'Scientific research, particularly in studying impact events. Some types of suevite can also be cut and polished for decorative use'),
     Rock(
-        rockId: 99,
+        rockId: 231,
         price: 0,
         size: '',
         rating: 0,
@@ -8411,7 +8411,7 @@ class Rock {
         uses:
             'Used in cosmetics, ceramics, paint, paper, plastic, rubber, and many other industries'),
     Rock(
-        rockId: 100,
+        rockId: 232,
         price: 0,
         size: '',
         rating: 0,
@@ -8448,7 +8448,7 @@ class Rock {
         uses:
             'Building material, ornamental carvings, historical use in cooking pots, molds for metal casting, fireplaces and wood stoves due to its heat retention properties.'),
     Rock(
-        rockId: 101,
+        rockId: 233,
         price: 0,
         size: '',
         rating: 0,
@@ -8485,7 +8485,7 @@ class Rock {
         uses:
             'Tectonites are primarily studied in the field of geology and are not typically used for commercial or healing purposes'),
     Rock(
-        rockId: 102,
+        rockId: 234,
         price: 0,
         size: '',
         rating: 0,
@@ -8521,7 +8521,7 @@ class Rock {
         uses:
             'Due to its rarity, whiteschist is mostly appreciated in scientific settings. It can also be used in jewelry.'),
     Rock(
-        rockId: 103,
+        rockId: 235,
         price: 0,
         size: '',
         rating: 0,
@@ -8556,7 +8556,7 @@ class Rock {
         uses:
             'Adamellite is primarily used as a decorative stone, in applications such as countertops and architectural stone. It might be also found in landscape design due to its unique patterns and coloration.'),
     Rock(
-        rockId: 104,
+        rockId: 236,
         price: 0,
         size: '',
         rating: 0,
@@ -8591,7 +8591,7 @@ class Rock {
         uses:
             'Not typically used for commercial or healing purposes. Valuable for geological study.'),
     Rock(
-        rockId: 105,
+        rockId: 237,
         price: 0,
         size: '',
         rating: 0,
@@ -8625,7 +8625,7 @@ class Rock {
         types: 'Variations depend on the specific mineral composition',
         uses: 'Used in construction and as aggregate in concrete'),
     Rock(
-        rockId: 106,
+        rockId: 238,
         price: 0,
         size: '',
         rating: 0,
@@ -8660,7 +8660,7 @@ class Rock {
         uses:
             'Used in construction and decorative stonework such as building fronts, flooring, stairs, and countertops. Also popular in jewelry.'),
     Rock(
-        rockId: 107,
+        rockId: 239,
         price: 0,
         size: '',
         rating: 0,
@@ -8697,7 +8697,7 @@ class Rock {
         uses:
             'Felsite is used as aggregate in construction, as a source of alumina, and in the manufacture of ceramics and glass.'),
     Rock(
-        rockId: 108,
+        rockId: 240,
         price: 0,
         size: '',
         rating: 0,
@@ -8734,7 +8734,7 @@ class Rock {
         uses:
             'Flint has been used historically to make hand axes, scrapers, knives, and other tools. It is also used in flintlock firearms, building materials, and in some decorative pieces.'),
     Rock(
-        rockId: 109,
+        rockId: 241,
         price: 0,
         size: '',
         rating: 0,
@@ -8771,7 +8771,7 @@ class Rock {
         uses:
             'Primarily used for the manufacture of silica brick for industrial and high temperature applications'),
     Rock(
-        rockId: 110,
+        rockId: 242,
         price: 0,
         size: '',
         rating: 0,
@@ -8807,7 +8807,7 @@ class Rock {
         uses:
             'Gossan is valuable as it can indicate the presence of valuable metallic ore deposits beneath the surface. Used in prospecting and geological surveying.'),
     Rock(
-        rockId: 111,
+        rockId: 243,
         price: 0,
         size: '',
         rating: 0,
@@ -8843,7 +8843,7 @@ class Rock {
         uses:
             'Primarily scientific, for understanding volcanic and geologic phenomena'),
     Rock(
-        rockId: 112,
+        rockId: 244,
         price: 0,
         size: '',
         rating: 0,
@@ -8877,7 +8877,7 @@ class Rock {
         uses:
             'Primarily scientific - used to study the Earth mantle and in petrological studies'),
     Rock(
-        rockId: 113,
+        rockId: 245,
         price: 0,
         size: '',
         rating: 0,
@@ -8912,7 +8912,7 @@ class Rock {
         uses:
             'Countertops, building stone, ornamental stone, jewelry, energy work'),
     Rock(
-        rockId: 114,
+        rockId: 246,
         price: 0,
         size: '',
         rating: 0,
@@ -8947,7 +8947,7 @@ class Rock {
         types: '',
         uses: 'Because of its unique nature, it has mainly collector value.'),
     Rock(
-        rockId: 115,
+        rockId: 247,
         price: 0,
         size: '',
         rating: 0,
@@ -8983,7 +8983,7 @@ class Rock {
         uses:
             'Used as an ornamental stone, gemstone, healing stone and it is also used for decorative aggregates in the construction industry.'),
     Rock(
-        rockId: 116,
+        rockId: 248,
         price: 0,
         size: '',
         rating: 0,
@@ -9020,7 +9020,7 @@ class Rock {
         uses:
             'Used primarily as an ornamental stone. Its striking colors and pattern make it popular for use in architecture and interior design as well as for decorative items, countertops, and occasionally in jewelry.'),
     Rock(
-        rockId: 117,
+        rockId: 249,
         price: 0,
         size: '',
         rating: 0,
@@ -9056,7 +9056,7 @@ class Rock {
         uses:
             'Mangerite is primarily used for geological study or in collections. It may sometimes be used decoratively in building materials.'),
     Rock(
-        rockId: 118,
+        rockId: 250,
         price: 0,
         size: '',
         rating: 0,
@@ -9091,7 +9091,7 @@ class Rock {
         uses:
             'Pyrolite has no practical uses, but it is important in geophysics and geochemistry for understanding the Earth interior.'),
     Rock(
-        rockId: 119,
+        rockId: 251,
         price: 0,
         size: '',
         rating: 0,
@@ -9127,7 +9127,7 @@ class Rock {
         uses:
             'monument stone, dimension stone in construction, decorative stone in buildings'),
     Rock(
-        rockId: 120,
+        rockId: 252,
         price: 0,
         size: '',
         rating: 0,
@@ -9163,7 +9163,7 @@ class Rock {
         uses:
             'Rodingite is not typically used for any commercial or industrial purpose, but they are often collected and studied by geologists.'),
     Rock(
-        rockId: 121,
+        rockId: 253,
         price: 0,
         size: '',
         rating: 0,
@@ -9199,7 +9199,7 @@ class Rock {
         uses:
             'Primarily a collector stone. Can be used for research or education purposes.'),
     Rock(
-        rockId: 122,
+        rockId: 254,
         price: 0,
         size: '',
         rating: 0,
@@ -9236,7 +9236,7 @@ class Rock {
         uses:
             'Used as decorative stones, minor gemstones, and for scientific research in geology.'),
     Rock(
-        rockId: 123,
+        rockId: 255,
         price: 0,
         size: '',
         rating: 0,
@@ -9274,7 +9274,7 @@ class Rock {
         uses:
             'Used to make cabochons, tumbled Gems and ornamental items as well as spiritual healing'),
     Rock(
-        rockId: 124,
+        rockId: 256,
         price: 0,
         size: '',
         rating: 0,
@@ -9314,7 +9314,7 @@ class Rock {
     //end of redy gems 1
     //start of rocks
     Rock(
-      rockId: 1,
+      rockId: 257,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Adakite',
@@ -9346,7 +9346,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 2,
+      rockId: 258,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Andesite',
@@ -9378,7 +9378,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 3,
+      rockId: 259,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Alkali feldspar granite',
@@ -9411,7 +9411,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 4,
+      rockId: 260,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Anorthosite',
@@ -9444,7 +9444,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 5,
+      rockId: 261,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Aplite',
@@ -9477,7 +9477,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 6,
+      rockId: 262,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Basalt',
@@ -9510,7 +9510,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 8,
+      rockId: 263,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Pāhoehoe',
@@ -9543,7 +9543,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 9,
+      rockId: 264,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Basaltic trachyandesite',
@@ -9576,7 +9576,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 10,
+      rockId: 265,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Mugearite',
@@ -9608,7 +9608,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 11,
+      rockId: 266,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Shoshonite',
@@ -9641,7 +9641,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 12,
+      rockId: 267,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Basanite',
@@ -9673,7 +9673,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 13,
+      rockId: 268,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Blairmorite',
@@ -9705,7 +9705,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 14,
+      rockId: 269,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Boninite',
@@ -9738,7 +9738,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 15,
+      rockId: 270,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Carbonatite',
@@ -9771,7 +9771,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 16,
+      rockId: 271,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Charnockite',
@@ -9804,7 +9804,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 17,
+      rockId: 272,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Enderbite',
@@ -9836,7 +9836,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 18,
+      rockId: 273,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Dacite',
@@ -9869,7 +9869,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 19,
+      rockId: 274,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Diabase',
@@ -9901,7 +9901,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 20,
+      rockId: 275,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Diorite',
@@ -9934,7 +9934,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 21,
+      rockId: 276,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Napoleonite',
@@ -9967,7 +9967,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 22,
+      rockId: 277,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Dunite',
@@ -10000,7 +10000,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 23,
+      rockId: 278,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Essexite',
@@ -10032,7 +10032,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 24,
+      rockId: 279,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Foidolite',
@@ -10064,7 +10064,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 25,
+      rockId: 280,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Gabbro',
@@ -10096,7 +10096,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 26,
+      rockId: 281,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Granite',
@@ -10128,7 +10128,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 27,
+      rockId: 282,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Granodiorite',
@@ -10161,7 +10161,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 28,
+      rockId: 283,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Granophyre',
@@ -10194,7 +10194,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 29,
+      rockId: 284,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Harzburgite',
@@ -10226,7 +10226,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 30,
+      rockId: 285,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Hornblendite',
@@ -10259,7 +10259,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 31,
+      rockId: 286,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Hyaloclastite',
@@ -10291,7 +10291,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 32,
+      rockId: 287,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Icelandite',
@@ -10323,7 +10323,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 33,
+      rockId: 288,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Ignimbrite',
@@ -10355,7 +10355,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 34,
+      rockId: 289,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Ijolite',
@@ -10388,7 +10388,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 35,
+      rockId: 290,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Kimberlite',
@@ -10421,7 +10421,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 36,
+      rockId: 291,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Komatiite',
@@ -10453,7 +10453,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 37,
+      rockId: 292,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Lamproite',
@@ -10486,7 +10486,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 38,
+      rockId: 293,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Lamprophyre',
@@ -10519,7 +10519,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 39,
+      rockId: 294,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Latite',
@@ -10552,7 +10552,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 40,
+      rockId: 295,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Lherzolite',
@@ -10585,7 +10585,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 41,
+      rockId: 296,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Monzogranite',
@@ -10618,7 +10618,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 42,
+      rockId: 297,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Monzonite',
@@ -10651,7 +10651,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 43,
+      rockId: 298,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Nepheline syenite',
@@ -10684,7 +10684,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 44,
+      rockId: 299,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Nephelinite',
@@ -10717,7 +10717,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 45,
+      rockId: 300,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Norite',
@@ -10750,7 +10750,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 46,
+      rockId: 301,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Obsidian',
@@ -10782,7 +10782,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 47,
+      rockId: 302,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Pegmatite',
@@ -10815,7 +10815,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 48,
+      rockId: 303,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Peridotite',
@@ -10847,7 +10847,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 49,
+      rockId: 304,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Phonolite',
@@ -10880,7 +10880,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 50,
+      rockId: 305,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Phonotephrite',
@@ -10913,7 +10913,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 51,
+      rockId: 306,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Picrite',
@@ -10946,7 +10946,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 52,
+      rockId: 307,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Porphyry (geology)',
@@ -10979,7 +10979,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 53,
+      rockId: 308,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Pumice',
@@ -11011,7 +11011,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 54,
+      rockId: 309,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Pyroxenite',
@@ -11044,7 +11044,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 55,
+      rockId: 310,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Quartz diorite',
@@ -11077,7 +11077,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 56,
+      rockId: 311,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Quartz monzonite',
@@ -11110,7 +11110,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 57,
+      rockId: 312,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Quartzolite',
@@ -11143,7 +11143,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 58,
+      rockId: 313,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Rhyodacite',
@@ -11176,7 +11176,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 59,
+      rockId: 314,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Rhyolite',
@@ -11209,7 +11209,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 60,
+      rockId: 315,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Comendite',
@@ -11242,7 +11242,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 61,
+      rockId: 316,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Pantellerite',
@@ -11274,7 +11274,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 62,
+      rockId: 317,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Scoria',
@@ -11306,7 +11306,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 63,
+      rockId: 318,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Shonkinite',
@@ -11338,7 +11338,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 64,
+      rockId: 319,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Sovite',
@@ -11370,7 +11370,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 65,
+      rockId: 320,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Syenite',
@@ -11403,7 +11403,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 66,
+      rockId: 321,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Tachylyte',
@@ -11436,7 +11436,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 67,
+      rockId: 322,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Tephriphonolite',
@@ -11469,7 +11469,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 68,
+      rockId: 323,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Tephrite',
@@ -11502,7 +11502,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 69,
+      rockId: 324,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Tonalite',
@@ -11534,7 +11534,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 70,
+      rockId: 325,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Trachyandesite',
@@ -11567,7 +11567,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 71,
+      rockId: 326,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Benmoreite',
@@ -11599,7 +11599,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 72,
+      rockId: 327,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Trachybasalt',
@@ -11632,7 +11632,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 73,
+      rockId: 328,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Hawaiite',
@@ -11665,7 +11665,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 74,
+      rockId: 329,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Trachyte',
@@ -11698,7 +11698,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 75,
+      rockId: 330,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Troctolite',
@@ -11731,7 +11731,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 76,
+      rockId: 331,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Trondhjemite',
@@ -11764,7 +11764,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 77,
+      rockId: 332,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Tuff',
@@ -11796,7 +11796,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 78,
+      rockId: 333,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Websterite',
@@ -11829,7 +11829,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 79,
+      rockId: 334,
       price: 0,
       category: 'Igneous rocks',
       rockName: 'Wehrlite',
@@ -11862,7 +11862,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 80,
+      rockId: 335,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Argillite',
@@ -11895,7 +11895,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 81,
+      rockId: 336,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Arkose',
@@ -11928,7 +11928,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 82,
+      rockId: 337,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Banded iron formation',
@@ -11961,7 +11961,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 83,
+      rockId: 338,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Breccia',
@@ -11993,7 +11993,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 84,
+      rockId: 339,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Calcarenite',
@@ -12026,7 +12026,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 85,
+      rockId: 340,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Chalk',
@@ -12058,7 +12058,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 86,
+      rockId: 341,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Chert',
@@ -12091,7 +12091,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 87,
+      rockId: 342,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Claystone',
@@ -12124,7 +12124,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 88,
+      rockId: 343,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Coal',
@@ -12157,7 +12157,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 89,
+      rockId: 344,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Conglomerate (geology)',
@@ -12190,7 +12190,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 90,
+      rockId: 345,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Coquina',
@@ -12223,7 +12223,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 91,
+      rockId: 346,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Diamictite',
@@ -12255,7 +12255,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 92,
+      rockId: 347,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Diatomite',
@@ -12288,7 +12288,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 93,
+      rockId: 348,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Dolomite (rock)',
@@ -12321,7 +12321,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 94,
+      rockId: 349,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Evaporite',
@@ -12354,7 +12354,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 95,
+      rockId: 350,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Flint',
@@ -12386,7 +12386,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 96,
+      rockId: 351,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Geyserite',
@@ -12419,7 +12419,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 97,
+      rockId: 352,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Greywacke',
@@ -12452,7 +12452,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 98,
+      rockId: 353,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Gritstone',
@@ -12484,7 +12484,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 99,
+      rockId: 354,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Itacolumite',
@@ -12516,7 +12516,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 100,
+      rockId: 355,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Jaspillite',
@@ -12548,7 +12548,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 101,
+      rockId: 356,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Laterite',
@@ -12581,7 +12581,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 102,
+      rockId: 357,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Lignite',
@@ -12613,7 +12613,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 103,
+      rockId: 358,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Limestone',
@@ -12645,7 +12645,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 104,
+      rockId: 359,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Marl',
@@ -12678,7 +12678,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 105,
+      rockId: 360,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Mudstone',
@@ -12711,7 +12711,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 106,
+      rockId: 361,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Oil shale',
@@ -12744,7 +12744,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 107,
+      rockId: 362,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Oolite',
@@ -12776,7 +12776,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 108,
+      rockId: 363,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Phosphorite',
@@ -12809,7 +12809,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 109,
+      rockId: 364,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Sandstone',
@@ -12841,7 +12841,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 110,
+      rockId: 365,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Shale',
@@ -12873,7 +12873,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 111,
+      rockId: 366,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Siltstone',
@@ -12906,7 +12906,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 112,
+      rockId: 367,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Sylvinite',
@@ -12939,7 +12939,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 113,
+      rockId: 368,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Tillite',
@@ -12972,7 +12972,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 114,
+      rockId: 369,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Travertine',
@@ -13005,7 +13005,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 115,
+      rockId: 370,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Tufa',
@@ -13038,7 +13038,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 116,
+      rockId: 371,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Turbidite',
@@ -13070,7 +13070,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 117,
+      rockId: 372,
       price: 0,
       category: 'Sedimentary rocks',
       rockName: 'Wackestone',
@@ -13103,7 +13103,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 118,
+      rockId: 373,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Anthracite',
@@ -13135,7 +13135,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 119,
+      rockId: 374,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Amphibolite',
@@ -13167,7 +13167,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 120,
+      rockId: 375,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Blueschist',
@@ -13199,7 +13199,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 121,
+      rockId: 376,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Cataclasite',
@@ -13232,7 +13232,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 122,
+      rockId: 377,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Eclogite',
@@ -13264,7 +13264,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 123,
+      rockId: 378,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Gneiss',
@@ -13296,7 +13296,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 124,
+      rockId: 379,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Granulite',
@@ -13329,7 +13329,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 125,
+      rockId: 380,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Greenschist',
@@ -13362,7 +13362,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 126,
+      rockId: 381,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Hornfels',
@@ -13395,7 +13395,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 127,
+      rockId: 382,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Calcflinta',
@@ -13428,7 +13428,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 128,
+      rockId: 383,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Litchfieldite',
@@ -13460,7 +13460,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 129,
+      rockId: 384,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Marble',
@@ -13493,7 +13493,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 130,
+      rockId: 385,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Migmatite',
@@ -13525,7 +13525,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 131,
+      rockId: 386,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Mylonite',
@@ -13558,7 +13558,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 132,
+      rockId: 387,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Metapelite',
@@ -13591,7 +13591,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 133,
+      rockId: 388,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Protolith',
@@ -13624,7 +13624,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 134,
+      rockId: 389,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Phyllite',
@@ -13657,7 +13657,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 135,
+      rockId: 390,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Pseudotachylite',
@@ -13690,7 +13690,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 136,
+      rockId: 391,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Quartzite',
@@ -13723,7 +13723,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 137,
+      rockId: 392,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Schist',
@@ -13755,7 +13755,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 138,
+      rockId: 393,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Serpentinite',
@@ -13788,7 +13788,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 139,
+      rockId: 394,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Skarn',
@@ -13821,7 +13821,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 140,
+      rockId: 395,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Slate',
@@ -13854,7 +13854,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 141,
+      rockId: 396,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Suevite',
@@ -13887,7 +13887,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 142,
+      rockId: 397,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Talc carbonate',
@@ -13920,7 +13920,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 143,
+      rockId: 398,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Soapstone',
@@ -13953,7 +13953,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 144,
+      rockId: 399,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Tectonite',
@@ -13986,7 +13986,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 145,
+      rockId: 400,
       price: 0,
       category: 'Metamorphic rocks',
       rockName: 'Whiteschist',
@@ -14019,7 +14019,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 146,
+      rockId: 401,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Adamellite',
@@ -14052,7 +14052,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 147,
+      rockId: 402,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Appinite',
@@ -14085,7 +14085,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 148,
+      rockId: 403,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Aphanite',
@@ -14118,7 +14118,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 149,
+      rockId: 404,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Borolanite',
@@ -14151,7 +14151,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 150,
+      rockId: 405,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Larvikite',
@@ -14183,7 +14183,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 151,
+      rockId: 406,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Epidosite',
@@ -14216,7 +14216,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 152,
+      rockId: 407,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Felsite',
@@ -14249,7 +14249,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 153,
+      rockId: 408,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Flint',
@@ -14281,7 +14281,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 154,
+      rockId: 409,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Ganister',
@@ -14314,7 +14314,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 155,
+      rockId: 410,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Gossan',
@@ -14346,7 +14346,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 156,
+      rockId: 411,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Hyaloclastite',
@@ -14378,7 +14378,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 157,
+      rockId: 412,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Ijolite',
@@ -14411,7 +14411,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 158,
+      rockId: 413,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Jadeitite',
@@ -14444,7 +14444,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 159,
+      rockId: 414,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Jasperoid',
@@ -14477,7 +14477,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 160,
+      rockId: 415,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Kenyte',
@@ -14510,7 +14510,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 161,
+      rockId: 416,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Lapis lazuli',
@@ -14543,7 +14543,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 162,
+      rockId: 417,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Larvikite',
@@ -14575,7 +14575,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 163,
+      rockId: 418,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Litchfieldite',
@@ -14608,7 +14608,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 164,
+      rockId: 419,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Llanite',
@@ -14641,7 +14641,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 165,
+      rockId: 420,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Luxullianite',
@@ -14673,7 +14673,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 166,
+      rockId: 421,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Mangerite',
@@ -14706,7 +14706,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 167,
+      rockId: 422,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Lamprophyre',
@@ -14738,7 +14738,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 168,
+      rockId: 423,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Novaculite',
@@ -14771,7 +14771,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 169,
+      rockId: 424,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Pietersite',
@@ -14803,7 +14803,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 170,
+      rockId: 425,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Pyrolite',
@@ -14836,7 +14836,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 171,
+      rockId: 426,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Rapakivi granite',
@@ -14868,7 +14868,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 172,
+      rockId: 427,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Rhomb porphyry',
@@ -14901,7 +14901,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 173,
+      rockId: 428,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Rodingite',
@@ -14934,7 +14934,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 174,
+      rockId: 429,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Shonkinite',
@@ -14967,7 +14967,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 175,
+      rockId: 430,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Taconite',
@@ -14999,7 +14999,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 176,
+      rockId: 431,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Tachylite',
@@ -15031,7 +15031,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 177,
+      rockId: 432,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Teschenite',
@@ -15064,7 +15064,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 178,
+      rockId: 433,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Theralite',
@@ -15096,7 +15096,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 179,
+      rockId: 434,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Unakite',
@@ -15129,7 +15129,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 180,
+      rockId: 435,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Variolite',
@@ -15161,7 +15161,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 181,
+      rockId: 436,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Lamprophyre',
@@ -15194,7 +15194,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 182,
+      rockId: 437,
       price: 0,
       category: 'Specific varieties',
       rockName: 'Wad (mineral)',
@@ -15229,7 +15229,7 @@ class Rock {
     //end of rocks
     //start of gems
     Rock(
-      rockId: 1,
+      rockId: 438,
       price: 0,
       category: 'mineral',
       rockName: 'Actinolite',
@@ -15261,7 +15261,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 2,
+      rockId: 439,
       price: 0,
       category: 'mineral',
       rockName: 'Nephrite',
@@ -15293,7 +15293,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 3,
+      rockId: 440,
       price: 0,
       category: 'mineral',
       rockName: 'Adamite',
@@ -15325,7 +15325,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 4,
+      rockId: 441,
       price: 0,
       category: 'mineral',
       rockName: 'Aegirine',
@@ -15357,7 +15357,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 5,
+      rockId: 442,
       price: 0,
       category: 'mineral',
       rockName: 'Afghanite',
@@ -15389,7 +15389,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 6,
+      rockId: 443,
       price: 0,
       category: 'mineral',
       rockName: 'Agrellite',
@@ -15421,7 +15421,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 7,
+      rockId: 444,
       price: 0,
       category: 'mineral',
       rockName: 'Algodonite',
@@ -15453,7 +15453,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 8,
+      rockId: 445,
       price: 0,
       category: 'mineral',
       rockName: 'Alunite',
@@ -15485,7 +15485,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 9,
+      rockId: 446,
       price: 0,
       category: 'mineral',
       rockName: 'Amblygonite',
@@ -15517,7 +15517,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 10,
+      rockId: 447,
       price: 0,
       category: 'mineral',
       rockName: 'Analcime',
@@ -15549,7 +15549,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 11,
+      rockId: 448,
       price: 0,
       category: 'mineral',
       rockName: 'Anatase',
@@ -15581,7 +15581,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 12,
+      rockId: 449,
       price: 0,
       category: 'mineral',
       rockName: 'Andalusite',
@@ -15613,7 +15613,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 13,
+      rockId: 450,
       price: 0,
       category: 'mineral',
       rockName: 'Chiastolite',
@@ -15645,7 +15645,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 14,
+      rockId: 451,
       price: 0,
       category: 'mineral',
       rockName: 'Andesine',
@@ -15677,7 +15677,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 15,
+      rockId: 452,
       price: 0,
       category: 'mineral',
       rockName: 'Anglesite',
@@ -15709,7 +15709,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 16,
+      rockId: 453,
       price: 0,
       category: 'mineral',
       rockName: 'Anhydrite',
@@ -15741,7 +15741,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 17,
+      rockId: 454,
       price: 0,
       category: 'mineral',
       rockName: 'Annabergite',
@@ -15773,7 +15773,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 18,
+      rockId: 455,
       price: 0,
       category: 'mineral',
       rockName: 'Anorthite',
@@ -15805,7 +15805,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 19,
+      rockId: 456,
       price: 0,
       category: 'mineral',
       rockName: 'Antigorite',
@@ -15837,7 +15837,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 20,
+      rockId: 457,
       price: 0,
       category: 'mineral',
       rockName: 'Bowenite',
@@ -15869,7 +15869,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 21,
+      rockId: 458,
       price: 0,
       category: 'mineral',
       rockName: 'Apatite',
@@ -15901,7 +15901,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 22,
+      rockId: 459,
       price: 0,
       category: 'mineral',
       rockName: 'Apophyllite',
@@ -15933,7 +15933,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 23,
+      rockId: 460,
       price: 0,
       category: 'mineral',
       rockName: 'Aragonite',
@@ -15965,7 +15965,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 24,
+      rockId: 461,
       price: 0,
       category: 'mineral',
       rockName: 'Arfvedsonite',
@@ -15997,7 +15997,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 25,
+      rockId: 462,
       price: 0,
       category: 'mineral',
       rockName: 'Asbestos',
@@ -16029,7 +16029,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 26,
+      rockId: 463,
       price: 0,
       category: 'mineral',
       rockName: 'Astrophyllite',
@@ -16061,7 +16061,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 27,
+      rockId: 464,
       price: 0,
       category: 'mineral',
       rockName: 'Atacamite',
@@ -16093,7 +16093,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 28,
+      rockId: 465,
       price: 0,
       category: 'mineral',
       rockName: 'Augelite',
@@ -16125,7 +16125,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 29,
+      rockId: 466,
       price: 0,
       category: 'mineral',
       rockName: 'Austinite',
@@ -16157,7 +16157,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 30,
+      rockId: 467,
       price: 0,
       category: 'mineral',
       rockName: 'Axinite',
@@ -16190,7 +16190,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 31,
+      rockId: 468,
       price: 0,
       category: 'mineral',
       rockName: 'Ferroaxinite',
@@ -16222,7 +16222,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 32,
+      rockId: 469,
       price: 0,
       category: 'mineral',
       rockName: 'Magnesioaxinite',
@@ -16254,7 +16254,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 33,
+      rockId: 470,
       price: 0,
       category: 'mineral',
       rockName: 'Manganaxinite',
@@ -16286,7 +16286,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 34,
+      rockId: 471,
       price: 0,
       category: 'mineral',
       rockName: 'Tinzenite',
@@ -16318,7 +16318,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 35,
+      rockId: 472,
       price: 0,
       category: 'mineral',
       rockName: 'Azurmalachite',
@@ -16350,7 +16350,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 36,
+      rockId: 473,
       price: 0,
       category: 'mineral',
       rockName: 'Azurite',
@@ -16382,7 +16382,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 37,
+      rockId: 474,
       price: 0,
       category: 'mineral',
       rockName: 'Baryte',
@@ -16414,7 +16414,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 38,
+      rockId: 475,
       price: 0,
       category: 'mineral',
       rockName: 'Bastnaesite',
@@ -16446,7 +16446,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 39,
+      rockId: 476,
       price: 0,
       category: 'mineral',
       rockName: 'Bayldonite',
@@ -16478,7 +16478,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 40,
+      rockId: 477,
       price: 0,
       category: 'mineral',
       rockName: 'Benitoite',
@@ -16510,7 +16510,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 41,
+      rockId: 478,
       price: 0,
       category: 'mineral',
       rockName: 'Beryl',
@@ -16543,7 +16543,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 42,
+      rockId: 479,
       price: 0,
       category: 'mineral',
       rockName: 'Aquamarine (gem)',
@@ -16575,7 +16575,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 43,
+      rockId: 480,
       price: 0,
       category: 'mineral',
       rockName: 'Maxixe (gemstone)',
@@ -16607,7 +16607,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 44,
+      rockId: 481,
       price: 0,
       category: 'mineral',
       rockName: 'Emerald',
@@ -16639,7 +16639,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 45,
+      rockId: 482,
       price: 0,
       category: 'mineral',
       rockName: 'Goshenite (gem)',
@@ -16671,7 +16671,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 46,
+      rockId: 483,
       price: 0,
       category: 'mineral',
       rockName: 'Golden beryl',
@@ -16703,7 +16703,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 47,
+      rockId: 484,
       price: 0,
       category: 'mineral',
       rockName: 'Heliodor',
@@ -16735,7 +16735,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 48,
+      rockId: 485,
       price: 0,
       category: 'mineral',
       rockName: 'Morganite (gem)',
@@ -16767,7 +16767,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 49,
+      rockId: 486,
       price: 0,
       category: 'mineral',
       rockName: 'Red beryl',
@@ -16799,7 +16799,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 50,
+      rockId: 487,
       price: 0,
       category: 'mineral',
       rockName: 'Beryllonite',
@@ -16831,7 +16831,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 51,
+      rockId: 488,
       price: 0,
       category: 'mineral',
       rockName: 'Beudantite',
@@ -16863,7 +16863,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 52,
+      rockId: 489,
       price: 0,
       category: 'mineral',
       rockName: 'Bismutotantalite (page does not exist)',
@@ -16895,7 +16895,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 53,
+      rockId: 490,
       price: 0,
       category: 'mineral',
       rockName: 'Biotite',
@@ -16927,7 +16927,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 54,
+      rockId: 491,
       price: 0,
       category: 'mineral',
       rockName: 'Boleite',
@@ -16959,7 +16959,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 55,
+      rockId: 492,
       price: 0,
       category: 'mineral',
       rockName: 'Boracite',
@@ -16991,7 +16991,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 56,
+      rockId: 493,
       price: 0,
       category: 'mineral',
       rockName: 'Bornite',
@@ -17023,7 +17023,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 57,
+      rockId: 494,
       price: 0,
       category: 'mineral',
       rockName: 'Brazilianite',
@@ -17055,7 +17055,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 58,
+      rockId: 495,
       price: 0,
       category: 'mineral',
       rockName: 'Breithauptite',
@@ -17087,7 +17087,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 59,
+      rockId: 496,
       price: 0,
       category: 'mineral',
       rockName: 'Brookite',
@@ -17119,7 +17119,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 60,
+      rockId: 497,
       price: 0,
       category: 'mineral',
       rockName: 'Brucite',
@@ -17151,7 +17151,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 61,
+      rockId: 498,
       price: 0,
       category: 'mineral',
       rockName: 'Bustamite',
@@ -17183,7 +17183,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 62,
+      rockId: 499,
       price: 0,
       category: 'mineral',
       rockName: 'Bytownite',
@@ -17215,7 +17215,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 63,
+      rockId: 500,
       price: 0,
       category: 'mineral',
       rockName: 'Alexandrite',
@@ -17247,7 +17247,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 64,
+      rockId: 501,
       price: 0,
       category: 'mineral',
       rockName: 'Corundum',
@@ -17279,7 +17279,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 65,
+      rockId: 502,
       price: 0,
       category: 'mineral',
       rockName: 'Cubic zirconia',
@@ -17311,7 +17311,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 66,
+      rockId: 503,
       price: 0,
       category: 'mineral',
       rockName: 'Diamond',
@@ -17343,7 +17343,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 67,
+      rockId: 504,
       price: 0,
       category: 'mineral',
       rockName: 'Emerald',
@@ -17375,7 +17375,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 68,
+      rockId: 505,
       price: 0,
       category: 'mineral',
       rockName: 'Fordite',
@@ -17407,7 +17407,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 69,
+      rockId: 506,
       price: 0,
       category: 'mineral',
       rockName: 'Gadolinium gallium garnet',
@@ -17439,7 +17439,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 70,
+      rockId: 507,
       price: 0,
       category: 'mineral',
       rockName: 'Moissanite',
@@ -17471,7 +17471,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 71,
+      rockId: 508,
       price: 0,
       category: 'mineral',
       rockName: 'Opal',
@@ -17503,7 +17503,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 72,
+      rockId: 509,
       price: 0,
       category: 'mineral',
       rockName: 'Metal-coated crystal',
@@ -17535,7 +17535,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 73,
+      rockId: 510,
       price: 0,
       category: 'mineral',
       rockName: 'Spinel',
@@ -17567,7 +17567,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 74,
+      rockId: 511,
       price: 0,
       category: 'mineral',
       rockName: 'Turquoise',
@@ -17599,7 +17599,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 75,
+      rockId: 512,
       price: 0,
       category: 'mineral',
       rockName: 'Terbium gallium garnet',
@@ -17631,7 +17631,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 76,
+      rockId: 513,
       price: 0,
       category: 'mineral',
       rockName: 'Trinitite',
@@ -17663,7 +17663,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 77,
+      rockId: 514,
       price: 0,
       category: 'mineral',
       rockName: 'Yttrium aluminium garnet',
@@ -17695,7 +17695,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 78,
+      rockId: 515,
       price: 0,
       category: 'mineral',
       rockName: 'Yttrium iron garnet',
@@ -17727,7 +17727,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 79,
+      rockId: 516,
       price: 0,
       category: 'mineral',
       rockName: 'Amber',
@@ -17759,7 +17759,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 80,
+      rockId: 517,
       price: 0,
       category: 'mineral',
       rockName: 'Ammolite',
@@ -17791,7 +17791,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 81,
+      rockId: 518,
       price: 0,
       category: 'mineral',
       rockName: 'Ammonoidea',
@@ -17823,7 +17823,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 82,
+      rockId: 519,
       price: 0,
       category: 'mineral',
       rockName: 'Bone',
@@ -17855,7 +17855,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 83,
+      rockId: 520,
       price: 0,
       category: 'mineral',
       rockName: 'Copal',
@@ -17887,7 +17887,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 84,
+      rockId: 521,
       price: 0,
       category: 'mineral',
       rockName: 'Coral (precious)',
@@ -17919,7 +17919,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 85,
+      rockId: 522,
       price: 0,
       category: 'mineral',
       rockName: 'Ivory',
@@ -17951,7 +17951,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 86,
+      rockId: 523,
       price: 0,
       category: 'mineral',
       rockName: 'Jet (lignite)',
@@ -17983,7 +17983,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 87,
+      rockId: 524,
       price: 0,
       category: 'mineral',
       rockName: 'Nacre',
@@ -18015,7 +18015,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 88,
+      rockId: 525,
       price: 0,
       category: 'mineral',
       rockName: 'Operculum (gastropod)',
@@ -18047,7 +18047,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 89,
+      rockId: 526,
       price: 0,
       category: 'mineral',
       rockName: 'Pearl',
@@ -18079,7 +18079,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 90,
+      rockId: 527,
       price: 0,
       category: 'mineral',
       rockName: 'Seashell',
@@ -18111,7 +18111,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 91,
+      rockId: 528,
       price: 0,
       category: 'mineral',
       rockName: 'Anthracite',
@@ -18143,7 +18143,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 92,
+      rockId: 529,
       price: 0,
       category: 'mineral',
       rockName: 'Anyolite',
@@ -18175,7 +18175,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 93,
+      rockId: 530,
       price: 0,
       category: 'mineral',
       rockName: 'Bauxite',
@@ -18207,7 +18207,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 94,
+      rockId: 531,
       price: 0,
       category: 'mineral',
       rockName: 'Concretion',
@@ -18239,7 +18239,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 95,
+      rockId: 532,
       price: 0,
       category: 'mineral',
       rockName: 'Heliotrope (mineral)',
@@ -18271,7 +18271,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 96,
+      rockId: 533,
       price: 0,
       category: 'mineral',
       rockName: 'Eilat stone',
@@ -18303,7 +18303,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 97,
+      rockId: 534,
       price: 0,
       category: 'mineral',
       rockName: 'Epidosite',
@@ -18335,7 +18335,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 98,
+      rockId: 535,
       price: 0,
       category: 'mineral',
       rockName: 'Glimmerite',
@@ -18367,7 +18367,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 99,
+      rockId: 536,
       price: 0,
       category: 'mineral',
       rockName: 'Goldstone (glass)',
@@ -18399,7 +18399,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 100,
+      rockId: 537,
       price: 0,
       category: 'mineral',
       rockName: 'Hawk is eye',
@@ -18431,7 +18431,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 101,
+      rockId: 538,
       price: 0,
       category: 'mineral',
       rockName: 'Helenite',
@@ -18463,7 +18463,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 102,
+      rockId: 539,
       price: 0,
       category: 'mineral',
       rockName: 'Iddingsite',
@@ -18495,7 +18495,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 103,
+      rockId: 540,
       price: 0,
       category: 'mineral',
       rockName: 'Kimberlite',
@@ -18527,7 +18527,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 104,
+      rockId: 541,
       price: 0,
       category: 'mineral',
       rockName: 'Lamproite',
@@ -18559,7 +18559,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 105,
+      rockId: 542,
       price: 0,
       category: 'mineral',
       rockName: 'Lapis lazuli',
@@ -18591,7 +18591,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 106,
+      rockId: 543,
       price: 0,
       category: 'mineral',
       rockName: 'Libyan desert glass',
@@ -18623,7 +18623,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 107,
+      rockId: 544,
       price: 0,
       category: 'mineral',
       rockName: 'Llanite',
@@ -18655,7 +18655,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 108,
+      rockId: 545,
       price: 0,
       category: 'mineral',
       rockName: 'Maw sit sit',
@@ -18687,7 +18687,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 109,
+      rockId: 546,
       price: 0,
       category: 'mineral',
       rockName: 'Moldavite',
@@ -18719,7 +18719,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 110,
+      rockId: 547,
       price: 0,
       category: 'mineral',
       rockName: 'Obsidian',
@@ -18751,7 +18751,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 111,
+      rockId: 548,
       price: 0,
       category: 'mineral',
       rockName: 'Apache tears',
@@ -18783,7 +18783,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 112,
+      rockId: 549,
       price: 0,
       category: 'mineral',
       rockName: 'Pallasite',
@@ -18815,7 +18815,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 113,
+      rockId: 550,
       price: 0,
       category: 'mineral',
       rockName: 'Peridotite',
@@ -18847,7 +18847,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 114,
+      rockId: 551,
       price: 0,
       category: 'mineral',
       rockName: 'Siilinjärvi carbonatite',
@@ -18879,7 +18879,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 115,
+      rockId: 552,
       price: 0,
       category: 'mineral',
       rockName: 'Soapstone',
@@ -18911,7 +18911,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 116,
+      rockId: 553,
       price: 0,
       category: 'mineral',
       rockName: 'Tactite',
@@ -18943,7 +18943,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 117,
+      rockId: 554,
       price: 0,
       category: 'mineral',
       rockName: 'Tiger is eye',
@@ -18975,7 +18975,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 118,
+      rockId: 555,
       price: 0,
       category: 'mineral',
       rockName: 'Unakite',
@@ -19007,7 +19007,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 119,
+      rockId: 556,
       price: 0,
       category: 'mineral',
       rockName: 'Actinolite',
@@ -19039,7 +19039,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 120,
+      rockId: 557,
       price: 0,
       category: 'mineral',
       rockName: 'Andalusite',
@@ -19071,7 +19071,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 121,
+      rockId: 558,
       price: 0,
       category: 'mineral',
       rockName: 'Apatite',
@@ -19103,7 +19103,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 122,
+      rockId: 559,
       price: 0,
       category: 'mineral',
       rockName: 'Beryl',
@@ -19135,7 +19135,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 123,
+      rockId: 560,
       price: 0,
       category: 'mineral',
       rockName: 'Aquamarine (gemstone)',
@@ -19167,7 +19167,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 124,
+      rockId: 561,
       price: 0,
       category: 'mineral',
       rockName: 'Emerald',
@@ -19199,7 +19199,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 125,
+      rockId: 562,
       price: 0,
       category: 'mineral',
       rockName: 'Heliodor',
@@ -19231,7 +19231,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 126,
+      rockId: 563,
       price: 0,
       category: 'mineral',
       rockName: 'Morganite',
@@ -19263,7 +19263,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 127,
+      rockId: 564,
       price: 0,
       category: 'mineral',
       rockName: 'Beryllium',
@@ -19295,7 +19295,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 128,
+      rockId: 565,
       price: 0,
       category: 'mineral',
       rockName: 'Beryllonite',
@@ -19327,7 +19327,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 129,
+      rockId: 566,
       price: 0,
       category: 'mineral',
       rockName: 'Calcite',
@@ -19359,7 +19359,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 130,
+      rockId: 567,
       price: 0,
       category: 'mineral',
       rockName: 'Cerussite',
@@ -19391,7 +19391,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 131,
+      rockId: 568,
       price: 0,
       category: 'mineral',
       rockName: 'Chrysoberyl',
@@ -19423,7 +19423,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 132,
+      rockId: 569,
       price: 0,
       category: 'mineral',
       rockName: 'Danburite',
@@ -19455,7 +19455,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 133,
+      rockId: 570,
       price: 0,
       category: 'mineral',
       rockName: 'Diaspore',
@@ -19487,7 +19487,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 134,
+      rockId: 571,
       price: 0,
       category: 'mineral',
       rockName: 'Diopside',
@@ -19519,7 +19519,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 135,
+      rockId: 572,
       price: 0,
       category: 'mineral',
       rockName: 'Enstatite',
@@ -19551,7 +19551,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 136,
+      rockId: 573,
       price: 0,
       category: 'mineral',
       rockName: 'Garnet',
@@ -19583,7 +19583,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 137,
+      rockId: 574,
       price: 0,
       category: 'mineral',
       rockName: 'Grandidierite',
@@ -19615,7 +19615,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 138,
+      rockId: 575,
       price: 0,
       category: 'mineral',
       rockName: 'Hawk is eye',
@@ -19647,7 +19647,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 139,
+      rockId: 576,
       price: 0,
       category: 'mineral',
       rockName: 'Hypersthene',
@@ -19679,7 +19679,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 140,
+      rockId: 577,
       price: 0,
       category: 'mineral',
       rockName: 'Iolite',
@@ -19711,7 +19711,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 141,
+      rockId: 578,
       price: 0,
       category: 'mineral',
       rockName: 'Kornerupine',
@@ -19743,7 +19743,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 142,
+      rockId: 579,
       price: 0,
       category: 'mineral',
       rockName: 'Kunzite',
@@ -19775,7 +19775,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 143,
+      rockId: 580,
       price: 0,
       category: 'mineral',
       rockName: 'Kyanite',
@@ -19807,7 +19807,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 144,
+      rockId: 581,
       price: 0,
       category: 'mineral',
       rockName: 'Moonstone (gemstone)',
@@ -19839,7 +19839,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 145,
+      rockId: 582,
       price: 0,
       category: 'mineral',
       rockName: 'Opal',
@@ -19871,7 +19871,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 146,
+      rockId: 583,
       price: 0,
       category: 'mineral',
       rockName: 'Peridot',
@@ -19903,7 +19903,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 147,
+      rockId: 584,
       price: 0,
       category: 'mineral',
       rockName: 'Peristerite (page does not exist)',
@@ -19935,7 +19935,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 148,
+      rockId: 585,
       price: 0,
       category: 'mineral',
       rockName: 'Pezzottaite',
@@ -19967,7 +19967,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 149,
+      rockId: 586,
       price: 0,
       category: 'mineral',
       rockName: 'Phenakite',
@@ -19999,7 +19999,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 150,
+      rockId: 587,
       price: 0,
       category: 'mineral',
       rockName: 'Prasiolite',
@@ -20031,7 +20031,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 151,
+      rockId: 588,
       price: 0,
       category: 'mineral',
       rockName: 'Prehnite',
@@ -20063,7 +20063,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 152,
+      rockId: 589,
       price: 0,
       category: 'mineral',
       rockName: 'Quartz',
@@ -20095,7 +20095,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 153,
+      rockId: 590,
       price: 0,
       category: 'mineral',
       rockName: 'Rhodonite',
@@ -20127,7 +20127,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 154,
+      rockId: 591,
       price: 0,
       category: 'mineral',
       rockName: 'Rutile',
@@ -20159,7 +20159,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 155,
+      rockId: 592,
       price: 0,
       category: 'mineral',
       rockName: 'Scapolite',
@@ -20191,7 +20191,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 156,
+      rockId: 593,
       price: 0,
       category: 'mineral',
       rockName: 'Selenite (mineral)',
@@ -20223,7 +20223,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 157,
+      rockId: 594,
       price: 0,
       category: 'mineral',
       rockName: 'Serpentine subgroup',
@@ -20255,7 +20255,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 158,
+      rockId: 595,
       price: 0,
       category: 'mineral',
       rockName: 'Antigorite',
@@ -20287,7 +20287,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 159,
+      rockId: 596,
       price: 0,
       category: 'mineral',
       rockName: 'Bowenite',
@@ -20319,7 +20319,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 160,
+      rockId: 597,
       price: 0,
       category: 'mineral',
       rockName: 'Sillimanite',
@@ -20351,7 +20351,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 161,
+      rockId: 598,
       price: 0,
       category: 'mineral',
       rockName: 'Smoky Quartz',
@@ -20383,7 +20383,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 162,
+      rockId: 599,
       price: 0,
       category: 'mineral',
       rockName: 'Spinel',
@@ -20415,7 +20415,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 163,
+      rockId: 600,
       price: 0,
       category: 'mineral',
       rockName: 'Sunstone',
@@ -20447,7 +20447,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 164,
+      rockId: 601,
       price: 0,
       category: 'mineral',
       rockName: 'Tanzanite',
@@ -20479,7 +20479,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 165,
+      rockId: 602,
       price: 0,
       category: 'mineral',
       rockName: 'Tiger is Eye',
@@ -20511,7 +20511,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 166,
+      rockId: 603,
       price: 0,
       category: 'mineral',
       rockName: 'Topaz',
@@ -20543,7 +20543,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 167,
+      rockId: 604,
       price: 0,
       category: 'mineral',
       rockName: 'Tourmaline',
@@ -20575,7 +20575,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 168,
+      rockId: 605,
       price: 0,
       category: 'mineral',
       rockName: 'Ulexite',
@@ -20607,7 +20607,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 169,
+      rockId: 606,
       price: 0,
       category: 'mineral',
       rockName: 'Zircon',
@@ -20639,7 +20639,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 170,
+      rockId: 607,
       price: 0,
       category: 'mineral',
       rockName: 'Corundum',
@@ -20671,7 +20671,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 171,
+      rockId: 608,
       price: 0,
       category: 'mineral',
       rockName: 'Ruby',
@@ -20703,7 +20703,7 @@ class Rock {
       uses: '',
     ),
     Rock(
-      rockId: 172,
+      rockId: 609,
       price: 0,
       category: 'mineral',
       rockName: 'Sapphire',
@@ -20736,7 +20736,7 @@ class Rock {
     ),
     //end of gems
     Rock(
-        rockId: 128,
+        rockId: 610,
         price: 0,
         size: '',
         rating: 0,
@@ -20772,7 +20772,7 @@ class Rock {
         uses:
             'Primarily used for geological research and study, not typically used in jewelry or industrial applications'),
     Rock(
-        rockId: 129,
+        rockId: 611,
         price: 0,
         size: '',
         rating: 0,
@@ -20810,7 +20810,7 @@ class Rock {
         uses:
             'Construction materials, landscaping, aggregates, and in the production of lightweight aggregates.'),
     Rock(
-        rockId: 130,
+        rockId: 612,
         price: 0,
         size: '',
         rating: 0,
@@ -20846,7 +20846,7 @@ class Rock {
         uses:
             'Used in the production of aluminum, as aggregate in construction, and for both scientific and gemological purposes'),
     Rock(
-        rockId: 131,
+        rockId: 613,
         price: 0,
         size: '',
         rating: 0,
@@ -20881,7 +20881,7 @@ class Rock {
         uses:
             'Used as a decorative stone and in the manufacturing of ceramic tiles, porcelain, and glass.'),
     Rock(
-        rockId: 132,
+        rockId: 614,
         price: 0,
         size: '',
         rating: 0,
@@ -20918,7 +20918,7 @@ class Rock {
         uses:
             'Construction materials, floor tiles, cobblestones, stone wool insulation, explored as a means of removing carbon dioxide to combat climate change'),
     Rock(
-        rockId: 133,
+        rockId: 615,
         price: 0,
         size: '',
         rating: 0,
@@ -20953,7 +20953,7 @@ class Rock {
         uses:
             'As aggregate for construction, road-building, and in the production of concrete and asphalt.'),
     Rock(
-        rockId: 134,
+        rockId: 616,
         price: 0,
         size: '',
         rating: 0,
@@ -20990,7 +20990,7 @@ class Rock {
         uses:
             'Primarily of interest in geological study or as a piece in a rock collection. Not typically used in commercial or industrial applications.'),
     Rock(
-        rockId: 135,
+        rockId: 617,
         price: 0,
         size: '',
         rating: 0,
@@ -21026,7 +21026,7 @@ class Rock {
             'There are not specific types of shoshonite, but it is a type of basaltic rock.',
         uses: 'Collecting, geological studies, potentially in construction'),
     Rock(
-        rockId: 136,
+        rockId: 618,
         price: 0,
         size: '',
         rating: 0,
@@ -21063,7 +21063,7 @@ class Rock {
         uses:
             'Primarily for academic and research purposes in geology as its formation provides insight into subduction processes.'),
     Rock(
-        rockId: 137,
+        rockId: 619,
         price: 0,
         size: '',
         rating: 0,
@@ -21102,7 +21102,7 @@ class Rock {
         uses:
             'Carbonatites are important sources of niobium, a metal used in producing superalloys and special types of steel.'),
     Rock(
-        rockId: 138,
+        rockId: 620,
         price: 0,
         size: '',
         rating: 0,
@@ -21138,7 +21138,7 @@ class Rock {
         uses:
             'Building material, ornamental stone, components for cement production, scientific geological studies'),
     Rock(
-        rockId: 139,
+        rockId: 621,
         price: 0,
         size: '',
         rating: 0,
@@ -21177,7 +21177,7 @@ class Rock {
         uses:
             'Research and educational purposes in geology; rarely, decorative stone.'),
     Rock(
-        rockId: 140,
+        rockId: 622,
         price: 0,
         size: '',
         rating: 0,
@@ -21213,7 +21213,7 @@ class Rock {
         uses:
             'Used as crushed stone for construction aggregate, concrete, and asphalt aggregate. Also used as dimension stone, cobblestones, and stone sculptures.'),
     Rock(
-        rockId: 141,
+        rockId: 623,
         price: 0,
         size: '',
         rating: 0,
@@ -21251,7 +21251,7 @@ class Rock {
         uses:
             'Building material, decorative stone, paving, facing of buildings'),
     Rock(
-        rockId: 142,
+        rockId: 624,
         price: 0,
         size: '',
         rating: 0,
@@ -21287,7 +21287,7 @@ class Rock {
         uses:
             'Used in construction and for decorative architectural features due to its aesthetic appeal and durability.'),
     Rock(
-        rockId: 143,
+        rockId: 625,
         price: 0,
         size: '',
         rating: 0,
@@ -21321,7 +21321,7 @@ class Rock {
         uses:
             'Dimension stones, flooring tiles, cemetery markers, kitchen countertops'),
     Rock(
-        rockId: 144,
+        rockId: 626,
         price: 0,
         size: '',
         rating: 0,
@@ -21356,7 +21356,7 @@ class Rock {
         uses:
             'Building material, ornamental stone, aggregate in the construction industry'),
     Rock(
-        rockId: 145,
+        rockId: 627,
         price: 0,
         size: '',
         rating: 0,
@@ -21393,7 +21393,7 @@ class Rock {
         uses:
             'Primarily of interest for geological study. Its distinct micrographic texture can help in understanding crystallization processes in igneous rocks rather than for direct use.'),
     Rock(
-        rockId: 146,
+        rockId: 628,
         price: 0,
         size: '',
         rating: 0,
@@ -21430,7 +21430,7 @@ class Rock {
         uses:
             'Its significance lies in its contribution to our understanding of Earth mantle and plate tectonics.'),
     Rock(
-        rockId: 147,
+        rockId: 629,
         price: 0,
         size: '',
         rating: 0,
@@ -21469,7 +21469,7 @@ class Rock {
         uses:
             'Hornblendite has limited applicable uses due to its rarity; mostly of geological interest'),
     Rock(
-        rockId: 148,
+        rockId: 630,
         price: 0,
         size: '',
         rating: 0,
@@ -21504,7 +21504,7 @@ class Rock {
         types: 'Predominantly homogenous type',
         uses: 'Aggregate, building stone, as a mineral specimen'),
     Rock(
-        rockId: 149,
+        rockId: 631,
         price: 0,
         size: '',
         rating: 0,
@@ -21541,7 +21541,7 @@ class Rock {
         uses:
             'Used as a building material and in the extraction of precious minerals'),
     Rock(
-        rockId: 150,
+        rockId: 632,
         price: 0,
         size: '',
         rating: 0,
@@ -21575,7 +21575,7 @@ class Rock {
         types: 'N/A',
         uses: 'Scientific study, mineral collections due to its rarity'),
     Rock(
-        rockId: 151,
+        rockId: 633,
         price: 0,
         size: '',
         rating: 0,
@@ -21612,7 +21612,7 @@ class Rock {
         uses:
             'Primarily of interest for scientific study, some types (like serpentinite) used for decorative stonework'),
     Rock(
-        rockId: 152,
+        rockId: 634,
         price: 0,
         size: '',
         rating: 0,
@@ -21649,7 +21649,7 @@ class Rock {
         uses:
             'Economic geology, study of partial melting, and magma evolution'),
     Rock(
-        rockId: 153,
+        rockId: 635,
         price: 0,
         size: '',
         rating: 0,
@@ -21684,7 +21684,7 @@ class Rock {
         types: 'Not known for variations',
         uses: 'Used in construction and as a decorative stone.'),
     Rock(
-        rockId: 154,
+        rockId: 636,
         price: 0,
         size: '',
         rating: 0,
@@ -21722,7 +21722,7 @@ class Rock {
         uses:
             'Used as a construction material, architectural stone, for monuments and in the manufacturing of various products like ceramics and glass'),
     Rock(
-        rockId: 155,
+        rockId: 637,
         price: 0,
         size: '',
         rating: 0,
@@ -21758,7 +21758,7 @@ class Rock {
         uses:
             'Used in construction for things such as building and decorative stones owing to its aesthetic appeal and stability'),
     Rock(
-        rockId: 156,
+        rockId: 638,
         price: 0,
         size: '',
         rating: 0,
@@ -21794,7 +21794,7 @@ class Rock {
         uses:
             'Primarily used in ceramics to lower the melting temperature of the mixture, also used in manufacturing glass and dinnerware'),
     Rock(
-        rockId: 157,
+        rockId: 639,
         price: 0,
         size: '',
         rating: 0,
@@ -21832,7 +21832,7 @@ class Rock {
         uses:
             'Construction material, ornamental stones, aggregate, and can also be used in certain industrial processes.'),
     Rock(
-        rockId: 158,
+        rockId: 640,
         price: 0,
         size: '',
         rating: 0,
@@ -21865,7 +21865,7 @@ class Rock {
         uses:
             'Used in construction and decor due to its hardness and color range'),
     Rock(
-        rockId: 159,
+        rockId: 641,
         price: 0,
         size: '',
         rating: 0,
@@ -21900,7 +21900,7 @@ class Rock {
         types: 'Feldspar Porphyry, Quartz Porphyry',
         uses: 'Landscaping, Sculpture, Architectural stone, Crushed stone'),
     Rock(
-        rockId: 160,
+        rockId: 642,
         price: 0,
         size: '',
         rating: 0,
@@ -21937,7 +21937,7 @@ class Rock {
         uses:
             'Used in the building and construction industry, abrasive in cosmetic products, soil conditioner'),
     Rock(
-        rockId: 161,
+        rockId: 643,
         price: 0,
         size: '',
         rating: 0,
@@ -21974,7 +21974,7 @@ class Rock {
         uses:
             'Decorative stone, facing stone, paving stone, interior decorations, monuments, architectural elements'),
     Rock(
-        rockId: 162,
+        rockId: 644,
         price: 0,
         size: '',
         rating: 0,
@@ -22010,7 +22010,7 @@ class Rock {
         uses:
             'Construction, building materials, and decorative functions (countertops, floor tiles etc.)'),
     Rock(
-        rockId: 163,
+        rockId: 645,
         price: 0,
         size: '',
         rating: 0,
@@ -22047,7 +22047,7 @@ class Rock {
         uses:
             'Used in the construction industry, decorative rock, and sometimes used in spiritual practices similar to quartz.'),
     Rock(
-        rockId: 164,
+        rockId: 646,
         price: 0,
         size: '',
         rating: 0,
@@ -22083,7 +22083,7 @@ class Rock {
         uses:
             'Used in the construction industry for its strength and durability, and as a decorative stone in some architectural applications.'),
     Rock(
-        rockId: 165,
+        rockId: 647,
         price: 0,
         size: '',
         rating: 0,
@@ -22122,7 +22122,7 @@ class Rock {
         uses:
             'Primarily of interest to researchers, rockhounds, and collectors.'),
     Rock(
-        rockId: 166,
+        rockId: 648,
         price: 0,
         size: '',
         rating: 0,
@@ -22158,7 +22158,7 @@ class Rock {
         uses:
             'Due to its rarity, it is mainly used for research purposes and is not generally used commercially or industrially.'),
     Rock(
-        rockId: 167,
+        rockId: 649,
         price: 0,
         size: '',
         rating: 0,
@@ -22196,7 +22196,7 @@ class Rock {
         uses:
             'Sovite has been used in the production of concrete and ceramics, and as a source of niobium and other rare earth elements.'),
     Rock(
-        rockId: 168,
+        rockId: 650,
         price: 0,
         size: '',
         rating: 0,
@@ -22234,7 +22234,7 @@ class Rock {
         uses:
             'Most commonly studied in geology, volcanology and petrology. Also as interest for mineral collectors.'),
     Rock(
-        rockId: 169,
+        rockId: 651,
         price: 0,
         size: '',
         rating: 0,
@@ -22267,7 +22267,7 @@ class Rock {
         types: 'Based on mineral composition',
         uses: 'Limited to scientific and educational purposes'),
     Rock(
-        rockId: 170,
+        rockId: 652,
         price: 0,
         size: '',
         rating: 0,
@@ -22303,7 +22303,7 @@ class Rock {
         uses:
             'Mostly used in geology for the study of volcanic activity and mineralogy. Not commonly used for jewelry or decorative purposes.'),
     Rock(
-        rockId: 171,
+        rockId: 653,
         price: 0,
         size: '',
         rating: 0,
@@ -22338,7 +22338,7 @@ class Rock {
         uses:
             'Used as dimension stone and in aggregate for highway construction and general building.'),
     Rock(
-        rockId: 172,
+        rockId: 654,
         price: 0,
         size: '',
         rating: 0,
@@ -22373,7 +22373,7 @@ class Rock {
         uses:
             'Primarily of interest for geological study due to its unique formation process'),
     Rock(
-        rockId: 173,
+        rockId: 655,
         price: 0,
         size: '',
         rating: 0,
@@ -22410,7 +22410,7 @@ class Rock {
         uses:
             'Primarily for scientific study and classifications, not typically used in commercial applications'),
     Rock(
-        rockId: 174,
+        rockId: 656,
         price: 0,
         size: '',
         rating: 0,
@@ -22445,7 +22445,7 @@ class Rock {
         uses:
             'Used in construction or as a leveling agent, in aggregate, and for scientific study'),
     Rock(
-        rockId: 175,
+        rockId: 657,
         price: 0,
         size: '',
         rating: 0,
@@ -22481,7 +22481,7 @@ class Rock {
         uses:
             'Can be used in the making of stonework and in collection for geological study and interests. Also important in understanding volcanic activities and the history of the Earth crust.'),
     Rock(
-        rockId: 176,
+        rockId: 658,
         price: 0,
         size: '',
         rating: 0,
@@ -22515,7 +22515,7 @@ class Rock {
         types: 'Rhomb porphyry, Comendite, Pantellerite',
         uses: 'Carvings, decorative stone, and small indoor sculptures'),
     Rock(
-        rockId: 177,
+        rockId: 659,
         price: 0,
         size: '',
         rating: 0,
@@ -22551,7 +22551,7 @@ class Rock {
         uses:
             'Valuable for studying the Earth mantle, moon rocks, and meteorite samples. Also used in construction or sculpture due to its somewhat consistent mineral content and appearance.'),
     Rock(
-        rockId: 178,
+        rockId: 660,
         price: 0,
         size: '',
         rating: 0,
@@ -22587,7 +22587,7 @@ class Rock {
         uses:
             'Trondhjemite has limited commercial applications due to its rarity. It is sometimes used in construction, decorative stonework, or in geological studies.'),
     Rock(
-        rockId: 179,
+        rockId: 661,
         price: 0,
         size: '',
         rating: 0,
@@ -22623,7 +22623,7 @@ class Rock {
         types: 'Rhyolitic Tuff, Andesitic Tuff, Basaltic Tuff',
         uses: 'Building stones, aggregates, cement, and landscaping'),
     Rock(
-        rockId: 180,
+        rockId: 662,
         price: 0,
         size: '',
         rating: 0,
@@ -22658,7 +22658,7 @@ class Rock {
         types: 'Clinopyroxenite, Orthopyroxenite',
         uses: 'Scientific research, Geology'),
     Rock(
-        rockId: 181,
+        rockId: 663,
         price: 0,
         size: '',
         rating: 0,
@@ -22693,7 +22693,7 @@ class Rock {
         types: 'Based on the color variations and geological formation process',
         uses: 'Carving, construction, occasionally as a dimension stone'),
     Rock(
-        rockId: 182,
+        rockId: 664,
         price: 0,
         size: '',
         rating: 0,
@@ -22730,7 +22730,7 @@ class Rock {
         uses:
             'Construction aggregate, landscaping stones, occasionally in the manufacture of glass and ceramics'),
     Rock(
-        rockId: 183,
+        rockId: 665,
         price: 0,
         size: '',
         rating: 0,
@@ -22766,7 +22766,7 @@ class Rock {
         uses:
             'Iron ore for steel production, ornamental stone for architectural & landscape use'),
     Rock(
-        rockId: 184,
+        rockId: 666,
         price: 0,
         size: '',
         rating: 0,
@@ -22803,7 +22803,7 @@ class Rock {
         uses:
             'Often used as a building and sculptural material, as well as in the cement industry'),
     Rock(
-        rockId: 185,
+        rockId: 667,
         price: 0,
         size: '',
         rating: 0,
@@ -22838,7 +22838,7 @@ class Rock {
         types: 'Coquina Calcarenite, Packed Calcarenite, Granular Calcarenite',
         uses: 'Construction, road base, soil treatment, ornamental stone'),
     Rock(
-        rockId: 186,
+        rockId: 668,
         price: 0,
         size: '',
         rating: 0,
@@ -22873,7 +22873,7 @@ class Rock {
         uses:
             'Used in classrooms and industries. For crafting, to soak up oil spills on concrete, for temporary markings on various surfaces, and even by gymnasts, athletes and rock climbers for hand grip.'),
     Rock(
-        rockId: 187,
+        rockId: 669,
         price: 0,
         size: '',
         rating: 0,
@@ -22908,7 +22908,7 @@ class Rock {
         uses:
             'proxies for climate change and ocean chemistry, tools in prehistoric times, gemstones in jewelry'),
     Rock(
-        rockId: 188,
+        rockId: 670,
         price: 0,
         size: '',
         rating: 0,
@@ -22946,7 +22946,7 @@ class Rock {
         uses:
             'Commonly used in construction and manufacturing of bricks, pottery, ceramics. It is also used in the oil industry for drilling purposes and in science for geological studies.'),
     Rock(
-        rockId: 189,
+        rockId: 671,
         price: 0,
         size: '',
         rating: 0,
@@ -22981,7 +22981,7 @@ class Rock {
         uses:
             'Coquina is used in construction and as a substrate in roadbeds and driveways. It is also used in landscaping for decorative purposes.'),
     Rock(
-        rockId: 190,
+        rockId: 672,
         price: 0,
         size: '',
         rating: 0,
@@ -23017,7 +23017,7 @@ class Rock {
         uses:
             'Studying past glacial activity, rock gardens, rule-of-thumb for ancient glaciations'),
     Rock(
-        rockId: 191,
+        rockId: 673,
         price: 0,
         size: '',
         rating: 0,
@@ -23052,7 +23052,7 @@ class Rock {
         uses:
             'Used in industries as a filtration material, filler in paint and plastic, and as thermal insulator in buildings.'),
     Rock(
-        rockId: 192,
+        rockId: 674,
         price: 0,
         size: '',
         rating: 0,
@@ -23087,7 +23087,7 @@ class Rock {
         uses:
             'Industrial chemicals, fertilizers, construction materials, health and wellness'),
     Rock(
-        rockId: 193,
+        rockId: 675,
         price: 0,
         size: '',
         rating: 0,
@@ -23122,7 +23122,7 @@ class Rock {
         uses:
             'Flint has been used since antiquity for making tools and weapons, flint knapping, and as a fire starter. It is also often ground into a powder and used as an abrasive.'),
     Rock(
-        rockId: 194,
+        rockId: 676,
         price: 0,
         size: '',
         rating: 0,
@@ -23159,7 +23159,7 @@ class Rock {
         uses:
             'Greater portion of geyserite is maintained intact as a part of natural formations and geyser fields. However, it can also be used in jewelry and stone collections.'),
     Rock(
-        rockId: 195,
+        rockId: 677,
         price: 0,
         size: '',
         rating: 0,
@@ -23197,7 +23197,7 @@ class Rock {
         uses:
             'Used in the construction industry for building and roadmaking materials, and can also be found in some jewelry pieces.'),
     Rock(
-        rockId: 196,
+        rockId: 678,
         price: 0,
         size: '',
         rating: 0,
@@ -23231,7 +23231,7 @@ class Rock {
             'There are several types of gritstone named after the places they’re found e.g., Chatsworth Grit, Roaches Grit',
         uses: 'Building materials, grindstones, millstones, and glassmaking'),
     Rock(
-        rockId: 197,
+        rockId: 679,
         price: 0,
         size: '',
         rating: 0,
@@ -23269,7 +23269,7 @@ class Rock {
         uses:
             'Building materials (bricks, tiles, etc.), road fill, iron and aluminum extraction'),
     Rock(
-        rockId: 198,
+        rockId: 680,
         price: 0,
         size: '',
         rating: 0,
@@ -23303,7 +23303,7 @@ class Rock {
         types: 'Leonardite, Jet',
         uses: 'Electricity generation, manufacture of synthetic natural gas'),
     Rock(
-        rockId: 199,
+        rockId: 681,
         price: 0,
         size: '',
         rating: 0,
@@ -23339,7 +23339,7 @@ class Rock {
         uses:
             'Commonly used as a soil conditioner and a raw material in cement production. Also used in pottery and ceramics.'),
     Rock(
-        rockId: 200,
+        rockId: 682,
         price: 0,
         size: '',
         rating: 0,
@@ -23377,7 +23377,7 @@ class Rock {
         uses:
             'Mudstone is frequently used in the construction industry for making bricks, tiles, and cement. It is also used as a filler in the fertilizer industry and as a reservoir for oil and gas.'),
     Rock(
-        rockId: 201,
+        rockId: 683,
         price: 0,
         size: '',
         rating: 0,
@@ -23414,7 +23414,7 @@ class Rock {
         uses:
             'Primarily used as a fuel, heat and electricity generation and for producing synthetic crude oil. It is also used in cement and brick manufacture, soil amendment, and for chemical industries.'),
     Rock(
-        rockId: 202,
+        rockId: 684,
         price: 0,
         size: '',
         rating: 0,
@@ -23449,7 +23449,7 @@ class Rock {
         uses:
             'Building material, road construction, soil conditioning, source of lime for cement'),
     Rock(
-        rockId: 203,
+        rockId: 685,
         price: 0,
         size: '',
         rating: 0,
@@ -23485,7 +23485,7 @@ class Rock {
         uses:
             'Primarily used as a source of phosphorus for fertilizers, and can also be used in animal feed supplements, production of phosphoric acid and direct application to soil.'),
     Rock(
-        rockId: 204,
+        rockId: 686,
         price: 0,
         size: '',
         rating: 0,
@@ -23521,7 +23521,7 @@ class Rock {
         uses:
             'Building material, paving roads, glass making, raw material for ceramics, landscaping, water filtration systems'),
     Rock(
-        rockId: 205,
+        rockId: 687,
         price: 0,
         size: '',
         rating: 0,
@@ -23558,7 +23558,7 @@ class Rock {
         uses:
             'Often used in construction and industrial applications. In landscaping, it is used as ground cover or paving.'),
     Rock(
-        rockId: 206,
+        rockId: 688,
         price: 0,
         size: '',
         rating: 0,
@@ -23594,7 +23594,7 @@ class Rock {
         uses:
             'Some uses for siltstone include as a building material, in the production of ceramics, and in decorative features.'),
     Rock(
-        rockId: 207,
+        rockId: 689,
         price: 0,
         size: '',
         rating: 0,
@@ -23628,7 +23628,7 @@ class Rock {
         uses:
             'Mainly used in the production of fertilizers, also in medicinal products and chemical industry'),
     Rock(
-        rockId: 208,
+        rockId: 690,
         price: 0,
         size: '',
         rating: 0,
@@ -23664,7 +23664,7 @@ class Rock {
         uses:
             'Studies in geology, particularly in understanding past glacial activity.'),
     Rock(
-        rockId: 209,
+        rockId: 691,
         price: 0,
         size: '',
         rating: 0,
@@ -23700,7 +23700,7 @@ class Rock {
         uses:
             'Popular in flooring, roofing materials, countertops, patio pavers, and for constructing pools.'),
     Rock(
-        rockId: 210,
+        rockId: 692,
         price: 0,
         size: '',
         rating: 0,
@@ -23737,7 +23737,7 @@ class Rock {
         uses:
             'Used as a building material, ornamental stone in architecture, can be cut and polished for jewelry.'),
     Rock(
-        rockId: 211,
+        rockId: 693,
         price: 0,
         size: '',
         rating: 0,
@@ -23773,7 +23773,7 @@ class Rock {
         uses:
             'Used in construction, as building stones, and in production of lime mortar cement. It can also be used as a neutralizer of acids in the soil or water.'),
     Rock(
-        rockId: 212,
+        rockId: 694,
         price: 0,
         size: '',
         rating: 0,
@@ -23808,7 +23808,7 @@ class Rock {
         uses:
             'Residential heating, Industrial fuel, Water filtration, Making of steel'),
     Rock(
-        rockId: 213,
+        rockId: 695,
         price: 0,
         size: '',
         rating: 0,
@@ -23845,7 +23845,7 @@ class Rock {
         uses:
             'Primarily in geological studies and research. It may be a constituent of building stones.'),
     Rock(
-        rockId: 214,
+        rockId: 696,
         price: 0,
         size: '',
         rating: 0,
@@ -23880,7 +23880,7 @@ class Rock {
         uses:
             'Gemstones, ornamental stone, study of geologic subduction zones'),
     Rock(
-        rockId: 215,
+        rockId: 697,
         price: 0,
         size: '',
         rating: 0,
@@ -23917,7 +23917,7 @@ class Rock {
         uses:
             'Used to study the conditions of high-grade metamorphism and in understanding plate tectonics, sometimes used as decorative stone'),
     Rock(
-        rockId: 216,
+        rockId: 698,
         price: 0,
         size: '',
         rating: 0,
@@ -23955,7 +23955,7 @@ class Rock {
         uses:
             'Primarily used in landscaping and construction, as well as in some types of ceramic production'),
     Rock(
-        rockId: 217,
+        rockId: 699,
         price: 0,
         size: '',
         rating: 0,
@@ -23991,7 +23991,7 @@ class Rock {
         types: 'N/A',
         uses: 'Scientific research, specimen for rock collections'),
     Rock(
-        rockId: 218,
+        rockId: 700,
         price: 0,
         size: '',
         rating: 0,
@@ -24028,7 +24028,7 @@ class Rock {
         uses:
             'Construction material, sculpturing, building and decorations, creating monuments, paper industry, agriculture'),
     Rock(
-        rockId: 219,
+        rockId: 701,
         price: 0,
         size: '',
         rating: 0,
@@ -24066,7 +24066,7 @@ class Rock {
         uses:
             'Studying the Earth crust, as the layering can provide information about geological history. Can also be used in construction or as decorative stone.'),
     Rock(
-        rockId: 220,
+        rockId: 702,
         price: 0,
         size: '',
         rating: 0,
@@ -24104,7 +24104,7 @@ class Rock {
         uses:
             'Often used for studying geological history and processes, particularly those related to fault zones. Not typically used in construction or jewelry due to its fine-grained, fractured nature.'),
     Rock(
-        rockId: 221,
+        rockId: 703,
         price: 0,
         size: '',
         rating: 0,
@@ -24140,7 +24140,7 @@ class Rock {
         uses:
             'Primarily scientific - used in research about earthquakes and tectonic processes'),
     Rock(
-        rockId: 222,
+        rockId: 704,
         price: 0,
         size: '',
         rating: 0,
@@ -24177,7 +24177,7 @@ class Rock {
         uses:
             'Interior and exterior decoration, making of glass and ceramics, source of silica for metallurgical purposes, and for the manufacture of brick.'),
     Rock(
-        rockId: 223,
+        rockId: 705,
         price: 0,
         size: '',
         rating: 0,
@@ -24213,7 +24213,7 @@ class Rock {
         uses:
             'It is often used in construction and decorative applications because of its ability to be split into layers.'),
     Rock(
-        rockId: 224,
+        rockId: 706,
         price: 0,
         size: '',
         rating: 0,
@@ -24251,7 +24251,7 @@ class Rock {
         uses:
             'Roofing, Flooring, Landscaping, Making billiard tables and laboratory bench tops'),
     Rock(
-        rockId: 225,
+        rockId: 707,
         price: 0,
         size: '',
         rating: 0,
@@ -24287,7 +24287,7 @@ class Rock {
         uses:
             'Scientific research, particularly in studying impact events. Some types of suevite can also be cut and polished for decorative use'),
     Rock(
-        rockId: 226,
+        rockId: 708,
         price: 0,
         size: '',
         rating: 0,
@@ -24323,7 +24323,7 @@ class Rock {
         uses:
             'Used in cosmetics, ceramics, paint, paper, plastic, rubber, and many other industries'),
     Rock(
-        rockId: 227,
+        rockId: 709,
         price: 0,
         size: '',
         rating: 0,
@@ -24360,7 +24360,7 @@ class Rock {
         uses:
             'Building material, ornamental carvings, historical use in cooking pots, molds for metal casting, fireplaces and wood stoves due to its heat retention properties.'),
     Rock(
-        rockId: 228,
+        rockId: 710,
         price: 0,
         size: '',
         rating: 0,
@@ -24397,7 +24397,7 @@ class Rock {
         uses:
             'Tectonites are primarily studied in the field of geology and are not typically used for commercial or healing purposes'),
     Rock(
-        rockId: 229,
+        rockId: 711,
         price: 0,
         size: '',
         rating: 0,
@@ -24433,7 +24433,7 @@ class Rock {
         uses:
             'Due to its rarity, whiteschist is mostly appreciated in scientific settings. It can also be used in jewelry.'),
     Rock(
-        rockId: 230,
+        rockId: 712,
         price: 0,
         size: '',
         rating: 0,
@@ -24468,7 +24468,7 @@ class Rock {
         uses:
             'Adamellite is primarily used as a decorative stone, in applications such as countertops and architectural stone. It might be also found in landscape design due to its unique patterns and coloration.'),
     Rock(
-        rockId: 231,
+        rockId: 713,
         price: 0,
         size: '',
         rating: 0,
@@ -24503,7 +24503,7 @@ class Rock {
         uses:
             'Not typically used for commercial or healing purposes. Valuable for geological study.'),
     Rock(
-        rockId: 232,
+        rockId: 714,
         price: 0,
         size: '',
         rating: 0,
@@ -24537,7 +24537,7 @@ class Rock {
         types: 'Variations depend on the specific mineral composition',
         uses: 'Used in construction and as aggregate in concrete'),
     Rock(
-        rockId: 233,
+        rockId: 715,
         price: 0,
         size: '',
         rating: 0,
@@ -24572,7 +24572,7 @@ class Rock {
         uses:
             'Used in construction and decorative stonework such as building fronts, flooring, stairs, and countertops. Also popular in jewelry.'),
     Rock(
-        rockId: 234,
+        rockId: 716,
         price: 0,
         size: '',
         rating: 0,
@@ -24609,7 +24609,7 @@ class Rock {
         uses:
             'Felsite is used as aggregate in construction, as a source of alumina, and in the manufacture of ceramics and glass.'),
     Rock(
-        rockId: 235,
+        rockId: 717,
         price: 0,
         size: '',
         rating: 0,
@@ -24646,7 +24646,7 @@ class Rock {
         uses:
             'Flint has been used historically to make hand axes, scrapers, knives, and other tools. It is also used in flintlock firearms, building materials, and in some decorative pieces.'),
     Rock(
-        rockId: 236,
+        rockId: 718,
         price: 0,
         size: '',
         rating: 0,
@@ -24683,7 +24683,7 @@ class Rock {
         uses:
             'Primarily used for the manufacture of silica brick for industrial and high temperature applications'),
     Rock(
-        rockId: 237,
+        rockId: 719,
         price: 0,
         size: '',
         rating: 0,
@@ -24719,7 +24719,7 @@ class Rock {
         uses:
             'Gossan is valuable as it can indicate the presence of valuable metallic ore deposits beneath the surface. Used in prospecting and geological surveying.'),
     Rock(
-        rockId: 238,
+        rockId: 720,
         price: 0,
         size: '',
         rating: 0,
@@ -24755,7 +24755,7 @@ class Rock {
         uses:
             'Primarily scientific, for understanding volcanic and geologic phenomena'),
     Rock(
-        rockId: 239,
+        rockId: 721,
         price: 0,
         size: '',
         rating: 0,
@@ -24789,7 +24789,7 @@ class Rock {
         uses:
             'Primarily scientific - used to study the Earth mantle and in petrological studies'),
     Rock(
-        rockId: 240,
+        rockId: 722,
         price: 0,
         size: '',
         rating: 0,
@@ -24824,7 +24824,7 @@ class Rock {
         uses:
             'Countertops, building stone, ornamental stone, jewelry, energy work'),
     Rock(
-        rockId: 241,
+        rockId: 723,
         price: 0,
         size: '',
         rating: 0,
@@ -24859,7 +24859,7 @@ class Rock {
         types: '',
         uses: 'Because of its unique nature, it has mainly collector value.'),
     Rock(
-        rockId: 242,
+        rockId: 724,
         price: 0,
         size: '',
         rating: 0,
@@ -24895,7 +24895,7 @@ class Rock {
         uses:
             'Used as an ornamental stone, gemstone, healing stone and it is also used for decorative aggregates in the construction industry.'),
     Rock(
-        rockId: 243,
+        rockId: 725,
         price: 0,
         size: '',
         rating: 0,
@@ -24932,7 +24932,7 @@ class Rock {
         uses:
             'Used primarily as an ornamental stone. Its striking colors and pattern make it popular for use in architecture and interior design as well as for decorative items, countertops, and occasionally in jewelry.'),
     Rock(
-        rockId: 244,
+        rockId: 726,
         price: 0,
         size: '',
         rating: 0,
@@ -24968,7 +24968,7 @@ class Rock {
         uses:
             'Mangerite is primarily used for geological study or in collections. It may sometimes be used decoratively in building materials.'),
     Rock(
-        rockId: 245,
+        rockId: 727,
         price: 0,
         size: '',
         rating: 0,
@@ -25003,7 +25003,7 @@ class Rock {
         uses:
             'Pyrolite has no practical uses, but it is important in geophysics and geochemistry for understanding the Earth interior.'),
     Rock(
-        rockId: 246,
+        rockId: 728,
         price: 0,
         size: '',
         rating: 0,
@@ -25039,7 +25039,7 @@ class Rock {
         uses:
             'monument stone, dimension stone in construction, decorative stone in buildings'),
     Rock(
-        rockId: 247,
+        rockId: 729,
         price: 0,
         size: '',
         rating: 0,
@@ -25075,7 +25075,7 @@ class Rock {
         uses:
             'Rodingite is not typically used for any commercial or industrial purpose, but they are often collected and studied by geologists.'),
     Rock(
-        rockId: 248,
+        rockId: 730,
         price: 0,
         size: '',
         rating: 0,
@@ -25111,7 +25111,7 @@ class Rock {
         uses:
             'Primarily a collector stone. Can be used for research or education purposes.'),
     Rock(
-        rockId: 249,
+        rockId: 731,
         price: 0,
         size: '',
         rating: 0,
@@ -25148,7 +25148,7 @@ class Rock {
         uses:
             'Used as decorative stones, minor gemstones, and for scientific research in geology.'),
     Rock(
-        rockId: 250,
+        rockId: 732,
         price: 0,
         size: '',
         rating: 0,
@@ -25186,7 +25186,7 @@ class Rock {
         uses:
             'Used to make cabochons, tumbled Gems and ornamental items as well as spiritual healing'),
     Rock(
-        rockId: 251,
+        rockId: 733,
         price: 0,
         size: '',
         rating: 0,
@@ -25226,7 +25226,7 @@ class Rock {
     //end of redy gems 1
     //start of new rocks and gems
     Rock(
-        rockId: 252,
+        rockId: 734,
         price: 0,
         size: '',
         rating: 0,
@@ -25262,7 +25262,7 @@ class Rock {
         uses:
             'Used in jewelry, ornamental stone, cladding on buildings, and other decorative items.'),
     Rock(
-        rockId: 253,
+        rockId: 735,
         price: 0,
         size: '',
         rating: 0,
@@ -25298,7 +25298,7 @@ class Rock {
         uses:
             'Monuments, buildings, sculpture, decor, application in industries for its chemical properties, making countertops, tiles and floors'),
     Rock(
-        rockId: 254,
+        rockId: 736,
         price: 0,
         size: '',
         rating: 0,
@@ -25335,7 +25335,7 @@ class Rock {
         uses:
             'Building stones, paving, countertops, gravestones, sculptures, construction aggregate'),
     Rock(
-        rockId: 255,
+        rockId: 737,
         price: 0,
         size: '',
         rating: 0,
@@ -25370,7 +25370,7 @@ class Rock {
         uses:
             'Used in ceramics and Glass making because of high aluminium content.'),
     Rock(
-        rockId: 256,
+        rockId: 738,
         price: 0,
         size: '',
         rating: 0,
@@ -25407,7 +25407,7 @@ class Rock {
         uses:
             'Primarily for geological studies or for collectors. Can occasionally be found in handmade jewelry.'),
     Rock(
-        rockId: 257,
+        rockId: 739,
         price: 0,
         size: '',
         rating: 0,
@@ -25446,7 +25446,7 @@ class Rock {
         uses:
             'Used in industry for construction and decoration. Can also be found in jewelry and healing stones'),
     Rock(
-        rockId: 258,
+        rockId: 740,
         price: 0,
         size: 'Variable',
         rating: 0,
@@ -25484,7 +25484,7 @@ class Rock {
         uses:
             'Building stone, decorative stone, components in ceramic products'),
     Rock(
-        rockId: 259,
+        rockId: 741,
         price: 0,
         size: '',
         rating: 0,
@@ -25520,7 +25520,7 @@ class Rock {
         uses:
             'Construction aggregates, building stone, decoration, pottery, and since ancient times, tools and weapons'),
     Rock(
-        rockId: 260,
+        rockId: 742,
         price: 0,
         size: '',
         rating: 0,
@@ -25557,7 +25557,7 @@ class Rock {
         uses:
             'Cataclasite rocks have been used for the construction of stone tools in ancient times. Today, they might be used for decorative purposes, as teaching tools in geology, and for research.'),
     Rock(
-        rockId: 261,
+        rockId: 743,
         price: 0,
         size: '',
         rating: 0,
@@ -25594,7 +25594,7 @@ class Rock {
         uses:
             'Mostly used in fertilizers, also used in some industrial applications in small quantities.'),
     Rock(
-        rockId: 262,
+        rockId: 744,
         price: 0,
         size: '',
         rating: 0,
@@ -25631,7 +25631,7 @@ class Rock {
         uses:
             'Used in collectors items, interior decoration, and landscaping. They can also be found in some jewelry pieces.'),
     Rock(
-        rockId: 263,
+        rockId: 745,
         price: 0,
         size: '',
         rating: 0,
@@ -25667,7 +25667,7 @@ class Rock {
         uses:
             'though not widely used due to its scarcity, jasperoid is sometimes used in jewelry or decoration for its interesting patterns and colors.'),
     Rock(
-        rockId: 264,
+        rockId: 746,
         price: 0,
         size: '',
         rating: 0,
@@ -25703,7 +25703,7 @@ class Rock {
         uses:
             'Novaculite has been used for making tools and sharpening knives. It is also used in fire starting, due to its ability to create sparks when struck against steel.'),
     Rock(
-        rockId: 265,
+        rockId: 747,
         price: 0,
         size: '',
         rating: 0,
@@ -25740,7 +25740,7 @@ class Rock {
             'There are no distinct types of Trachybasalt. They are generally differentiated based on the relative percentage of plagioclase, pyroxene, and other minerals present.',
         uses: 'Commonly used in landscaping and as aggregate in construction.'),
     Rock(
-        rockId: 266,
+        rockId: 748,
         price: 0,
         size: '',
         rating: 0,
@@ -25778,7 +25778,7 @@ class Rock {
         uses:
             'Architectural purposes, countertop material, monument stone, building stones, interior decoration, and in the construction industry.'),
     Rock(
-        rockId: 267,
+        rockId: 749,
         price: 0,
         size: '',
         rating: 0,
@@ -25814,7 +25814,7 @@ class Rock {
         uses:
             'Fuel source (electricity, heat), production of steel and cement, gasification, liquefaction'),
     Rock(
-        rockId: 268,
+        rockId: 750,
         price: 0,
         size: '',
         rating: 0,
@@ -25849,7 +25849,7 @@ class Rock {
         types: 'Iron-stained limonite, other sulfide-derived oxides',
         uses: 'Used as an indicator of ore deposits in mining'),
     Rock(
-        rockId: 269,
+        rockId: 751,
         price: 0,
         size: '',
         rating: 0,
@@ -25885,7 +25885,7 @@ class Rock {
         uses:
             'Studying protoliths can give geologists important information about the geological conditions that created a metamorphic rock.'),
     Rock(
-        rockId: 270,
+        rockId: 752,
         price: 0,
         size: '',
         rating: 0,
@@ -25921,7 +25921,7 @@ class Rock {
         uses:
             'Commonly found in Earths mantle and can be found in ophiolite complexes, Also used as a gemstone in jewelry'),
     Rock(
-        rockId: 271,
+        rockId: 753,
         price: 0,
         size: '',
         rating: 0,
@@ -25957,7 +25957,7 @@ class Rock {
             'Tephriphonolite is a specific type of phonolite and variation occurs by mineral content',
         uses: 'Construction material and decorative applications'),
     Rock(
-        rockId: 272,
+        rockId: 754,
         price: 0,
         size: '',
         rating: 0,
@@ -25993,7 +25993,7 @@ class Rock {
         uses:
             'Decorative stone, jewelry, ornamental objects, and as a minor ore of iron'),
     Rock(
-        rockId: 273,
+        rockId: 755,
         price: 0,
         size: '',
         rating: 0,
@@ -26029,7 +26029,7 @@ class Rock {
         uses:
             'Agriculture (soil improver), construction material, in the production of ceramics, lime and cement'),
     Rock(
-        rockId: 274,
+        rockId: 756,
         price: 0,
         size: '',
         rating: 0,
@@ -26063,7 +26063,7 @@ class Rock {
         types: 'Common, Uncommon, Rare',
         uses: 'Jewelry, earth sciences study, ornamental stone, healing tool.'),
     Rock(
-        rockId: 275,
+        rockId: 757,
         price: 0,
         size: '',
         rating: 0,
@@ -26099,7 +26099,7 @@ class Rock {
         uses:
             'Often used for jewelry and ornamental pieces due to its unique color and texture.'),
     Rock(
-        rockId: 276,
+        rockId: 758,
         price: 0,
         size: '',
         rating: 0,
@@ -26137,7 +26137,7 @@ class Rock {
         types: 'Minette, Vogesite, Kersantite, Spessartite',
         uses: 'Study of geological processes, ornamental stone.'),
     Rock(
-        rockId: 277,
+        rockId: 759,
         price: 0,
         size: '',
         rating: 0,
@@ -26172,7 +26172,7 @@ class Rock {
         uses:
             'Geological study, decorative pieces, construction (in some cases)'),
     Rock(
-        rockId: 278,
+        rockId: 760,
         price: 0,
         size: '',
         rating: 0,
@@ -26209,7 +26209,7 @@ class Rock {
         uses:
             'Migmatites are primarily used for research purposes to understand geological history. They can also be utilized in construction.'),
     Rock(
-        rockId: 279,
+        rockId: 761,
         price: 0,
         size: '',
         rating: 0,
@@ -26245,7 +26245,7 @@ class Rock {
         uses:
             'Filtering, insulating, filler in rubber and plastic products, abrasive in polishes, and for its absorbent properties.'),
     Rock(
-        rockId: 280,
+        rockId: 762,
         price: 0,
         size: '',
         rating: 0,
@@ -26282,7 +26282,7 @@ class Rock {
         uses:
             'Basanite is often used in construction projects, such as paving stones or building facades. It can also be crafted into ornamental items and jewelry.'),
     Rock(
-        rockId: 281,
+        rockId: 763,
         price: 0,
         size: '',
         rating: 0,
@@ -26316,7 +26316,7 @@ class Rock {
         uses:
             'Aggregate, road stone, fill, roofing granules, glassmaking industry'),
     Rock(
-        rockId: 282,
+        rockId: 764,
         price: 0,
         size: '',
         rating: 0,
@@ -26350,7 +26350,7 @@ class Rock {
         types: 'Steatite, Pyrophyllite',
         uses: 'Ceramics, Paints, Cosmetics, Electric cables'),
     Rock(
-        rockId: 283,
+        rockId: 765,
         price: 0,
         size: '',
         rating: 0,
@@ -26386,7 +26386,7 @@ class Rock {
         uses:
             'Primarily used for decorative purposes due to its distinctive coloration.'),
     Rock(
-        rockId: 284,
+        rockId: 766,
         price: 0,
         size: '',
         rating: 0,
@@ -26421,7 +26421,7 @@ class Rock {
         uses:
             'Geological studies, gemstone trade, ornamental stone, collection as specimens'),
     Rock(
-        rockId: 285,
+        rockId: 767,
         price: 0,
         size: '',
         rating: 0,
@@ -26459,7 +26459,7 @@ class Rock {
         uses:
             'Adakites are primarily studied in scientific research for their implications in plate tectonics, magmatism and ore-forming processes. They are also used in construction due to their hardness.'),
     Rock(
-        rockId: 286,
+        rockId: 768,
         price: 0,
         size: '',
         rating: 0,
@@ -26497,7 +26497,7 @@ class Rock {
         uses:
             'Used as a cutting tool in ancient times, now used in ornamental objects, jewelry and healing crystals'),
     Rock(
-        rockId: 287,
+        rockId: 769,
         price: 0,
         size: '',
         rating: 0,
@@ -26534,7 +26534,7 @@ class Rock {
         uses:
             'Primarily used in the manufacturing of glass and ceramics due to low iron content, in making of dinnerware, bathroom and building tiles, even used in soil conditioner'),
     Rock(
-        rockId: 288,
+        rockId: 770,
         price: 0,
         size: '',
         rating: 0,
@@ -26570,7 +26570,7 @@ class Rock {
         uses:
             'Structural cladding, landscaping, gemstones, carving, refractory bricks, water filtration. Dunite is also a source of magnesium.'),
     Rock(
-        rockId: 289,
+        rockId: 771,
         price: 0,
         size: '',
         rating: 0,
@@ -26607,7 +26607,7 @@ class Rock {
         uses:
             'As a collectors piece for its geological rarity, sometimes used in the manufacturing of specific types of glass.'),
     Rock(
-        rockId: 290,
+        rockId: 772,
         price: 0,
         size: '',
         rating: 0,
@@ -26642,7 +26642,7 @@ class Rock {
         uses:
             'Geological study, mineral collection, sometimes in construction and as ores for certain metals.'),
     Rock(
-        rockId: 291,
+        rockId: 773,
         price: 0,
         size: '',
         rating: 0,
@@ -26678,7 +26678,7 @@ class Rock {
         uses:
             'Due to its flexibility, Itacolumite has been used in the past for carving delicate objects. it is also of interest to geological research.'),
     Rock(
-        rockId: 292,
+        rockId: 774,
         price: 0,
         size: '',
         rating: 0,
@@ -26712,7 +26712,7 @@ class Rock {
         types: 'Grey Argillite, Red Argillite, Purple Argillite',
         uses: 'Ornamental carvings, educational purposes, geological studies'),
     Rock(
-        rockId: 293,
+        rockId: 775,
         price: 0,
         size: '',
         rating: 0,
@@ -26751,7 +26751,7 @@ class Rock {
         uses:
             'Calibrating man-made satellites, raw material for porcelain, used sometimes as a gemstone'),
     Rock(
-        rockId: 294,
+        rockId: 776,
         price: 0,
         size: '',
         rating: 0,
@@ -26786,7 +26786,7 @@ class Rock {
         uses:
             'Used in landscaping and architectural projects due to its vibrant green color. In some cultures, it is used for healing and spiritual purposes.'),
     Rock(
-        rockId: 295,
+        rockId: 777,
         price: 0,
         size: '',
         rating: 0,
@@ -26820,7 +26820,7 @@ class Rock {
         types: 'Denim Lapis, Russian Lapis',
         uses: 'Ornamental stone, jewelry, ultramarine pigment, healing stone'),
     Rock(
-        rockId: 296,
+        rockId: 778,
         price: 0,
         size: '',
         rating: 0,
@@ -26857,7 +26857,7 @@ class Rock {
         uses:
             'Often used in construction for flooring and wall cladding. Also used in coatings for pools, patios and courtyards.'),
     Rock(
-        rockId: 297,
+        rockId: 779,
         price: 0,
         size: '',
         rating: 0,
@@ -26895,7 +26895,7 @@ class Rock {
         uses:
             'Primarily used as a construction material, it is also used in manufacturing and for making grindstones due to its coarse grain.'),
     Rock(
-        rockId: 298,
+        rockId: 780,
         price: 0,
         size: '',
         rating: 0,
@@ -26932,7 +26932,7 @@ class Rock {
         uses:
             'Used primarily in jewelry. Also used in some thermal and electronic applications due to its resistance to heat and conductivity.'),
     Rock(
-        rockId: 299,
+        rockId: 781,
         price: 0,
         size: '',
         rating: 0,
@@ -26967,7 +26967,7 @@ class Rock {
             'Typically found as its standard type, but may vary in color and clarity.',
         uses: 'High-quality jewelry'),
     Rock(
-        rockId: 300,
+        rockId: 782,
         price: 0,
         size: '',
         rating: 0,
@@ -27003,7 +27003,7 @@ class Rock {
             'Green Helenite, Blue Helenite, Red Helenite, depending on the impurities',
         uses: 'Primarily ornamental, used in jewelry'),
     Rock(
-        rockId: 301,
+        rockId: 783,
         price: 0,
         size: '',
         rating: 0,
@@ -27040,7 +27040,7 @@ class Rock {
         uses:
             'Used in the jewelry industry and for spiritual healing, and it is also a collectors stone.'),
     Rock(
-        rockId: 302,
+        rockId: 784,
         price: 0,
         size: '',
         rating: 0,
@@ -27074,7 +27074,7 @@ class Rock {
         types: 'Synthetic Gadolinium Gallium Garnet',
         uses: 'Optical components, manufacturing of electronic devices'),
     Rock(
-        rockId: 303,
+        rockId: 785,
         price: 0,
         size: '',
         rating: 0,
@@ -27111,7 +27111,7 @@ class Rock {
         uses:
             'Algodonite is not often used due to its toxicity. Some collections and museums may feature it due to its rarity and mineralogical interest.'),
     Rock(
-        rockId: 304,
+        rockId: 786,
         price: 0,
         size: '',
         rating: 0,
@@ -27147,7 +27147,7 @@ class Rock {
         uses:
             'Used in jewelry, and by healers for its emotional and spiritual powers.'),
     Rock(
-        rockId: 305,
+        rockId: 787,
         price: 0,
         size: '',
         rating: 0,
@@ -27184,7 +27184,7 @@ class Rock {
         uses:
             'Used in the manufacture of sulfuric acid and cement, as well as in drying agents and plasters.'),
     Rock(
-        rockId: 306,
+        rockId: 788,
         price: 0,
         size: '',
         rating: 0,
@@ -27220,7 +27220,7 @@ class Rock {
         uses:
             'It is primarily used as a gemstone and for creating beautiful gemstone jewelry'),
     Rock(
-        rockId: 307,
+        rockId: 789,
         price: 0,
         size: '',
         rating: 0,
@@ -27254,7 +27254,7 @@ class Rock {
         uses:
             'Used as gemstones and in ceramics due to its resistance to high temperatures and pressure'),
     Rock(
-        rockId: 308,
+        rockId: 790,
         price: 0,
         size: '',
         rating: 0,
@@ -27290,7 +27290,7 @@ class Rock {
         uses:
             'Jewelry, decorative items, and as an energy stone in metaphysical practices.'),
     Rock(
-        rockId: 309,
+        rockId: 791,
         price: 0,
         size: '',
         rating: 0,
@@ -27324,7 +27324,7 @@ class Rock {
             'Imperial Nephrite (greener color, more valuable), White Nephrite',
         uses: 'Carving, jewelry, ornamental objects, and tools'),
     Rock(
-        rockId: 310,
+        rockId: 792,
         price: 0,
         size: '',
         rating: 0,
@@ -27361,7 +27361,7 @@ class Rock {
         uses:
             'Used for spiritual applications, making jewelry, and for its transformational energy in the metaphysical community'),
     Rock(
-        rockId: 311,
+        rockId: 793,
         price: 0,
         size: '',
         rating: 0,
@@ -27396,7 +27396,7 @@ class Rock {
         uses:
             'Receptacle ornamentation, Spiritual healing, Gemstone collections'),
     Rock(
-        rockId: 312,
+        rockId: 794,
         price: 0,
         size: '',
         rating: 0,
@@ -27433,7 +27433,7 @@ class Rock {
         uses:
             'Ulexite has industrial uses in the manufacturing of glass and ceramics. It is also popular among collectors and can be cut into cabochons and used in jewellery. Due to its unique optical properties, it is also known as TV Rock.'),
     Rock(
-        rockId: 313,
+        rockId: 795,
         price: 0,
         size: '',
         rating: 0,
@@ -27469,7 +27469,7 @@ class Rock {
         uses:
             'Due to its rarity, Tinzenite is primarily used for gemological collection purposes and studied for its unique borosilicate structure.'),
     Rock(
-        rockId: 314,
+        rockId: 796,
         price: 0,
         size: '',
         rating: 0,
@@ -27504,7 +27504,7 @@ class Rock {
         types: 'Golden Tigers Eye, Red Tigers Eye, Blue Tigers Eye (Hawks Eye)',
         uses: 'Jewelry, ornaments, talismans, healing rituals'),
     Rock(
-        rockId: 315,
+        rockId: 797,
         price: 0,
         size: '',
         rating: 0,
@@ -27540,7 +27540,7 @@ class Rock {
         uses:
             'Used in construction, fertilizer, spiritual healing, and can also be used for sculpting due to its softness.'),
     Rock(
-        rockId: 316,
+        rockId: 798,
         price: 0,
         size: '',
         rating: 0,
@@ -27576,7 +27576,7 @@ class Rock {
         uses:
             'Used in various decorative items and jewelry, crystal healing and meditation.'),
     Rock(
-        rockId: 317,
+        rockId: 799,
         price: 0,
         size: '',
         rating: 0,
@@ -27614,7 +27614,7 @@ class Rock {
         uses:
             'Primarily used as a source of phosphorus for the manufacture of fertilizers. Also used in the gemstone market, spiritual healing, and for educational purposes within the field of geology.'),
     Rock(
-        rockId: 318,
+        rockId: 800,
         price: 0,
         size: '',
         rating: 0,
@@ -27652,7 +27652,7 @@ class Rock {
             'Titanium coated quartz, Golden coated quartz, Silver coated quartz',
         uses: 'Decorative purposes, jewelry, energy healing, chakra balancing'),
     Rock(
-        rockId: 319,
+        rockId: 801,
         price: 0,
         size: '',
         rating: 0,
@@ -27690,7 +27690,7 @@ class Rock {
         uses:
             'Primarily in geological studies. Specimens may also be collected or used as part of educational displays'),
     Rock(
-        rockId: 320,
+        rockId: 802,
         price: 0,
         size: '',
         rating: 0,
@@ -27725,7 +27725,7 @@ class Rock {
         uses:
             'Gemstones, ceramic opacifier, foundry sands, refractories, nuclear fuel rod claddings, and as a mordant in textile dyes'),
     Rock(
-        rockId: 321,
+        rockId: 803,
         price: 0,
         size: '',
         rating: 0,
@@ -27760,7 +27760,7 @@ class Rock {
         uses:
             'Austinites main use is as a collectors mineral due to its striking colour and crystal formations.'),
     Rock(
-        rockId: 322,
+        rockId: 804,
         price: 0,
         size: '',
         rating: 0,
@@ -27796,7 +27796,7 @@ class Rock {
         uses:
             'Mainly used in various industries, specifically in the production of certain types of steel and other metals. It can also be used in the creation of ceramics and glass.'),
     Rock(
-        rockId: 323,
+        rockId: 805,
         price: 0,
         size: '',
         rating: 0,
@@ -27831,7 +27831,7 @@ class Rock {
         types: 'Gem quality kornerupine is known as prismatine',
         uses: 'Used as a rare gemstone and mineral specimen'),
     Rock(
-        rockId: 324,
+        rockId: 806,
         price: 0,
         size: '',
         rating: 0,
@@ -27867,7 +27867,7 @@ class Rock {
         uses:
             'Collected for its rarity and beauty, used by mineral enthusiasts and collectors.'),
     Rock(
-        rockId: 325,
+        rockId: 807,
         price: 0,
         size: '',
         rating: 0,
@@ -27903,7 +27903,7 @@ class Rock {
         uses:
             'Used for adornment in jewelry. Often cut into a variety of shapes and sizes, it is a prized gem for earrings, rings, pendants, and bracelets.'),
     Rock(
-        rockId: 326,
+        rockId: 808,
         price: 0,
         size: '',
         rating: 0,
@@ -27939,7 +27939,7 @@ class Rock {
         uses:
             'Used primarily as a precious stone in jewelry. Its hardness and high refractive index makes it valuable for industrial applications as well'),
     Rock(
-        rockId: 327,
+        rockId: 809,
         price: 0,
         size: '',
         rating: 0,
@@ -27975,7 +27975,7 @@ class Rock {
         uses:
             'Used in the manufacture of titanium dioxide pigment, in the fabrication of titanium metal, and as a gemstone'),
     Rock(
-        rockId: 328,
+        rockId: 810,
         price: 0,
         size: '',
         rating: 0,
@@ -28010,7 +28010,7 @@ class Rock {
             'There are no specific types of Epidosite, but it varies depending on the proportions of epidote and quartz present',
         uses: 'As decorative stones and minor gemstones.'),
     Rock(
-        rockId: 329,
+        rockId: 811,
         price: 0,
         size: '',
         rating: 0,
@@ -28046,7 +28046,7 @@ class Rock {
         uses:
             'Commonly used in jewelry, ornamental objects, gemstone spheres, and as healing crystals'),
     Rock(
-        rockId: 330,
+        rockId: 812,
         price: 0,
         size: '',
         rating: 0,
@@ -28081,7 +28081,7 @@ class Rock {
             'Yttrium aluminum garnet, Yttrium gallium garnet, Yttrium iron garnet',
         uses: 'Scientific research, industrial applications'),
     Rock(
-        rockId: 331,
+        rockId: 813,
         price: 0,
         size: '',
         rating: 0,
@@ -28116,7 +28116,7 @@ class Rock {
             'Baltic Amber, Dominican Amber, Mexican Amber, Burmese Amber, and others',
         uses: 'Jewelry, decoration, spiritual healing, perfume production'),
     Rock(
-        rockId: 332,
+        rockId: 814,
         price: 0,
         size: '',
         rating: 0,
@@ -28153,7 +28153,7 @@ class Rock {
         uses:
             'Rarely used in jewelry due to its relative softness. Instead, it is most commonly used for metaphysical and healing purposes, as well as for scientific study and collection.'),
     Rock(
-        rockId: 333,
+        rockId: 815,
         price: 0,
         size: '',
         rating: 0,
@@ -28189,7 +28189,7 @@ class Rock {
             'There is a variety of tactites, differing mostly by their chemical composition and the type of rock they originated from. Some examples include hornfels, skarns, and various metamorphosed basalt types.',
         uses: 'Scientific study, mineral collection'),
     Rock(
-        rockId: 334,
+        rockId: 816,
         price: 0,
         size: '',
         rating: 0,
@@ -28223,7 +28223,7 @@ class Rock {
         types: 'Blue Tigers Eye',
         uses: 'Jewelry, home decor, spiritual healing, meditation'),
     Rock(
-        rockId: 335,
+        rockId: 817,
         price: 0,
         size: '',
         rating: 0,
@@ -28259,7 +28259,7 @@ class Rock {
         uses:
             'It is commonly used in jewelry, as a collectors mineral, and for metaphysical purposes.'),
     Rock(
-        rockId: 336,
+        rockId: 818,
         price: 0,
         size: '',
         rating: 0,
@@ -28296,7 +28296,7 @@ class Rock {
         uses:
             'Gemstones, high-performance lasers, phosphors, and microwave filters'),
     Rock(
-        rockId: 337,
+        rockId: 819,
         price: 0,
         size: '',
         rating: 0,
@@ -28330,7 +28330,7 @@ class Rock {
         types: 'Ruby, Sapphire',
         uses: 'Abrasive, jewelry, fine ceramics, refractories'),
     Rock(
-        rockId: 338,
+        rockId: 820,
         price: 0,
         size: '',
         rating: 0,
@@ -28368,7 +28368,7 @@ class Rock {
         uses:
             'Mostly studied and collected for their unusual forms, aesthetic value, and scientific interest'),
     Rock(
-        rockId: 339,
+        rockId: 821,
         price: 0,
         size: '',
         rating: 0,
@@ -28404,7 +28404,7 @@ class Rock {
         uses:
             'used in jewelry and often used in spiritual healing and meditation practices'),
     Rock(
-        rockId: 340,
+        rockId: 822,
         price: 0,
         size: '',
         rating: 0,
@@ -28440,7 +28440,7 @@ class Rock {
         uses:
             'Carvings, small sculptures, jewelry, and other lapidary projects'),
     Rock(
-        rockId: 341,
+        rockId: 823,
         price: 0,
         size: '',
         rating: 0,
@@ -28477,7 +28477,7 @@ class Rock {
         uses:
             'Historically used in luxury items like jewelry, buttons, piano keys. Modern use is discouraged due to ethical and conservation issues.'),
     Rock(
-        rockId: 342,
+        rockId: 824,
         price: 0,
         size: '',
         rating: 0,
@@ -28513,7 +28513,7 @@ class Rock {
         uses:
             'Due to its beautiful colours and clarity, topaz is commonly used in jewelry such as rings, earrings, necklaces, and bracelets.'),
     Rock(
-        rockId: 343,
+        rockId: 825,
         price: 0,
         size: '',
         rating: 0,
@@ -28548,7 +28548,7 @@ class Rock {
         uses:
             'Often used in jewelry, and sometimes in the manufacturing of ceramics. It can also be employed in meditational practices and spiritual healing.'),
     Rock(
-        rockId: 344,
+        rockId: 826,
         price: 0,
         size: '',
         rating: 0,
@@ -28581,7 +28581,7 @@ class Rock {
         types: 'No known variants',
         uses: 'Jewelry, ornamentation, meditation, spiritual healing'),
     Rock(
-        rockId: 345,
+        rockId: 827,
         price: 0,
         size: '',
         rating: 0,
@@ -28617,7 +28617,7 @@ class Rock {
         uses:
             'Beryllium is used industrially in three major categories: about 50% is used in aerospace as alloying agents in structural materials; 20% goes into the area of telecommunications/electronics, and 20% goes into defense related and miscellaneous fields.'),
     Rock(
-        rockId: 346,
+        rockId: 828,
         price: 0,
         size: '',
         rating: 0,
@@ -28652,7 +28652,7 @@ class Rock {
         uses:
             'Used extensively in jewelry making. Also used decoratively, with larger intact pieces being highly valued.'),
     Rock(
-        rockId: 347,
+        rockId: 829,
         price: 0,
         size: '',
         rating: 0,
@@ -28687,7 +28687,7 @@ class Rock {
         uses:
             'Used in jewelry, especially rings and earrings. It is often faceted and used as an alternative to emerald and ruby.'),
     Rock(
-        rockId: 348,
+        rockId: 830,
         price: 0,
         size: '',
         rating: 0,
@@ -28724,7 +28724,7 @@ class Rock {
         uses:
             'It is primarily used in jewellery and decorative arts, but it is also used for spiritual and healing purposes.'),
     Rock(
-        rockId: 349,
+        rockId: 831,
         price: 0,
         size: '',
         rating: 0,
@@ -28760,7 +28760,7 @@ class Rock {
         uses:
             'Bayldonite has historically been mined for its lead content. Today, it is prized by collectors for its rarity and unique color.'),
     Rock(
-        rockId: 350,
+        rockId: 832,
         price: 0,
         size: '',
         rating: 0,
@@ -28796,7 +28796,7 @@ class Rock {
         uses:
             'Paleontological studies, as artifacts, as gemstones in jewelry when cut/polished, and spiritual practices.'),
     Rock(
-        rockId: 351,
+        rockId: 833,
         price: 0,
         size: '',
         rating: 0,
@@ -28832,7 +28832,7 @@ class Rock {
         types: 'N/A',
         uses: 'Most commonly used in jewelry and as collectable pieces'),
     Rock(
-        rockId: 352,
+        rockId: 834,
         price: 0,
         size: '',
         rating: 0,
@@ -28870,7 +28870,7 @@ class Rock {
         uses:
             'Used primarily for decorations, ornamental stone and occasionally in jewelry'),
     Rock(
-        rockId: 353,
+        rockId: 835,
         price: 0,
         size: '',
         rating: 0,
@@ -28906,7 +28906,7 @@ class Rock {
             'Trinitite is a single type, differing colours and slight differences in composition exist.',
         uses: 'Primarily collected as a historical and scientific curiosity.'),
     Rock(
-        rockId: 354,
+        rockId: 836,
         price: 0,
         size: '',
         rating: 0,
@@ -28943,7 +28943,7 @@ class Rock {
         uses:
             'Scientific study, meteorite collections, gem and jewelry inclusions'),
     Rock(
-        rockId: 355,
+        rockId: 837,
         price: 0,
         size: '',
         rating: 0,
@@ -28978,7 +28978,7 @@ class Rock {
         types: 'Golden Tigers Eye, Red Tigers Eye, Blue Tigers Eye',
         uses: 'Jewelry, ornamental stone, amulet, talisman'),
     Rock(
-        rockId: 356,
+        rockId: 838,
         price: 0,
         size: '',
         rating: 0,
@@ -29014,7 +29014,7 @@ class Rock {
         uses:
             'Jewelry, industrial applications such as cutting and grinding in industries'),
     Rock(
-        rockId: 357,
+        rockId: 839,
         price: 0,
         size: '',
         rating: 0,
@@ -29048,7 +29048,7 @@ class Rock {
         types: 'There is only one type of Terbium gallium garnet',
         uses: 'Scientific research, particularly in optics and lasers'),
     Rock(
-        rockId: 358,
+        rockId: 840,
         price: 0,
         size: '',
         rating: 0,
@@ -29083,7 +29083,7 @@ class Rock {
         uses:
             'Commonly used in jewelry as a diamond substitute due to its hardiness and visual similarity to diamond.'),
     Rock(
-        rockId: 359,
+        rockId: 841,
         price: 0,
         size: '',
         rating: 0,
@@ -29119,7 +29119,7 @@ class Rock {
         uses:
             'Bytownite is sometimes faceted for collectors. It’s also used as an important mineral in the study and classification of metamorphic rocks'),
     Rock(
-        rockId: 360,
+        rockId: 842,
         price: 0,
         size: '',
         rating: 0,
@@ -29155,7 +29155,7 @@ class Rock {
         uses:
             'Agrellite can be used in jewelry and for fluorescent mineral displays.'),
     Rock(
-        rockId: 361,
+        rockId: 843,
         price: 0,
         size: '',
         rating: 0,
@@ -29193,7 +29193,7 @@ class Rock {
         uses:
             'Building material, road construction, manufacture of cement, chalk and many other potentially harmful industrial uses it is involved in'),
     Rock(
-        rockId: 362,
+        rockId: 844,
         price: 0,
         size: '',
         rating: 0,
@@ -29228,7 +29228,7 @@ class Rock {
         uses:
             'Commonly used for making jewelry such as necklaces, bracelets, and earrings. It is also used for making musical instruments, buttons, and interior design.'),
     Rock(
-        rockId: 363,
+        rockId: 845,
         price: 0,
         size: '',
         rating: 0,
@@ -29266,7 +29266,7 @@ class Rock {
         uses:
             'Due to its rarity, it is primarily used as gemstones in jewelry.'),
     Rock(
-        rockId: 364,
+        rockId: 846,
         price: 0,
         size: '',
         rating: 0,
@@ -29304,7 +29304,7 @@ class Rock {
         uses:
             'Used primarily as a source of Phosphorus for fertilizers and other industrial uses'),
     Rock(
-        rockId: 365,
+        rockId: 847,
         price: 0,
         size: '',
         rating: 0,
@@ -29341,7 +29341,7 @@ class Rock {
             'There are no specific types of Astrophyllite as it is always found in its characteristic bladed/star formation.',
         uses: 'Lapidary, ornamental stone, gemological collections'),
     Rock(
-        rockId: 366,
+        rockId: 848,
         price: 0,
         size: '',
         rating: 0,
@@ -29377,7 +29377,7 @@ class Rock {
         uses:
             'Primarily used as a source of copper. It is also popular among mineral collectors and can be used in metaphysical healing.'),
     Rock(
-        rockId: 367,
+        rockId: 849,
         price: 0,
         size: '',
         rating: 0,
@@ -29412,7 +29412,7 @@ class Rock {
             'No major variants of Atacamite exist, although color and luster may vary.',
         uses: 'Primarily used as a mineral collectors piece or as a gemstone.'),
     Rock(
-        rockId: 368,
+        rockId: 850,
         price: 300,
         size: 'Varies',
         rating: 5,
@@ -29447,7 +29447,7 @@ class Rock {
         uses:
             'Jewelry, industrial applications (watch crystals, electronic wafers), spiritual healing'),
     Rock(
-        rockId: 369,
+        rockId: 851,
         price: 0,
         size: '',
         rating: 0,
@@ -29482,7 +29482,7 @@ class Rock {
         uses:
             'Used in jewelry making, also for meditation and promoting spiritual. Spinel gems are rarely treated or enhanced.'),
     Rock(
-        rockId: 370,
+        rockId: 852,
         price: 0,
         size: '',
         rating: 0,
@@ -29517,7 +29517,7 @@ class Rock {
         uses:
             'Mainly collected as mineral specimens. Some rare gem-quality stones might be cut and used in jewelry.'),
     Rock(
-        rockId: 371,
+        rockId: 853,
         price: 0,
         size: '',
         rating: 0,
@@ -29553,7 +29553,7 @@ class Rock {
         uses:
             'While it is not commonly used commercially, it forms interesting crystal aggregates and is of interest to collectors and scientists.'),
     Rock(
-        rockId: 372,
+        rockId: 854,
         price: 0,
         size: '',
         rating: 0,
@@ -29590,7 +29590,7 @@ class Rock {
         uses:
             'Used in the manufacturing of glass and ceramics, as a gemstone, and for ornamental stone'),
     Rock(
-        rockId: 373,
+        rockId: 855,
         price: 0,
         size: '',
         rating: 0,
@@ -29627,7 +29627,7 @@ class Rock {
         uses:
             'Used in manufacture of glass, optical fibers, and ceramics. It also has a role in the petroleum industry, being used in hydraulic fracturing. In jewelry due to its luster and varied color options.'),
     Rock(
-        rockId: 374,
+        rockId: 856,
         price: 0,
         size: '',
         rating: 0,
@@ -29664,7 +29664,7 @@ class Rock {
         uses:
             'Used in jewelry, meditation, interior decoration, and as a personal talisman.'),
     Rock(
-        rockId: 375,
+        rockId: 857,
         price: 0,
         size: '',
         rating: 0,
@@ -29701,7 +29701,7 @@ class Rock {
         uses:
             'Prior to 1970s, asbestos was widely used for insulation, sound absorption, fireproofing and in building material. However, due to the health risks associated with it, its usage is now heavily restricted. '),
     Rock(
-        rockId: 376,
+        rockId: 858,
         price: 0,
         size: '',
         rating: 0,

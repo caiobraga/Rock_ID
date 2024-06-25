@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
 import '../db/db.dart';
 import '../models/collection.dart';
-import '../constants.dart';
 import '../ui/screens/widgets/collections_grid_view.dart';
-import 'add_new_collection_modal.dart';
 
 class AddToMyCollectionModalService {
   void show(BuildContext context, void Function() onNewCollectionAdded) {
@@ -75,12 +74,12 @@ class __AddToMyCollectionModalState extends State<_AddToMyCollectionModal> {
               ),
               TextButton(
                 onPressed: () {
-                  AddNewCollectionModalService().show(context, () {
-                    widget.onNewCollectionAdded();
-                    _loadCollections();
-                  });
+                  // AddNewCollectionModalService.show(context, () {
+                  //   widget.onNewCollectionAdded();
+                  //   _loadCollections();
+                  // });
                 },
-                child: Text(
+                child: const Text(
                   '+Add new',
                   style: TextStyle(
                     color: Constants.primaryColor,

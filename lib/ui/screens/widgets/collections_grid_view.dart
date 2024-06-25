@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 
 import '../../../models/collection.dart';
-import '../../../services/add_new_collection_modal.dart';
 import '../../../services/collection_list_model.dart';
 import 'collection.dart';
 
@@ -46,9 +45,9 @@ class _CollectionGridViewState extends State<CollectionGridView> {
           return widget.collections.length < 6
               ? GestureDetector(
                   onTap: () {
-                    AddNewCollectionModalService().show(context, () {
-                      widget.onItemAdded();
-                    });
+                    // AddNewCollectionModalService.show(context, () {
+                    //   widget.onItemAdded();
+                    // });
                   },
                   child: Container(
                     decoration: BoxDecoration(

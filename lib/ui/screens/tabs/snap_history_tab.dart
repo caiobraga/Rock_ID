@@ -176,6 +176,11 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                               ),
                             );
                           },
+                          onDelete: () async {
+                            await DatabaseHelper()
+                                .removeRockFromSnapHistory(rock.rockId);
+                            _loadSnapHistory();
+                          },
                         );
                       },
                     ),

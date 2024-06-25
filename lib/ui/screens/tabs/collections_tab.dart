@@ -145,6 +145,10 @@ class _CollectionsTabState extends State<CollectionsTab> {
                           ),
                         );
                       },
+                      onDelete: () async {
+                        await DatabaseHelper().removeRock(rock.rockName);
+                        _loadCollectionRocks();
+                      },
                     );
                   },
                 ),

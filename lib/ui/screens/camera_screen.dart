@@ -72,15 +72,22 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> initializeCamera() async {
-    cameras = await availableCameras();
-    if (cameras != null && cameras!.isNotEmpty) {
-      _cameraController = CameraController(cameras![0], ResolutionPreset.max);
-      await _cameraController!.initialize();
-      setState(() {
-        _isCameraInitialized = true;
-        _isLoadingCamera = false;
-      });
+    try {
+      cameras = await availableCameras();
+      if (cameras != null && cameras!.isNotEmpty) {
+        _cameraController = CameraController(cameras![0], ResolutionPreset.max);
+        await _cameraController!.initialize();
+        setState(() {
+          _isCameraInitialized = true;
+        });
+      }
+    } catch (e) {
+      debugPrint(e.toString());
     }
+
+    setState(() {
+      _isLoadingCamera = false;
+    });
   }
 
   @override
@@ -174,40 +181,45 @@ class _CameraScreenState extends State<CameraScreen> {
                         ),
                       )
                     : Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Welcome to the Rock ID Camera!',
-                              textAlign: TextAlign.center,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              'Take a photo and identify the rocks like a professional.',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 14),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 20),
-                            ElevatedButton(
-                              onPressed: _requestCameraPermission,
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Constants.blackColor,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Welcome to the Rock ID Camera!',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                'Take a photo and identify the rocks like a professional.',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 20),
+                              ElevatedButton(
+                                onPressed: _requestCameraPermission,
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                  backgroundColor: Constants.primaryColor,
+                                  foregroundColor: Constants.darkGrey,
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                                backgroundColor: Constants.primaryColor,
-                                foregroundColor: Constants.darkGrey,
-                                textStyle: const TextStyle(
-                                  fontWeight: FontWeight.w600,
+                                child: const Text(
+                                  'Allow Access',
                                 ),
                               ),
-                              child: const Text(
-                                'Allow Access',
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
           ),
@@ -791,13 +803,18 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _requestCameraPermission() async {
-    PermissionStatus status = await Permission.camera.request();
-    if (status.isGranted) {
-      if (!_isCameraInitialized) {
-        initializeCamera();
+    try {
+      PermissionStatus status = await Permission.camera.request();
+      if (status.isGranted) {
+        if (!_isCameraInitialized) {
+          initializeCamera();
+        }
+      } else if (status.isPermanentlyDenied || status.isDenied) {
+        final opened = await openAppSettings();
+        debugPrint('Opened: $opened');
       }
-    } else if (status.isPermanentlyDenied) {
-      await openAppSettings();
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 
@@ -811,7 +828,7 @@ class _CameraScreenState extends State<CameraScreen> {
         });
         _startScanning(_scanningFunction, Navigator.of(context));
       }
-    } else if (status.isPermanentlyDenied) {
+    } else if (status.isPermanentlyDenied || status.isDenied) {
       await openAppSettings();
     }
   }

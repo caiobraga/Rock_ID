@@ -111,6 +111,11 @@ class _WishlistTabState extends State<WishlistTab> {
                               ),
                             ).then((value) => _loadWishlist);
                           },
+                          onDelete: () async {
+                            await DatabaseHelper()
+                                .removeRockFromWishlist(rock.rockId);
+                            _loadWishlist();
+                          },
                         );
                       },
                     ),

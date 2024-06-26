@@ -564,7 +564,6 @@ class _CameraScreenState extends State<CameraScreen> {
           await DatabaseHelper().addRockToSnapHistory(
             _rock!.rockId,
             timestamp,
-            image: _rock?.image,
           );
           _image = null;
           _showRockDetails(navigator);

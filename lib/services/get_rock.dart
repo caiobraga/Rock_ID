@@ -18,7 +18,6 @@ class GetRockService {
       }
       String rockName = chatResponse['rock'];
       Rock? localRock = _getLocalRockByName(rockName);
-      localRock = localRock?.copyWith(image: image.readAsBytesSync());
 
       if (localRock != null) {
         return localRock;

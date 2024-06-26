@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
-import 'package:flutter_onboarding/models/collection.dart';
+import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Collection> _collectionList = [];
+  List<Rock> _rockList = [];
   int contRocks = 0;
   double price = 0;
   bool _isLoading = true;
@@ -32,8 +32,8 @@ class _HomePageState extends State<HomePage> {
   Future<void> init() async {
     _isLoading = true;
     try {
-      DatabaseHelper().collections().then((value) {
-        _collectionList = value;
+      DatabaseHelper().findAllRocks().then((value) {
+        _rockList = value;
         _calculateTotalPrice();
         setState(() {
           _isLoading = false;
@@ -53,8 +53,8 @@ class _HomePageState extends State<HomePage> {
 
   _calculateTotalPrice() {
     double totalPrice = 0;
-    for (var collection in _collectionList) {
-      totalPrice += collection.cost;
+    for (var rock in _rockList) {
+      totalPrice += rock.cost;
     }
     price = totalPrice;
   }

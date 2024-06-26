@@ -11,11 +11,12 @@ class WishlistTab extends StatefulWidget {
   const WishlistTab({super.key});
 
   @override
-  State<WishlistTab> createState() => _WishlistTabState();
+  State<WishlistTab> createState() => WishlistTabState();
 }
 
-class _WishlistTabState extends State<WishlistTab> {
+class WishlistTabState extends State<WishlistTab> {
   final List<Rock> _wishlistRocks = [];
+  final ValueNotifier<int> wishlistNotifier = ValueNotifier<int>(0);
 
   @override
   void initState() {
@@ -55,75 +56,79 @@ class _WishlistTabState extends State<WishlistTab> {
           color: Constants.darkGrey,
           borderRadius: BorderRadius.circular(16.0),
         ),
-        child: _wishlistRocks.isEmpty
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.list_alt_rounded,
-                        size: 50,
-                        color: Constants.naturalGrey.withOpacity(0.5),
+        child: ValueListenableBuilder(
+          valueListenable: wishlistNotifier,
+          builder: (context, value, child) {
+            return _wishlistRocks.isEmpty
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.list_alt_rounded,
+                            size: 50,
+                            color: Constants.naturalGrey.withOpacity(0.5),
+                          ),
+                          const SizedBox(height: 20),
+                          Text('The Wishlist is empty!',
+                              style: AppTypography.body2(
+                                  color: AppColors.naturalWhite)),
+                          const SizedBox(height: 10),
+                          Text(
+                              "Add any new rock to this page by seeing it's details and clicking on the heart icon on the top right of the page.",
+                              textAlign: TextAlign.center,
+                              style: AppTypography.body3(
+                                  color: AppColors.naturalWhite)),
+                          const SizedBox(height: 20),
+                          _addRockToWishlistButton(),
+                        ],
                       ),
-                      const SizedBox(height: 20),
-                      Text('The Wishlist is empty!',
-                          style: AppTypography.body2(
-                              color: AppColors.naturalWhite)),
-                      const SizedBox(height: 10),
-                      Text(
-                          "Add any new rock to this page by seeing it's details and clicking on the heart icon on the top right of the page.",
-                          textAlign: TextAlign.center,
-                          style: AppTypography.body3(
-                              color: AppColors.naturalWhite)),
-                      const SizedBox(height: 20),
-                      _addRockToWishlistButton(),
-                    ],
-                  ),
-                ),
-              )
-            : Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _wishlistRocks.length,
-                      itemBuilder: (context, index) {
-                        final rock = _wishlistRocks[index];
-                        return RockListItem(
-                          imageUrl: rock.imageURL.isNotEmpty &&
-                                  rock.imageURL != ''
-                              ? rock.imageURL
-                              : 'https://via.placeholder.com/60', // Placeholder image
-                          title: rock.rockName,
-                          tags: const ['Wishlist'],
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                child: RockDetailPage(
-                                  rock: rock,
-                                  isSavingRock: false,
-                                  isUnfavoritingRock: true,
-                                ),
-                                type: PageTransitionType.bottomToTop,
-                              ),
-                            ).then((value) => _loadWishlist);
-                          },
-                          onDelete: () async {
-                            await DatabaseHelper()
-                                .removeRockFromWishlist(rock.rockId);
-                            _loadWishlist();
-                          },
-                        );
-                      },
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  _addRockToWishlistButton(),
-                ],
-              ),
+                  )
+                : Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _wishlistRocks.length,
+                          itemBuilder: (context, index) {
+                            final rock = _wishlistRocks[index];
+                            return RockListItem(
+                              imageUrl: rock.imageURL.isNotEmpty &&
+                                      rock.imageURL != ''
+                                  ? rock.imageURL
+                                  : 'https://via.placeholder.com/60', // Placeholder image
+                              title: rock.rockName,
+                              tags: const ['Wishlist'],
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    child: RockDetailPage(
+                                      rock: rock,
+                                      isSavingRock: false,
+                                      isUnfavoritingRock: true,
+                                    ),
+                                    type: PageTransitionType.bottomToTop,
+                                  ),
+                                ).then((value) => _loadWishlist());
+                              },
+                              onDelete: () async {
+                                await DatabaseHelper()
+                                    .removeRockFromWishlist(rock.rockId);
+                                _loadWishlist();
+                                wishlistNotifier.value++;
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+          },
+        ),
       ),
     );
   }

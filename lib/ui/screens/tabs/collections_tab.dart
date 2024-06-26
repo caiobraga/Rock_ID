@@ -5,7 +5,6 @@ import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
-import 'package:flutter_onboarding/ui/widgets/text.dart';
 import 'package:page_transition/page_transition.dart';
 
 class CollectionsTab extends StatefulWidget {
@@ -53,47 +52,14 @@ class _CollectionsTabState extends State<CollectionsTab> {
         ),
         child: Scaffold(
           backgroundColor: Constants.darkGrey,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Constants.primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            onPressed: () async {
-              await Navigator.push(
-                context,
-                PageTransition(
-                  duration: const Duration(milliseconds: 400),
-                  child: const CameraScreen(),
-                  type: PageTransitionType.bottomToTop,
-                ),
-              );
-            },
-            child: Container(
-                width: 60,
-                height: 60,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: Constants.primaryDegrade,
-                ),
-                child: const Icon(Icons.add,
-                    color: Colors.white, size: 40, weight: 40, grade: 20)),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.miniEndFloat,
-          body: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                height: 56,
-                decoration: BoxDecoration(
-                  gradient: Constants.primaryDegrade,
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(16.0),
-                    onTap: () async {
+          floatingActionButton: _collectionRocks.isEmpty
+              ? Center(
+                  child: FloatingActionButton(
+                    backgroundColor: Constants.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    onPressed: () async {
                       await Navigator.push(
                         context,
                         PageTransition(
@@ -103,22 +69,25 @@ class _CollectionsTabState extends State<CollectionsTab> {
                         ),
                       );
                     },
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.crop_free, color: Colors.white),
-                        SizedBox(width: 12),
-                        DSCustomText(
-                          text: 'Identify Rock',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                    child: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: Constants.primaryDegrade,
                         ),
-                      ],
-                    ),
+                        child: const Icon(Icons.add,
+                            color: Colors.white,
+                            size: 40,
+                            weight: 40,
+                            grade: 20)),
                   ),
-                ),
-              ),
-              const SizedBox(height: 16),
+                )
+              : null,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          body: Column(
+            children: [
               Expanded(
                 child: ListView.builder(
                   itemCount: _collectionRocks.length,
@@ -126,7 +95,9 @@ class _CollectionsTabState extends State<CollectionsTab> {
                     final rock = _collectionRocks[index];
 
                     return RockListItem(
-                      image: rock.image,
+                      image: rock.rockImages.isNotEmpty
+                          ? rock.rockImages.first.image
+                          : null,
                       imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
                           ? rock.imageURL
                           : 'https://via.placeholder.com/60',
@@ -146,7 +117,7 @@ class _CollectionsTabState extends State<CollectionsTab> {
                         );
                       },
                       onDelete: () async {
-                        await DatabaseHelper().removeRock(rock.rockName);
+                        await DatabaseHelper().removeRock(rock.rockId);
                         _loadCollectionRocks();
                       },
                     );

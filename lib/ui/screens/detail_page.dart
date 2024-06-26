@@ -9,6 +9,8 @@ import 'package:flutter_onboarding/services/add_rock_to_collection_service.dart'
 import 'package:flutter_onboarding/services/bottom_nav_service.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
+import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
+import 'package:flutter_onboarding/ui/screens/tabs/wishlist_tab.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/input_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,7 +19,6 @@ import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../db/db.dart';
-import '../../services/selection_modal.dart';
 import '../../services/snackbar.dart';
 import 'widgets/premium_section.dart';
 
@@ -50,10 +51,12 @@ class _RockDetailPageState extends State<RockDetailPage> {
   bool _feedbackGiven = false;
   final _addRockToCollectionService = AddRockToCollectionService.instance;
   final _formKey = GlobalKey<FormState>();
+  bool isUnfavoritingRock = false;
 
   @override
   void initState() {
     setState(() {
+      defineFavorite();
       _addRockToCollectionService.setRockData(widget.rock);
       buttonText = widget.isSavingRock
           ? 'Save'
@@ -66,6 +69,15 @@ class _RockDetailPageState extends State<RockDetailPage> {
                       : 'Add to My Collection';
     });
     super.initState();
+  }
+
+  void defineFavorite() async {
+    final wishlistRocksIds = await DatabaseHelper().wishlist();
+    setState(() {
+      isUnfavoritingRock = wishlistRocksIds.contains(widget.rock.rockId);
+    });
+
+    debugPrint('IS UNFAVORITING ROCK? $isUnfavoritingRock');
   }
 
   @override
@@ -100,22 +112,18 @@ class _RockDetailPageState extends State<RockDetailPage> {
               ),
               onPressed: () => saveRock(),
             ),
-          if (widget.isFavoritingRock || widget.isUnfavoritingRock)
-            IconButton(
-              onPressed: () async {
-                setState(() {
-                  widget.isUnfavoritingRock
-                      ? _removeFromWishlist()
-                      : _addToWishlist();
-                });
-              },
-              icon: Icon(
-                widget.isUnfavoritingRock
-                    ? Icons.favorite
-                    : Icons.favorite_border,
-                color: Constants.primaryColor,
-              ),
+          IconButton(
+            onPressed: () async {
+              setState(() {
+                isUnfavoritingRock ? _removeFromWishlist() : _addToWishlist();
+                isUnfavoritingRock = !isUnfavoritingRock;
+              });
+            },
+            icon: Icon(
+              isUnfavoritingRock ? Icons.favorite : Icons.favorite_border,
+              color: Constants.lightestRed,
             ),
+          ),
         ],
       ),
       body: Stack(
@@ -138,11 +146,12 @@ class _RockDetailPageState extends State<RockDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           widget.pickedImage == null
-                              ? widget.rock.image != null
+                              ? widget.rock.rockImages.isNotEmpty &&
+                                      widget.rock.rockImages.first.image != null
                                   ? ClipRRect(
                                       borderRadius: BorderRadius.circular(12),
                                       child: Image.memory(
-                                        widget.rock.image!,
+                                        widget.rock.rockImages.first.image!,
                                         fit: BoxFit.cover,
                                         height: 255,
                                       ),
@@ -198,8 +207,15 @@ class _RockDetailPageState extends State<RockDetailPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        ShowSelectionModalService().show(context);
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          PageTransition(
+                            duration: const Duration(milliseconds: 200),
+                            child: const CameraScreen(),
+                            type: PageTransitionType.bottomToTop,
+                          ),
+                        );
                       },
                       child: SvgPicture.string(
                         AppIcons.camera,
@@ -782,7 +798,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
       await DatabaseHelper().addRockToSnapHistory(
         widget.rock.rockId,
         timestamp,
-        image: widget.rock.image,
       );
 
       ShowSnackbarService().showSnackBar('Rock Saved');
@@ -800,7 +815,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   }
 
   void _removeFromCollection() async {
-    await DatabaseHelper().removeRock(widget.rock.rockName);
+    await DatabaseHelper().removeRock(widget.rock.rockId);
     Navigator.pushAndRemoveUntil(
       context,
       PageTransition(
@@ -818,13 +833,24 @@ class _RockDetailPageState extends State<RockDetailPage> {
   void _addToWishlist() async {
     try {
       await DatabaseHelper().addRockToWishlist(widget.rock.rockId);
-      await Navigator.pushAndRemoveUntil(
-        context,
-        PageTransition(
-            child: const RootPage(showFavorites: true),
-            type: PageTransitionType.leftToRightWithFade),
-        (route) => false,
-      );
+      if (widget.isFavoritingRock) {
+        await Navigator.pushAndRemoveUntil(
+          context,
+          PageTransition(
+              child: const RootPage(showFavorites: true),
+              type: PageTransitionType.leftToRightWithFade),
+          (route) => false,
+        );
+      } else {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          const SnackBar(
+            content: Text('Rock added to wishlist!'),
+            duration: Duration(seconds: 1),
+          ),
+        );
+      }
+      WishlistTabState().wishlistNotifier.value++;
+      setState(() {});
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
     }
@@ -833,13 +859,24 @@ class _RockDetailPageState extends State<RockDetailPage> {
   void _removeFromWishlist() async {
     try {
       await DatabaseHelper().removeRockFromWishlist(widget.rock.rockId);
-      await Navigator.pushAndRemoveUntil(
-        context,
-        PageTransition(
-            child: const RootPage(showFavorites: true),
-            type: PageTransitionType.leftToRightWithFade),
-        (route) => false,
-      );
+      if (widget.isUnfavoritingRock) {
+        await Navigator.pushAndRemoveUntil(
+          context,
+          PageTransition(
+              child: const RootPage(showFavorites: true),
+              type: PageTransitionType.leftToRightWithFade),
+          (route) => false,
+        );
+      } else {
+        scaffoldMessengerKey.currentState?.showSnackBar(
+          const SnackBar(
+            content: Text('Rock removed from wishlist.'),
+            duration: Duration(seconds: 1),
+          ),
+        );
+      }
+      WishlistTabState().wishlistNotifier.value++;
+      setState(() {});
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
     }
@@ -1182,7 +1219,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                       });
                                     }
                                   },
-                                  child: widget.rock.image != null ||
+                                  child: widget.rock.rockImages.isNotEmpty &&
+                                              widget.rock.rockImages.first
+                                                      .image !=
+                                                  null ||
                                           _addRockToCollectionService
                                                   .imageNotifier.value !=
                                               null ||
@@ -1200,13 +1240,23 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(10),
-                                                child: widget.rock.image !=
-                                                            null ||
+                                                child: widget.rock.rockImages
+                                                                .isNotEmpty &&
+                                                            widget
+                                                                    .rock
+                                                                    .rockImages
+                                                                    .first
+                                                                    .image !=
+                                                                null ||
                                                         (value as Uint8List?) !=
                                                             null
                                                     ? Image.memory(
                                                         value as Uint8List? ??
-                                                            widget.rock.image!,
+                                                            widget
+                                                                .rock
+                                                                .rockImages
+                                                                .first
+                                                                .image!,
                                                         fit: BoxFit.cover,
                                                       )
                                                     : widget.rock.imageURL

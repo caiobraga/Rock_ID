@@ -1209,7 +1209,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                   onTap: () async {
                                     final _imageFile =
                                         await ImagePickerService()
-                                            .pickImageFromGallery();
+                                            .pickImageFromGallery(context);
                                     final _image =
                                         await _imageFile?.readAsBytes();
                                     if (_image != null) {

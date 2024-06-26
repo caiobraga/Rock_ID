@@ -52,6 +52,13 @@ class _RockDetailPageState extends State<RockDetailPage> {
   final _addRockToCollectionService = AddRockToCollectionService.instance;
   final _formKey = GlobalKey<FormState>();
   bool isUnfavoritingRock = false;
+  Map<String, dynamic> rockDefaultImage = {
+    'img1': 'assets/images/rock1.png',
+    'img2': 'assets/images/rock1.png',
+    'cmi1': 'assets/images/rocha-granito.jpg',
+    'cmi2': 'assets/images/rocha-granito.jpg',
+    'cmi3': 'assets/images/rocha-granito.jpg',
+  };
 
   @override
   void initState() {
@@ -67,6 +74,11 @@ class _RockDetailPageState extends State<RockDetailPage> {
                   : widget.isRemovingFromCollection
                       ? 'Remove from My Collection'
                       : 'Add to My Collection';
+      for (final defaultImage in Rock.defaultImages) {
+        if (defaultImage['rockId'] == widget.rock.rockId) {
+          rockDefaultImage = defaultImage;
+        }
+      }
     });
     super.initState();
   }
@@ -76,8 +88,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
     setState(() {
       isUnfavoritingRock = wishlistRocksIds.contains(widget.rock.rockId);
     });
-
-    debugPrint('IS UNFAVORITING ROCK? $isUnfavoritingRock');
   }
 
   @override
@@ -325,10 +335,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
         Row(
           children: [
             _buildImageCard(
-                'Quartz', 'Color, Common', 'assets/images/rock1.png'),
+                'Quartz', 'Color, Common', rockDefaultImage['img1']),
             const SizedBox(width: 8),
             _buildImageCard(
-                'Quartz', 'Morphology, common', 'assets/images/rock1.png'),
+                'Quartz', 'Morphology, common', rockDefaultImage['img2']),
           ],
         ),
       ],
@@ -351,12 +361,46 @@ class _RockDetailPageState extends State<RockDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              assetPath,
-              height: 45,
-              width: 45,
-              fit: BoxFit.cover,
-            ),
+            assetPath.startsWith('assets')
+                ? Image.asset(
+                    assetPath,
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.cover,
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(43),
+                    child: Image.network(
+                      assetPath,
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress != null &&
+                            loadingProgress.expectedTotalBytes != null &&
+                            loadingProgress.cumulativeBytesLoaded <
+                                loadingProgress.expectedTotalBytes!) {
+                          return SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Constants.primaryColor,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
+                              ),
+                            ),
+                          );
+                        }
+
+                        return child;
+                      },
+                    ),
+                  ),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
@@ -541,11 +585,44 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     child: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(8), // Define o border radius
-                      child: Image.asset(
-                        'assets/images/rocha-granito.jpg',
-                        height: 103,
-                        fit: BoxFit.cover,
-                      ),
+                      child: rockDefaultImage['cmi1'].startsWith('assets')
+                          ? Image.asset(
+                              rockDefaultImage['cmi1'],
+                              height: 103,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              rockDefaultImage['cmi1'],
+                              height: 103,
+                              fit: BoxFit.cover,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress != null &&
+                                    loadingProgress.expectedTotalBytes !=
+                                        null &&
+                                    loadingProgress.cumulativeBytesLoaded <
+                                        loadingProgress.expectedTotalBytes!) {
+                                  return SizedBox(
+                                    height: 103,
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      color: Constants.primaryColor,
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
+                                              : null,
+                                    )),
+                                  );
+                                }
+
+                                return child;
+                              },
+                            ),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -553,11 +630,44 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     child: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(8), // Define o border radius
-                      child: Image.asset(
-                        'assets/images/rocha-granito.jpg',
-                        height: 103,
-                        fit: BoxFit.cover,
-                      ),
+                      child: rockDefaultImage['cmi2'].startsWith('assets')
+                          ? Image.asset(
+                              rockDefaultImage['cmi2'],
+                              height: 103,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              rockDefaultImage['cmi2'],
+                              height: 103,
+                              fit: BoxFit.cover,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress != null &&
+                                    loadingProgress.expectedTotalBytes !=
+                                        null &&
+                                    loadingProgress.cumulativeBytesLoaded <
+                                        loadingProgress.expectedTotalBytes!) {
+                                  return SizedBox(
+                                    height: 103,
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      color: Constants.primaryColor,
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
+                                              : null,
+                                    )),
+                                  );
+                                }
+
+                                return child;
+                              },
+                            ),
                     ),
                   ),
                 ],
@@ -571,12 +681,43 @@ class _RockDetailPageState extends State<RockDetailPage> {
               ClipRRect(
                 borderRadius:
                     BorderRadius.circular(8), // Define o border radius
-                child: Image.asset(
-                  'assets/images/rocha-granito.jpg',
-                  height: 182,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+                child: rockDefaultImage['cmi3'].startsWith('assets')
+                    ? Image.asset(
+                        rockDefaultImage['cmi3'],
+                        height: 182,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        rockDefaultImage['cmi3'],
+                        height: 182,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress != null &&
+                              loadingProgress.expectedTotalBytes != null &&
+                              loadingProgress.cumulativeBytesLoaded <
+                                  loadingProgress.expectedTotalBytes!) {
+                            return SizedBox(
+                              height: 182,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            (loadingProgress
+                                                    .expectedTotalBytes ??
+                                                1)
+                                        : null,
+                                    color: Constants.primaryColor),
+                              ),
+                            );
+                          }
+
+                          return child;
+                        },
+                      ),
               ),
               const SizedBox(height: 16),
               // Row(
@@ -1269,6 +1410,35 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                                             widget
                                                                 .rock.imageURL,
                                                             fit: BoxFit.cover,
+                                                            loadingBuilder:
+                                                                (context, child,
+                                                                    loadingProgress) {
+                                                              if (loadingProgress != null &&
+                                                                  loadingProgress
+                                                                          .expectedTotalBytes !=
+                                                                      null &&
+                                                                  loadingProgress
+                                                                          .cumulativeBytesLoaded <
+                                                                      loadingProgress
+                                                                          .expectedTotalBytes!) {
+                                                                return Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                  color: Constants
+                                                                      .primaryColor,
+                                                                  value: loadingProgress
+                                                                              .expectedTotalBytes !=
+                                                                          null
+                                                                      ? loadingProgress
+                                                                              .cumulativeBytesLoaded /
+                                                                          (loadingProgress.expectedTotalBytes ??
+                                                                              1)
+                                                                      : null,
+                                                                ));
+                                                              }
+
+                                                              return child;
+                                                            },
                                                           )
                                                         : null,
                                               ),

@@ -145,28 +145,32 @@ class _RockDetailPageState extends State<RockDetailPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          widget.pickedImage == null
-                              ? widget.rock.rockImages.isNotEmpty &&
-                                      widget.rock.rockImages.first.image != null
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Image.memory(
-                                        widget.rock.rockImages.first.image!,
-                                        fit: BoxFit.cover,
-                                        height: 255,
-                                      ),
-                                    )
-                                  : Image.asset('assets/images/rock1.png',
-                                      height: 175.75,
-                                      width: 255,
-                                      fit: BoxFit.cover)
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.file(
-                                    widget.pickedImage!,
-                                    fit: BoxFit.cover,
+                          InkWell(
+                            onTap: _showAddRockToCollectionModal,
+                            child: widget.pickedImage == null
+                                ? widget.rock.rockImages.isNotEmpty &&
+                                        widget.rock.rockImages.first.image !=
+                                            null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.memory(
+                                          widget.rock.rockImages.first.image!,
+                                          fit: BoxFit.cover,
+                                          height: 255,
+                                        ),
+                                      )
+                                    : Image.asset('assets/images/rock1.png',
+                                        height: 175.75,
+                                        width: 255,
+                                        fit: BoxFit.cover)
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.file(
+                                      widget.pickedImage!,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
+                          ),
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 16.0),
                             child: Divider(

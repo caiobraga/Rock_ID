@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:typed_data';
@@ -63,11 +64,26 @@ class ImagePickerService {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Error'),
-          content: Text(message),
+          backgroundColor: Constants.blackColor,
+          surfaceTintColor: Colors.transparent,
+          title: const Text(
+            'Error',
+            style: TextStyle(color: Constants.lightestRed),
+          ),
+          content: Text(
+            message,
+            style: const TextStyle(color: Constants.white),
+          ),
           actions: <Widget>[
             TextButton(
               child: const Text('OK'),
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.darkGrey,
+                backgroundColor: Constants.primaryColor,
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },

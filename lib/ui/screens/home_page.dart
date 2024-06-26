@@ -253,124 +253,130 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: GestureDetector(
-                              onTap: () async {
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    duration: const Duration(milliseconds: 200),
-                                    child: const CameraScreen(),
-                                    type: PageTransitionType.bottomToTop,
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                    top: 20, bottom: 15, right: 10, left: 10),
-                                decoration: BoxDecoration(
-                                  color: Constants.darkGrey,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      'RECOGNIZE THE DETAILS OF A ROCK',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Constants.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                            child: AspectRatio(
+                              aspectRatio: 0.66,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      duration: const Duration(milliseconds: 200),
+                                      child: const CameraScreen(),
+                                      type: PageTransitionType.bottomToTop,
                                     ),
-                                    const SizedBox(height: 15),
-                                    Image.asset('assets/images/rocktap.png',
-                                        height: 55),
-                                    const SizedBox(height: 15),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4.0, horizontal: 16),
-                                      margin: const EdgeInsets.all(4.0),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Constants.primaryColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: const Text(
-                                        'TAP HERE',
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    color: Constants.darkGrey,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        'RECOGNIZE THE DETAILS OF A ROCK',
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 16,
-                                          color: Constants.primaryColor,
+                                          color: Constants.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(height: 15),
+                                      Image.asset('assets/images/rocktap.png',
+                                          height: 55, width: 55),
+                                      const SizedBox(height: 15),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0, horizontal: 16),
+                                        margin: const EdgeInsets.all(4.0),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Constants.primaryColor,
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        child: const Text(
+                                          'TAP HERE',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Constants.primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
-                            child: GestureDetector(
-                              onTap: () async {
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    duration: const Duration(milliseconds: 200),
-                                    child: const CameraScreen(
-                                      isScanningForRockDetails: false,
+                            child: AspectRatio(
+                              aspectRatio: 0.66,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      duration: const Duration(milliseconds: 200),
+                                      child: const CameraScreen(
+                                        isScanningForRockDetails: false,
+                                      ),
+                                      type: PageTransitionType.bottomToTop,
                                     ),
-                                    type: PageTransitionType.bottomToTop,
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    color: Constants.darkGrey,
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                );
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                    top: 20, bottom: 15, right: 10, left: 10),
-                                decoration: BoxDecoration(
-                                  color: Constants.darkGrey,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      'RECOGNIZE THE VALUE OF A ROCK',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Constants.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Image.asset('assets/images/coinstap.png',
-                                        height: 55),
-                                    const SizedBox(height: 15),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4.0, horizontal: 16),
-                                      margin: const EdgeInsets.all(4.0),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Constants.primaryColor,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: const Text(
-                                        'TAP HERE',
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        'RECOGNIZE THE VALUE OF A ROCK',
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 16,
-                                          color: Constants.primaryColor,
+                                          color: Constants.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(height: 15),
+                                      Image.asset('assets/images/coinstap.png',
+                                          height: 55, width: 55),
+                                      const SizedBox(height: 15),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0, horizontal: 16),
+                                        margin: const EdgeInsets.all(4.0),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Constants.primaryColor,
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        child: const Text(
+                                          'TAP HERE',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Constants.primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

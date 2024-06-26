@@ -776,7 +776,7 @@ class _CameraScreenState extends State<CameraScreen> {
   void _showRockDetails(NavigatorState navigator) async {
     bool isRemovingFromCollection = false;
     final allRocks = await DatabaseHelper().findAllRocks();
-    if (allRocks.where((rock) => rock.rockName == _rock?.rockName).isNotEmpty) {
+    if (allRocks.where((rock) => rock.rockId == _rock?.rockId).isNotEmpty) {
       isRemovingFromCollection = true;
     }
 

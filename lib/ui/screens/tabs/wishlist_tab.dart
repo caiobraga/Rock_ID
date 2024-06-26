@@ -7,6 +7,8 @@ import 'package:flutter_onboarding/ui/screens/select_rock_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../camera_screen.dart';
+
 class WishlistTab extends StatefulWidget {
   const WishlistTab({super.key});
 
@@ -147,7 +149,15 @@ class WishlistTabState extends State<WishlistTab> {
   Widget _addRockToWishlistButton() {
     return ElevatedButton.icon(
       onPressed: () {
-        _showRockSelectionModal();
+         Navigator.push(
+                        context,
+                        PageTransition(
+                          duration: const Duration(milliseconds: 400),
+                          child: const CameraScreen(),
+                          type: PageTransitionType.bottomToTop,
+                        ),
+                      );
+        //_showRockSelectionModal();
       },
       icon: const Icon(Icons.add),
       label: const Text(

@@ -1,39 +1,39 @@
 import 'dart:typed_data';
 
-class CollectionImage {
+class RockImage {
   final int id;
-  final int collectionId;
+  final int rockId;
   final Uint8List? image;
 
-  CollectionImage({
+  RockImage({
     required this.id,
-    required this.collectionId,
+    required this.rockId,
     required this.image,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'collectionId': collectionId,
+      'rockId': rockId,
       'image': image,
     };
   }
 
-  factory CollectionImage.fromMap(Map<String, dynamic> map) {
-    return CollectionImage(
+  factory RockImage.fromMap(Map<String, dynamic> map) {
+    return RockImage(
       id: map['id'],
-      collectionId: map['collectionId'] ?? '',
+      rockId: map['rockId'] ?? '',
       image: map['image'] == null ? null : map['image'] as Uint8List,
     );
   }
 
-  CollectionImage copyWith({
+  RockImage copyWith({
     int? id,
-    int? collectionId,
+    int? rockId,
     Uint8List? image,
   }) {
-    return CollectionImage(
+    return RockImage(
       id: id ?? this.id,
-      collectionId: collectionId ?? this.collectionId,
+      rockId: rockId ?? this.rockId,
       image: image ?? this.image,
     );
   }

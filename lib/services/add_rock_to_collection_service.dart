@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 
 import '../db/db.dart';
@@ -61,23 +62,35 @@ class AddRockToCollectionService {
     final double height = double.tryParse(heightController.text) ?? 0.0;
     final String notes = notesController.text;
     final String unitOfMeasurement = unitOfMeasurementNotifier.value;
+    final List<RockImage> rockImages = [];
 
-    try {
-      final newRock = rock.copyWith(
-        rockName: name,
-        description: description,
-        number: number,
-        dateAcquired: dateAcquired,
-        cost: cost,
-        locality: locality,
-        length: length,
-        width: width,
-        height: height,
-        notes: notes,
-        unitOfMeasurement: unitOfMeasurement,
+    Rock newRock = rock.copyWith(
+      rockName: name,
+      description: description,
+      number: number,
+      dateAcquired: dateAcquired,
+      cost: cost,
+      locality: locality,
+      length: length,
+      width: width,
+      height: height,
+      notes: notes,
+      unitOfMeasurement: unitOfMeasurement,
+    );
+
+    if (imageNotifier.value != null) {
+      final newRockImage = RockImage(
+        id: 0,
+        rockId: rock.rockId,
         image: imageNotifier.value,
       );
 
+      rockImages.add(newRockImage);
+
+      newRock = newRock.copyWith(rockImages: rockImages);
+    }
+
+    try {
       await DatabaseHelper().insertRock(newRock);
     } catch (e) {
       debugPrint(e.toString());

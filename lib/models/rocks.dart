@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:typed_data';
+import 'package:flutter_onboarding/models/rock_image.dart';
 
 class Rock {
   final int rockId;
@@ -45,7 +45,7 @@ class Rock {
   final double height;
   final String notes;
   final String unitOfMeasurement;
-  final Uint8List? image;
+  final List<RockImage> rockImages;
 
   Rock({
     required this.rockId,
@@ -87,7 +87,7 @@ class Rock {
     this.number = '',
     this.unitOfMeasurement = '',
     this.width = 0.0,
-    this.image,
+    this.rockImages = const [],
   });
 
   factory Rock.empty() => Rock(
@@ -125,6 +125,7 @@ class Rock {
 
   Map<String, dynamic> toMap() {
     return {
+      'rockId': rockId,
       'price': price,
       'category': category,
       'rockName': rockName,
@@ -149,7 +150,6 @@ class Rock {
       'number': number,
       'unitOfMeasurement': unitOfMeasurement,
       'width': width,
-      'image': image,
     };
   }
 
@@ -195,7 +195,6 @@ class Rock {
       number: map['number'] ?? '',
       unitOfMeasurement: map['unitOfMeasurement'] ?? '',
       width: map['width'] ?? 0.0,
-      image: map['image'] == null ? null : map['image'] as Uint8List,
     );
   }
 
@@ -29826,7 +29825,7 @@ class Rock {
     double? height,
     String? notes,
     String? unitOfMeasurement,
-    Uint8List? image,
+    List<RockImage>? rockImages,
   }) {
     return Rock(
       rockId: rockId ?? this.rockId,
@@ -29869,7 +29868,7 @@ class Rock {
       height: height ?? this.height,
       notes: notes ?? this.notes,
       unitOfMeasurement: unitOfMeasurement ?? this.unitOfMeasurement,
-      image: image ?? this.image,
+      rockImages: rockImages ?? this.rockImages,
     );
   }
 }

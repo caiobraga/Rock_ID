@@ -1,13 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/models/collection.dart';
-import 'package:flutter_onboarding/models/collection_image.dart';
+import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
-import '../models/rock_in_collection.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -31,7 +28,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 21,
+      version: 23,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -40,7 +37,7 @@ class DatabaseHelper {
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE rocks(
-        rockId INTEGER PRIMARY KEY AUTOINCREMENT,
+        rockId INTEGER PRIMARY KEY,
         price REAL,
         category TEXT,
         rockName TEXT,
@@ -64,44 +61,16 @@ class DatabaseHelper {
         width REAL,
         height REAL,
         notes TEXT,
-        unitOfMeasurement TEXT,
-        image BLOB
-      )
-    ''');
-
-    await db.execute('''
-      CREATE TABLE collections(
-        collectionId INTEGER PRIMARY KEY AUTOINCREMENT,
-        collectionName TEXT,
-        description TEXT,
-        number TEXT,
-        dateAcquired TEXT,
-        cost REAL,
-        locality TEXT,
-        length REAL,
-        width REAL,
-        height REAL,
-        notes TEXT,
         unitOfMeasurement TEXT
       )
     ''');
 
     await db.execute('''
-      CREATE TABLE collection_images(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        image BLOB,
-        collectionId INTEGER,
-        CONSTRAINT fk_collections FOREIGN KEY (collectionId) REFERENCES collections(collectionId)
-      )
-    ''');
-
-    await db.execute('''
-      CREATE TABLE rock_in_collection(
+      CREATE TABLE rock_images(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
-        collectionId INTEGER,
-        FOREIGN KEY (rockId) REFERENCES rocks (rockId),
-        FOREIGN KEY (collectionId) REFERENCES collections (collectionId)
+        image BLOB,
+        FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
 
@@ -118,7 +87,6 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
         timestamp TEXT,
-        image BLOB,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -126,166 +94,79 @@ class DatabaseHelper {
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // Drop all tables
-    await db.execute('DROP TABLE IF EXISTS rocks');
-    await db.execute('DROP TABLE IF EXISTS collection_images');
-    await db.execute('DROP TABLE IF EXISTS collections');
-    await db.execute('DROP TABLE IF EXISTS rock_in_collection');
+    await db.execute('DROP TABLE IF EXISTS rock_images');
     await db.execute('DROP TABLE IF EXISTS wishlist');
     await db.execute('DROP TABLE IF EXISTS snap_history');
+    await db.execute('DROP TABLE IF EXISTS rocks');
 
     // Recreate tables
     await _onCreate(db, newVersion);
   }
 
-  Future<void> ensureSavedCollectionExists() async {
+  //Functions for rocks
+  Future<List<Rock>> findAllRocks() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'collections',
-      where: 'collectionName = ?',
-      whereArgs: ['Saved'],
-    );
 
-    if (maps.isEmpty) {
-      await insertCollection(
-        Collection(
-          collectionId: 0,
-          collectionName: 'Saved',
-          description: 'Saved items',
-          cost: 0,
-          dateAcquired: DateTime.now().toIso8601String(),
-          height: 0,
-          length: 0,
-          locality: '',
-          notes: '',
-          number: '',
-          width: 0,
-          unitOfMeasurement: 'cm',
-        ),
-      );
-    }
-  }
+    //getting list of rocks
+    final List<Map<String, dynamic>> rockMap = await db.query('rocks');
+    final rockList = rockMap.map((dbRock) => Rock.fromMap(dbRock)).toList();
 
-  Future<int?> getSavedCollectionId() async {
-    final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'collections',
-      where: 'collectionName = ?',
-      whereArgs: ['Saved'],
-    );
+    //getting list of rocks images
+    final List<Map<String, dynamic>> rockImagesMap =
+        await db.query('rock_images');
+    final rockImagesList =
+        rockImagesMap.map((dbRock) => RockImage.fromMap(dbRock)).toList();
 
-    if (maps.isNotEmpty) {
-      return maps.first['collectionId'] as int?;
-    } else {
-      return null;
-    }
-  }
+    debugPrint(rockMap.toString());
+    debugPrint(rockImagesMap.toString());
 
-  Future<void> insertCollection(Collection collection) async {
-    try {
-      final db = await database;
-      final id = await db.insert(
-        'collections',
-        collection.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-
-      final collectionImagesWithCollectionId = collection.collectionImagesFiles
-          .map((e) => e.copyWith(collectionId: id))
-          .toList();
-
-      for (var collectionImageFile in collectionImagesWithCollectionId) {
-        final map = collectionImageFile.toMap();
-        await db.insert(
-          'collection_images',
-          map,
-          conflictAlgorithm: ConflictAlgorithm.replace,
-        );
-      }
-    } catch (e) {
-      debugPrint('ERROR: $e');
-    }
-  }
-
-  Future<List<Collection>> collections() async {
-    final db = await database;
-    final List<Map<String, dynamic>> collectionsMap =
-        await db.query('collections');
-    final List<Map<String, dynamic>> collectionImagesMap =
-        await db.query('collection_images');
-    final lstImages =
-        collectionImagesMap.map((e) => CollectionImage.fromMap(e)).toList();
-
-    final lstCollections =
-        collectionsMap.map((e) => Collection.fromMap(e)).toList();
-
-    final result = lstCollections
-        .map((collection) => collection.copyWith(
-            collectionImagesFiles: lstImages
-                .where((element) =>
-                    element.collectionId == collection.collectionId)
+    //returning rocks with it's images
+    return rockList
+        .map((rock) => rock.copyWith(
+            rockImages: rockImagesList
+                .where((rockImage) => rockImage.rockId == rock.rockId)
                 .toList()))
         .toList();
-
-    return result;
   }
 
-  Future<void> updateCollection(Collection collection) async {
-    final db = await database;
-    await db.update(
-      'collections',
-      collection.toMap(),
-      where: 'collectionId = ?',
-      whereArgs: [collection.collectionId],
-    );
-  }
-
-  Future<void> deleteCollection(int collectionId) async {
-    final db = await database;
-    await db.delete(
-      'collections',
-      where: 'collectionId = ?',
-      whereArgs: [collectionId],
-    );
-  }
-
-  // Functions for rock_in_collection
-
-  Future<void> addRockToCollection(int rockId, int collectionId) async {
+  Future<void> insertRock(Rock rock) async {
     final db = await database;
     await db.insert(
-      'rock_in_collection',
-      {
-        'rockId': rockId,
-        'collectionId': collectionId,
-      },
+      'rocks',
+      rock.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
+    for (final rockImage in rock.rockImages) {
+      await db.insert(
+        'rock_images',
+        rockImage.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
   }
 
-  Future<List<RockInCollection>> rocksInCollection(int collectionId) async {
-    final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'rock_in_collection',
-      where: 'collectionId = ?',
-      whereArgs: [collectionId],
-    );
+  Future<void> removeRock(int rockId) async {
+    try {
+      final db = await database;
 
-    return List.generate(maps.length, (i) {
-      return RockInCollection.fromMap(maps[i]);
-    });
-  }
+      await db.delete(
+        'rock_images',
+        where: 'rockId = ?',
+        whereArgs: [rockId],
+      );
 
-  Future<void> removeRockFromCollection(int rockId, int collectionId) async {
-    final db = await database;
-    await db.delete(
-      'rock_in_collection',
-      where: 'rockId = ? AND collectionId = ?',
-      whereArgs: [rockId, collectionId],
-    );
+      await db.delete(
+        'rocks',
+        where: 'rockId = ?',
+        whereArgs: [rockId],
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   // Functions for wishlist
-
   Future<void> addRockToWishlist(int rockId) async {
     final db = await database;
     await db.insert(
@@ -317,15 +198,13 @@ class DatabaseHelper {
 
   // Functions for snap_history
 
-  Future<void> addRockToSnapHistory(int rockId, String timestamp,
-      {Uint8List? image}) async {
+  Future<void> addRockToSnapHistory(int rockId, String timestamp) async {
     final db = await database;
     await db.insert(
       'snap_history',
       {
         'rockId': rockId,
         'timestamp': timestamp,
-        'image': image,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -334,12 +213,12 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> snapHistory() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('snap_history');
+    debugPrint(maps.toString());
 
     return List.generate(maps.length, (i) {
       return {
         'rockId': maps[i]['rockId'],
         'timestamp': maps[i]['timestamp'],
-        'image': maps[i]['image'],
       };
     });
   }
@@ -350,30 +229,6 @@ class DatabaseHelper {
       'snap_history',
       where: 'rockId = ?',
       whereArgs: [rockId],
-    );
-  }
-
-  Future<List<Rock>> findAllRocks() async {
-    final db = await database;
-    final _dbRocks = await db.query('rocks');
-    return _dbRocks.map((dbRock) => Rock.fromMap(dbRock)).toList();
-  }
-
-  Future<void> insertRock(Rock rock) async {
-    final db = await database;
-    await db.insert(
-      'rocks',
-      rock.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  Future<void> removeRock(String rockName) async {
-    final db = await database;
-    await db.delete(
-      'rocks',
-      where: 'rockName = ?',
-      whereArgs: [rockName],
     );
   }
 }

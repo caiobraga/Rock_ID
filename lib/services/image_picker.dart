@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/constants.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_onboarding/constants.dart';
 import 'package:image/image.dart' as img;
+import 'package:image_picker/image_picker.dart';
 
 import 'camera_tip_modal.dart';
 

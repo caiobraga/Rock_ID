@@ -55,7 +55,10 @@ class AddRockToCollectionService {
     final String name = nameController.text;
     final String description = notesController.text;
     final String dateAcquired = dateController.text;
-    final double cost = double.tryParse(costController.text) ?? 0.0;
+    final double cost =
+        double.tryParse(costController.text.replaceAll(',', '.')) ?? 0.0;
+    debugPrint('CUSTO TEXTO: ${costController.text}');
+    debugPrint('CUSTO: $cost');
     final String locality = localityController.text;
     final double length = double.tryParse(lengthController.text) ?? 0.0;
     final double width = double.tryParse(widthController.text) ?? 0.0;
@@ -91,6 +94,11 @@ class AddRockToCollectionService {
     }
 
     try {
+      if (await DatabaseHelper().rockExists(rock)) {
+        await DatabaseHelper().editRock(newRock);
+        return;
+      }
+
       await DatabaseHelper().insertRock(newRock);
     } catch (e) {
       debugPrint(e.toString());

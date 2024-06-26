@@ -36,7 +36,7 @@ class PremiumSection extends StatelessWidget {
           children: [
             // Icon(Icons.star_border, color: AppCollors.naturalBlack, size: 40),
             SvgPicture.string(
-              AppIcons.crown,
+              AppIcons.crownOnly,
               color: AppColors.naturalBlack,
               width: 40,
             ),
@@ -51,7 +51,7 @@ class PremiumSection extends StatelessWidget {
                       Text(
                         'Go ',
                         style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: AppColors.naturalBlack,
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
@@ -71,7 +71,7 @@ class PremiumSection extends StatelessWidget {
                         child: Text(
                           'Premium',
                           style: GoogleFonts.montserrat(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                               color: AppColors.primaryDarkest,
@@ -86,7 +86,7 @@ class PremiumSection extends StatelessWidget {
                   Text(
                     'Try ROCKAPP Premium for free',
                     style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         color: AppColors.naturalBlack,
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -96,7 +96,7 @@ class PremiumSection extends StatelessWidget {
                   Text(
                     'Claim your offer now',
                     style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                         color: AppColors.naturalBlack,
                         fontWeight: FontWeight.normal,
                         fontSize: 12,

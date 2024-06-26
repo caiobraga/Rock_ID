@@ -1,8 +1,6 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-
 import '../../widgets/text.dart';
 
 class RockListItem extends StatelessWidget {
@@ -138,7 +136,7 @@ class RockListItem extends StatelessWidget {
             Visibility(
               visible: onDelete != null,
               child: IconButton(
-                onPressed: onDelete,
+                onPressed: () => _showDeleteConfirmationDialog(context),
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.all(0),
                 icon: const Icon(
@@ -151,6 +149,53 @@ class RockListItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Constants.blackColor,
+          surfaceTintColor: Colors.transparent,
+          title: const Text(
+            'Removing rock',
+            style: TextStyle(color: Constants.lightestRed),
+          ),
+          content: const Text(
+            'Are you sure you want to remove the rock?',
+            style: TextStyle(color: Constants.white),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.darkGrey,
+                backgroundColor: Constants.primaryColor,
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                if (onDelete != null) {
+                  onDelete!();
+                }
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.lightestRed,
+              ),
+              child: const Text('Remove rock'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

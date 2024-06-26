@@ -265,6 +265,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               child: Container(
+                                height: 226,
                                 padding: const EdgeInsets.only(
                                     top: 20, bottom: 15, right: 10, left: 10),
                                 decoration: BoxDecoration(
@@ -328,6 +329,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               child: Container(
+                                height: 226,
                                 padding: const EdgeInsets.only(
                                     top: 20, bottom: 15, right: 10, left: 10),
                                 decoration: BoxDecoration(

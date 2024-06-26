@@ -91,16 +91,27 @@ class _CollectionsTabState extends State<CollectionsTab> {
               Expanded(
                 child: ListView.builder(
                   itemCount: _collectionRocks.length,
+                  cacheExtent: 2000,
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
                   itemBuilder: (context, index) {
                     final rock = _collectionRocks[index];
+
+                    Map<String, dynamic> rockDefaultImage = {
+                      'img1': 'https://via.placeholder.com/60',
+                    };
+
+                    for (final defaultImage in Rock.defaultImages) {
+                      if (defaultImage['rockId'] == rock.rockId) {
+                        rockDefaultImage = defaultImage;
+                      }
+                    }
 
                     return RockListItem(
                       image: rock.rockImages.isNotEmpty
                           ? rock.rockImages.first.image
                           : null,
-                      imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
-                          ? rock.imageURL
-                          : 'https://via.placeholder.com/60',
+                      imageUrl: rockDefaultImage['img1'],
                       title: rock.rockName,
                       tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                       onTap: () {

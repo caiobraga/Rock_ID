@@ -55,21 +55,29 @@ class RockListItem extends StatelessWidget {
                           ),
                         );
                       },
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress != null &&
+                            loadingProgress.expectedTotalBytes != null &&
+                            loadingProgress.cumulativeBytesLoaded <
+                                loadingProgress.expectedTotalBytes!) {
+                          return SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Constants.primaryColor,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
+
+                        return child;
                       },
                     )
                   : Image.memory(

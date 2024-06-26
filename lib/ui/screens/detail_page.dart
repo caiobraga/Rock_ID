@@ -169,10 +169,57 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                           height: 255,
                                         ),
                                       )
-                                    : Image.asset('assets/images/rock1.png',
-                                        height: 175.75,
-                                        width: 255,
-                                        fit: BoxFit.cover)
+                                    : rockDefaultImage['img1']
+                                            .startsWith('assets')
+                                        ? Image.asset(rockDefaultImage['img1'],
+                                            height: 175.75,
+                                            width: 255,
+                                            fit: BoxFit.cover)
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Image.network(
+                                              rockDefaultImage['img1'],
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              fit: BoxFit.cover,
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress != null &&
+                                                    loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null &&
+                                                    loadingProgress
+                                                            .cumulativeBytesLoaded <
+                                                        loadingProgress
+                                                            .expectedTotalBytes!) {
+                                                  return SizedBox(
+                                                    height: 50,
+                                                    width: 50,
+                                                    child: Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Constants
+                                                            .primaryColor,
+                                                        value: loadingProgress
+                                                                    .expectedTotalBytes !=
+                                                                null
+                                                            ? loadingProgress
+                                                                    .cumulativeBytesLoaded /
+                                                                (loadingProgress
+                                                                        .expectedTotalBytes ??
+                                                                    1)
+                                                            : null,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+
+                                                return child;
+                                              },
+                                            ),
+                                          )
                                 : ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.file(

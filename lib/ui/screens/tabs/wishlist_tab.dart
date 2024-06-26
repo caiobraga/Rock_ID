@@ -93,13 +93,24 @@ class WishlistTabState extends State<WishlistTab> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: _wishlistRocks.length,
+                          cacheExtent: 2000,
+                          physics: const ScrollPhysics(),
                           itemBuilder: (context, index) {
                             final rock = _wishlistRocks[index];
+
+                            Map<String, dynamic> rockDefaultImage = {
+                              'img1': 'https://via.placeholder.com/60',
+                            };
+
+                            for (final defaultImage in Rock.defaultImages) {
+                              if (defaultImage['rockId'] == rock.rockId) {
+                                rockDefaultImage = defaultImage;
+                              }
+                            }
+
                             return RockListItem(
-                              imageUrl: rock.imageURL.isNotEmpty &&
-                                      rock.imageURL != ''
-                                  ? rock.imageURL
-                                  : 'https://via.placeholder.com/60', // Placeholder image
+                              imageUrl:
+                                  rockDefaultImage['img1'], // Placeholder image
                               title: rock.rockName,
                               tags: const ['Wishlist'],
                               onTap: () {

@@ -98,7 +98,7 @@ class _CollectionsTabState extends State<CollectionsTab> {
                     final rock = _collectionRocks[index];
 
                     Map<String, dynamic> rockDefaultImage = {
-                      'img1': 'https://via.placeholder.com/60',
+                      'img1': 'https://placehold.jp/60x60.png',
                     };
 
                     for (final defaultImage in Rock.defaultImages) {

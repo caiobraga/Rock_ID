@@ -41,9 +41,25 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
   void _loadAllRocks() async {
     try {
       _allRocks.clear();
+      final allDbRocks = await DatabaseHelper().findAllRocks();
       List<Rock> allRocks = Rock.rockList;
+      List<Rock> allRocksWithImages = [];
+
+      for (Rock rock in allRocks) {
+        final dbRock = allDbRocks.firstWhere(
+          (element) => element.rockId == rock.rockId,
+          orElse: Rock.empty,
+        );
+
+        if (dbRock.rockId != 0) {
+          rock = rock.copyWith(rockImages: dbRock.rockImages);
+        }
+
+        allRocksWithImages.add(rock);
+      }
+
       setState(() {
-        _allRocks.addAll(allRocks);
+        _allRocks.addAll(allRocksWithImages);
       });
     } catch (e) {
       debugPrint('$e');
@@ -118,7 +134,7 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                             orElse: () => Rock.empty());
 
                         Map<String, dynamic> rockDefaultImage = {
-                          'img1': 'https://via.placeholder.com/60',
+                          'img1': 'https://placehold.jp/60x60.png',
                         };
 
                         for (final defaultImage in Rock.defaultImages) {
@@ -127,7 +143,9 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                           }
                         }
                         return RockListItem(
-                          // image: _history[index]['image'],
+                          image: rock.rockImages.isNotEmpty
+                              ? rock.rockImages.first.image
+                              : null,
                           imageUrl: rockDefaultImage['img1'],
                           title: rock.rockName,
                           tags: const ['Sulfide minerals', 'Mar', 'Jul'],

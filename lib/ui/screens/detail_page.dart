@@ -31,6 +31,7 @@ class RockDetailPage extends StatefulWidget {
   final bool isRemovingFromCollection;
   final File? pickedImage;
   final Map<String, dynamic>? identifyPriceResponse;
+  final bool isAddingFromRockList;
 
   const RockDetailPage({
     super.key,
@@ -42,6 +43,7 @@ class RockDetailPage extends StatefulWidget {
     this.isRemovingFromCollection = false,
     this.pickedImage,
     this.identifyPriceResponse,
+    this.isAddingFromRockList = false,
   });
 
   @override
@@ -66,7 +68,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
   void initState() {
     setState(() {
       defineFavorite();
-      _addRockToCollectionService.setRockData(widget.rock);
+      _addRockToCollectionService.setRockData(widget.rock, widget.pickedImage);
       buttonText = widget.isSavingRock
           ? 'Save'
           : widget.isUnfavoritingRock
@@ -108,7 +110,9 @@ class _RockDetailPageState extends State<RockDetailPage> {
               )
             : null,
         title: Text(
-          widget.pickedImage == null ? 'BEST MATCHES' : 'ESTIMATED VALUE',
+          widget.identifyPriceResponse == null
+              ? 'BEST MATCHES'
+              : 'ESTIMATED VALUE',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Constants.primaryColor,
@@ -116,7 +120,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
         ),
         backgroundColor: Colors.black,
         actions: [
-          if (widget.isSavingRock && widget.pickedImage == null)
+          if (widget.isSavingRock && widget.identifyPriceResponse == null)
             IconButton(
               icon: const Icon(
                 Icons.save,
@@ -158,77 +162,108 @@ class _RockDetailPageState extends State<RockDetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           InkWell(
-                            onTap: _showAddRockToCollectionModal,
-                            child: widget.pickedImage == null
-                                ? widget.rock.rockImages.isNotEmpty &&
-                                        widget.rock.rockImages.first.image !=
-                                            null
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Image.memory(
-                                          widget.rock.rockImages.first.image!,
-                                          fit: BoxFit.cover,
-                                          height: 255,
-                                        ),
-                                      )
-                                    : rockDefaultImage['img1']
-                                            .startsWith('assets')
-                                        ? Image.asset(rockDefaultImage['img1'],
-                                            height: 175.75,
-                                            width: 255,
-                                            fit: BoxFit.cover)
-                                        : ClipRRect(
+                            onTap: widget.isRemovingFromCollection
+                                ? _showAddRockToCollectionModal
+                                : null,
+                            child: Stack(
+                              children: [
+                                widget.identifyPriceResponse == null
+                                    ? widget.rock.rockImages.isNotEmpty &&
+                                            widget.rock.rockImages.first
+                                                    .image !=
+                                                null
+                                        ? ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(12),
-                                            child: Image.network(
-                                              rockDefaultImage['img1'],
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
+                                            child: Image.memory(
+                                              widget
+                                                  .rock.rockImages.first.image!,
                                               fit: BoxFit.cover,
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress != null &&
-                                                    loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null &&
-                                                    loadingProgress
-                                                            .cumulativeBytesLoaded <
-                                                        loadingProgress
-                                                            .expectedTotalBytes!) {
-                                                  return SizedBox(
-                                                    height: 50,
-                                                    width: 50,
-                                                    child: Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: Constants
-                                                            .primaryColor,
-                                                        value: loadingProgress
-                                                                    .expectedTotalBytes !=
-                                                                null
-                                                            ? loadingProgress
-                                                                    .cumulativeBytesLoaded /
-                                                                (loadingProgress
-                                                                        .expectedTotalBytes ??
-                                                                    1)
-                                                            : null,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-
-                                                return child;
-                                              },
+                                              height: 255,
                                             ),
                                           )
-                                : ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.file(
-                                      widget.pickedImage!,
-                                      fit: BoxFit.cover,
+                                        : rockDefaultImage['img1']
+                                                .startsWith('assets')
+                                            ? Image.asset(
+                                                rockDefaultImage['img1'],
+                                                height: 175.75,
+                                                width: 255,
+                                                fit: BoxFit.cover)
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                child: Image.network(
+                                                  rockDefaultImage['img1'],
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  fit: BoxFit.cover,
+                                                  loadingBuilder: (context,
+                                                      child, loadingProgress) {
+                                                    if (loadingProgress !=
+                                                            null &&
+                                                        loadingProgress
+                                                                .expectedTotalBytes !=
+                                                            null &&
+                                                        loadingProgress
+                                                                .cumulativeBytesLoaded <
+                                                            loadingProgress
+                                                                .expectedTotalBytes!) {
+                                                      return SizedBox(
+                                                        height: 50,
+                                                        width: 50,
+                                                        child: Center(
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            color: Constants
+                                                                .primaryColor,
+                                                            value: loadingProgress
+                                                                        .expectedTotalBytes !=
+                                                                    null
+                                                                ? loadingProgress
+                                                                        .cumulativeBytesLoaded /
+                                                                    (loadingProgress
+                                                                            .expectedTotalBytes ??
+                                                                        1)
+                                                                : null,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+
+                                                    return child;
+                                                  },
+                                                ),
+                                              )
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.file(
+                                          widget.pickedImage!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                Visibility(
+                                  visible: widget.isRemovingFromCollection,
+                                  child: Positioned(
+                                    top: 3,
+                                    right: 3,
+                                    width: 28,
+                                    height: 28,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Constants.darkGrey,
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: const Icon(
+                                        Icons.edit,
+                                        color: Constants.primaryColor,
+                                        size: 20,
+                                      ),
                                     ),
                                   ),
+                                ),
+                              ],
+                            ),
                           ),
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -240,7 +275,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (widget.pickedImage != null)
+                              if (widget.identifyPriceResponse != null)
                                 ..._buildInfoSectionCost()
                               else
                                 ..._buildInfoSectionRock(),
@@ -250,14 +285,15 @@ class _RockDetailPageState extends State<RockDetailPage> {
                       ),
                     ),
                   ),
-                  if (widget.pickedImage == null) ..._buildDetailsAboutRock(),
+                  if (widget.identifyPriceResponse == null)
+                    ..._buildDetailsAboutRock(),
                 ],
               ),
             ),
           ),
           Visibility(
-            visible:
-                widget.pickedImage == null && widget.showAddButton != false,
+            visible: widget.identifyPriceResponse == null &&
+                widget.showAddButton != false,
             child: Positioned(
               bottom: 0,
               left: 0,
@@ -1102,7 +1138,11 @@ class _RockDetailPageState extends State<RockDetailPage> {
       ),
       const SizedBox(height: 16),
       _buildInfoSection('Formula', widget.rock.formula),
-      _buildInfoSection('Hardness', widget.rock.hardness == 0 ? "The hardness on this rock may vary" : widget.rock.hardness.toString()),
+      _buildInfoSection(
+          'Hardness',
+          widget.rock.hardness == 0
+              ? "The hardness on this rock may vary"
+              : widget.rock.hardness.toString()),
       _buildInfoSection('Color', widget.rock.color),
       _buildInfoSection(
           'Magnetic', widget.rock.isMagnetic ? 'Magnetic' : 'Non-magnetic'),
@@ -1282,126 +1322,119 @@ class _RockDetailPageState extends State<RockDetailPage> {
         return Scaffold(
           backgroundColor: Colors.transparent,
           resizeToAvoidBottomInset: true,
-          body: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: DraggableScrollableSheet(
-              initialChildSize: 0.88,
-              minChildSize: 0.88,
-              maxChildSize: 0.88,
-              builder:
-                  (BuildContext context, ScrollController scrollController) {
-                return Stack(
-                  children: [
-                    SingleChildScrollView(
-                      controller: scrollController,
-                      child: Container(
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: const BoxDecoration(
-                          color: Constants.darkGrey,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
+          body: DraggableScrollableSheet(
+            initialChildSize: 0.88,
+            minChildSize: 0.88,
+            maxChildSize: 0.88,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return Stack(
+                children: [
+                  SingleChildScrollView(
+                    controller: scrollController,
+                    child: Container(
+                      padding: const EdgeInsets.all(20.0),
+                      decoration: const BoxDecoration(
+                        color: Constants.darkGrey,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
                         ),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'COLLECTION DETAILS',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                          color: Colors.white,
-                                          fontSize: 28,
-                                        ),
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'COLLECTION DETAILS',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 28,
+                                      ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.close,
+                                    color: Constants.primaryColor,
                                   ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.close,
-                                      color: Constants.primaryColor,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Container(
-                                color: Constants.white,
-                                height: 0.1,
-                              ),
-                              InputWidget(
-                                controller: _addRockToCollectionService
-                                    .numberController,
-                                label: 'No.',
-                                hintText: 'Tap to enter the number',
-                              ),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '*Auto numbered: 3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 6,
-                                  ),
-                                  Text(
-                                    'Use this',
-                                    style: TextStyle(
-                                      color: Constants.primaryColor,
-                                      fontSize: 14,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              InputWidget(
-                                label: 'Name',
-                                required: true,
-                                controller:
-                                    _addRockToCollectionService.nameController,
-                                hintText: 'Tap to enter the name',
-                                rightIcon: InkWell(
-                                  onTap: () {
-                                    _addRockToCollectionService.nameController
-                                        .clear();
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
                                   },
-                                  child: const Icon(
-                                    Icons.clear,
-                                    color: Constants.white,
-                                    size: 20,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Container(
+                              color: Constants.white,
+                              height: 0.1,
+                            ),
+                            InputWidget(
+                              controller:
+                                  _addRockToCollectionService.numberController,
+                              label: 'No.',
+                              hintText: 'Tap to enter the number',
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '*Auto numbered: 3',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 16),
-                              const Text(
-                                'Photos',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                  'Use this',
+                                  style: TextStyle(
+                                    color: Constants.primaryColor,
+                                    fontSize: 14,
+                                  ),
+                                )
+                              ],
+                            ),
+                            InputWidget(
+                              label: 'Name',
+                              required: true,
+                              controller:
+                                  _addRockToCollectionService.nameController,
+                              hintText: 'Tap to enter the name',
+                              rightIcon: InkWell(
+                                onTap: () {
+                                  _addRockToCollectionService.nameController
+                                      .clear();
+                                },
+                                child: const Icon(
+                                  Icons.clear,
+                                  color: Constants.white,
+                                  size: 20,
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              ValueListenableBuilder(
-                                valueListenable:
-                                    _addRockToCollectionService.imageNotifier,
-                                builder: (context, value, child) => InkWell(
+                            ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'Photos',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            ValueListenableBuilder(
+                              valueListenable:
+                                  _addRockToCollectionService.imageNotifier,
+                              builder: (context, value, child) => InkWell(
                                   onTap: () async {
                                     final _imageFile =
                                         await ImagePickerService()
@@ -1415,17 +1448,18 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                       });
                                     }
                                   },
-                                  child: widget.rock.rockImages.isNotEmpty &&
-                                              widget.rock.rockImages.first
-                                                      .image !=
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      widget.rock.rockImages.isNotEmpty &&
+                                                  widget.rock.rockImages.first
+                                                          .image !=
+                                                      null ||
+                                              _addRockToCollectionService
+                                                      .imageNotifier.value !=
                                                   null ||
-                                          _addRockToCollectionService
-                                                  .imageNotifier.value !=
-                                              null ||
-                                          widget.rock.imageURL.isNotEmpty
-                                      ? Stack(
-                                          children: [
-                                            Container(
+                                              widget.rock.imageURL.isNotEmpty
+                                          ? Container(
                                               height: 100,
                                               width: 100,
                                               decoration: BoxDecoration(
@@ -1493,179 +1527,263 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                                           )
                                                         : null,
                                               ),
-                                            ),
-                                            const Positioned(
-                                              right: 3,
-                                              bottom: 3,
-                                              child: Icon(
-                                                Icons.image_search,
-                                                color: Constants.white,
-                                                size: 20,
+                                            )
+                                          : Container(
+                                              height: 100,
+                                              width: 100,
+                                              clipBehavior: Clip.hardEdge,
+                                              decoration: BoxDecoration(
+                                                color: Constants.colorInput,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Image.network(
+                                                rockDefaultImage['img1']
+                                                        .startsWith('assets')
+                                                    ? 'https://placehold.jp/60x60.png'
+                                                    : rockDefaultImage['img1'],
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
-                                          ],
-                                        )
-                                      : Container(
-                                          height: 100,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            color: Constants.colorInput,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: const Icon(
-                                            Icons.add,
-                                            color: Constants.primaryColor,
-                                          ),
+                                      const Positioned(
+                                        right: 3,
+                                        bottom: 3,
+                                        child: Icon(
+                                          Icons.image_search,
+                                          color: Constants.white,
+                                          size: 20,
                                         ),
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: InputWidget(
-                                      label: 'Acquisition',
-                                      controller: _addRockToCollectionService
-                                          .dateController,
-                                      hintText: 'Date acquired',
-                                      textInputType: TextInputType.datetime,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  SizedBox(
-                                    child: InputWidget(
-                                      label: '',
-                                      controller: _addRockToCollectionService
-                                          .costController,
-                                      hintText: 'Cost',
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
-                                      onChanged: (value) {
-                                        if (value.isEmpty) return;
-                                        final formatter = NumberFormat.currency(
-                                          symbol: '',
-                                          decimalDigits: 0,
-                                        );
-                                        final formattedValue =
-                                            formatter.format(double.tryParse(
-                                                  value.replaceAll(
-                                                    RegExp(r'[^\d.]'),
-                                                    '',
-                                                  ),
-                                                ) ??
-                                                0.0);
-                                        _addRockToCollectionService
-                                            .costController
-                                            .value = TextEditingValue(
-                                          text: formattedValue,
-                                          selection: TextSelection.collapsed(
-                                            offset: formattedValue.length,
-                                          ),
-                                        );
-                                      },
-                                      rightIcon: const Icon(
-                                        Icons.attach_money_sharp,
-                                        color: Constants.white,
-                                        size: 20,
                                       ),
-                                      textInputType: TextInputType.number,
-                                    ),
-                                    width: 150,
-                                  ),
-                                ],
-                              ),
-                              InputWidget(
-                                label: 'Locality',
-                                controller: _addRockToCollectionService
-                                    .localityController,
-                                hintText: 'Tap to enter',
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Expanded(
-                                    child: InputWidget(
-                                      label: 'Size',
-                                      controller: _addRockToCollectionService
-                                          .lengthController,
-                                      hintText: 'Length',
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    height: 60,
-                                    child: const Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.close,
-                                          size: 15,
-                                          color: Constants.white,
+                                      Visibility(
+                                        visible: _addRockToCollectionService
+                                                .imageNotifier.value !=
+                                            null,
+                                        child: Positioned(
+                                          top: -5,
+                                          right: -5,
+                                          width: 22,
+                                          height: 22,
+                                          child: IconButton(
+                                            icon: const Icon(Icons.close),
+                                            style: IconButton.styleFrom(
+                                                foregroundColor:
+                                                    Constants.darkGrey,
+                                                backgroundColor:
+                                                    Constants.lightestRed),
+                                            iconSize: 20,
+                                            padding: const EdgeInsets.all(0),
+                                            onPressed: () {
+                                              setState(() {
+                                                _addRockToCollectionService
+                                                    .imageNotifier.value = null;
+                                              });
+                                            },
+                                          ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: InputWidget(
+                                    label: 'Acquisition',
+                                    controller: _addRockToCollectionService
+                                        .dateController,
+                                    hintText: 'Date acquired',
+                                    textInputType: TextInputType.datetime,
                                   ),
-                                  Expanded(
-                                    child: InputWidget(
-                                      label: '',
-                                      controller: _addRockToCollectionService
-                                          .widthController,
-                                      hintText: 'Width',
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    height: 60,
-                                    child: const Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.close,
-                                          size: 15,
-                                          color: Constants.white,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                SizedBox(
+                                  child: InputWidget(
+                                    label: '',
+                                    controller: _addRockToCollectionService
+                                        .costController,
+                                    hintText: 'Cost',
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    onChanged: (value) {
+                                      if (value.isEmpty) return;
+                                      final formatter = NumberFormat.currency(
+                                        symbol: '',
+                                        decimalDigits: 0,
+                                      );
+                                      final formattedValue =
+                                          formatter.format(double.tryParse(
+                                                value.replaceAll(
+                                                  RegExp(r'[^\d.]'),
+                                                  '',
+                                                ),
+                                              ) ??
+                                              0.0);
+                                      _addRockToCollectionService.costController
+                                          .value = TextEditingValue(
+                                        text: formattedValue,
+                                        selection: TextSelection.collapsed(
+                                          offset: formattedValue.length,
                                         ),
-                                      ],
+                                      );
+                                    },
+                                    rightIcon: const Icon(
+                                      Icons.attach_money_sharp,
+                                      color: Constants.white,
+                                      size: 20,
                                     ),
+                                    textInputType: TextInputType.number,
+                                    maxLength: 13,
                                   ),
-                                  Expanded(
-                                    child: InputWidget(
-                                      labelFromWidget: Expanded(
-                                        child: Row(
-                                          children: [
-                                            Expanded(child: Container()),
-                                            SizedBox(
-                                              width: 70,
-                                              child: ValueListenableBuilder(
-                                                valueListenable:
-                                                    _addRockToCollectionService
-                                                        .unitOfMeasurementNotifier,
-                                                builder: (context, type, _) {
-                                                  return Container(
-                                                    clipBehavior: Clip.hardEdge,
-                                                    padding:
-                                                        const EdgeInsets.all(2),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              26),
-                                                      color:
-                                                          Constants.blackColor,
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Expanded(
-                                                          child: InkWell(
-                                                            child: Container(
+                                  width: 150,
+                                ),
+                              ],
+                            ),
+                            InputWidget(
+                              label: 'Locality',
+                              controller: _addRockToCollectionService
+                                  .localityController,
+                              hintText: 'Tap to enter',
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                  child: InputWidget(
+                                    label: 'Size',
+                                    controller: _addRockToCollectionService
+                                        .lengthController,
+                                    hintText: 'Length',
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    textInputType: TextInputType.number,
+                                  ),
+                                ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  height: 60,
+                                  child: const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.close,
+                                        size: 15,
+                                        color: Constants.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: InputWidget(
+                                    label: '',
+                                    controller: _addRockToCollectionService
+                                        .widthController,
+                                    hintText: 'Width',
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    textInputType: TextInputType.number,
+                                  ),
+                                ),
+                                Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  height: 60,
+                                  child: const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.close,
+                                        size: 15,
+                                        color: Constants.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: InputWidget(
+                                    labelFromWidget: Expanded(
+                                      child: Row(
+                                        children: [
+                                          Expanded(child: Container()),
+                                          SizedBox(
+                                            width: 70,
+                                            child: ValueListenableBuilder(
+                                              valueListenable:
+                                                  _addRockToCollectionService
+                                                      .unitOfMeasurementNotifier,
+                                              builder: (context, type, _) {
+                                                return Container(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  padding:
+                                                      const EdgeInsets.all(2),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            26),
+                                                    color: Constants.blackColor,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Expanded(
+                                                        child: InkWell(
+                                                          child: Container(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(4),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          24),
+                                                              color: _addRockToCollectionService
+                                                                          .unitOfMeasurementNotifier
+                                                                          .value ==
+                                                                      'inch'
+                                                                  ? Constants
+                                                                      .naturalGrey
+                                                                  : Constants
+                                                                      .blackColor,
+                                                            ),
+                                                            child: Text(
+                                                              'inch',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                color: Constants
+                                                                    .white,
+                                                                fontWeight: _addRockToCollectionService
+                                                                            .unitOfMeasurementNotifier
+                                                                            .value ==
+                                                                        'inch'
+                                                                    ? FontWeight
+                                                                        .w600
+                                                                    : FontWeight
+                                                                        .normal,
+                                                                fontSize: 11,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          onTap: _addRockToCollectionService
+                                                              .toggleUnitOfMeasurement,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: InkWell(
+                                                          child: Container(
                                                               alignment:
                                                                   Alignment
                                                                       .center,
@@ -1681,14 +1799,14 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                                                 color: _addRockToCollectionService
                                                                             .unitOfMeasurementNotifier
                                                                             .value ==
-                                                                        'inch'
+                                                                        'cm'
                                                                     ? Constants
                                                                         .naturalGrey
                                                                     : Constants
                                                                         .blackColor,
                                                               ),
                                                               child: Text(
-                                                                'inch',
+                                                                'cm',
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
@@ -1700,153 +1818,108 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                                                   fontWeight: _addRockToCollectionService
                                                                               .unitOfMeasurementNotifier
                                                                               .value ==
-                                                                          'inch'
+                                                                          'cm'
                                                                       ? FontWeight
                                                                           .w600
                                                                       : FontWeight
                                                                           .normal,
                                                                   fontSize: 11,
                                                                 ),
-                                                              ),
-                                                            ),
-                                                            onTap: _addRockToCollectionService
-                                                                .toggleUnitOfMeasurement,
-                                                          ),
+                                                              )),
+                                                          onTap: _addRockToCollectionService
+                                                              .toggleUnitOfMeasurement,
                                                         ),
-                                                        Expanded(
-                                                          child: InkWell(
-                                                            child: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(4),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              24),
-                                                                  color: _addRockToCollectionService
-                                                                              .unitOfMeasurementNotifier
-                                                                              .value ==
-                                                                          'cm'
-                                                                      ? Constants
-                                                                          .naturalGrey
-                                                                      : Constants
-                                                                          .blackColor,
-                                                                ),
-                                                                child: Text(
-                                                                  'cm',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Constants
-                                                                        .white,
-                                                                    fontWeight: _addRockToCollectionService.unitOfMeasurementNotifier.value ==
-                                                                            'cm'
-                                                                        ? FontWeight
-                                                                            .w600
-                                                                        : FontWeight
-                                                                            .normal,
-                                                                    fontSize:
-                                                                        11,
-                                                                  ),
-                                                                )),
-                                                            onTap: _addRockToCollectionService
-                                                                .toggleUnitOfMeasurement,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                              ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      controller: _addRockToCollectionService
-                                          .heightController,
-                                      hintText: 'Height',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              InputWidget(
-                                label: 'Notes',
-                                controller:
-                                    _addRockToCollectionService.notesController,
-                                hintText: 'Tap to add your notes here...',
-                                maxLines: 5,
-                              ),
-                              const SizedBox(
-                                height: 45,
-                              ), // Adicionado espaço para o botão "Save"
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 16,
-                      left: 16,
-                      right: 16,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Constants.darkGrey,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
-                        ),
-                        child: InkWell(
-                            onTap: () async {
-                              if (_formKey.currentState!.validate()) {
-                                await _addRockToCollectionService
-                                    .addRockToCollection(widget.rock);
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  PageTransition(
-                                      child: const RootPage(),
-                                      type: PageTransitionType
-                                          .leftToRightWithFade),
-                                  (route) => false,
-                                );
-                                BottomNavService.instance.setIndex(1);
-                              }
-                            },
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 33,
-                                    decoration: BoxDecoration(
-                                      color: Constants.primaryColor,
-                                      borderRadius: BorderRadius.circular(24),
-                                    ),
-                                    child: const Text(
-                                      'Save',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Constants.blackColor,
-                                        fontWeight: FontWeight.bold,
+                                          ),
+                                        ],
                                       ),
                                     ),
+                                    controller: _addRockToCollectionService
+                                        .heightController,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    hintText: 'Height',
+                                    textInputType: TextInputType.number,
                                   ),
-                                )
+                                ),
                               ],
-                            )),
+                            ),
+                            InputWidget(
+                              label: 'Notes',
+                              controller:
+                                  _addRockToCollectionService.notesController,
+                              hintText: 'Tap to add your notes here...',
+                              maxLines: 5,
+                            ),
+                            const SizedBox(
+                              height: 45,
+                            ), // Adicionado espaço para o botão "Save"
+                          ],
+                        ),
                       ),
                     ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                  Positioned(
+                    bottom: 16,
+                    left: 16,
+                    right: 16,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Constants.darkGrey,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: InkWell(
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {
+                              await _addRockToCollectionService
+                                  .addRockToCollection(widget.rock);
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                    child: const RootPage(),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade),
+                                (route) => false,
+                              );
+                              BottomNavService.instance.setIndex(1);
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 33,
+                                  decoration: BoxDecoration(
+                                    color: Constants.primaryColor,
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  child: const Text(
+                                    'Save',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Constants.blackColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         );
       },

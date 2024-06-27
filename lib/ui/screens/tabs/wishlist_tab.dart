@@ -29,9 +29,18 @@ class WishlistTabState extends State<WishlistTab> {
   void _loadWishlist() async {
     try {
       _wishlistRocks.clear();
+      final allDbRocks = await DatabaseHelper().findAllRocks();
       List<int> wishlistIds = await DatabaseHelper().wishlist();
       for (var rockId in wishlistIds) {
-        final rock = Rock.rockListFirstWhere(rockId);
+        Rock? rock = Rock.rockListFirstWhere(rockId);
+        final dbRock = allDbRocks.firstWhere(
+          (element) => element.rockId == rock?.rockId,
+          orElse: Rock.empty,
+        );
+
+        if (dbRock.rockId != 0) {
+          rock = rock?.copyWith(rockImages: dbRock.rockImages);
+        }
         if (rock != null) {
           _wishlistRocks.add(rock);
         }
@@ -101,7 +110,7 @@ class WishlistTabState extends State<WishlistTab> {
                             final rock = _wishlistRocks[index];
 
                             Map<String, dynamic> rockDefaultImage = {
-                              'img1': 'https://via.placeholder.com/60',
+                              'img1': 'https://placehold.jp/60x60.png',
                             };
 
                             for (final defaultImage in Rock.defaultImages) {
@@ -111,6 +120,9 @@ class WishlistTabState extends State<WishlistTab> {
                             }
 
                             return RockListItem(
+                              image: rock.rockImages.isNotEmpty
+                                  ? rock.rockImages.first.image
+                                  : null,
                               imageUrl:
                                   rockDefaultImage['img1'], // Placeholder image
                               title: rock.rockName,
@@ -149,14 +161,14 @@ class WishlistTabState extends State<WishlistTab> {
   Widget _addRockToWishlistButton() {
     return ElevatedButton.icon(
       onPressed: () {
-         Navigator.push(
-                        context,
-                        PageTransition(
-                          duration: const Duration(milliseconds: 400),
-                          child: const CameraScreen(),
-                          type: PageTransitionType.bottomToTop,
-                        ),
-                      );
+        Navigator.push(
+          context,
+          PageTransition(
+            duration: const Duration(milliseconds: 400),
+            child: const CameraScreen(),
+            type: PageTransitionType.bottomToTop,
+          ),
+        );
         //_showRockSelectionModal();
       },
       icon: const Icon(Icons.add),

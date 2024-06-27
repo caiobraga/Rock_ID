@@ -143,7 +143,21 @@ class DatabaseHelper {
 
   Future<void> editRock(Rock rock) async {
     final db = await database;
-    await db.update('rocks', rock.toMap());
+    await db.update(
+      'rocks',
+      rock.toMap(),
+      where: 'rockId = ?',
+      whereArgs: [rock.rockId],
+    );
+
+    if (rock.rockImages.isNotEmpty) {
+      await db.update(
+        'rock_images',
+        rock.rockImages.first.toMap(),
+        where: 'rockId = ?',
+        whereArgs: [rock.rockId],
+      );
+    }
   }
 
   Future<void> removeRock(int rockId) async {
@@ -168,7 +182,7 @@ class DatabaseHelper {
 
   Future<bool> rockExists(Rock rock) async {
     List<Rock> rocks = await findAllRocks();
-    return rocks.contains(rock);
+    return rocks.where((element) => element.rockId == rock.rockId).isNotEmpty;
   }
 
   // Functions for wishlist

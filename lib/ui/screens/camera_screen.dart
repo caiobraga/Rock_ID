@@ -569,7 +569,6 @@ class _CameraScreenState extends State<CameraScreen> {
             _rock!.rockId,
             timestamp,
           );
-          _image = null;
           _showRockDetails(navigator);
           return;
         }

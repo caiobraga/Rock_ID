@@ -14,6 +14,7 @@ class InputWidget extends StatelessWidget {
   final TextInputType textInputType;
   final List<TextInputFormatter>? inputFormatters;
   final Function(String)? onChanged;
+  final int? maxLength;
   const InputWidget({
     super.key,
     required this.controller,
@@ -26,6 +27,7 @@ class InputWidget extends StatelessWidget {
     this.hintText,
     this.inputFormatters,
     this.onChanged,
+    this.maxLength,
   });
 
   @override
@@ -134,6 +136,8 @@ class InputWidget extends StatelessWidget {
 
                   return null;
                 },
+                maxLength: maxLength,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
               ),
             ),
           ],

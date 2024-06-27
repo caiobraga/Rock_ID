@@ -139,7 +139,7 @@ class _SelectRockPageState extends State<SelectRockPage> {
                     final rock = _filteredRockList[index];
 
                     Map<String, dynamic> rockDefaultImage = {
-                      'img1': 'https://via.placeholder.com/60',
+                      'img1': 'https://placehold.jp/60x60.png',
                     };
 
                     for (final defaultImage in Rock.defaultImages) {
@@ -186,6 +186,7 @@ class _SelectRockPageState extends State<SelectRockPage> {
           isSavingRock: widget.isSavingRock,
           isFavoritingRock: widget.isFavoritingRock,
           isRemovingFromCollection: isRemovingFromCollection,
+          isAddingFromRockList: true,
         ),
         type: PageTransitionType.bottomToTop,
       ),

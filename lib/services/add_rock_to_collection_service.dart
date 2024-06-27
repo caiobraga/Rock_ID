@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:intl/intl.dart';
 
 import '../db/db.dart';
 
@@ -30,15 +31,20 @@ class AddRockToCollectionService {
   final ValueNotifier<String> unitOfMeasurementNotifier = ValueNotifier('inch');
   final ValueNotifier<Uint8List?> imageNotifier = ValueNotifier(null);
 
-  void setRockData(Rock rock) {
+  void setRockData(Rock rock, File? pickedImage) {
     numberController.text = rock.number;
     nameController.text = rock.rockName;
     dateController.text = rock.dateAcquired;
-    costController.text = rock.cost.toString();
+    costController.text = NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 0,
+    ).format(rock.cost);
     lengthController.text = rock.length.toString();
     widthController.text = rock.width.toString();
     heightController.text = rock.height.toString();
     notesController.text == rock.notes;
+    unitOfMeasurementNotifier.value = rock.unitOfMeasurement;
+    imageNotifier.value = pickedImage?.readAsBytesSync();
   }
 
   void toggleUnitOfMeasurement() {
@@ -55,10 +61,10 @@ class AddRockToCollectionService {
     final String name = nameController.text;
     final String description = notesController.text;
     final String dateAcquired = dateController.text;
-    final double cost =
-        double.tryParse(costController.text.replaceAll(',', '.')) ?? 0.0;
-    debugPrint('CUSTO TEXTO: ${costController.text}');
-    debugPrint('CUSTO: $cost');
+    final double cost = double.tryParse(
+          costController.text.replaceAll(RegExp(r'[^\d.]'), ''),
+        ) ??
+        0.0;
     final String locality = localityController.text;
     final double length = double.tryParse(lengthController.text) ?? 0.0;
     final double width = double.tryParse(widthController.text) ?? 0.0;
@@ -89,7 +95,6 @@ class AddRockToCollectionService {
       );
 
       rockImages.add(newRockImage);
-
       newRock = newRock.copyWith(rockImages: rockImages);
     }
 

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
@@ -117,9 +115,6 @@ class DatabaseHelper {
     final rockImagesList =
         rockImagesMap.map((dbRock) => RockImage.fromMap(dbRock)).toList();
 
-    debugPrint(rockMap.toString());
-    debugPrint(rockImagesMap.toString());
-
     //returning rocks with it's images
     return rockList
         .map((rock) => rock.copyWith(
@@ -223,7 +218,6 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> snapHistory() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('snap_history');
-    debugPrint(maps.toString());
 
     return List.generate(maps.length, (i) {
       return {

@@ -34,7 +34,9 @@ class AddRockToCollectionService {
   void setRockData(Rock rock, File? pickedImage) {
     numberController.text = rock.number;
     nameController.text = rock.rockName;
-    dateController.text = rock.dateAcquired;
+    dateController.text = rock.dateAcquired.isEmpty
+        ? DateFormat('yyyy/MM/dd').format(DateTime.now().toLocal()).toString()
+        : rock.dateAcquired;
     costController.text = NumberFormat.currency(
       symbol: '',
       decimalDigits: 0,
@@ -43,8 +45,10 @@ class AddRockToCollectionService {
     widthController.text = rock.width.toString();
     heightController.text = rock.height.toString();
     notesController.text == rock.notes;
-    unitOfMeasurementNotifier.value = rock.unitOfMeasurement;
+    unitOfMeasurementNotifier.value =
+        rock.unitOfMeasurement.isEmpty ? 'inch' : rock.unitOfMeasurement;
     imageNotifier.value = pickedImage?.readAsBytesSync();
+    debugPrint(rock.rockImages.toString());
   }
 
   void toggleUnitOfMeasurement() {
@@ -100,6 +104,7 @@ class AddRockToCollectionService {
 
     try {
       if (await DatabaseHelper().rockExists(rock)) {
+        debugPrint('CHEGOU AQUI!');
         await DatabaseHelper().editRock(newRock);
         return;
       }

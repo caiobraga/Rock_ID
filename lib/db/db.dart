@@ -151,12 +151,21 @@ class DatabaseHelper {
     );
 
     if (rock.rockImages.isNotEmpty) {
-      await db.update(
-        'rock_images',
-        rock.rockImages.first.toMap(),
-        where: 'rockId = ?',
-        whereArgs: [rock.rockId],
-      );
+      final dbRockImages = await db
+          .query('rock_images', where: 'rockId = ?', whereArgs: [rock.rockId]);
+
+      if (dbRockImages.isNotEmpty) {
+        await db.update(
+          'rock_images',
+          rock.rockImages.first.toMap(),
+          where: 'rockId = ?',
+          whereArgs: [rock.rockId],
+        );
+
+        return;
+      }
+
+      await db.insert('rock_images', rock.rockImages.first.toMap());
     }
   }
 

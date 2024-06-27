@@ -1332,7 +1332,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                   SingleChildScrollView(
                     controller: scrollController,
                     child: Container(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0).copyWith(bottom: 50),
                       decoration: const BoxDecoration(
                         color: Constants.darkGrey,
                         borderRadius: BorderRadius.only(
@@ -1349,7 +1349,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'COLLECTION DETAILS',
+                                  'ROCK DETAILS',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleLarge
@@ -1375,34 +1375,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
                             Container(
                               color: Constants.white,
                               height: 0.1,
-                            ),
-                            InputWidget(
-                              controller:
-                                  _addRockToCollectionService.numberController,
-                              label: 'No.',
-                              hintText: 'Tap to enter the number',
-                            ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '*Auto numbered: 3',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Text(
-                                  'Use this',
-                                  style: TextStyle(
-                                    color: Constants.primaryColor,
-                                    fontSize: 14,
-                                  ),
-                                )
-                              ],
                             ),
                             InputWidget(
                               label: 'Name',
@@ -1866,7 +1838,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     ),
                   ),
                   Positioned(
-                    bottom: 16,
+                    bottom: 25,
                     left: 16,
                     right: 16,
                     child: Container(
@@ -1898,7 +1870,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                               Expanded(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  height: 33,
+                                  height: 50,
                                   decoration: BoxDecoration(
                                     color: Constants.primaryColor,
                                     borderRadius: BorderRadius.circular(24),
@@ -1909,6 +1881,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                     style: TextStyle(
                                       color: Constants.blackColor,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),

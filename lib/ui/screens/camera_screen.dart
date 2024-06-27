@@ -75,7 +75,11 @@ class _CameraScreenState extends State<CameraScreen> {
     try {
       cameras = await availableCameras();
       if (cameras != null && cameras!.isNotEmpty) {
-        _cameraController = CameraController(cameras![0], ResolutionPreset.max);
+        _cameraController = CameraController(
+          cameras![0],
+          ResolutionPreset.max,
+          enableAudio: false,
+        );
         await _cameraController!.initialize();
         setState(() {
           _isCameraInitialized = true;
@@ -863,13 +867,60 @@ class _CameraScreenState extends State<CameraScreen> {
         if (!_isCameraInitialized) {
           initializeCamera();
         }
-      } else if (status.isPermanentlyDenied || status.isDenied) {
-        final opened = await openAppSettings();
-        debugPrint('Opened: $opened');
+      } else if (status.isPermanentlyDenied) {
+        _showSettingsDialog();
       }
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  void _showSettingsDialog({bool isGallery = false}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Constants.blackColor,
+          surfaceTintColor: Colors.transparent,
+          title: const Text(
+            'Permission Required',
+            style: TextStyle(color: Constants.lightestBrown),
+          ),
+          content: Text(
+            'This app needs ${!isGallery ? 'camera' : 'gallery'} access to function properly. Please open settings and grant ${!isGallery ? 'camera' : 'gallery'} permission.',
+            style: const TextStyle(color: Constants.white),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.lightestRed,
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Open Settings'),
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.darkGrey,
+                backgroundColor: Constants.primaryColor,
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await openAppSettings();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _requestGalleryPermission() async {
@@ -882,8 +933,8 @@ class _CameraScreenState extends State<CameraScreen> {
         });
         _startScanning(_scanningFunction, Navigator.of(context));
       }
-    } else if (status.isPermanentlyDenied || status.isDenied) {
-      await openAppSettings();
+    } else if (status.isPermanentlyDenied) {
+      _showSettingsDialog(isGallery: true);
     }
   }
 

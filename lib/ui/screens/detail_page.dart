@@ -1102,7 +1102,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       ),
       const SizedBox(height: 16),
       _buildInfoSection('Formula', widget.rock.formula),
-      _buildInfoSection('Hardness', widget.rock.hardness.toString()),
+      _buildInfoSection('Hardness', widget.rock.hardness == 0 ? "The hardness on this rock may vary" : widget.rock.hardness.toString()),
       _buildInfoSection('Color', widget.rock.color),
       _buildInfoSection(
           'Magnetic', widget.rock.isMagnetic ? 'Magnetic' : 'Non-magnetic'),

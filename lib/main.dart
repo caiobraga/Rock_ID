@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'constants.dart';
 import 'ui/onboarding_screen.dart';
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 void main() {
   runApp(const MyApp());

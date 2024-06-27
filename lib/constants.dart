@@ -114,11 +114,12 @@ class AppTypography {
   static TextStyle body3(
       {Color color = Colors.black,
       TextDecoration decoration = TextDecoration.none,
-      Color decorationColor = Colors.black}) {
+      Color decorationColor = Colors.black,
+      FontWeight? fontWeight}) {
     return GoogleFonts.montserrat(
       textStyle: TextStyle(
           fontSize: 14,
-          fontWeight: FontWeight.normal,
+          fontWeight: fontWeight ?? FontWeight.normal,
           color: color,
           decoration: decoration,
           decorationColor: decorationColor),

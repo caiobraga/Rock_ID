@@ -50,7 +50,9 @@ class RockDetailPage extends StatefulWidget {
   State<RockDetailPage> createState() => _RockDetailPageState();
 }
 
-class _RockDetailPageState extends State<RockDetailPage> {
+class _RockDetailPageState extends State<RockDetailPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   String buttonText = '';
   bool _feedbackGiven = false;
   final _addRockToCollectionService = AddRockToCollectionService.instance;
@@ -66,6 +68,8 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   @override
   void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
     setState(() {
       defineFavorite();
       _addRockToCollectionService.setRockData(widget.rock, widget.pickedImage);
@@ -84,7 +88,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
         }
       }
     });
-    super.initState();
   }
 
   void defineFavorite() async {
@@ -144,153 +147,34 @@ class _RockDetailPageState extends State<RockDetailPage> {
       ),
       body: Stack(
         children: [
-          Container(
-            color: Colors.black,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Constants.darkGrey,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+          widget.isRemovingFromCollection
+              ? Column(
+                  children: [
+                    TabBar(
+                      controller: _tabController,
+                      tabs: const [
+                        Tab(text: 'Detail'),
+                        Tab(text: 'Info'),
+                      ],
+                      labelColor: Constants.primaryColor,
+                      labelStyle:
+                          AppTypography.body3(fontWeight: FontWeight.w500),
+                      unselectedLabelColor: Colors.white,
+                      indicatorColor: Constants.primaryColor,
+                      dividerHeight: 0,
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
                         children: [
-                          InkWell(
-                            onTap: widget.isRemovingFromCollection
-                                ? _showAddRockToCollectionModal
-                                : null,
-                            child: Stack(
-                              children: [
-                                widget.identifyPriceResponse == null
-                                    ? widget.rock.rockImages.isNotEmpty &&
-                                            widget.rock.rockImages.first
-                                                    .image !=
-                                                null
-                                        ? ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            child: Image.memory(
-                                              widget
-                                                  .rock.rockImages.first.image!,
-                                              fit: BoxFit.cover,
-                                              height: 255,
-                                            ),
-                                          )
-                                        : rockDefaultImage['img1']
-                                                .startsWith('assets')
-                                            ? Image.asset(
-                                                rockDefaultImage['img1'],
-                                                height: 175.75,
-                                                width: 255,
-                                                fit: BoxFit.cover)
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                child: Image.network(
-                                                  rockDefaultImage['img1'],
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  fit: BoxFit.cover,
-                                                  loadingBuilder: (context,
-                                                      child, loadingProgress) {
-                                                    if (loadingProgress !=
-                                                            null &&
-                                                        loadingProgress
-                                                                .expectedTotalBytes !=
-                                                            null &&
-                                                        loadingProgress
-                                                                .cumulativeBytesLoaded <
-                                                            loadingProgress
-                                                                .expectedTotalBytes!) {
-                                                      return SizedBox(
-                                                        height: 50,
-                                                        width: 50,
-                                                        child: Center(
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                            color: Constants
-                                                                .primaryColor,
-                                                            value: loadingProgress
-                                                                        .expectedTotalBytes !=
-                                                                    null
-                                                                ? loadingProgress
-                                                                        .cumulativeBytesLoaded /
-                                                                    (loadingProgress
-                                                                            .expectedTotalBytes ??
-                                                                        1)
-                                                                : null,
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }
-
-                                                    return child;
-                                                  },
-                                                ),
-                                              )
-                                    : ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Image.file(
-                                          widget.pickedImage!,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                Visibility(
-                                  visible: widget.isRemovingFromCollection,
-                                  child: Positioned(
-                                    top: 3,
-                                    right: 3,
-                                    width: 28,
-                                    height: 28,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Constants.darkGrey,
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: const Icon(
-                                        Icons.edit,
-                                        color: Constants.primaryColor,
-                                        size: 20,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16.0),
-                            child: Divider(
-                              color: Constants.naturalGrey,
-                              thickness: 1,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (widget.identifyPriceResponse != null)
-                                ..._buildInfoSectionCost()
-                              else
-                                ..._buildInfoSectionRock(),
-                            ],
-                          ),
+                          _buildDetailsTab(),
+                          _buildInfoTab(),
                         ],
                       ),
                     ),
-                  ),
-                  if (widget.identifyPriceResponse == null)
-                    ..._buildDetailsAboutRock(),
-                ],
-              ),
-            ),
-          ),
+                  ],
+                )
+              : _buildInfoTab(),
           Visibility(
             visible: widget.identifyPriceResponse == null &&
                 widget.showAddButton != false,
@@ -363,6 +247,321 @@ class _RockDetailPageState extends State<RockDetailPage> {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailsTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Constants.darkGrey,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: widget.isRemovingFromCollection
+                        ? _showAddRockToCollectionModal
+                        : null,
+                    child: Stack(
+                      children: [
+                        widget.identifyPriceResponse == null
+                            ? widget.rock.rockImages.isNotEmpty &&
+                                    widget.rock.rockImages.first.image != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.memory(
+                                      widget.rock.rockImages.first.image!,
+                                      fit: BoxFit.cover,
+                                      height: 255,
+                                    ),
+                                  )
+                                : rockDefaultImage['img1'].startsWith('assets')
+                                    ? Image.asset(rockDefaultImage['img1'],
+                                        height: 175.75,
+                                        width: 255,
+                                        fit: BoxFit.cover)
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.network(
+                                          rockDefaultImage['img1'],
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          fit: BoxFit.cover,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress != null &&
+                                                loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null &&
+                                                loadingProgress
+                                                        .cumulativeBytesLoaded <
+                                                    loadingProgress
+                                                        .expectedTotalBytes!) {
+                                              return SizedBox(
+                                                height: 50,
+                                                width: 50,
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color:
+                                                        Constants.primaryColor,
+                                                    value: loadingProgress
+                                                                .expectedTotalBytes !=
+                                                            null
+                                                        ? loadingProgress
+                                                                .cumulativeBytesLoaded /
+                                                            (loadingProgress
+                                                                    .expectedTotalBytes ??
+                                                                1)
+                                                        : null,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+
+                                            return child;
+                                          },
+                                        ),
+                                      )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.file(
+                                  widget.pickedImage!,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                        Visibility(
+                          visible: widget.isRemovingFromCollection,
+                          child: Positioned(
+                            top: 3,
+                            right: 3,
+                            width: 28,
+                            height: 28,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Constants.darkGrey,
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: const Icon(
+                                Icons.edit,
+                                color: Constants.primaryColor,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    child: Divider(
+                      color: Constants.naturalGrey,
+                      thickness: 1,
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (widget.identifyPriceResponse != null)
+                        ..._buildInfoSectionCost()
+                      else
+                        ..._buildInfoSectionRock(),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Constants.darkGrey,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: widget.isRemovingFromCollection
+                            ? _showAddRockToCollectionModal
+                            : null,
+                        child: Stack(
+                          children: [
+                            widget.identifyPriceResponse == null
+                                ? widget.rock.rockImages.isNotEmpty &&
+                                        widget.rock.rockImages.first.image !=
+                                            null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.memory(
+                                          widget.rock.rockImages.first.image!,
+                                          fit: BoxFit.cover,
+                                          height: 255,
+                                        ),
+                                      )
+                                    : rockDefaultImage['img1']
+                                            .startsWith('assets')
+                                        ? Image.asset(rockDefaultImage['img1'],
+                                            height: 175.75,
+                                            width: 255,
+                                            fit: BoxFit.cover)
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Image.network(
+                                              rockDefaultImage['img1'],
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              fit: BoxFit.cover,
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress != null &&
+                                                    loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null &&
+                                                    loadingProgress
+                                                            .cumulativeBytesLoaded <
+                                                        loadingProgress
+                                                            .expectedTotalBytes!) {
+                                                  return SizedBox(
+                                                    height: 50,
+                                                    width: 50,
+                                                    child: Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Constants
+                                                            .primaryColor,
+                                                        value: loadingProgress
+                                                                    .expectedTotalBytes !=
+                                                                null
+                                                            ? loadingProgress
+                                                                    .cumulativeBytesLoaded /
+                                                                (loadingProgress
+                                                                        .expectedTotalBytes ??
+                                                                    1)
+                                                            : null,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+
+                                                return child;
+                                              },
+                                            ),
+                                          )
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.file(
+                                      widget.pickedImage!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                            Visibility(
+                              visible: widget.isRemovingFromCollection,
+                              child: Positioned(
+                                top: 3,
+                                right: 3,
+                                width: 28,
+                                height: 28,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Constants.darkGrey,
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: Constants.primaryColor,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Divider(
+                          color: Constants.naturalGrey,
+                          thickness: 1,
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (widget.identifyPriceResponse != null)
+                            ..._buildInfoSectionCost()
+                          else
+                            ..._buildInfoSectionRock(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          const PremiumSection(),
+          const SizedBox(height: 16),
+          _buildHealthRisksSection(),
+          const SizedBox(height: 16),
+          _buildImagesSection(),
+          const SizedBox(height: 16),
+          _buildFAQSection(),
+          const SizedBox(height: 16),
+          _buildDescription(widget.rock.description),
+          const SizedBox(height: 16),
+          _buildIdentifySection(),
+          const SizedBox(height: 16),
+          const PremiumSection(),
+          const SizedBox(height: 16),
+          _buildPhysicalPropertiesSection(),
+          const SizedBox(height: 16),
+          _buildChemicalPropertiesSession(),
+          const SizedBox(height: 16),
+          _buildPriceSection(),
+          const SizedBox(height: 16),
+          _buildHealingSection(),
+          const SizedBox(height: 16),
+          _buildFormationSection(),
+          const SizedBox(height: 16),
+          _buildMeaningSection(),
+          const SizedBox(height: 16),
+          const PremiumSection(),
+          const SizedBox(height: 16),
+          _buildSelectSection(),
+          const SizedBox(height: 16),
+          _buildTypesSection(),
+          const SizedBox(height: 16),
+          _buildUsesSection(),
+          const SizedBox(height: 16),
+          const SizedBox(height: 80),
         ],
       ),
     );

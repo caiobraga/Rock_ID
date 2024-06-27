@@ -1540,7 +1540,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                               child: Image.network(
                                                 rockDefaultImage['img1']
                                                         .startsWith('assets')
-                                                    ? 'https://placehold.jp/60x60.png'
+                                                    ? 'https://placehold.jp/100x100.png'
                                                     : rockDefaultImage['img1'],
                                                 fit: BoxFit.cover,
                                               ),

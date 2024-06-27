@@ -44,8 +44,8 @@ class _CameraScreenState extends State<CameraScreen> {
 
   final ValueNotifier<int> _loadingNotifier = ValueNotifier<int>(0);
 
-  String _chosenRockForm = '';
-  String _chosenImagePath = '';
+  String? _chosenRockForm;
+  String? _chosenRockSize;
   final List<Map<String, dynamic>> _rockForms = [
     {
       'icon': Icons.category,
@@ -605,11 +605,11 @@ class _CameraScreenState extends State<CameraScreen> {
 
   void _showSelectRockDetailsBottomSheet() {
     bool _isChoosingRockForm = true;
+    bool _isLoadingRockPrice = false;
 
     showModalBottomSheet(
       context: context,
-      isScrollControlled:
-          true, // Permite que a bottom sheet ocupe toda a tela se necessário
+      isScrollControlled: true,
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
@@ -623,149 +623,202 @@ class _CameraScreenState extends State<CameraScreen> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 20),
-                                child: Text(
-                                  'Tell us a bit more about your stone for improved valuation accuracy.',
-                                  style: TextStyle(
-                                    color: Constants.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                _showRockDetails(
-                                  Navigator.of(context),
-                                );
-                              },
-                              child: const Text(
-                                'Skip',
-                                style: TextStyle(
-                                  color: Constants.silver,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          _isChoosingRockForm
-                              ? "What's the form of your stone?"
-                              : "What's the size of your stone? (Choose the closest one)",
-                          textAlign: TextAlign.justify,
-                          style: const TextStyle(
-                            color: Constants.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        _isChoosingRockForm
-                            ? Column(
-                                children: _rockForms.map((form) {
-                                  return Column(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _chosenRockForm = form['text'];
-                                            _isChoosingRockForm = false;
-                                          });
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 20, horizontal: 20),
-                                          decoration: BoxDecoration(
-                                            color: Constants.blackColor,
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                form['icon'],
-                                                color: Constants.primaryColor,
-                                              ),
-                                              const SizedBox(width: 15),
-                                              Expanded(
-                                                child: Text(
-                                                  form['text'],
-                                                  style: const TextStyle(
-                                                    color: Constants.white,
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+              child: _isLoadingRockPrice
+                  ? const LoadingComponent()
+                  : SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 20),
+                                      child: Text(
+                                        'Tell us a bit more about your stone for improved valuation accuracy.',
+                                        style: TextStyle(
+                                          color: Constants.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
-                                      const SizedBox(height: 10),
-                                    ],
-                                  );
-                                }).toList(),
-                              )
-                            : SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: GridView.builder(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 15,
-                                    mainAxisSpacing: 15,
-                                    childAspectRatio: 1.38,
+                                    ),
                                   ),
-                                  itemCount: 4,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    List<String> imagePaths = [
-                                      'assets/images/small_rock.png',
-                                      'assets/images/medium_rock.png',
-                                      'assets/images/big_rock.png',
-                                      'assets/images/bigger_rock.png'
-                                    ];
+                                  InkWell(
+                                    onTap: () async {
+                                      setState(() {
+                                        _isLoadingRockPrice = true;
+                                      });
+                                      NavigatorState navigator =
+                                          Navigator.of(context);
+                                      final response = await GetRockService()
+                                          .identifyRockPrice(_rock!.rockName,
+                                              _chosenRockForm, _chosenRockSize);
 
-                                    return InkWell(
-                                      borderRadius: BorderRadius.circular(12),
-                                      onTap: () {
+                                      if (mounted) {
                                         setState(() {
-                                          _chosenImagePath = imagePaths[index];
-                                          _showRockDetails(
-                                            Navigator.of(context),
-                                          );
+                                          _isLoadingRockPrice = false;
                                         });
-                                      },
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Image.asset(imagePaths[index],
-                                            fit: BoxFit.contain),
+                                        _showRockDetails(navigator,
+                                            rockPriceResponse: response);
+                                      }
+                                    },
+                                    child: const Text(
+                                      'Skip',
+                                      style: TextStyle(
+                                        color: Constants.silver,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                    );
-                                  },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 15),
+                              Text(
+                                _isChoosingRockForm
+                                    ? "What's the form of your stone?"
+                                    : "What's the size of your stone? (Choose the closest one)",
+                                textAlign: TextAlign.justify,
+                                style: const TextStyle(
+                                  color: Constants.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                      ],
+                              const SizedBox(height: 15),
+                              _isChoosingRockForm
+                                  ? Column(
+                                      children: _rockForms.map((form) {
+                                        return Column(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  _chosenRockForm =
+                                                      form['text'];
+                                                  _isChoosingRockForm = false;
+                                                });
+                                              },
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 20,
+                                                        horizontal: 20),
+                                                decoration: BoxDecoration(
+                                                  color: Constants.blackColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      form['icon'],
+                                                      color: Constants
+                                                          .primaryColor,
+                                                    ),
+                                                    const SizedBox(width: 15),
+                                                    Expanded(
+                                                      child: Text(
+                                                        form['text'],
+                                                        style: const TextStyle(
+                                                          color:
+                                                              Constants.white,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                          ],
+                                        );
+                                      }).toList(),
+                                    )
+                                  : SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.4,
+                                      child: GridView.builder(
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 15,
+                                          mainAxisSpacing: 15,
+                                          childAspectRatio: 1.38,
+                                        ),
+                                        itemCount: 4,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          List<String> imagePaths = [
+                                            'assets/images/small_rock.png', // 1/3 of a hand
+                                            'assets/images/medium_rock.png', // more than half of a hand
+                                            'assets/images/big_rock.png', // the size of a hand
+                                            'assets/images/bigger_rock.png' // bigger than a hand
+                                          ];
+
+                                          return InkWell(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            onTap: () async {
+                                              setState(() {
+                                                _chosenRockSize = imagePaths[
+                                                            index]
+                                                        .contains('small')
+                                                    ? '1/3 of the size of a human hand'
+                                                    : imagePaths[index]
+                                                            .contains('medium')
+                                                        ? '2/3 of the size of a human hand'
+                                                        : imagePaths[index]
+                                                                .contains('big')
+                                                            ? 'the size of a human hand'
+                                                            : 'bigger than a human hand';
+                                              });
+
+                                              setState(() {
+                                                _isLoadingRockPrice = true;
+                                              });
+                                              NavigatorState navigator =
+                                                  Navigator.of(context);
+                                              final response =
+                                                  await GetRockService()
+                                                      .identifyRockPrice(
+                                                          _rock!.rockName,
+                                                          _chosenRockForm,
+                                                          _chosenRockSize);
+
+                                              if (mounted) {
+                                                _showRockDetails(navigator,
+                                                    rockPriceResponse:
+                                                        response);
+                                                setState(() {
+                                                  _isLoadingRockPrice = false;
+                                                });
+                                              }
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child: Image.asset(
+                                                  imagePaths[index],
+                                                  fit: BoxFit.contain),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
             );
           },
         );
@@ -773,7 +826,8 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  void _showRockDetails(NavigatorState navigator) async {
+  void _showRockDetails(NavigatorState navigator,
+      {final Map<String, dynamic>? rockPriceResponse}) async {
     bool isRemovingFromCollection = false;
     final allRocks = await DatabaseHelper().findAllRocks();
     if (allRocks.where((rock) => rock.rockId == _rock?.rockId).isNotEmpty) {
@@ -786,6 +840,7 @@ class _CameraScreenState extends State<CameraScreen> {
               rock: _rock!,
               isSavingRock: false,
               pickedImage: _image,
+              identifyPriceResponse: rockPriceResponse,
               isRemovingFromCollection: isRemovingFromCollection,
             ),
             type: PageTransitionType.fade))

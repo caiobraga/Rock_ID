@@ -5,8 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'constants.dart';
 import 'ui/onboarding_screen.dart';
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-    GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 void main() {
   runApp(const MyApp());
@@ -34,9 +33,9 @@ class _MyAppState extends State<MyApp> {
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,
         ).copyWith(
-          titleLarge: GoogleFonts.bebasNeue(), // Para título
-          titleMedium: GoogleFonts.montserrat(), // Para título
-          titleSmall: GoogleFonts.bebasNeue(), // Para título // Para título
+          titleLarge: GoogleFonts.bebasNeue(),
+          titleMedium: GoogleFonts.montserrat(),
+          titleSmall: GoogleFonts.bebasNeue(),
         ),
         inputDecorationTheme: InputDecorationTheme(
           hintStyle: const TextStyle(color: Constants.white),

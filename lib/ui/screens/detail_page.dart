@@ -30,6 +30,7 @@ class RockDetailPage extends StatefulWidget {
   final bool showAddButton;
   final bool isRemovingFromCollection;
   final File? pickedImage;
+  final Map<String, dynamic>? identifyPriceResponse;
 
   const RockDetailPage({
     super.key,
@@ -40,6 +41,7 @@ class RockDetailPage extends StatefulWidget {
     this.showAddButton = true,
     this.isRemovingFromCollection = false,
     this.pickedImage,
+    this.identifyPriceResponse,
   });
 
   @override
@@ -1152,8 +1154,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   List<Widget> _buildInfoSectionCost() {
     return <Widget>[
-      _buildInfoSection('Estimated value', '\$20'),
-      _buildInfoSection('Possible price range', '\$13 ~ \$70'),
+      _buildInfoSection('Estimated value',
+          '\$${widget.identifyPriceResponse!['price'].toString()}'),
+      _buildInfoSection('Possible price range',
+          '\$${widget.identifyPriceResponse!['price_range']['min'].toString()} ~ \$${widget.identifyPriceResponse!['price_range']['max'].toString()}'),
       Container(
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.only(top: 10),

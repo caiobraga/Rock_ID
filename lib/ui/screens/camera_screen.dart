@@ -609,8 +609,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
     showModalBottomSheet(
       context: context,
-      isScrollControlled:
-          true, // Permite que a bottom sheet ocupe toda a tela se necessário
+      isScrollControlled: true,
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
@@ -653,17 +652,19 @@ class _CameraScreenState extends State<CameraScreen> {
                                       setState(() {
                                         _isLoadingRockPrice = true;
                                       });
+                                      NavigatorState navigator =
+                                          Navigator.of(context);
                                       final response = await GetRockService()
                                           .identifyRockPrice(_rock!.rockName,
                                               _chosenRockForm, _chosenRockSize);
 
-                                      setState(() {
-                                        _isLoadingRockPrice = false;
-                                      });
-                                      _showRockDetails(
-                                        rockPriceResponse: response,
-                                        Navigator.of(context),
-                                      );
+                                      if (mounted) {
+                                        setState(() {
+                                          _isLoadingRockPrice = false;
+                                        });
+                                        _showRockDetails(navigator,
+                                            rockPriceResponse: response);
+                                      }
                                     },
                                     child: const Text(
                                       'Skip',
@@ -757,7 +758,7 @@ class _CameraScreenState extends State<CameraScreen> {
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           List<String> imagePaths = [
-                                            'assets/images/small_rock.png', // 1/3 of a and
+                                            'assets/images/small_rock.png', // 1/3 of a hand
                                             'assets/images/medium_rock.png', // more than half of a hand
                                             'assets/images/big_rock.png', // the size of a hand
                                             'assets/images/bigger_rock.png' // bigger than a hand
@@ -784,20 +785,23 @@ class _CameraScreenState extends State<CameraScreen> {
                                               setState(() {
                                                 _isLoadingRockPrice = true;
                                               });
+                                              NavigatorState navigator =
+                                                  Navigator.of(context);
                                               final response =
                                                   await GetRockService()
                                                       .identifyRockPrice(
                                                           _rock!.rockName,
                                                           _chosenRockForm,
                                                           _chosenRockSize);
-                                              _showRockDetails(
-                                                rockPriceResponse: response,
-                                                Navigator.of(context),
-                                              );
 
-                                              setState(() {
-                                                _isLoadingRockPrice = false;
-                                              });
+                                              if (mounted) {
+                                                _showRockDetails(navigator,
+                                                    rockPriceResponse:
+                                                        response);
+                                                setState(() {
+                                                  _isLoadingRockPrice = false;
+                                                });
+                                              }
                                             },
                                             child: ClipRRect(
                                               borderRadius:

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/chat_gpt.dart';
 
@@ -32,19 +33,24 @@ class GetRockService {
 
   Future<Map<String, dynamic>> identifyRockPrice(
       String rockName, String? chosenRockForm, String? chosenRockSize) async {
-    if (rockName.isNotEmpty) {
-      Map<String, dynamic>? chatResponse =
-          await ChatGPTService(apiKey: Constants.gptApiKey)
-              .identifyRockPrice(rockName, chosenRockForm, chosenRockSize);
-      if (chatResponse == null) {
-        throw Exception('Unable to get a response. Please try again later.');
+    try {
+      if (rockName.isNotEmpty) {
+        Map<String, dynamic>? chatResponse =
+            await ChatGPTService(apiKey: Constants.gptApiKey)
+                .identifyRockPrice(rockName, chosenRockForm, chosenRockSize);
+        if (chatResponse == null) {
+          throw Exception('Unable to get a response. Please try again later.');
+        }
+        if (chatResponse['error'] != null) {
+          throw Exception(chatResponse['error']);
+        }
+        return chatResponse;
+      } else {
+        throw Exception('No image identified.');
       }
-      if (chatResponse['error'] != null) {
-        throw Exception(chatResponse['error']);
-      }
-      return chatResponse;
-    } else {
-      throw Exception('No image identified.');
+    } catch (e) {
+      debugPrint(e.toString());
+      return {};
     }
   }
 

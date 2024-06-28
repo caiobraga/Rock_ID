@@ -8,11 +8,9 @@ import '../../constants.dart';
 import './widgets/rock_list_item.dart'; // Import the RockListItem widget
 
 class SelectRockPage extends StatefulWidget {
-  final bool isSavingRock;
   final bool isFavoritingRock;
   const SelectRockPage({
     super.key,
-    required this.isSavingRock,
     this.isFavoritingRock = false,
   });
 
@@ -65,13 +63,13 @@ class _SelectRockPageState extends State<SelectRockPage> {
   }
 
   void _filterFavoritedRocks() async {
-    final wishlistIds = await DatabaseHelper().wishlist();
+    final wishlistRocksMap = await DatabaseHelper().wishlist();
     List<Rock> unfavoritedRocks = _rockList;
 
-    for (var rockId in wishlistIds) {
+    for (final wishlistRock in wishlistRocksMap) {
       unfavoritedRocks = unfavoritedRocks
           .where(
-            (element) => element.rockId != rockId,
+            (element) => element.rockId != wishlistRock['rockId'],
           )
           .toList();
     }
@@ -183,7 +181,6 @@ class _SelectRockPageState extends State<SelectRockPage> {
       PageTransition(
         child: RockDetailPage(
           rock: rock,
-          isSavingRock: widget.isSavingRock,
           isFavoritingRock: widget.isFavoritingRock,
           isRemovingFromCollection: isRemovingFromCollection,
           isAddingFromRockList: true,

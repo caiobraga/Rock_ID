@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'camera_tip_modal.dart';
 
@@ -18,12 +18,14 @@ class ImagePickerService {
     await CameraTipModalService().show(context);
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
-      final File file = File(pickedFile.path);
-      if (await _validateImage(file)) {
-        return file;
-      } else {
-        _showErrorDialog(context, 'Image is too large.');
-      }
+      final File tempImage = File(pickedFile.path);
+      final Directory appDir = await getApplicationDocumentsDirectory();
+      final String appDirPath = appDir.path;
+      final String fileName = basename(pickedFile.path);
+      final String savedImagePath = join(appDirPath, fileName);
+
+      final File savedImage = await tempImage.copy(savedImagePath);
+      return savedImage;
     }
     return null;
   }
@@ -31,32 +33,16 @@ class ImagePickerService {
   Future<File?> pickImageFromGallery(BuildContext context) async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      final File file = File(pickedFile.path);
-      if (await _validateImage(file)) {
-        return file;
-      } else {
-        _showErrorDialog(context, 'Image is too large.');
-      }
+      final File tempImage = File(pickedFile.path);
+      final Directory appDir = await getApplicationDocumentsDirectory();
+      final String appDirPath = appDir.path;
+      final String fileName = basename(pickedFile.path);
+      final String savedImagePath = join(appDirPath, fileName);
+
+      final File savedImage = await tempImage.copy(savedImagePath);
+      return savedImage;
     }
     return null;
-  }
-
-  Future<bool> _validateImage(File file) async {
-    final Uint8List bytes = await file.readAsBytes();
-    if (bytes.length > maxFileSizeInBytes) {
-      return false;
-    }
-
-    final img.Image? image = img.decodeImage(bytes);
-    if (image == null) {
-      return false;
-    }
-
-    if (image.width > maxWidth || image.height > maxHeight) {
-      return false;
-    }
-
-    return true;
   }
 
   void _showErrorDialog(BuildContext context, String message) {

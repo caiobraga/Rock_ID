@@ -36,7 +36,6 @@ class Rock {
   final String uses;
 
   //collection fields
-  final String number;
   final String dateAcquired;
   final double cost;
   final String locality;
@@ -84,7 +83,6 @@ class Rock {
     this.length = 0.0,
     this.locality = '',
     this.notes = '',
-    this.number = '',
     this.unitOfMeasurement = '',
     this.width = 0.0,
     this.rockImages = const [],
@@ -147,7 +145,6 @@ class Rock {
       'length': length,
       'locality': locality,
       'notes': notes,
-      'number': number,
       'unitOfMeasurement': unitOfMeasurement,
       'width': width,
     };
@@ -192,7 +189,6 @@ class Rock {
       length: map['length'] ?? 0.0,
       locality: map['locality'] ?? '',
       notes: map['notes'] ?? '',
-      number: map['number'] ?? '',
       unitOfMeasurement: map['unitOfMeasurement'] ?? '',
       width: map['width'] ?? 0.0,
     );
@@ -20903,7 +20899,6 @@ class Rock {
     String? howToSelect,
     String? types,
     String? uses,
-    String? number,
     String? dateAcquired,
     double? cost,
     String? locality,
@@ -20946,7 +20941,6 @@ class Rock {
       howToSelect: howToSelect ?? this.howToSelect,
       types: types ?? this.types,
       uses: uses ?? this.uses,
-      number: number ?? this.number,
       dateAcquired: dateAcquired ?? this.dateAcquired,
       cost: cost ?? this.cost,
       locality: locality ?? this.locality,

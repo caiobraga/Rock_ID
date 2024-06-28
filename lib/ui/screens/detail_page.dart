@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
@@ -18,9 +17,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../db/db.dart';
 import '../../services/snackbar.dart';
@@ -28,7 +27,6 @@ import 'widgets/premium_section.dart';
 
 class RockDetailPage extends StatefulWidget {
   final Rock rock;
-  final bool isSavingRock;
   final bool isFavoritingRock;
   final bool isUnfavoritingRock;
   final bool showAddButton;
@@ -40,7 +38,6 @@ class RockDetailPage extends StatefulWidget {
   const RockDetailPage({
     super.key,
     required this.rock,
-    required this.isSavingRock,
     this.isFavoritingRock = false,
     this.isUnfavoritingRock = false,
     this.showAddButton = true,
@@ -81,15 +78,13 @@ class _RockDetailPageState extends State<RockDetailPage>
     setState(() {
       defineFavorite();
       _addRockToCollectionService.setRockData(widget.rock, widget.pickedImage);
-      buttonText = widget.isSavingRock
-          ? 'Save'
-          : widget.isUnfavoritingRock
-              ? 'Remove from Wishlist'
-              : widget.isFavoritingRock
-                  ? 'Add to Wishlist'
-                  : widget.isRemovingFromCollection
-                      ? 'Remove from My Collection'
-                      : 'Add to My Collection';
+      buttonText = widget.isUnfavoritingRock
+          ? 'Remove from Wishlist'
+          : widget.isFavoritingRock
+              ? 'Add to Wishlist'
+              : widget.isRemovingFromCollection
+                  ? 'Remove from My Collection'
+                  : 'Add to My Collection';
       for (final defaultImage in Rock.defaultImages) {
         if (defaultImage['rockId'] == widget.rock.rockId) {
           rockDefaultImage = defaultImage;
@@ -99,10 +94,16 @@ class _RockDetailPageState extends State<RockDetailPage>
   }
 
   void defineFavorite() async {
-    final wishlistRocksIds = await DatabaseHelper().wishlist();
-    setState(() {
-      isUnfavoritingRock = wishlistRocksIds.contains(widget.rock.rockId);
-    });
+    final wishlistRocksMap = await DatabaseHelper().wishlist();
+
+    for (final wishlistRock in wishlistRocksMap) {
+      if (wishlistRock['rockId'] == widget.rock.rockId) {
+        setState(() {
+          isUnfavoritingRock = true;
+        });
+        break;
+      }
+    }
   }
 
   @override
@@ -131,14 +132,6 @@ class _RockDetailPageState extends State<RockDetailPage>
         ),
         backgroundColor: Colors.black,
         actions: [
-          if (widget.isSavingRock && widget.identifyPriceResponse == null)
-            IconButton(
-              icon: const Icon(
-                Icons.save,
-                color: Constants.primaryColor,
-              ),
-              onPressed: () => saveRock(),
-            ),
           IconButton(
             onPressed: () async {
               setState(() {
@@ -218,15 +211,13 @@ class _RockDetailPageState extends State<RockDetailPage>
                     ),
                     const SizedBox(width: 16),
                     GestureDetector(
-                      onTap: () => widget.isSavingRock
-                          ? saveRock()
-                          : widget.isUnfavoritingRock
-                              ? _removeFromWishlist()
-                              : widget.isFavoritingRock
-                                  ? _addToWishlist()
-                                  : widget.isRemovingFromCollection
-                                      ? _removeFromCollection()
-                                      : _addToCollection(),
+                      onTap: () => widget.isUnfavoritingRock
+                          ? _removeFromWishlist()
+                          : widget.isFavoritingRock
+                              ? _addToWishlist()
+                              : widget.isRemovingFromCollection
+                                  ? _removeFromCollection()
+                                  : _addToCollection(),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.7,
                         height: 50,
@@ -350,76 +341,97 @@ class _RockDetailPageState extends State<RockDetailPage>
                             : null,
                         child: Stack(
                           children: [
-                            widget.identifyPriceResponse == null
+                            widget.pickedImage == null
                                 ? widget.rock.rockImages.isNotEmpty &&
-                                        widget.rock.rockImages.first.image !=
+                                        widget.rock.rockImages.first
+                                                .imagePath !=
                                             null
                                     ? ClipRRect(
                                         borderRadius: BorderRadius.circular(12),
-                                        child: Image.memory(
-                                          widget.rock.rockImages.first.image!,
+                                        child: Image.file(
+                                          File(_addRockToCollectionService
+                                                  .imageNotifier.value ??
+                                              widget.rock.rockImages.first
+                                                  .imagePath!),
                                           fit: BoxFit.cover,
                                           height: 200,
                                           width:
                                               MediaQuery.of(context).size.width,
                                         ),
                                       )
-                                    : rockDefaultImage['img1']
-                                            .startsWith('assets')
-                                        ? Image.asset(
-                                            rockDefaultImage['img1'],
-                                            height: 200,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : ClipRRect(
+                                    : _addRockToCollectionService
+                                                .imageNotifier.value !=
+                                            null
+                                        ? ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(12),
-                                            child: Image.network(
-                                              rockDefaultImage['img1'],
+                                            child: Image.file(
+                                              File(_addRockToCollectionService
+                                                  .imageNotifier.value!),
+                                              fit: BoxFit.cover,
                                               height: 200,
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
-                                              fit: BoxFit.cover,
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress != null &&
-                                                    loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null &&
-                                                    loadingProgress
-                                                            .cumulativeBytesLoaded <
-                                                        loadingProgress
-                                                            .expectedTotalBytes!) {
-                                                  return SizedBox(
-                                                    height: 50,
-                                                    width: 50,
-                                                    child: Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: Constants
-                                                            .primaryColor,
-                                                        value: loadingProgress
-                                                                    .expectedTotalBytes !=
-                                                                null
-                                                            ? loadingProgress
-                                                                    .cumulativeBytesLoaded /
-                                                                (loadingProgress
-                                                                        .expectedTotalBytes ??
-                                                                    1)
-                                                            : null,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-
-                                                return child;
-                                              },
                                             ),
                                           )
+                                        : rockDefaultImage['img1']
+                                                .startsWith('assets')
+                                            ? Image.asset(
+                                                rockDefaultImage['img1'],
+                                                height: 200,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                child: Image.network(
+                                                  rockDefaultImage['img1'],
+                                                  height: 200,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  fit: BoxFit.cover,
+                                                  loadingBuilder: (context,
+                                                      child, loadingProgress) {
+                                                    if (loadingProgress !=
+                                                            null &&
+                                                        loadingProgress
+                                                                .expectedTotalBytes !=
+                                                            null &&
+                                                        loadingProgress
+                                                                .cumulativeBytesLoaded <
+                                                            loadingProgress
+                                                                .expectedTotalBytes!) {
+                                                      return SizedBox(
+                                                        height: 50,
+                                                        width: 50,
+                                                        child: Center(
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            color: Constants
+                                                                .primaryColor,
+                                                            value: loadingProgress
+                                                                        .expectedTotalBytes !=
+                                                                    null
+                                                                ? loadingProgress
+                                                                        .cumulativeBytesLoaded /
+                                                                    (loadingProgress
+                                                                            .expectedTotalBytes ??
+                                                                        1)
+                                                                : null,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+
+                                                    return child;
+                                                  },
+                                                ),
+                                              )
                                 : ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.file(
@@ -500,13 +512,14 @@ class _RockDetailPageState extends State<RockDetailPage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      widget.identifyPriceResponse == null
+                      widget.pickedImage == null
                           ? widget.rock.rockImages.isNotEmpty &&
-                                  widget.rock.rockImages.first.image != null
+                                  widget.rock.rockImages.first.imagePath != null
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: Image.memory(
-                                    widget.rock.rockImages.first.image!,
+                                  child: Image.file(
+                                    File(widget
+                                        .rock.rockImages.first.imagePath!),
                                     fit: BoxFit.cover,
                                     height: 255,
                                   ),
@@ -1267,28 +1280,6 @@ class _RockDetailPageState extends State<RockDetailPage>
     );
   }
 
-  void saveRock() async {
-    try {
-      String timestamp = DateTime.now().toIso8601String();
-      await DatabaseHelper().addRockToSnapHistory(
-        widget.rock.rockId,
-        timestamp,
-      );
-
-      ShowSnackbarService().showSnackBar('Rock Saved');
-      await Navigator.pushAndRemoveUntil(
-        context,
-        PageTransition(
-          child: const RootPage(),
-          type: PageTransitionType.leftToRightWithFade,
-        ),
-        (route) => false,
-      );
-    } catch (e) {
-      ShowSnackbarService().showSnackBar('Error $e');
-    }
-  }
-
   void _removeFromCollection() async {
     await DatabaseHelper().removeRock(widget.rock.rockId);
     Navigator.pushAndRemoveUntil(
@@ -1307,7 +1298,12 @@ class _RockDetailPageState extends State<RockDetailPage>
 
   void _addToWishlist() async {
     try {
-      await DatabaseHelper().addRockToWishlist(widget.rock.rockId);
+      await DatabaseHelper().addRockToWishlist(
+        widget.rock.rockId,
+        widget.rock.rockImages.isNotEmpty
+            ? widget.rock.rockImages.first.imagePath
+            : widget.pickedImage?.path,
+      );
       if (widget.isFavoritingRock) {
         await Navigator.pushAndRemoveUntil(
           context,
@@ -1660,7 +1656,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              ValueListenableBuilder(
+                              ValueListenableBuilder<String?>(
                                 valueListenable:
                                     _addRockToCollectionService.imageNotifier,
                                 builder: (context, value, child) => InkWell(
@@ -1668,12 +1664,11 @@ class _RockDetailPageState extends State<RockDetailPage>
                                       final _imageFile =
                                           await ImagePickerService()
                                               .pickImageFromGallery(context);
-                                      final _image =
-                                          await _imageFile?.readAsBytes();
-                                      if (_image != null) {
+                                      if (_imageFile != null) {
                                         setState(() {
                                           _addRockToCollectionService
-                                              .imageNotifier.value = _image;
+                                              .imageNotifier
+                                              .value = _imageFile.path;
                                         });
                                       }
                                     },
@@ -1682,7 +1677,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                       children: [
                                         widget.rock.rockImages.isNotEmpty &&
                                                     widget.rock.rockImages.first
-                                                            .image !=
+                                                            .imagePath !=
                                                         null ||
                                                 _addRockToCollectionService
                                                         .imageNotifier.value !=
@@ -1705,17 +1700,18 @@ class _RockDetailPageState extends State<RockDetailPage>
                                                                       .rock
                                                                       .rockImages
                                                                       .first
-                                                                      .image !=
+                                                                      .imagePath !=
                                                                   null ||
-                                                          (value as Uint8List?) !=
-                                                              null
-                                                      ? Image.memory(
-                                                          value as Uint8List? ??
-                                                              widget
-                                                                  .rock
-                                                                  .rockImages
-                                                                  .first
-                                                                  .image!,
+                                                          value != null
+                                                      ? Image.file(
+                                                          File(
+                                                            value ??
+                                                                widget
+                                                                    .rock
+                                                                    .rockImages
+                                                                    .first
+                                                                    .imagePath!,
+                                                          ),
                                                           fit: BoxFit.cover,
                                                         )
                                                       : widget.rock.imageURL
@@ -2113,14 +2109,24 @@ class _RockDetailPageState extends State<RockDetailPage>
                         if (_formKey.currentState!.validate()) {
                           await _addRockToCollectionService
                               .addRockToCollection(widget.rock);
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            PageTransition(
-                                child: const RootPage(),
-                                type: PageTransitionType.leftToRightWithFade),
-                            (route) => false,
-                          );
-                          BottomNavService.instance.setIndex(1);
+                          if (!widget.isRemovingFromCollection) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              PageTransition(
+                                  child: const RootPage(),
+                                  type: PageTransitionType.leftToRightWithFade),
+                              (route) => false,
+                            );
+                            BottomNavService.instance.setIndex(1);
+                          } else {
+                            scaffoldMessengerKey.currentState?.showSnackBar(
+                              const SnackBar(
+                                content: Text('Rock edited successfuly!'),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                            Navigator.pop(context);
+                          }
                         }
                       },
                       child: Container(

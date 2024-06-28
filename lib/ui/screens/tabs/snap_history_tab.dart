@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -143,9 +145,7 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                           }
                         }
                         return RockListItem(
-                          image: rock.rockImages.isNotEmpty
-                              ? rock.rockImages.first.image
-                              : null,
+                          imagePath: _history[index]['scannedImagePath'],
                           imageUrl: rockDefaultImage['img1'],
                           title: rock.rockName,
                           tags: const ['Sulfide minerals', 'Mar', 'Jul'],
@@ -165,9 +165,10 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                               PageTransition(
                                 child: RockDetailPage(
                                   rock: rock,
-                                  isSavingRock: false,
                                   isRemovingFromCollection:
                                       isRemovingFromCollection,
+                                  pickedImage:
+                                      File(_history[index]['scannedImagePath']),
                                 ),
                                 type: PageTransitionType.bottomToTop,
                               ),

@@ -1,6 +1,8 @@
-import 'dart:typed_data';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+
 import '../../widgets/text.dart';
 
 class RockListItem extends StatelessWidget {
@@ -8,7 +10,7 @@ class RockListItem extends StatelessWidget {
   final String title;
   final List<String> tags;
   final VoidCallback onTap;
-  final Uint8List? image;
+  final String? imagePath;
   final VoidCallback? onDelete;
 
   const RockListItem({
@@ -18,7 +20,7 @@ class RockListItem extends StatelessWidget {
     required this.tags,
     required this.onTap,
     this.onDelete,
-    this.image,
+    this.imagePath,
   }) : super(key: key);
 
   @override
@@ -32,127 +34,127 @@ class RockListItem extends StatelessWidget {
           color: AppColors.naturalBlack,
           borderRadius: BorderRadius.circular(16),
         ),
-        child: Stack(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: image == null
-                      ? Image.network(
-                          imageUrl,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: imagePath == null
+                  ? Image.network(
+                      imageUrl,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
                           width: 60,
                           height: 60,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              width: 60,
-                              height: 60,
-                              color: Colors.grey,
-                              child: const Icon(
-                                Icons.error,
-                                color: Colors.red,
+                          color: Colors.grey,
+                          child: const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                        );
+                      },
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress != null &&
+                            loadingProgress.expectedTotalBytes != null &&
+                            loadingProgress.cumulativeBytesLoaded <
+                                loadingProgress.expectedTotalBytes!) {
+                          return SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Constants.primaryColor,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
                               ),
-                            );
-                          },
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress != null &&
-                                loadingProgress.expectedTotalBytes != null &&
-                                loadingProgress.cumulativeBytesLoaded <
-                                    loadingProgress.expectedTotalBytes!) {
-                              return SizedBox(
-                                height: 60,
-                                width: 60,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: Constants.primaryColor,
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            (loadingProgress
-                                                    .expectedTotalBytes ??
-                                                1)
-                                        : null,
-                                  ),
-                                ),
-                              );
-                            }
+                            ),
+                          );
+                        }
 
-                            return child;
-                          },
-                        )
-                      : Image.memory(
-                          image!,
+                        return child;
+                      },
+                    )
+                  : Image.file(
+                      File(imagePath!),
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
                           width: 60,
                           height: 60,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              width: 60,
-                              height: 60,
-                              color: Colors.grey,
-                              child: const Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              ),
-                            );
-                          },
-                        ),
-                ),
-                const SizedBox(width: 12.0),
-                Expanded(
-                  child: Column(
+                          color: Colors.grey,
+                          child: const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                        );
+                      },
+                    ),
+            ),
+            const SizedBox(width: 12.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DSCustomText(
-                        text: title,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: DSCustomText(
+                          text: title,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.visible,
+                        ),
                       ),
-                      const SizedBox(height: 8.0),
-                      SizedBox(
-                        height: 24,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: tags.map((tag) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 4.0),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 4.0),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[800],
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: DSCustomText(
-                                text: tag,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.naturalSilver,
-                              ),
-                            );
-                          }).toList(),
+                      Visibility(
+                        visible: onDelete != null,
+                        child: InkWell(
+                          onTap: () => _showDeleteConfirmationDialog(context),
+                          customBorder: const CircleBorder(),
+                          child: const Icon(
+                            Icons.remove_circle,
+                            color: Constants.lightestRed,
+                            size: 24,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Visibility(
-                visible: onDelete != null,
-                child: InkWell(
-                  onTap: () => _showDeleteConfirmationDialog(context),
-                  customBorder: const CircleBorder(),
-                  child: const Icon(
-                    Icons.remove_circle,
-                    color: Constants.lightestRed,
-                    size: 24,
+                  const SizedBox(height: 8.0),
+                  SizedBox(
+                    height: 24,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: tags.map((tag) {
+                        return Container(
+                          margin: const EdgeInsets.only(right: 4.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 4.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[800],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: DSCustomText(
+                            text: tag,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.naturalSilver,
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ],

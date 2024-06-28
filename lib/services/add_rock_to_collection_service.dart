@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
@@ -18,7 +17,6 @@ class AddRockToCollectionService {
     return _instance!;
   }
 
-  final TextEditingController numberController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   final TextEditingController costController = TextEditingController();
@@ -27,12 +25,10 @@ class AddRockToCollectionService {
   final TextEditingController widthController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
-  final ValueNotifier<List<File>> photosNotifier = ValueNotifier([]);
   final ValueNotifier<String> unitOfMeasurementNotifier = ValueNotifier('inch');
-  final ValueNotifier<Uint8List?> imageNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> imageNotifier = ValueNotifier(null);
 
   void setRockData(Rock rock, File? pickedImage) {
-    numberController.text = rock.number;
     nameController.text = rock.rockName;
     dateController.text = rock.dateAcquired.isEmpty
         ? DateFormat('yyyy/MM/dd').format(DateTime.now().toLocal()).toString()
@@ -44,10 +40,11 @@ class AddRockToCollectionService {
     lengthController.text = rock.length.toString();
     widthController.text = rock.width.toString();
     heightController.text = rock.height.toString();
+    localityController.text = rock.locality;
     notesController.text == rock.notes;
     unitOfMeasurementNotifier.value =
         rock.unitOfMeasurement.isEmpty ? 'inch' : rock.unitOfMeasurement;
-    imageNotifier.value = pickedImage?.readAsBytesSync();
+    imageNotifier.value = pickedImage?.path;
   }
 
   void toggleUnitOfMeasurement() {
@@ -60,7 +57,6 @@ class AddRockToCollectionService {
   }
 
   Future<void> addRockToCollection(Rock rock) async {
-    final String number = numberController.text;
     final String name = nameController.text;
     final String description = notesController.text;
     final String dateAcquired = dateController.text;
@@ -79,7 +75,6 @@ class AddRockToCollectionService {
     Rock newRock = rock.copyWith(
       rockName: name,
       description: description,
-      number: number,
       dateAcquired: dateAcquired,
       cost: cost,
       locality: locality,
@@ -94,7 +89,7 @@ class AddRockToCollectionService {
       final newRockImage = RockImage(
         id: 0,
         rockId: rock.rockId,
-        image: imageNotifier.value,
+        imagePath: imageNotifier.value,
       );
 
       rockImages.add(newRockImage);

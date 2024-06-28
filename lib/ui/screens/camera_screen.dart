@@ -568,6 +568,7 @@ class _CameraScreenState extends State<CameraScreen> {
           await DatabaseHelper().addRockToSnapHistory(
             _rock!.rockId,
             timestamp,
+            _image?.path,
           );
           _showRockDetails(navigator);
           return;
@@ -841,7 +842,6 @@ class _CameraScreenState extends State<CameraScreen> {
         .push(PageTransition(
             child: RockDetailPage(
               rock: _rock!,
-              isSavingRock: false,
               pickedImage: _image,
               identifyPriceResponse: rockPriceResponse,
               isRemovingFromCollection: isRemovingFromCollection,

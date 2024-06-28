@@ -26,7 +26,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 23,
+      version: 26,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -51,7 +51,6 @@ class DatabaseHelper {
         hardness REAL,
         color TEXT,
         isMagnetic INTEGER,
-        number TEXT,
         dateAcquired TEXT,
         cost REAL,
         locality TEXT,
@@ -67,7 +66,7 @@ class DatabaseHelper {
       CREATE TABLE rock_images(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
-        image BLOB,
+        imagePath TEXT,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -76,6 +75,7 @@ class DatabaseHelper {
       CREATE TABLE wishlist(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
+        imagePath TEXT,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -85,6 +85,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
         timestamp TEXT,
+        scannedImagePath TEXT,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -195,23 +196,27 @@ class DatabaseHelper {
   }
 
   // Functions for wishlist
-  Future<void> addRockToWishlist(int rockId) async {
+  Future<void> addRockToWishlist(int rockId, String? imagePath) async {
     final db = await database;
     await db.insert(
       'wishlist',
       {
         'rockId': rockId,
+        'imagePath': imagePath,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<List<int>> wishlist() async {
+  Future<List<Map<String, dynamic>>> wishlist() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('wishlist');
 
     return List.generate(maps.length, (i) {
-      return maps[i]['rockId'] as int;
+      return {
+        'rockId': maps[i]['rockId'],
+        'imagePath': maps[i]['imagePath'],
+      };
     });
   }
 
@@ -226,13 +231,15 @@ class DatabaseHelper {
 
   // Functions for snap_history
 
-  Future<void> addRockToSnapHistory(int rockId, String timestamp) async {
+  Future<void> addRockToSnapHistory(
+      int rockId, String timestamp, String? scannedImagePath) async {
     final db = await database;
     await db.insert(
       'snap_history',
       {
         'rockId': rockId,
         'timestamp': timestamp,
+        'scannedImagePath': scannedImagePath,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -246,6 +253,7 @@ class DatabaseHelper {
       return {
         'rockId': maps[i]['rockId'],
         'timestamp': maps[i]['timestamp'],
+        'scannedImagePath': maps[i]['scannedImagePath'],
       };
     });
   }

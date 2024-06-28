@@ -3,7 +3,6 @@ import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
-import 'package:flutter_onboarding/ui/screens/select_rock_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -18,6 +17,7 @@ class WishlistTab extends StatefulWidget {
 
 class WishlistTabState extends State<WishlistTab> {
   final List<Rock> _wishlistRocks = [];
+  final List<Map<String, dynamic>> _wishlistRocksMap = [];
   final ValueNotifier<int> wishlistNotifier = ValueNotifier<int>(0);
 
   @override
@@ -30,9 +30,11 @@ class WishlistTabState extends State<WishlistTab> {
     try {
       _wishlistRocks.clear();
       final allDbRocks = await DatabaseHelper().findAllRocks();
-      List<int> wishlistIds = await DatabaseHelper().wishlist();
-      for (var rockId in wishlistIds) {
-        Rock? rock = Rock.rockListFirstWhere(rockId);
+      List<Map<String, dynamic>> wishlistRocksMap =
+          await DatabaseHelper().wishlist();
+      _wishlistRocksMap.addAll(wishlistRocksMap);
+      for (final wishlistRock in wishlistRocksMap) {
+        Rock? rock = Rock.rockListFirstWhere(wishlistRock['rockId']);
         final dbRock = allDbRocks.firstWhere(
           (element) => element.rockId == rock?.rockId,
           orElse: Rock.empty,
@@ -108,6 +110,10 @@ class WishlistTabState extends State<WishlistTab> {
                           physics: const ScrollPhysics(),
                           itemBuilder: (context, index) {
                             final rock = _wishlistRocks[index];
+                            final wishlist = _wishlistRocksMap
+                                .where((element) =>
+                                    element['rockId'] == rock.rockId)
+                                .first;
 
                             Map<String, dynamic> rockDefaultImage = {
                               'img1': 'https://placehold.jp/60x60.png',
@@ -120,9 +126,7 @@ class WishlistTabState extends State<WishlistTab> {
                             }
 
                             return RockListItem(
-                              image: rock.rockImages.isNotEmpty
-                                  ? rock.rockImages.first.image
-                                  : null,
+                              imagePath: wishlist['imagePath'],
                               imageUrl:
                                   rockDefaultImage['img1'], // Placeholder image
                               title: rock.rockName,
@@ -133,12 +137,11 @@ class WishlistTabState extends State<WishlistTab> {
                                   PageTransition(
                                     child: RockDetailPage(
                                       rock: rock,
-                                      isSavingRock: false,
                                       isUnfavoritingRock: true,
                                     ),
                                     type: PageTransitionType.bottomToTop,
                                   ),
-                                ).then((value) => _loadWishlist());
+                                ).then((_) => _loadWishlist());
                               },
                               onDelete: () async {
                                 await DatabaseHelper()
@@ -168,8 +171,7 @@ class WishlistTabState extends State<WishlistTab> {
             child: const CameraScreen(),
             type: PageTransitionType.bottomToTop,
           ),
-        );
-        //_showRockSelectionModal();
+        ).then((_) => _loadWishlist());
       },
       icon: const Icon(Icons.add),
       label: const Text(
@@ -188,20 +190,6 @@ class WishlistTabState extends State<WishlistTab> {
           vertical: 10.0,
           horizontal: 20.0,
         ),
-      ),
-    );
-  }
-
-  void _showRockSelectionModal() {
-    Navigator.push(
-      context,
-      PageTransition(
-        duration: const Duration(milliseconds: 400),
-        child: const SelectRockPage(
-          isSavingRock: false,
-          isFavoritingRock: true,
-        ),
-        type: PageTransitionType.bottomToTop,
       ),
     );
   }

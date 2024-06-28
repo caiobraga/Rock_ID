@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
       context,
       PageTransition(
         duration: const Duration(milliseconds: 400),
-        child: const SelectRockPage(isSavingRock: false),
+        child: const SelectRockPage(),
         type: PageTransitionType.bottomToTop,
       ),
     );

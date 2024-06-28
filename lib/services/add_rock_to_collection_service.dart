@@ -48,7 +48,6 @@ class AddRockToCollectionService {
     unitOfMeasurementNotifier.value =
         rock.unitOfMeasurement.isEmpty ? 'inch' : rock.unitOfMeasurement;
     imageNotifier.value = pickedImage?.readAsBytesSync();
-    debugPrint(rock.rockImages.toString());
   }
 
   void toggleUnitOfMeasurement() {
@@ -104,7 +103,6 @@ class AddRockToCollectionService {
 
     try {
       if (await DatabaseHelper().rockExists(rock)) {
-        debugPrint('CHEGOU AQUI!');
         await DatabaseHelper().editRock(newRock);
         return;
       }

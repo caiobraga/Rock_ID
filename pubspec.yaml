@@ -53,6 +53,8 @@ dependencies:
   camera: ^0.11.0+1
   permission_handler: ^11.3.1
   image: ^4.2.0
+  screenshot: ^2.5.0
+  share_plus: ^7.2.2
 
 dev_dependencies:
   flutter_test:

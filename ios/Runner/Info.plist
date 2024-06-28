@@ -58,6 +58,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
      <string>App needs access to photo library to pick images.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>App needs access to write photo library to be able to share images.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

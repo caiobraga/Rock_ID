@@ -518,8 +518,10 @@ class _RockDetailPageState extends State<RockDetailPage>
                               ? ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child: Image.file(
-                                    File(widget
-                                        .rock.rockImages.first.imagePath!),
+                                    File(_addRockToCollectionService
+                                            .imageNotifier.value ??
+                                        widget
+                                            .rock.rockImages.first.imagePath!),
                                     fit: BoxFit.cover,
                                     height: 255,
                                   ),

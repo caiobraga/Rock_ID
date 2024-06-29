@@ -1317,7 +1317,7 @@ class _RockDetailPageState extends State<RockDetailPage>
       } else {
         scaffoldMessengerKey.currentState?.showSnackBar(
           const SnackBar(
-            content: Text('Rock added to wishlist!'),
+            content: Text('Rock added to Loved!'),
             duration: Duration(seconds: 1),
           ),
         );
@@ -1343,7 +1343,7 @@ class _RockDetailPageState extends State<RockDetailPage>
       } else {
         scaffoldMessengerKey.currentState?.showSnackBar(
           const SnackBar(
-            content: Text('Rock removed from wishlist.'),
+            content: Text('Rock removed from Loved.'),
             duration: Duration(seconds: 1),
           ),
         );

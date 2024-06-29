@@ -85,7 +85,7 @@ class WishlistTabState extends State<WishlistTab> {
                             color: Constants.naturalGrey.withOpacity(0.5),
                           ),
                           const SizedBox(height: 20),
-                          Text('The Wishlist is empty!',
+                          Text('The Loved is empty!',
                               style: AppTypography.body2(
                                   color: AppColors.naturalWhite)),
                           const SizedBox(height: 10),
@@ -130,7 +130,7 @@ class WishlistTabState extends State<WishlistTab> {
                               imageUrl:
                                   rockDefaultImage['img1'], // Placeholder image
                               title: rock.rockName,
-                              tags: const ['Wishlist'],
+                              tags: const ['Loved'],
                               onTap: () {
                                 Navigator.push(
                                   context,

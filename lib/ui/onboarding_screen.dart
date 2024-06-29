@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../services/review_service.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -19,38 +22,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.blackColor,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Constants.blackColor,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20, top: 20),
-            child: InkWell(
-              onTap: () {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    PageTransition(
-                        child: const RootPage(),
-                        type: PageTransitionType.bottomToTop),
-                    (route) => false);
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        child: const PremiumScreen(),
-                        type: PageTransitionType.bottomToTop));
-              }, //to login screen. We will update later
-              child: const Text(
-                'Skip',
-                style: TextStyle(
-                  color: Constants.silver,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
+    
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -63,70 +35,70 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             controller: _pageController,
             children: const [
               CreatePage(
-                image: 'assets/images/rocha-granito.png',
+                backgroundImage: 'assets/images/bg1.png',
                 title: Constants.titleOne,
                 description: Constants.descriptionOne,
               ),
               CreatePage(
-                image: 'assets/images/rock1.png',
+                backgroundImage: 'assets/images/bg2.png',
                 title: Constants.titleTwo,
                 description: Constants.descriptionTwo,
               ),
               CreatePage(
-                image: 'assets/images/emerald2.png',
+                backgroundImage: 'assets/images/bg3.png',
                 title: Constants.titleThree,
                 description: Constants.descriptionThree,
               ),
             ],
           ),
           Positioned(
-            bottom: 80,
-            left: 30,
-            child: Row(
-              children: _buildIndicator(),
-            ),
-          ),
-          Positioned(
-            bottom: 60,
-            right: 30,
-            child: Container(
-              child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      if (currentIndex < 2) {
-                        currentIndex++;
-                        if (currentIndex < 3) {
-                          _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeIn);
-                        }
-                      } else {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            PageTransition(
-                                child: const RootPage(),
-                                type: PageTransitionType.bottomToTop),
-                            (route) => false);
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                child: const PremiumScreen(),
-                                type: PageTransitionType.bottomToTop));
-                      }
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 24,
-                    color: Constants.white,
-                  )),
-              padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Constants.primaryColor,
+            bottom: 30,
+            child: GestureDetector(
+              onTap: () {
+                if (currentIndex < 2) {
+                  _pageController.nextPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn,
+                  );
+                } else {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      PageTransition(
+                          child: const RootPage(),
+                          type: PageTransitionType.bottomToTop),
+                      (route) => false);
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: const PremiumScreen(),
+                          type: PageTransitionType.bottomToTop));
+                }
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                padding: const EdgeInsets.symmetric(
+                    vertical: 12.0, horizontal: 60.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  gradient: LinearGradient(
+                    colors: [Colors.brown[400]!, Colors.brown[800]!],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: const Text(
+                  'Continue',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
-          ),
+          )
+         
         ],
       ),
     );
@@ -148,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-//Create the indicator list
+  //Create the indicator list
   List<Widget> _buildIndicator() {
     List<Widget> indicators = [];
 
@@ -165,13 +137,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 }
 
 class CreatePage extends StatelessWidget {
-  final String image;
+  final String backgroundImage;
   final String title;
   final String description;
 
   const CreatePage({
     Key? key,
-    required this.image,
+    required this.backgroundImage,
     required this.title,
     required this.description,
   }) : super(key: key);
@@ -179,21 +151,24 @@ class CreatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(backgroundImage),
+          fit: BoxFit.cover,
+        ),
+      ),
       padding: const EdgeInsets.only(left: 50, right: 50, bottom: 80),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(image),
-          const SizedBox(
-            height: 20,
-          ),
+          Spacer(flex: 2),
           Text(
-            title,
+            title.toUpperCase(),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: GoogleFonts.bebasNeue(
               color: Constants.primaryColor,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+              fontSize: 32,
+              
             ),
           ),
           const SizedBox(
@@ -202,16 +177,15 @@ class CreatePage extends StatelessWidget {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
+            style: GoogleFonts.montserrat(
+              fontSize: 16,
               color: Colors.grey,
             ),
           ),
           const SizedBox(
             height: 20,
           ),
-        ],
+                 ],
       ),
     );
   }

@@ -16,6 +16,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../services/snackbar.dart';
+
 class CameraScreen extends StatefulWidget {
   final bool isScanningForRockDetails;
 
@@ -653,7 +655,8 @@ class _CameraScreenState extends State<CameraScreen> {
                                   ),
                                   InkWell(
                                     onTap: () async {
-                                      setState(() {
+                                      try{
+                                        setState(() {
                                         _isLoadingRockPrice = true;
                                       });
                                       NavigatorState navigator =
@@ -668,6 +671,9 @@ class _CameraScreenState extends State<CameraScreen> {
                                         });
                                         _showRockDetails(navigator,
                                             rockPriceResponse: response);
+                                      }
+                                      }catch(e){
+                                        ShowSnackbarService().showSnackBar('Error $e');
                                       }
                                     },
                                     child: const Text(
@@ -772,7 +778,8 @@ class _CameraScreenState extends State<CameraScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(12),
                                             onTap: () async {
-                                              setState(() {
+                                              try{
+                                                setState(() {
                                                 _chosenRockSize = imagePaths[
                                                             index]
                                                         .contains('small')
@@ -805,6 +812,9 @@ class _CameraScreenState extends State<CameraScreen> {
                                                 setState(() {
                                                   _isLoadingRockPrice = false;
                                                 });
+                                              }
+                                              }catch(e){
+                                                ShowSnackbarService().showSnackBar('Error $e');
                                               }
                                             },
                                             child: ClipRRect(
@@ -923,8 +933,7 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _requestGalleryPermission() async {
-    PermissionStatus status = await Permission.photos.request();
-    if (status.isGranted) {
+   
       final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         setState(() {
@@ -932,9 +941,6 @@ class _CameraScreenState extends State<CameraScreen> {
         });
         _startScanning(_scanningFunction, Navigator.of(context));
       }
-    } else if (status.isPermanentlyDenied) {
-      _showSettingsDialog(isGallery: true);
-    }
   }
 
   Future<void> _scanningFunction() async {

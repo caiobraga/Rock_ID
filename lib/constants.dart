@@ -29,15 +29,15 @@ class Constants {
   );
 
   // Onboarding texts
-  static const titleOne = "Learn more about rocks";
+  static const titleOne = "Identify rocks instantly";
   static const descriptionOne =
-      "Read how to care for rocks in our rich rocks guide.";
-  static const titleTwo = "Find a rock lover friend";
+      "Snap a photo to recognize any rock in seconds";
+  static const titleTwo = "5000+ Rocks to Explore";
   static const descriptionTwo =
-      "Are you a rocks lover? Connect with other rocks lovers.";
-  static const titleThree = "Organize your colection";
+      "Get detailed information about any rock.";
+  static const titleThree = "Build Your Collection";
   static const descriptionThree =
-      "Find almost all types of rocks that you like here.";
+      "Organize and expand your unique rock collection";
 
   static String gptApiKey = dotenv.env['GPT_API_KEY'] ?? '';
 }

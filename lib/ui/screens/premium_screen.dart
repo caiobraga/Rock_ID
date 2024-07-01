@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:page_transition/page_transition.dart';
 
 class PremiumScreen extends StatefulWidget {
   const PremiumScreen({Key? key}) : super(key: key);
@@ -12,67 +13,20 @@ class PremiumScreen extends StatefulWidget {
 
 class _PremiumScreenState extends State<PremiumScreen> {
   bool isFreeTrialEnabled = true;
-  final InAppPurchase _iap = InAppPurchase.instance;
-  bool _available = true;
-  List<ProductDetails> _products = [];
 
   @override
   void initState() {
     super.initState();
-    _initialize();
-    final Stream<List<PurchaseDetails>> purchaseUpdated =
-        InAppPurchase.instance.purchaseStream;
-    purchaseUpdated.listen((purchases) {
-      _handlePurchaseUpdates(purchases);
-    });
-  }
-
-  Future<void> _initialize() async {
-    _available = await _iap.isAvailable();
-    if (_available) {
-      const Set<String> _kIds = {'product_id_1', 'product_id_2'};
-      final ProductDetailsResponse response =
-          await _iap.queryProductDetails(_kIds);
-      setState(() {
-        _products = response.productDetails;
-      });
-    }
-  }
-
-  void _handlePurchaseUpdates(List<PurchaseDetails> purchases) {
-    for (var purchase in purchases) {
-      if (purchase.status == PurchaseStatus.pending) {
-        // Handle pending status
-      } else if (purchase.status == PurchaseStatus.error) {
-        // Handle error status
-      } else if (purchase.status == PurchaseStatus.purchased ||
-          purchase.status == PurchaseStatus.restored) {
-        // Handle purchased or restored status
-        _verifyPurchase(purchase);
-      }
-    }
-  }
-
-  Future<void> _verifyPurchase(PurchaseDetails purchase) async {
-    // Verifique a compra com o seu servidor ou serviço de backend
-    // Após verificação, consuma ou reconheça a compra
-    if (purchase.pendingCompletePurchase) {
-      await _iap.completePurchase(purchase);
-    }
-  }
-
-  void _buyProduct(ProductDetails product) {
-    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
-    _iap.buyNonConsumable(purchaseParam: purchaseParam);
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
       children: [
         Container(
           alignment: Alignment.topCenter,
-          padding: const EdgeInsets.only(top: 50),
+          padding: const EdgeInsets.only(top: 30),
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0xFF0F2027), Color(0xFF2C5364)],
@@ -85,11 +39,30 @@ class _PremiumScreenState extends State<PremiumScreen> {
               alignment: Alignment.topCenter,
             ),
           ),
-          child: Image.asset('assets/videos/background.gif'),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    PageTransition(
+                        child: const RootPage(),
+                        type: PageTransitionType.bottomToTop),
+                    (route) => false,
+                  ),
+                  icon: const Icon(
+                    Icons.close,
+                    color: Constants.silver,
+                  ),
+                ),
+              ),
+              Image.asset('assets/videos/background.gif'),
+            ],
+          ),
         ),
         Positioned(
           bottom: 145,
-          left: MediaQuery.of(context).size.width / 4,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -119,8 +92,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
           ),
         ),
         Positioned(
-          bottom: 20,
-          left: MediaQuery.of(context).size.width / 5,
+          bottom: 10,
           child: Align(
             alignment: Alignment.center,
             child: Row(

@@ -341,106 +341,91 @@ class _RockDetailPageState extends State<RockDetailPage>
                             : null,
                         child: Stack(
                           children: [
-                            widget.pickedImage == null
-                                ? widget.rock.rockImages.isNotEmpty &&
-                                        widget.rock.rockImages.first
-                                                .imagePath !=
-                                            null
+                            widget.rock.rockImages.isNotEmpty &&
+                                    widget.rock.rockImages.first.imagePath !=
+                                        null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.file(
+                                      File(_addRockToCollectionService
+                                              .imageNotifier.value ??
+                                          widget.rock.rockImages.first
+                                              .imagePath!),
+                                      fit: BoxFit.cover,
+                                      height: 200,
+                                      width: MediaQuery.of(context).size.width,
+                                    ),
+                                  )
+                                : _addRockToCollectionService
+                                            .imageNotifier.value !=
+                                        null
                                     ? ClipRRect(
                                         borderRadius: BorderRadius.circular(12),
                                         child: Image.file(
                                           File(_addRockToCollectionService
-                                                  .imageNotifier.value ??
-                                              widget.rock.rockImages.first
-                                                  .imagePath!),
+                                              .imageNotifier.value!),
                                           fit: BoxFit.cover,
                                           height: 200,
                                           width:
                                               MediaQuery.of(context).size.width,
                                         ),
                                       )
-                                    : _addRockToCollectionService
-                                                .imageNotifier.value !=
-                                            null
-                                        ? ClipRRect(
+                                    : rockDefaultImage['img1']
+                                            .startsWith('assets')
+                                        ? Image.asset(
+                                            rockDefaultImage['img1'],
+                                            height: 200,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(12),
-                                            child: Image.file(
-                                              File(_addRockToCollectionService
-                                                  .imageNotifier.value!),
-                                              fit: BoxFit.cover,
+                                            child: Image.network(
+                                              rockDefaultImage['img1'],
                                               height: 200,
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
-                                            ),
-                                          )
-                                        : rockDefaultImage['img1']
-                                                .startsWith('assets')
-                                            ? Image.asset(
-                                                rockDefaultImage['img1'],
-                                                height: 200,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                child: Image.network(
-                                                  rockDefaultImage['img1'],
-                                                  height: 200,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  fit: BoxFit.cover,
-                                                  loadingBuilder: (context,
-                                                      child, loadingProgress) {
-                                                    if (loadingProgress !=
-                                                            null &&
+                                              fit: BoxFit.cover,
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress != null &&
+                                                    loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null &&
+                                                    loadingProgress
+                                                            .cumulativeBytesLoaded <
                                                         loadingProgress
-                                                                .expectedTotalBytes !=
-                                                            null &&
-                                                        loadingProgress
-                                                                .cumulativeBytesLoaded <
-                                                            loadingProgress
-                                                                .expectedTotalBytes!) {
-                                                      return SizedBox(
-                                                        height: 50,
-                                                        width: 50,
-                                                        child: Center(
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                            color: Constants
-                                                                .primaryColor,
-                                                            value: loadingProgress
-                                                                        .expectedTotalBytes !=
-                                                                    null
-                                                                ? loadingProgress
-                                                                        .cumulativeBytesLoaded /
-                                                                    (loadingProgress
-                                                                            .expectedTotalBytes ??
-                                                                        1)
-                                                                : null,
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }
+                                                            .expectedTotalBytes!) {
+                                                  return SizedBox(
+                                                    height: 50,
+                                                    width: 50,
+                                                    child: Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Constants
+                                                            .primaryColor,
+                                                        value: loadingProgress
+                                                                    .expectedTotalBytes !=
+                                                                null
+                                                            ? loadingProgress
+                                                                    .cumulativeBytesLoaded /
+                                                                (loadingProgress
+                                                                        .expectedTotalBytes ??
+                                                                    1)
+                                                            : null,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
 
-                                                    return child;
-                                                  },
-                                                ),
-                                              )
-                                : ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.file(
-                                      widget.pickedImage!,
-                                      height: 200,
-                                      width: MediaQuery.of(context).size.width,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                                return child;
+                                              },
+                                            ),
+                                          ),
                             Visibility(
                               visible: widget.isRemovingFromCollection &&
                                   !_hideEditIcon,

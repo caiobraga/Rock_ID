@@ -68,172 +68,104 @@ class _PremiumScreenState extends State<PremiumScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF0F2027), Color(0xFF2C5364)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        image: DecorationImage(
-          image: AssetImage('assets/images/background.png'),
-          fit: BoxFit.cover,
+    return Stack(
+      children: [
+        Container(
           alignment: Alignment.topCenter,
+          padding: const EdgeInsets.only(top: 50),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF0F2027), Color(0xFF2C5364)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            image: DecorationImage(
+              image: AssetImage('assets/images/premium_background.png'),
+              fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
+            ),
+          ),
+          child: Image.asset('assets/videos/background.gif'),
         ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          foregroundColor: Constants.naturalGrey,
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const DSCustomText(
-                    text: 'GET FULL ACCESS',
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryMedium,
-                  ),
-                  const SizedBox(height: 12),
-                  const DSCustomText(
-                    text: 'With ROCKAPP Pro',
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  const SizedBox(height: 16),
-                  const FeatureItem(
-                    title: 'Unlimited rock',
-                    imagePath: 'unlimited_coin_identifications.png',
-                    subTitle: 'identifications',
-                  ),
-                  const FeatureItem(
-                    title: 'Infinite',
-                    imagePath: 'infinite_coin_collections.png',
-                    subTitle: 'coin collections',
-                  ),
-                  const FeatureItem(
-                    title: 'Ad-free',
-                    imagePath: 'ad-freeExperience.png',
-                    subTitle: 'experience',
-                  ),
-                  isFreeTrialEnabled
-                      ? isFreeTrialEnabledWidget()
-                      : freeTrialNotEnabledWidget(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const DSCustomText(
-                        text: 'Free trial enabled',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white,
-                      ),
-                      const SizedBox(width: 8),
-                      SizedBox(
-                        height: 24,
-                        child: Switch(
-                          activeColor: AppColors.naturalBlack,
-                          activeTrackColor: AppColors.primaryMedium,
-                          inactiveThumbColor: AppColors.white,
-                          inactiveTrackColor: Colors.transparent,
-                          value: isFreeTrialEnabled,
-                          onChanged: (bool value) {
-                            setState(() {
-                              isFreeTrialEnabled = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_products.isNotEmpty) {
-                        _buyProduct(_products.first);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 16),
-                      backgroundColor: AppColors.primaryMedium,
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        DSCustomText(
-                          text: 'Continue',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.naturalBlack,
-                        ),
-                        SizedBox(width: 8),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.black,
-                          size: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            // Terms of Use action
-                          },
-                          child: const DSCustomText(
-                            text: 'Terms of Use',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.naturalSilver,
-                            decoration: TextDecoration.underline,
-                            decorationColor: AppColors.naturalSilver,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        const Text(
-                          '|',
-                          style: TextStyle(
-                            color: AppColors.naturalSilver,
-                            fontSize: 12,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        TextButton(
-                          onPressed: () {
-                            // Privacy Policy action
-                          },
-                          child: const DSCustomText(
-                            text: 'Privacy Policy',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.naturalSilver,
-                            decoration: TextDecoration.underline,
-                            decorationColor: AppColors.naturalSilver,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+        Positioned(
+          bottom: 145,
+          left: MediaQuery.of(context).size.width / 4,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const DSCustomText(
+                text: 'Enable free trial',
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppColors.white,
               ),
+              const SizedBox(width: 8),
+              SizedBox(
+                height: 24,
+                child: Switch(
+                  activeColor: AppColors.naturalBlack,
+                  activeTrackColor: AppColors.primaryMedium,
+                  inactiveThumbColor: AppColors.white,
+                  inactiveTrackColor: Colors.transparent,
+                  value: isFreeTrialEnabled,
+                  onChanged: (bool value) {
+                    setState(() {
+                      isFreeTrialEnabled = value;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 20,
+          left: MediaQuery.of(context).size.width / 5,
+          child: Align(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    // Terms of Use action
+                  },
+                  child: const DSCustomText(
+                    text: 'Terms of Use',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.naturalSilver,
+                    decoration: TextDecoration.underline,
+                    decorationColor: AppColors.naturalSilver,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                const Text(
+                  '|',
+                  style: TextStyle(
+                    color: AppColors.naturalSilver,
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                TextButton(
+                  onPressed: () {
+                    // Privacy Policy action
+                  },
+                  child: const DSCustomText(
+                    text: 'Privacy Policy',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.naturalSilver,
+                    decoration: TextDecoration.underline,
+                    decorationColor: AppColors.naturalSilver,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 

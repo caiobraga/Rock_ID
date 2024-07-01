@@ -90,7 +90,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
-    - assets/videos/background.mov
+    - assets/videos/
     - .env
   #   - images/a_dot_ham.jpeg
 

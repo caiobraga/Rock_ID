@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -138,6 +140,7 @@ class WishlistTabState extends State<WishlistTab> {
                                     child: RockDetailPage(
                                       rock: rock,
                                       isUnfavoritingRock: true,
+                                      pickedImage: File(wishlist['imagePath']),
                                     ),
                                     type: PageTransitionType.bottomToTop,
                                   ),

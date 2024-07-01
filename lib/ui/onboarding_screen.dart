@@ -5,8 +5,6 @@ import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../services/review_service.dart';
-
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
 
@@ -48,42 +46,34 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 title: Constants.titleThree,
                 description: Constants.descriptionThree,
               ),
+              PremiumScreen(),
             ],
           ),
           Positioned(
-            bottom: 30,
+            bottom: 60,
             child: GestureDetector(
               onTap: () {
-                if (currentIndex < 2) {
+                if (currentIndex < 3) {
                   _pageController.nextPage(
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeIn,
                   );
                 } else {
                   Navigator.pushAndRemoveUntil(
-                      context,
-                      PageTransition(
-                          child: const RootPage(),
-                          type: PageTransitionType.bottomToTop),
-                      (route) => false);
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          child: const PremiumScreen(),
-                          type: PageTransitionType.bottomToTop));
+                    context,
+                    PageTransition(
+                        child: const RootPage(),
+                        type: PageTransitionType.bottomToTop),
+                    (route) => false,
+                  );
                 }
               },
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                padding: const EdgeInsets.symmetric(
-                    vertical: 12.0, horizontal: 60.0),
+                width: MediaQuery.of(context).size.width * 0.85,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25.0),
-                  gradient: LinearGradient(
-                    colors: [Colors.brown[400]!, Colors.brown[800]!],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  gradient: Constants.darkDegrade,
                 ),
                 child: const Text(
                   'Continue',
@@ -97,41 +87,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
           )
-         
         ],
       ),
     );
-  }
-
-  //Extra Widgets
-
-  //Create the indicator decorations widget
-  Widget _indicator(bool isActive) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      height: 10.0,
-      width: isActive ? 20 : 8,
-      margin: const EdgeInsets.only(right: 5.0),
-      decoration: BoxDecoration(
-        color: Constants.primaryColor,
-        borderRadius: BorderRadius.circular(5),
-      ),
-    );
-  }
-
-  //Create the indicator list
-  List<Widget> _buildIndicator() {
-    List<Widget> indicators = [];
-
-    for (int i = 0; i < 3; i++) {
-      if (currentIndex == i) {
-        indicators.add(_indicator(true));
-      } else {
-        indicators.add(_indicator(false));
-      }
-    }
-
-    return indicators;
   }
 }
 
@@ -156,18 +114,17 @@ class CreatePage extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      padding: const EdgeInsets.only(left: 50, right: 50, bottom: 80),
+      padding: const EdgeInsets.only(left: 50, right: 50, bottom: 110),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Spacer(flex: 2),
+          const Spacer(flex: 2),
           Text(
             title.toUpperCase(),
             textAlign: TextAlign.center,
             style: GoogleFonts.bebasNeue(
               color: Constants.primaryColor,
               fontSize: 32,
-              
             ),
           ),
           const SizedBox(
@@ -184,7 +141,7 @@ class CreatePage extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-                 ],
+        ],
       ),
     );
   }

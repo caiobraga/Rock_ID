@@ -202,7 +202,7 @@ class Rock {
     }
   }
 
-  static List<Map<String, dynamic>> defaultImages = [
+  static final List<Map<String, dynamic>> defaultImages = [
     {
       "img1":
           "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Alkaligranit.jpg/594px-Alkaligranit.jpg?20120325181729",
@@ -1782,7 +1782,7 @@ class Rock {
   ];
 
   //List of Rocks data
-  static List<Rock> rockList = [
+  static final List<Rock> rockList = [
     //redy rocks 1
     Rock(
       rockId: 6,

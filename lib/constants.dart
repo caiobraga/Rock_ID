@@ -28,13 +28,20 @@ class Constants {
     end: Alignment.bottomRight,
   );
 
+  static const darkDegrade = LinearGradient(
+    colors: [
+      Color.fromRGBO(184, 143, 113, 1),
+      Color.fromRGBO(82, 64, 50, 1),
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
   // Onboarding texts
   static const titleOne = "Identify rocks instantly";
-  static const descriptionOne =
-      "Snap a photo to recognize any rock in seconds";
+  static const descriptionOne = "Snap a photo to recognize any rock in seconds";
   static const titleTwo = "5000+ Rocks to Explore";
-  static const descriptionTwo =
-      "Get detailed information about any rock.";
+  static const descriptionTwo = "Get detailed information about any rock.";
   static const titleThree = "Build Your Collection";
   static const descriptionThree =
       "Organize and expand your unique rock collection";

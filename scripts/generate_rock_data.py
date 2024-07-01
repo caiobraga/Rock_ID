@@ -137,40 +137,7 @@ class ChatGPTService:
 def populate_rocks():
     chatgpt_service = ChatGPTService(apiKey='')
     rock_names = [
-"Peridotite",
-"Itacolumite",
-"Greenschist",
-"Calcflinta",
-"Azurmalachite",
-"Baryte",
-"Beryl",
-"Emerald",
-"Beryllonite",
-"Biotite",
-"Brookite",
-"Bustamite",
-"Emerald",
-"Garnet",
-"Opal",
-"Ammolite",
-"Bone",
-"Seashell",
-"Anyolite",
-"Bauxite",
-"Beryl",
-"Emerald",
-"Heliodor",
-"Morganite",
-"Beryllonite",
-"Diaspore",
-"Garnet",
-"Kornerupine",
-"Kyanite",
-"Opal",
-"Peridot",
-"Phenakite",
-"Rhodonite",
-"Bowenite",
+
 ]
     rocks = []
 

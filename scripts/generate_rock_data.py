@@ -137,35 +137,47 @@ class ChatGPTService:
 def populate_rocks():
     chatgpt_service = ChatGPTService(apiKey='')
     rock_names = [
-    'Adakite', 'Andesite', 'Granite', 'Anorthosite', 'Aplite', 'Basalt', 'Pāhoehoe', 'Trachyandesite', 
-    'Mugearite', 'Shoshonite', 'Basanite', 'Blairmorite', 'Boninite', 'Carbonatite', 'Charnockite', 
-    'Enderbite', 'Dacite', 'Diabase', 'Diorite', 'Napoleonite', 'Dunite', 'Essexite', 'Foidolite', 
-    'Gabbro', 'Granite', 'Granodiorite', 'Granophyre', 'Harzburgite', 'Hornblendite', 'Hyaloclastite', 
-    'Icelandite', 'Ignimbrite', 'Ijolite', 'Kimberlite', 'Komatiite', 'Lamproite', 'Lamprophyre', 
-    'Latite', 'Lherzolite', 'Monzogranite', 'Monzonite', 'Syenite', 'Nephelinite', 'Norite', 'Obsidian', 
-    'Pegmatite', 'Peridotite', 'Phonolite', 'Phonotephrite', 'Picrite', 'Pumice', 'Pyroxenite', 'Diorite', 
-    'Monzonite', 'Quartzolite', 'Rhyodacite', 'Rhyolite', 'Comendite', 'Pantellerite', 'Scoria', 
-    'Shonkinite', 'Sovite', 'Syenite', 'Tachylyte', 'Tephriphonolite', 'Tephrite', 'Tonalite', 
-    'Trachyandesite', 'Benmoreite', 'Trachybasalt', 'Hawaiite', 'Trachyte', 'Troctolite', 'Trondhjemite', 
-    'Tuff', 'Websterite', 'Wehrlite', 'Argillite', 'Arkose', 'Formation', 'Breccia', 'Calcarenite', 
-    'Chalk', 'Chert', 'Claystone', 'Coal', 'Coquina', 'Diamictite', 'Diatomite', 'Evaporite', 'Flint', 
-    'Geyserite', 'Greywacke', 'Gritstone', 'Itacolumite', 'Jaspillite', 'Laterite', 'Lignite', 'Limestone', 
-    'Marl', 'Mudstone', 'Shale', 'Oolite', 'Phosphorite', 'Sandstone', 'Shale', 'Siltstone', 'Sylvinite', 
-    'Tillite', 'Travertine', 'Tufa', 'Turbidite', 'Wackestone', 'Anthracite', 'Amphibolite', 'Blueschist', 
-    'Cataclasite', 'Eclogite', 'Gneiss', 'Granulite', 'Greenschist', 'Hornfels', 'Calcflinta', 
-    'Litchfieldite', 'Marble', 'Migmatite', 'Mylonite', 'Manganaxinite', 'Tinzenite', 'Azurmalachite', 
-    'Azurite', 'Baryte', 'Bastnaesite', 'Bayldonite', 'Benitoite', 'Beryl', 'Emerald', 'Heliodor', 
-    'Beryllonite', 'Beudantite', 'Biotite', 'Boleite', 'Boracite', 'Bornite', 'Brazilianite', 'Breithauptite', 
-    'Brookite', 'Brucite', 'Bustamite', 'Bytownite', 'Alexandrite', 'Corundum', 'Diamond', 'Emerald', 
-    'Fordite', 'Garnet', 'Moissanite', 'Opal', 'Spinel', 'Turquoise', 'Amber', 'Ammolite', 'Ammonoidea', 
-    'Bone', 'Copal', 'Ivory', 'Nacre', 'Pearl', 'Seashell', 'Anyolite', 'Bauxite', 'Concretion', 'Epidosite', 
-    'Glimmerite', 'Helenite', 'Iddingsite', 'Kimberlite', 'Lamproite', 'Llanite', 'Moldavite', 'Obsidian', 
-    'Pallasite', 'Peridotite', 'Soapstone', 'Tactite', 'Unakite', 'Actinolite', 'Andalusite', 'Apatite', 
-    'Beryl', 'Emerald', 'Heliodor', 'Morganite', 'Beryllonite', 'Calcite', 'Cerussite', 'Chrysoberyl', 
-    'Danburite', 'Diaspore', 'Diopside', 'Enstatite', 'Garnet', 'Grandidierite', 'Hypersthene', 'Iolite', 
-    'Kornerupine', 'Kunzite', 'Kyanite', 'Opal', 'Peridot', 'Pezzottaite', 'Phenakite', 'Prasiolite', 
-    'Prehnite', 'Quartz', 'Rhodonite', 'Rutile', 'Scapolite', 'Antigorite', 'Bowenite', 'Sillimanite', 
-    'Spinel', 'Sunstone', 'Tanzanite', 'Topaz', 'Tourmaline', 'Ulexite', 'Zircon', 'Ruby', 'Sapphire'
+"Carbonatite",
+"Enderbite",
+"Peridotite",
+"Picrite",
+"Syenite",
+"Itacolumite",
+"Amphibolite",
+"Greenschist",
+"Calcflinta",
+"Azurmalachite",
+"Baryte",
+"Beryl",
+"Emerald",
+"Beryllonite",
+"Biotite",
+"Brookite",
+"Bustamite",
+"Emerald",
+"Garnet",
+"Opal",
+"Ammolite",
+"Bone",
+"Ivory",
+"Seashell",
+"Anyolite",
+"Bauxite",
+"Beryl",
+"Emerald",
+"Heliodor",
+"Morganite",
+"Beryllonite",
+"Diaspore",
+"Garnet",
+"Kornerupine",
+"Kyanite",
+"Opal",
+"Peridot",
+"Phenakite",
+"Rhodonite",
+"Antigorite",
+"Bowenite",
 ]
     rocks = []
 
@@ -208,7 +220,7 @@ def populate_rocks():
                 uses=details.get('uses', '')
             )
             with open('rocks_generated.txt', 'a', encoding='utf-8') as file:
-                file.write(f"Rock(rockId: {rock.rockId}, price: {rock.price}, size: '{rock.size}', rating: {rock.rating}, humidity: {rock.humidity}, temperature: '{rock.temperature}', category: '{rock.category}', rockName: '{rock.rockName}', imageURL: '{rock.imageURL}', isFavorited: {rock.isFavorited}, description: '{rock.description}', isSelected: {rock.isSelected}, formula: '{rock.formula}', hardness: {rock.hardness}, color: '{rock.color}', isMagnetic: {rock.isMagnetic}, healthRisks: '{rock.healthRisks}', askedQuestions: {rock.askedQuestions}, crystalSystem: '{rock.crystalSystem}', Colors: '{rock.Colors}', Luster: '{rock.Luster}', Diaphaneity: '{rock.Diaphaneity}', quimicalClassification: '{rock.quimicalClassification}', elementsListed: '{rock.elementsListed}', healingPropeties: '{rock.healingPropeties}', formulation: '{rock.formulation}', meaning: '{rock.meaning}', howToSelect: '{rock.howToSelect}', types: '{rock.types}', uses: '{rock.uses}'),\n")
+                file.write(f'Rock(rockId: {rock.rockId}, price: {rock.price}, size: "{rock.size}"", rating: {rock.rating}, humidity: {rock.humidity}, temperature: "{rock.temperature}", category: "{rock.category}", rockName: "{rock.rockName}", imageURL: "{rock.imageURL}", isFavorited: {rock.isFavorited}, description: "{rock.description}", isSelected: {rock.isSelected}, formula: "{rock.formula}", hardness: {rock.hardness}, color: "{rock.color}", isMagnetic: {rock.isMagnetic}, healthRisks: "{rock.healthRisks}", askedQuestions: {rock.askedQuestions}, crystalSystem: "{rock.crystalSystem}", colors: "{rock.Colors}", luster: "{rock.Luster}", diaphaneity: "{rock.Diaphaneity}", quimicalClassification: "{rock.quimicalClassification}", elementsListed: "{rock.elementsListed}", healingPropeties: "{rock.healingPropeties}", formulation: "{rock.formulation}", meaning: "{rock.meaning}", howToSelect: '{rock.howToSelect}", types: "{rock.types}", uses: "{rock.uses}"),\n')
             rocks.append(rock)
             rock_id += 1
         else:

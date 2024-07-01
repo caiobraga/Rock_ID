@@ -57,6 +57,8 @@ dependencies:
   share_plus: ^7.2.2
   connectivity_plus: ^2.0.0
   in_app_review: ^2.0.3
+  video_player: ^2.2.18
+  purchases_flutter: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +90,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/videos/background.mov
     - .env
   #   - images/a_dot_ham.jpeg
 

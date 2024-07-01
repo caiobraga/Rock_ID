@@ -56,6 +56,6 @@ url = 'https://en.wikipedia.org/wiki/List_of_gemstones_by_species'
 rocks = scrape_rocks(url)
 
 # To save the rocks in the specified format to a text file
-with open('rocks.txt', 'w', encoding='utf-8') as file:
+with open('rocks2.txt', 'w', encoding='utf-8') as file:
     for rock in rocks:
         file.write(f"Rock(rockId: {rock.rockId}, price: {rock.price}, category: '{rock.category}', rockName: '{rock.rockName}', size: '{rock.size}', rating: {rock.rating}, humidity: {rock.humidity}, temperature: '{rock.temperature}', imageURL: '{rock.imageURL}', isFavorited: {rock.isFavorited}, description: '{rock.description}', isSelected: {rock.isSelected}),\n")

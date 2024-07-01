@@ -22,7 +22,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.blackColor,
-    
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [

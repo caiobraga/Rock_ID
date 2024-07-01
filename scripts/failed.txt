@@ -1,10 +1,5 @@
-"Carbonatite",
-"Enderbite",
 "Peridotite",
-"Picrite",
-"Syenite",
 "Itacolumite",
-"Amphibolite",
 "Greenschist",
 "Calcflinta",
 "Azurmalachite",
@@ -20,7 +15,6 @@
 "Opal",
 "Ammolite",
 "Bone",
-"Ivory",
 "Seashell",
 "Anyolite",
 "Bauxite",
@@ -37,5 +31,5 @@
 "Peridot",
 "Phenakite",
 "Rhodonite",
-"Antigorite",
-"Bowenite",$Peridotite/n$Itacolumite/n$Greenschist/n$Calcflinta/n$Azurmalachite/n$Baryte/n$Beryl/n$Emerald/n$Beryllonite/n$Biotite/n$Brookite/n$Bustamite/n$Emerald/n$Garnet/n$Opal/n$Ammolite/n$Bone/n$Seashell/n$Anyolite/n$Bauxite/n$Beryl/n$Emerald/n$Heliodor/n$Morganite/n$Beryllonite/n$Diaspore/n$Garnet/n$Kornerupine/n$Kyanite/n$Opal/n$Peridot/n$Phenakite/n$Rhodonite/n$Bowenite/n
+"Bowenite",
+$Peridotite/n$Greenschist/n$Calcflinta/n$Azurmalachite/n$Beryl/n$Beryllonite/n$Biotite/n$Brookite/n$Bustamite/n$Garnet/n$Opal/n$Ammolite/n$Bone/n$Seashell/n$Anyolite/n$Bauxite/n$Beryl/n$Emerald/n$Heliodor/n$Morganite/n$Diaspore/n$Garnet/n$Kyanite/n$Opal/n$Peridot/n$Phenakite/n$Rhodonite/n$Bowenite/n

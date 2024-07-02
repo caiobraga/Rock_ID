@@ -29,7 +29,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
         children: [
           Container(
             alignment: Alignment.topCenter,
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 10),
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/premium_background.png'),
@@ -68,7 +68,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
             ),
           ),
           Positioned(
-            top: 320,
+            top: 300,
             left: 30,
             right: 30,
             child: Text(

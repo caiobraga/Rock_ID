@@ -183,7 +183,7 @@ class _RootPageState extends State<RootPage> {
               PageTransition(
                 duration: const Duration(milliseconds: 300),
                 child: const PremiumScreen(showOwnButton: true),
-                type: PageTransitionType.bottomToTop,
+                type: PageTransitionType.topToBottom,
               ),
               (route) => false,
             ),

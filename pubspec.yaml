@@ -59,6 +59,7 @@ dependencies:
   in_app_review: ^2.0.3
   video_player: ^2.2.18
   purchases_flutter: ^6.0.0
+  purchases_ui_flutter: ^6.29.2
 
 dev_dependencies:
   flutter_test:

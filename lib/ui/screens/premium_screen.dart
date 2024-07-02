@@ -31,16 +31,10 @@ class _PremiumScreenState extends State<PremiumScreen> {
             alignment: Alignment.topCenter,
             padding: const EdgeInsets.only(top: 20),
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF0F2027), Color(0xFF2C5364)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
               image: DecorationImage(
                 image: AssetImage('assets/images/premium_background.png'),
                 fit: BoxFit.cover,
-                alignment: Alignment.topCenter,
-                opacity: 0.4,
+                alignment: Alignment.center,
               ),
             ),
             child: Column(
@@ -61,38 +55,53 @@ class _PremiumScreenState extends State<PremiumScreen> {
                     ),
                   ),
                 ),
-                Image.asset('assets/videos/background.gif'),
-                const SizedBox(height: 25),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Text(
-                    'AI Powered Rock Identification at your Fingertips',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.montserrat(
-                      textStyle: const TextStyle(
-                        color: Constants.primaryColor,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
+                Opacity(
+                  opacity: 0.6,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'assets/videos/background.gif',
                     ),
-                  ),
-                ),
-                const SizedBox(height: 25),
-                Image.asset('assets/images/premium_benefits.png'),
-                const SizedBox(height: 25),
-                Text(
-                  '${isFreeTrialEnabled ? '3 days free, then \$5.98/week' : 'Just \$19.99 per year'}\nNo commitment. Cancel anytime',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Constants.white,
-                    fontSize: 16,
                   ),
                 ),
               ],
             ),
           ),
           Positioned(
-            bottom: 145,
+            top: 320,
+            left: 30,
+            right: 30,
+            child: Text(
+              'AI Powered Rock Identification at your Fingertips',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(
+                textStyle: const TextStyle(
+                  color: Constants.primaryColor,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 280,
+            left: 20,
+            right: 20,
+            child: Image.asset('assets/images/premium_benefits.png'),
+          ),
+          Positioned(
+            bottom: 210,
+            child: Text(
+              '${isFreeTrialEnabled ? '3 days free, then \$5.98/week' : 'Just \$19.99 per year'}\nNo commitment. Cancel anytime',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Constants.white,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 160,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

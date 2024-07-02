@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
+import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
@@ -655,25 +656,28 @@ class _CameraScreenState extends State<CameraScreen> {
                                   ),
                                   InkWell(
                                     onTap: () async {
-                                      try{
+                                      try {
                                         setState(() {
-                                        _isLoadingRockPrice = true;
-                                      });
-                                      NavigatorState navigator =
-                                          Navigator.of(context);
-                                      final response = await GetRockService()
-                                          .identifyRockPrice(_rock!.rockName,
-                                              _chosenRockForm, _chosenRockSize);
-
-                                      if (mounted) {
-                                        setState(() {
-                                          _isLoadingRockPrice = false;
+                                          _isLoadingRockPrice = true;
                                         });
-                                        _showRockDetails(navigator,
-                                            rockPriceResponse: response);
-                                      }
-                                      }catch(e){
-                                        ShowSnackbarService().showSnackBar('Error $e');
+                                        NavigatorState navigator =
+                                            Navigator.of(context);
+                                        final response = await GetRockService()
+                                            .identifyRockPrice(
+                                                _rock!.rockName,
+                                                _chosenRockForm,
+                                                _chosenRockSize);
+
+                                        if (mounted) {
+                                          setState(() {
+                                            _isLoadingRockPrice = false;
+                                          });
+                                          _showRockDetails(navigator,
+                                              rockPriceResponse: response);
+                                        }
+                                      } catch (e) {
+                                        ShowSnackbarService()
+                                            .showSnackBar('Error $e');
                                       }
                                     },
                                     child: const Text(
@@ -778,43 +782,46 @@ class _CameraScreenState extends State<CameraScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(12),
                                             onTap: () async {
-                                              try{
+                                              try {
                                                 setState(() {
-                                                _chosenRockSize = imagePaths[
-                                                            index]
-                                                        .contains('small')
-                                                    ? '1/3 of the size of a human hand'
-                                                    : imagePaths[index]
-                                                            .contains('medium')
-                                                        ? '2/3 of the size of a human hand'
-                                                        : imagePaths[index]
-                                                                .contains('big')
-                                                            ? 'the size of a human hand'
-                                                            : 'bigger than a human hand';
-                                              });
-
-                                              setState(() {
-                                                _isLoadingRockPrice = true;
-                                              });
-                                              NavigatorState navigator =
-                                                  Navigator.of(context);
-                                              final response =
-                                                  await GetRockService()
-                                                      .identifyRockPrice(
-                                                          _rock!.rockName,
-                                                          _chosenRockForm,
-                                                          _chosenRockSize);
-
-                                              if (mounted) {
-                                                _showRockDetails(navigator,
-                                                    rockPriceResponse:
-                                                        response);
-                                                setState(() {
-                                                  _isLoadingRockPrice = false;
+                                                  _chosenRockSize = imagePaths[
+                                                              index]
+                                                          .contains('small')
+                                                      ? '1/3 of the size of a human hand'
+                                                      : imagePaths[index]
+                                                              .contains(
+                                                                  'medium')
+                                                          ? '2/3 of the size of a human hand'
+                                                          : imagePaths[index]
+                                                                  .contains(
+                                                                      'big')
+                                                              ? 'the size of a human hand'
+                                                              : 'bigger than a human hand';
                                                 });
-                                              }
-                                              }catch(e){
-                                                ShowSnackbarService().showSnackBar('Error $e');
+
+                                                setState(() {
+                                                  _isLoadingRockPrice = true;
+                                                });
+                                                NavigatorState navigator =
+                                                    Navigator.of(context);
+                                                final response =
+                                                    await GetRockService()
+                                                        .identifyRockPrice(
+                                                            _rock!.rockName,
+                                                            _chosenRockForm,
+                                                            _chosenRockSize);
+
+                                                if (mounted) {
+                                                  _showRockDetails(navigator,
+                                                      rockPriceResponse:
+                                                          response);
+                                                  setState(() {
+                                                    _isLoadingRockPrice = false;
+                                                  });
+                                                }
+                                              } catch (e) {
+                                                ShowSnackbarService()
+                                                    .showSnackBar('Error $e');
                                               }
                                             },
                                             child: ClipRRect(
@@ -842,31 +849,40 @@ class _CameraScreenState extends State<CameraScreen> {
 
   void _showRockDetails(NavigatorState navigator,
       {final Map<String, dynamic>? rockPriceResponse}) async {
-    bool isRemovingFromCollection = false;
-    final allRocks = await DatabaseHelper().findAllRocks();
-    if (allRocks.where((rock) => rock.rockId == _rock?.rockId).isNotEmpty) {
-      isRemovingFromCollection = true;
-    }
-
-    navigator
-        .push(PageTransition(
-            child: RockDetailPage(
-              rock: _rock!,
-              pickedImage: _image,
-              identifyPriceResponse: rockPriceResponse,
-              isRemovingFromCollection: isRemovingFromCollection,
-            ),
-            type: PageTransitionType.fade))
-        .then((value) {
-      if (Navigator.of(context).canPop()) {
-        Navigator.of(context).pop();
+    try {
+      if (rockPriceResponse?['error'] != null) {
+        throw Exception(rockPriceResponse!['error']);
       }
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => const RootPage()),
-        (route) => false,
-      );
-    });
+
+      bool isRemovingFromCollection = false;
+      final allRocks = await DatabaseHelper().findAllRocks();
+      if (allRocks.where((rock) => rock.rockId == _rock?.rockId).isNotEmpty) {
+        isRemovingFromCollection = true;
+      }
+
+      navigator
+          .push(PageTransition(
+              child: RockDetailPage(
+                rock: _rock!,
+                pickedImage: _image,
+                identifyPriceResponse: rockPriceResponse,
+                isRemovingFromCollection: isRemovingFromCollection,
+              ),
+              type: PageTransitionType.fade))
+          .then((value) {
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();
+        }
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const RootPage()),
+          (route) => false,
+        );
+      });
+    } catch (e) {
+      scaffoldMessengerKey.currentState
+          ?.showSnackBar(SnackBar(content: Text(e.toString())));
+    }
   }
 
   Future<void> _requestCameraPermission() async {
@@ -876,7 +892,7 @@ class _CameraScreenState extends State<CameraScreen> {
         if (!_isCameraInitialized) {
           initializeCamera();
         }
-      } else if (status.isPermanentlyDenied) {
+      } else if (status.isPermanentlyDenied || status.isDenied) {
         _showSettingsDialog();
       }
     } catch (e) {
@@ -933,14 +949,13 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _requestGalleryPermission() async {
-   
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        setState(() {
-          _image = File(pickedFile.path);
-        });
-        _startScanning(_scanningFunction, Navigator.of(context));
-      }
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+      _startScanning(_scanningFunction, Navigator.of(context));
+    }
   }
 
   Future<void> _scanningFunction() async {

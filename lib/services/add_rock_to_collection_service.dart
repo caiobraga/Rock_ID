@@ -86,6 +86,11 @@ class AddRockToCollectionService {
     );
 
     if (imageNotifier.value != null) {
+      if (rock.rockImages.isNotEmpty) {
+        final file = File(rock.rockImages.first.imagePath!);
+        await file.delete();
+      }
+
       final newRockImage = RockImage(
         id: 0,
         rockId: rock.rockId,

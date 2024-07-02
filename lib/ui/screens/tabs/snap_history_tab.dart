@@ -169,12 +169,22 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                                       isRemovingFromCollection,
                                   pickedImage:
                                       File(_history[index]['scannedImagePath']),
+                                  isFromSnapHistory: true,
                                 ),
                                 type: PageTransitionType.bottomToTop,
                               ),
                             );
                           },
                           onDelete: () async {
+                            if (_history[index]['scannedImagePath']
+                                .isNotEmpty) {
+                              try {
+                                final file =
+                                    File(_history[index]['scannedImagePath']);
+                                await file.delete();
+                              } catch (_) {}
+                            }
+
                             await DatabaseHelper()
                                 .removeRockFromSnapHistory(rock.rockId);
                             _loadSnapHistory();

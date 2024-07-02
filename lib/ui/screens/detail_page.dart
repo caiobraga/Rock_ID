@@ -31,6 +31,7 @@ class RockDetailPage extends StatefulWidget {
   final bool isUnfavoritingRock;
   final bool showAddButton;
   final bool isRemovingFromCollection;
+  final bool isFromSnapHistory;
   final File? pickedImage;
   final Map<String, dynamic>? identifyPriceResponse;
   final bool isAddingFromRockList;
@@ -45,6 +46,7 @@ class RockDetailPage extends StatefulWidget {
     this.pickedImage,
     this.identifyPriceResponse,
     this.isAddingFromRockList = false,
+    this.isFromSnapHistory = false,
   });
 
   @override
@@ -148,7 +150,7 @@ class _RockDetailPageState extends State<RockDetailPage>
       ),
       body: Stack(
         children: [
-          widget.isRemovingFromCollection
+          widget.isRemovingFromCollection && !widget.isFromSnapHistory
               ? Column(
                   children: [
                     TabBar(
@@ -342,8 +344,14 @@ class _RockDetailPageState extends State<RockDetailPage>
                         child: Stack(
                           children: [
                             widget.rock.rockImages.isNotEmpty &&
-                                    widget.rock.rockImages.first.imagePath !=
-                                        null
+                                        widget.rock.rockImages.first
+                                                .imagePath !=
+                                            null ||
+                                    (_addRockToCollectionService
+                                                .imageNotifier.value !=
+                                            null &&
+                                        _addRockToCollectionService
+                                            .imageNotifier.value!.isNotEmpty)
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Image.file(
@@ -497,74 +505,66 @@ class _RockDetailPageState extends State<RockDetailPage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      widget.pickedImage == null
-                          ? widget.rock.rockImages.isNotEmpty &&
-                                  widget.rock.rockImages.first.imagePath != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.file(
-                                    File(_addRockToCollectionService
-                                            .imageNotifier.value ??
-                                        widget
-                                            .rock.rockImages.first.imagePath!),
-                                    fit: BoxFit.cover,
-                                    height: 255,
-                                  ),
-                                )
-                              : rockDefaultImage['img1'].startsWith('assets')
-                                  ? Image.asset(rockDefaultImage['img1'],
-                                      height: 175.75,
-                                      width: 255,
-                                      fit: BoxFit.cover)
-                                  : ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Image.network(
-                                        rockDefaultImage['img1'],
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        fit: BoxFit.cover,
-                                        loadingBuilder:
-                                            (context, child, loadingProgress) {
-                                          if (loadingProgress != null &&
-                                              loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null &&
-                                              loadingProgress
-                                                      .cumulativeBytesLoaded <
-                                                  loadingProgress
-                                                      .expectedTotalBytes!) {
-                                            return SizedBox(
-                                              height: 50,
-                                              width: 50,
-                                              child: Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: Constants.primaryColor,
-                                                  value: loadingProgress
-                                                              .expectedTotalBytes !=
-                                                          null
-                                                      ? loadingProgress
-                                                              .cumulativeBytesLoaded /
-                                                          (loadingProgress
-                                                                  .expectedTotalBytes ??
-                                                              1)
-                                                      : null,
-                                                ),
-                                              ),
-                                            );
-                                          }
-
-                                          return child;
-                                        },
-                                      ),
-                                    )
-                          : ClipRRect(
+                      widget.rock.rockImages.isNotEmpty &&
+                                  widget.rock.rockImages.first.imagePath !=
+                                      null ||
+                              (_addRockToCollectionService
+                                          .imageNotifier.value !=
+                                      null &&
+                                  _addRockToCollectionService
+                                      .imageNotifier.value!.isNotEmpty)
+                          ? ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Image.file(
-                                widget.pickedImage!,
+                                File(_addRockToCollectionService
+                                        .imageNotifier.value ??
+                                    widget.rock.rockImages.first.imagePath!),
                                 fit: BoxFit.cover,
+                                height: 255,
                               ),
-                            ),
+                            )
+                          : rockDefaultImage['img1'].startsWith('assets')
+                              ? Image.asset(rockDefaultImage['img1'],
+                                  height: 175.75, width: 255, fit: BoxFit.cover)
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    rockDefaultImage['img1'],
+                                    width: MediaQuery.of(context).size.width,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress != null &&
+                                          loadingProgress.expectedTotalBytes !=
+                                              null &&
+                                          loadingProgress
+                                                  .cumulativeBytesLoaded <
+                                              loadingProgress
+                                                  .expectedTotalBytes!) {
+                                        return SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              color: Constants.primaryColor,
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      (loadingProgress
+                                                              .expectedTotalBytes ??
+                                                          1)
+                                                  : null,
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      return child;
+                                    },
+                                  ),
+                                ),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Divider(
@@ -1269,6 +1269,12 @@ class _RockDetailPageState extends State<RockDetailPage>
 
   void _removeFromCollection() async {
     await DatabaseHelper().removeRock(widget.rock.rockId);
+
+    for (final rockImage in widget.rock.rockImages) {
+      final file = File(rockImage.imagePath!);
+      await file.delete();
+    }
+
     Navigator.pushAndRemoveUntil(
       context,
       PageTransition(

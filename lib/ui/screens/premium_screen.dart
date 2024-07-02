@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
+import 'package:flutter_onboarding/ui/screens/terms_screen.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -100,7 +101,16 @@ class _PremiumScreenState extends State<PremiumScreen> {
               children: [
                 TextButton(
                   onPressed: () {
-                    // Terms of Use action
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TermsScreen(
+                          url:
+                              'https://sites.google.com/view/rock-app-policies/terms-of-service',
+                          title: 'Policies',
+                        ),
+                      ),
+                    );
                   },
                   child: const DSCustomText(
                     text: 'Terms of Use',
@@ -122,7 +132,16 @@ class _PremiumScreenState extends State<PremiumScreen> {
                 const SizedBox(width: 10),
                 TextButton(
                   onPressed: () {
-                    // Privacy Policy action
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TermsScreen(
+                          url:
+                              'https://sites.google.com/view/rock-app-policies/privacy-policy?authuser=0',
+                          title: 'Policies',
+                        ),
+                      ),
+                    );
                   },
                   child: const DSCustomText(
                     text: 'Privacy Policy',

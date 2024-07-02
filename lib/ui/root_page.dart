@@ -178,11 +178,14 @@ class _RootPageState extends State<RootPage> {
         actions: [
           GestureDetector(
             child: SvgPicture.string(AppIcons.crown),
-            onTap: () => Navigator.push<void>(
+            onTap: () => Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => const PremiumScreen(),
+              PageTransition(
+                duration: const Duration(milliseconds: 300),
+                child: const PremiumScreen(showOwnButton: true),
+                type: PageTransitionType.bottomToTop,
               ),
+              (route) => false,
             ),
           ),
         ],

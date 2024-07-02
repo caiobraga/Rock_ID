@@ -124,6 +124,7 @@ class WishlistTabState extends State<WishlistTab> {
                             for (final defaultImage in Rock.defaultImages) {
                               if (defaultImage['rockId'] == rock.rockId) {
                                 rockDefaultImage = defaultImage;
+                                break;
                               }
                             }
 

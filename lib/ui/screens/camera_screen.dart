@@ -565,6 +565,21 @@ class _CameraScreenState extends State<CameraScreen> {
     _showLoadingBottomSheet();
     try {
       await scanningFunction();
+      final snaps = await DatabaseHelper().snapHistory();
+      if (snaps.length >= 10) {
+        await Navigator.pushAndRemoveUntil(
+          context,
+          PageTransition(
+            duration: const Duration(milliseconds: 300),
+            child: const PremiumScreen(showOwnButton: true),
+            type: PageTransitionType.topToBottom,
+          ),
+          (route) => false,
+        );
+
+        return;
+      }
+
       if (_rock != null) {
         if (widget.isScanningForRockDetails) {
           String timestamp = DateTime.now().toIso8601String();

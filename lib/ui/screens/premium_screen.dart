@@ -3,6 +3,7 @@ import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/terms_screen.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 class PremiumScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
         children: [
           Container(
             alignment: Alignment.topCenter,
-            padding: const EdgeInsets.only(top: 30),
+            padding: const EdgeInsets.only(top: 20),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFF0F2027), Color(0xFF2C5364)],
@@ -39,6 +40,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                 image: AssetImage('assets/images/premium_background.png'),
                 fit: BoxFit.cover,
                 alignment: Alignment.topCenter,
+                opacity: 0.4,
               ),
             ),
             child: Column(
@@ -60,6 +62,32 @@ class _PremiumScreenState extends State<PremiumScreen> {
                   ),
                 ),
                 Image.asset('assets/videos/background.gif'),
+                const SizedBox(height: 25),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: Text(
+                    'AI Powered Rock Identification at your Fingertips',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.montserrat(
+                      textStyle: const TextStyle(
+                        color: Constants.primaryColor,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 25),
+                Image.asset('assets/images/premium_benefits.png'),
+                const SizedBox(height: 25),
+                Text(
+                  '${isFreeTrialEnabled ? '3 days free, then \$5.98/week' : 'Just \$19.99 per year'}\nNo commitment. Cancel anytime',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Constants.white,
+                    fontSize: 16,
+                  ),
+                ),
               ],
             ),
           ),
@@ -138,7 +166,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                     },
                     child: const DSCustomText(
                       text: 'Terms of Use',
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.naturalSilver,
                       decoration: TextDecoration.underline,
@@ -150,7 +178,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                     '|',
                     style: TextStyle(
                       color: AppColors.naturalSilver,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -169,7 +197,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                     },
                     child: const DSCustomText(
                       text: 'Privacy Policy',
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.naturalSilver,
                       decoration: TextDecoration.underline,

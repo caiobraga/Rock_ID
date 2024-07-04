@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/enums/localized_string.dart';
+import 'package:flutter_onboarding/services/localization_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
-import '../constants.dart';
 
-class PaymentService{
+class PaymentService {
   Future<bool> _checkIfPurchased() async {
     bool isPurchased = false;
     Purchases.addCustomerInfoUpdateListener((customerInfo) async {
@@ -11,30 +14,50 @@ class PaymentService{
     return isPurchased;
   }
 
-//AppLocalizations.of(context)!.paymentsAreChargedToThe,
-  Future<void> _configureSDK() async {
+
+  Future<void> configureSDK(BuildContext context) async {
+
+    final localizationService =
+        LocalizationService(Localizations.localeOf(context));
+
     if (await _checkIfPurchased()) {
-      await showToast(AppLocalizations.of(context)!.youAreAlreadySubscribed);
+      await showToast(localizationService
+          .getString(LocalizedString.youAreAlreadySubscribed), context);
       return;
     }
     try {
       await Purchases.setLogLevel(LogLevel.debug);
-      PurchasesConfiguration configuration = PurchasesConfiguration(Constants.revenueCatKey);
+      PurchasesConfiguration configuration =
+          PurchasesConfiguration(Constants.revenueCatKey);
+
       await Purchases.configure(configuration);
 
-      PaywallResult payWallResult = await RevenueCatUI.presentPaywallIfNeeded('monthly subscription');
+      PaywallResult payWallResult =
+          await RevenueCatUI.presentPaywallIfNeeded('premium');
 
-      if (payWallResult == PaywallResult.purchased || payWallResult == PaywallResult.restored) {
+      debugPrint('Paywall result: $payWallResult');
 
+      if (payWallResult == PaywallResult.purchased ||
+          payWallResult == PaywallResult.restored) {
       } else if (payWallResult == PaywallResult.cancelled) {
-        await showToast(AppLocalizations.of(context)!.purchaseCancelledPleaseTryAgain);
+        await showToast(localizationService
+            .getString(LocalizedString.purchaseCancelledPleaseTryAgain), context);
       } else if (payWallResult == PaywallResult.notPresented) {
-        await showToast(AppLocalizations.of(context)!.paywallNotPresented);
+        await showToast(
+            localizationService.getString(LocalizedString.paywallNotPresented), context);
       } else if (payWallResult == PaywallResult.error) {
-        await showToast(AppLocalizations.of(context)!.errorPleaseTryAgain);
+        await showToast(
+            localizationService.getString(LocalizedString.errorPleaseTryAgain), context);
       }
     } catch (e) {
-      await showToast(AppLocalizations.of(context)!.errorPleaseTryAgain);
+      await showToast(
+          localizationService.getString(LocalizedString.errorPleaseTryAgain), context);
     }
+  }
+
+  Future<void> showToast(String message, context) async {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 }

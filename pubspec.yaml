@@ -58,9 +58,9 @@ dependencies:
   connectivity_plus: ^2.0.0
   in_app_review: ^2.0.3
   video_player: ^2.2.18
-  purchases_flutter: ^6.0.0
-  purchases_ui_flutter: ^6.29.2
+  purchases_ui_flutter: ^6.20.0
   webview_flutter: ^4.8.0
+  purchases_flutter: ^6.20.0
 
 dev_dependencies:
   flutter_test:

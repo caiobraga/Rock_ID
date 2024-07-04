@@ -776,6 +776,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.29.4"
+  purchases_ui_flutter:
+    dependency: "direct main"
+    description:
+      name: purchases_ui_flutter
+      sha256: "525de7343ea1e4ad34d0e618459f4d1eb3613f91a5a21f5c5b0a29d6fa9ae4d8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.29.4"
   screenshot:
     dependency: "direct main"
     description:

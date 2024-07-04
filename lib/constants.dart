@@ -47,6 +47,7 @@ class Constants {
       "Organize and expand your unique rock collection";
 
   static String gptApiKey = dotenv.env['GPT_API_KEY'] ?? '';
+  static String revenueCatKey = dotenv.env['REVENUE_CAT_KEY'] ?? '';
 }
 
 class AppColors {

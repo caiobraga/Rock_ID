@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -41,9 +43,25 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
   void _loadAllRocks() async {
     try {
       _allRocks.clear();
+      final allDbRocks = await DatabaseHelper().findAllRocks();
       List<Rock> allRocks = Rock.rockList;
+      List<Rock> allRocksWithImages = [];
+
+      for (Rock rock in allRocks) {
+        final dbRock = allDbRocks.firstWhere(
+          (element) => element.rockId == rock.rockId,
+          orElse: Rock.empty,
+        );
+
+        if (dbRock.rockId != 0) {
+          rock = rock.copyWith(rockImages: dbRock.rockImages);
+        }
+
+        allRocksWithImages.add(rock);
+      }
+
       setState(() {
-        _allRocks.addAll(allRocks);
+        _allRocks.addAll(allRocksWithImages);
       });
     } catch (e) {
       debugPrint('$e');
@@ -108,17 +126,27 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                   Expanded(
                     child: ListView.builder(
                       itemCount: _history.length,
+                      cacheExtent: 2000,
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
                       itemBuilder: (context, index) {
                         final rockId = _history[index]['rockId'];
                         final rock = _allRocks.firstWhere(
                             (rock) => rock.rockId == rockId,
                             orElse: () => Rock.empty());
+
+                        Map<String, dynamic> rockDefaultImage = {
+                          'img1': 'https://placehold.jp/60x60.png',
+                        };
+
+                        for (final defaultImage in Rock.defaultImages) {
+                          if (defaultImage['rockId'] == rock.rockId) {
+                            rockDefaultImage = defaultImage;
+                          }
+                        }
                         return RockListItem(
-                          // image: _history[index]['image'],
-                          imageUrl:
-                              rock.imageURL.isNotEmpty && rock.imageURL != ''
-                                  ? rock.imageURL
-                                  : 'https://via.placeholder.com/60',
+                          imagePath: _history[index]['scannedImagePath'],
+                          imageUrl: rockDefaultImage['img1'],
                           title: rock.rockName,
                           tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                           onTap: () async {
@@ -137,15 +165,26 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                               PageTransition(
                                 child: RockDetailPage(
                                   rock: rock,
-                                  isSavingRock: false,
                                   isRemovingFromCollection:
                                       isRemovingFromCollection,
+                                  pickedImage:
+                                      File(_history[index]['scannedImagePath']),
+                                  isFromSnapHistory: true,
                                 ),
                                 type: PageTransitionType.bottomToTop,
                               ),
                             );
                           },
                           onDelete: () async {
+                            if (_history[index]['scannedImagePath']
+                                .isNotEmpty) {
+                              try {
+                                final file =
+                                    File(_history[index]['scannedImagePath']);
+                                await file.delete();
+                              } catch (_) {}
+                            }
+
                             await DatabaseHelper()
                                 .removeRockFromSnapHistory(rock.rockId);
                             _loadSnapHistory();

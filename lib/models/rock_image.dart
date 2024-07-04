@@ -1,20 +1,18 @@
-import 'dart:typed_data';
-
 class RockImage {
   final int id;
   final int rockId;
-  final Uint8List? image;
+  final String? imagePath;
 
   RockImage({
     required this.id,
     required this.rockId,
-    required this.image,
+    required this.imagePath,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'rockId': rockId,
-      'image': image,
+      'imagePath': imagePath,
     };
   }
 
@@ -22,19 +20,19 @@ class RockImage {
     return RockImage(
       id: map['id'],
       rockId: map['rockId'] ?? '',
-      image: map['image'] == null ? null : map['image'] as Uint8List,
+      imagePath: map['imagePath'] ?? '',
     );
   }
 
   RockImage copyWith({
     int? id,
     int? rockId,
-    Uint8List? image,
+    String? imagePath,
   }) {
     return RockImage(
       id: id ?? this.id,
       rockId: rockId ?? this.rockId,
-      image: image ?? this.image,
+      imagePath: imagePath ?? this.imagePath,
     );
   }
 }

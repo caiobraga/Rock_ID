@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:intl/intl.dart';
 
 import '../db/db.dart';
 
@@ -17,7 +17,6 @@ class AddRockToCollectionService {
     return _instance!;
   }
 
-  final TextEditingController numberController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   final TextEditingController costController = TextEditingController();
@@ -26,19 +25,26 @@ class AddRockToCollectionService {
   final TextEditingController widthController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
-  final ValueNotifier<List<File>> photosNotifier = ValueNotifier([]);
   final ValueNotifier<String> unitOfMeasurementNotifier = ValueNotifier('inch');
-  final ValueNotifier<Uint8List?> imageNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> imageNotifier = ValueNotifier(null);
 
-  void setRockData(Rock rock) {
-    numberController.text = rock.number;
+  void setRockData(Rock rock, File? pickedImage) {
     nameController.text = rock.rockName;
-    dateController.text = rock.dateAcquired;
-    costController.text = rock.cost.toString();
+    dateController.text = rock.dateAcquired.isEmpty
+        ? DateFormat('yyyy/MM/dd').format(DateTime.now().toLocal()).toString()
+        : rock.dateAcquired;
+    costController.text = NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 0,
+    ).format(rock.cost);
     lengthController.text = rock.length.toString();
     widthController.text = rock.width.toString();
     heightController.text = rock.height.toString();
+    localityController.text = rock.locality;
     notesController.text == rock.notes;
+    unitOfMeasurementNotifier.value =
+        rock.unitOfMeasurement.isEmpty ? 'inch' : rock.unitOfMeasurement;
+    imageNotifier.value = pickedImage?.path;
   }
 
   void toggleUnitOfMeasurement() {
@@ -51,11 +57,13 @@ class AddRockToCollectionService {
   }
 
   Future<void> addRockToCollection(Rock rock) async {
-    final String number = numberController.text;
     final String name = nameController.text;
     final String description = notesController.text;
     final String dateAcquired = dateController.text;
-    final double cost = double.tryParse(costController.text) ?? 0.0;
+    final double cost = double.tryParse(
+          costController.text.replaceAll(RegExp(r'[^\d.]'), ''),
+        ) ??
+        0.0;
     final String locality = localityController.text;
     final double length = double.tryParse(lengthController.text) ?? 0.0;
     final double width = double.tryParse(widthController.text) ?? 0.0;
@@ -67,7 +75,6 @@ class AddRockToCollectionService {
     Rock newRock = rock.copyWith(
       rockName: name,
       description: description,
-      number: number,
       dateAcquired: dateAcquired,
       cost: cost,
       locality: locality,
@@ -79,18 +86,27 @@ class AddRockToCollectionService {
     );
 
     if (imageNotifier.value != null) {
+      if (rock.rockImages.isNotEmpty) {
+        final file = File(rock.rockImages.first.imagePath!);
+        await file.delete();
+      }
+
       final newRockImage = RockImage(
         id: 0,
         rockId: rock.rockId,
-        image: imageNotifier.value,
+        imagePath: imageNotifier.value,
       );
 
       rockImages.add(newRockImage);
-
       newRock = newRock.copyWith(rockImages: rockImages);
     }
 
     try {
+      if (await DatabaseHelper().rockExists(rock)) {
+        await DatabaseHelper().editRock(newRock);
+        return;
+      }
+
       await DatabaseHelper().insertRock(newRock);
     } catch (e) {
       debugPrint(e.toString());

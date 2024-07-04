@@ -14,8 +14,40 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>rock_id</string>
+	<key>NSCalendarsUsageDescription</key>
+    <string>Manage appointments and schedule reminders.</string>
+
+    <key>NSContactsUsageDescription</key>
+    <string>Share content and import contacts.</string>
+
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>Connect to external devices for enhanced features.</string>
+
+    <key>NSAppleMusicUsageDescription</key>
+    <string>Create playlists and recommend music.</string>
+
+    <key>NSMotionUsageDescription</key>
+    <string>Enhance fitness tracking and activity recognition.</string>
+
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Enable hands-free control and voice commands.</string>
+
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Provide real-time navigation and location services continuously.</string>
+
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Offer location-based services when app is active.</string>
+
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Maintain continuous connection with smart devices.</string>
+
+    <key>aps-environment</key>
+    <string>production</string> <!-- Use "development" for development builds -->
+
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>This app requires access to the microphone to record audio for voice commands.</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
     <key>NSCameraUsageDescription</key>
@@ -26,6 +58,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
      <string>App needs access to photo library to pick images.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>App needs access to write photo library to be able to share images.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -49,5 +83,12 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
 </dict>
 </plist>

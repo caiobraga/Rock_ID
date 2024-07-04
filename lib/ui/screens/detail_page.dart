@@ -17,6 +17,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../db/db.dart';
 import '../../services/snackbar.dart';
@@ -24,60 +27,85 @@ import 'widgets/premium_section.dart';
 
 class RockDetailPage extends StatefulWidget {
   final Rock rock;
-  final bool isSavingRock;
   final bool isFavoritingRock;
   final bool isUnfavoritingRock;
   final bool showAddButton;
   final bool isRemovingFromCollection;
+  final bool isFromSnapHistory;
   final File? pickedImage;
+  final Map<String, dynamic>? identifyPriceResponse;
+  final bool isAddingFromRockList;
 
   const RockDetailPage({
     super.key,
     required this.rock,
-    required this.isSavingRock,
     this.isFavoritingRock = false,
     this.isUnfavoritingRock = false,
     this.showAddButton = true,
     this.isRemovingFromCollection = false,
     this.pickedImage,
+    this.identifyPriceResponse,
+    this.isAddingFromRockList = false,
+    this.isFromSnapHistory = false,
   });
 
   @override
   State<RockDetailPage> createState() => _RockDetailPageState();
 }
 
-class _RockDetailPageState extends State<RockDetailPage> {
+class _RockDetailPageState extends State<RockDetailPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   String buttonText = '';
   bool _feedbackGiven = false;
   final _addRockToCollectionService = AddRockToCollectionService.instance;
   final _formKey = GlobalKey<FormState>();
   bool isUnfavoritingRock = false;
+  Map<String, dynamic> rockDefaultImage = {
+    'img1': 'assets/images/rock1.png',
+    'img2': 'assets/images/rock1.png',
+    'cmi1': 'assets/images/rocha-granito.jpg',
+    'cmi2': 'assets/images/rocha-granito.jpg',
+    'cmi3': 'assets/images/rocha-granito.jpg',
+  };
+  bool costVisible = true;
+  final _screenshotController = ScreenshotController();
+  bool _isLoadingShare = false;
+  bool _hideEditIcon = false;
 
   @override
   void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
     setState(() {
       defineFavorite();
-      _addRockToCollectionService.setRockData(widget.rock);
-      buttonText = widget.isSavingRock
-          ? 'Save'
-          : widget.isUnfavoritingRock
-              ? 'Remove from Wishlist'
-              : widget.isFavoritingRock
-                  ? 'Add to Wishlist'
-                  : widget.isRemovingFromCollection
-                      ? 'Remove from My Collection'
-                      : 'Add to My Collection';
+      _addRockToCollectionService.setRockData(widget.rock, widget.pickedImage);
+      buttonText = widget.isUnfavoritingRock
+          ? 'Remove from Wishlist'
+          : widget.isFavoritingRock
+              ? 'Add to Wishlist'
+              : widget.isRemovingFromCollection
+                  ? 'Remove from My Collection'
+                  : 'Add to My Collection';
+      for (final defaultImage in Rock.defaultImages) {
+        if (defaultImage['rockId'] == widget.rock.rockId) {
+          rockDefaultImage = defaultImage;
+        }
+      }
     });
-    super.initState();
   }
 
   void defineFavorite() async {
-    final wishlistRocksIds = await DatabaseHelper().wishlist();
-    setState(() {
-      isUnfavoritingRock = wishlistRocksIds.contains(widget.rock.rockId);
-    });
+    final wishlistRocksMap = await DatabaseHelper().wishlist();
 
-    debugPrint('IS UNFAVORITING ROCK? $isUnfavoritingRock');
+    for (final wishlistRock in wishlistRocksMap) {
+      if (wishlistRock['rockId'] == widget.rock.rockId) {
+        setState(() {
+          isUnfavoritingRock = true;
+        });
+        break;
+      }
+    }
   }
 
   @override
@@ -96,7 +124,9 @@ class _RockDetailPageState extends State<RockDetailPage> {
               )
             : null,
         title: Text(
-          widget.pickedImage == null ? 'BEST MATCHES' : 'ESTIMATED VALUE',
+          widget.identifyPriceResponse == null
+              ? 'BEST MATCHES'
+              : 'ESTIMATED VALUE',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Constants.primaryColor,
@@ -104,14 +134,6 @@ class _RockDetailPageState extends State<RockDetailPage> {
         ),
         backgroundColor: Colors.black,
         actions: [
-          if (widget.isSavingRock && widget.pickedImage == null)
-            IconButton(
-              icon: const Icon(
-                Icons.save,
-                color: Constants.primaryColor,
-              ),
-              onPressed: () => saveRock(),
-            ),
           IconButton(
             onPressed: () async {
               setState(() {
@@ -128,73 +150,39 @@ class _RockDetailPageState extends State<RockDetailPage> {
       ),
       body: Stack(
         children: [
-          Container(
-            color: Colors.black,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Constants.darkGrey,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+          widget.isRemovingFromCollection && !widget.isFromSnapHistory
+              ? Column(
+                  children: [
+                    TabBar(
+                      controller: _tabController,
+                      tabs: const [
+                        Tab(text: 'Details'),
+                        Tab(text: 'Info'),
+                      ],
+                      labelColor: Constants.primaryColor,
+                      labelStyle:
+                          AppTypography.body3(fontWeight: FontWeight.w500),
+                      unselectedLabelColor: Colors.white,
+                      unselectedLabelStyle:
+                          AppTypography.body3(fontWeight: FontWeight.bold),
+                      indicatorColor: Constants.primaryColor,
+                      dividerHeight: 0,
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
                         children: [
-                          widget.pickedImage == null
-                              ? widget.rock.rockImages.isNotEmpty &&
-                                      widget.rock.rockImages.first.image != null
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Image.memory(
-                                        widget.rock.rockImages.first.image!,
-                                        fit: BoxFit.cover,
-                                        height: 255,
-                                      ),
-                                    )
-                                  : Image.asset('assets/images/rock1.png',
-                                      height: 175.75,
-                                      width: 255,
-                                      fit: BoxFit.cover)
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.file(
-                                    widget.pickedImage!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16.0),
-                            child: Divider(
-                              color: Constants.naturalGrey,
-                              thickness: 1,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (widget.pickedImage != null)
-                                ..._buildInfoSectionCost()
-                              else
-                                ..._buildInfoSectionRock(),
-                            ],
-                          ),
+                          _buildDetailsTab(),
+                          _buildInfoTab(),
                         ],
                       ),
                     ),
-                  ),
-                  if (widget.pickedImage == null) ..._buildDetailsAboutRock(),
-                ],
-              ),
-            ),
-          ),
+                  ],
+                )
+              : _buildInfoTab(),
           Visibility(
-            visible:
-                widget.pickedImage == null && widget.showAddButton != false,
+            visible: widget.identifyPriceResponse == null &&
+                widget.showAddButton != false,
             child: Positioned(
               bottom: 0,
               left: 0,
@@ -225,15 +213,13 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     ),
                     const SizedBox(width: 16),
                     GestureDetector(
-                      onTap: () => widget.isSavingRock
-                          ? saveRock()
-                          : widget.isUnfavoritingRock
-                              ? _removeFromWishlist()
-                              : widget.isFavoritingRock
-                                  ? _addToWishlist()
-                                  : widget.isRemovingFromCollection
-                                      ? _removeFromCollection()
-                                      : _addToCollection(),
+                      onTap: () => widget.isUnfavoritingRock
+                          ? _removeFromWishlist()
+                          : widget.isFavoritingRock
+                              ? _addToWishlist()
+                              : widget.isRemovingFromCollection
+                                  ? _removeFromCollection()
+                                  : _addToCollection(),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.7,
                         height: 50,
@@ -269,30 +255,388 @@ class _RockDetailPageState extends State<RockDetailPage> {
     );
   }
 
+  Widget _buildDetailsTab() {
+    return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 0),
+        child: FloatingActionButton(
+          backgroundColor: Constants.primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          onPressed: () async {
+            try {
+              setState(() {
+                _isLoadingShare = true;
+                _hideEditIcon = true;
+              });
+
+              final imageBytes = await _screenshotController.capture();
+              if (imageBytes != null) {
+                // Obtenha o diretório temporário
+                final tempDir = await getTemporaryDirectory();
+                final file = File('${tempDir.path}/screenshot.png');
+
+                // Salve o arquivo no diretório temporário
+                await file.writeAsBytes(imageBytes);
+
+                // Crie o XFile a partir do caminho do arquivo
+                final xFile = XFile(file.path);
+
+                setState(() {
+                  _isLoadingShare = false;
+                  _hideEditIcon = false;
+                });
+
+                // Compartilhe o arquivo
+                await Share.shareXFiles([xFile],
+                    text: 'Take a look at my rock!');
+                await file.delete();
+              }
+            } catch (e) {
+              debugPrint('ERROR: $e');
+            }
+          },
+          child: Container(
+            width: 60,
+            height: 60,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: Constants.primaryDegrade,
+            ),
+            child: !_isLoadingShare
+                ? const Icon(
+                    Icons.share,
+                    color: Constants.white,
+                    size: 34,
+                  )
+                : const Padding(
+                    padding: EdgeInsets.all(14.0),
+                    child: CircularProgressIndicator(
+                      color: Constants.white,
+                    ),
+                  ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Screenshot(
+                controller: _screenshotController,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Constants.darkGrey,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: widget.isRemovingFromCollection
+                            ? _showAddRockToCollectionModal
+                            : null,
+                        child: Stack(
+                          children: [
+                            widget.rock.rockImages.isNotEmpty &&
+                                        widget.rock.rockImages.first
+                                                .imagePath !=
+                                            null ||
+                                    (_addRockToCollectionService
+                                                .imageNotifier.value !=
+                                            null &&
+                                        _addRockToCollectionService
+                                            .imageNotifier.value!.isNotEmpty)
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.file(
+                                      File(_addRockToCollectionService
+                                              .imageNotifier.value ??
+                                          widget.rock.rockImages.first
+                                              .imagePath!),
+                                      fit: BoxFit.cover,
+                                      height: 200,
+                                      width: MediaQuery.of(context).size.width,
+                                    ),
+                                  )
+                                : _addRockToCollectionService
+                                            .imageNotifier.value !=
+                                        null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Image.file(
+                                          File(_addRockToCollectionService
+                                              .imageNotifier.value!),
+                                          fit: BoxFit.cover,
+                                          height: 200,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                        ),
+                                      )
+                                    : rockDefaultImage['img1']
+                                            .startsWith('assets')
+                                        ? Image.asset(
+                                            rockDefaultImage['img1'],
+                                            height: 200,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: Image.network(
+                                              rockDefaultImage['img1'],
+                                              height: 200,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              fit: BoxFit.cover,
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress != null &&
+                                                    loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null &&
+                                                    loadingProgress
+                                                            .cumulativeBytesLoaded <
+                                                        loadingProgress
+                                                            .expectedTotalBytes!) {
+                                                  return SizedBox(
+                                                    height: 50,
+                                                    width: 50,
+                                                    child: Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: Constants
+                                                            .primaryColor,
+                                                        value: loadingProgress
+                                                                    .expectedTotalBytes !=
+                                                                null
+                                                            ? loadingProgress
+                                                                    .cumulativeBytesLoaded /
+                                                                (loadingProgress
+                                                                        .expectedTotalBytes ??
+                                                                    1)
+                                                            : null,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+
+                                                return child;
+                                              },
+                                            ),
+                                          ),
+                            Visibility(
+                              visible: widget.isRemovingFromCollection &&
+                                  !_hideEditIcon,
+                              child: Positioned(
+                                top: 3,
+                                right: 3,
+                                width: 32,
+                                height: 32,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Constants.naturalGrey,
+                                  ),
+                                  child: const Icon(
+                                    Icons.edit_note,
+                                    color: Constants.primaryColor,
+                                    size: 24,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Divider(
+                          color: Constants.naturalGrey,
+                          thickness: 1,
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (widget.identifyPriceResponse != null)
+                            ..._buildInfoSectionCost()
+                          else
+                            ..._buildDetailsSectionRock(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 80),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Constants.darkGrey,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      widget.rock.rockImages.isNotEmpty &&
+                                  widget.rock.rockImages.first.imagePath !=
+                                      null ||
+                              (_addRockToCollectionService
+                                          .imageNotifier.value !=
+                                      null &&
+                                  _addRockToCollectionService
+                                      .imageNotifier.value!.isNotEmpty)
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                File(_addRockToCollectionService
+                                        .imageNotifier.value ??
+                                    widget.rock.rockImages.first.imagePath!),
+                                fit: BoxFit.cover,
+                                height: 255,
+                              ),
+                            )
+                          : rockDefaultImage['img1'].startsWith('assets')
+                              ? Image.asset(rockDefaultImage['img1'],
+                                  height: 175.75, width: 255, fit: BoxFit.cover)
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    rockDefaultImage['img1'],
+                                    width: MediaQuery.of(context).size.width,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress != null &&
+                                          loadingProgress.expectedTotalBytes !=
+                                              null &&
+                                          loadingProgress
+                                                  .cumulativeBytesLoaded <
+                                              loadingProgress
+                                                  .expectedTotalBytes!) {
+                                        return SizedBox(
+                                          height: 50,
+                                          width: 50,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                              color: Constants.primaryColor,
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      (loadingProgress
+                                                              .expectedTotalBytes ??
+                                                          1)
+                                                  : null,
+                                            ),
+                                          ),
+                                        );
+                                      }
+
+                                      return child;
+                                    },
+                                  ),
+                                ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Divider(
+                          color: Constants.naturalGrey,
+                          thickness: 1,
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (widget.identifyPriceResponse != null)
+                            ..._buildInfoSectionCost()
+                          else
+                            ..._buildInfoSectionRock(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          ..._buildDetailsAboutRock(),
+        ],
+      ),
+    );
+  }
+
   // Info Section
   Widget _buildInfoSection(String title, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-              flex: 3,
-              child: Text(title,
-                  style: AppTypography.body3(color: AppColors.naturalWhite))),
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Text(title,
+                style: AppTypography.body3(color: AppColors.naturalWhite)),
+          ),
           Expanded(
             flex: 3,
             child: Text(
               value,
               textAlign: TextAlign.right,
               style: GoogleFonts.montserrat(
-                  textStyle: const TextStyle(
-                color: AppColors.naturalWhite,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              )),
+                textStyle: const TextStyle(
+                  color: AppColors.naturalWhite,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
             ),
-          )
+          ),
+          Visibility(
+            visible: title == 'Cost',
+            child: InkWell(
+              onTap: () => setState(() {
+                costVisible = !costVisible;
+              }),
+              customBorder: const CircleBorder(),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Icon(
+                  costVisible ? Icons.visibility : Icons.visibility_off,
+                  color: Constants.white,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -321,10 +665,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
         Row(
           children: [
             _buildImageCard(
-                'Quartz', 'Color, Common', 'assets/images/rock1.png'),
+                'Quartz', 'Color, Common', rockDefaultImage['img1']),
             const SizedBox(width: 8),
             _buildImageCard(
-                'Quartz', 'Morphology, common', 'assets/images/rock1.png'),
+                'Quartz', 'Morphology, common', rockDefaultImage['img2']),
           ],
         ),
       ],
@@ -347,12 +691,46 @@ class _RockDetailPageState extends State<RockDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              assetPath,
-              height: 45,
-              width: 45,
-              fit: BoxFit.cover,
-            ),
+            assetPath.startsWith('assets')
+                ? Image.asset(
+                    assetPath,
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.cover,
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(43),
+                    child: Image.network(
+                      assetPath,
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress != null &&
+                            loadingProgress.expectedTotalBytes != null &&
+                            loadingProgress.cumulativeBytesLoaded <
+                                loadingProgress.expectedTotalBytes!) {
+                          return SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Constants.primaryColor,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
+                              ),
+                            ),
+                          );
+                        }
+
+                        return child;
+                      },
+                    ),
+                  ),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
@@ -537,11 +915,44 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     child: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(8), // Define o border radius
-                      child: Image.asset(
-                        'assets/images/rocha-granito.jpg',
-                        height: 103,
-                        fit: BoxFit.cover,
-                      ),
+                      child: rockDefaultImage['cmi1'].startsWith('assets')
+                          ? Image.asset(
+                              rockDefaultImage['cmi1'],
+                              height: 103,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              rockDefaultImage['cmi1'],
+                              height: 103,
+                              fit: BoxFit.cover,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress != null &&
+                                    loadingProgress.expectedTotalBytes !=
+                                        null &&
+                                    loadingProgress.cumulativeBytesLoaded <
+                                        loadingProgress.expectedTotalBytes!) {
+                                  return SizedBox(
+                                    height: 103,
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      color: Constants.primaryColor,
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
+                                              : null,
+                                    )),
+                                  );
+                                }
+
+                                return child;
+                              },
+                            ),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -549,11 +960,44 @@ class _RockDetailPageState extends State<RockDetailPage> {
                     child: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(8), // Define o border radius
-                      child: Image.asset(
-                        'assets/images/rocha-granito.jpg',
-                        height: 103,
-                        fit: BoxFit.cover,
-                      ),
+                      child: rockDefaultImage['cmi2'].startsWith('assets')
+                          ? Image.asset(
+                              rockDefaultImage['cmi2'],
+                              height: 103,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              rockDefaultImage['cmi2'],
+                              height: 103,
+                              fit: BoxFit.cover,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress != null &&
+                                    loadingProgress.expectedTotalBytes !=
+                                        null &&
+                                    loadingProgress.cumulativeBytesLoaded <
+                                        loadingProgress.expectedTotalBytes!) {
+                                  return SizedBox(
+                                    height: 103,
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                      color: Constants.primaryColor,
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  (loadingProgress
+                                                          .expectedTotalBytes ??
+                                                      1)
+                                              : null,
+                                    )),
+                                  );
+                                }
+
+                                return child;
+                              },
+                            ),
                     ),
                   ),
                 ],
@@ -567,12 +1011,43 @@ class _RockDetailPageState extends State<RockDetailPage> {
               ClipRRect(
                 borderRadius:
                     BorderRadius.circular(8), // Define o border radius
-                child: Image.asset(
-                  'assets/images/rocha-granito.jpg',
-                  height: 182,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+                child: rockDefaultImage['cmi3'].startsWith('assets')
+                    ? Image.asset(
+                        rockDefaultImage['cmi3'],
+                        height: 182,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        rockDefaultImage['cmi3'],
+                        height: 182,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress != null &&
+                              loadingProgress.expectedTotalBytes != null &&
+                              loadingProgress.cumulativeBytesLoaded <
+                                  loadingProgress.expectedTotalBytes!) {
+                            return SizedBox(
+                              height: 182,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            (loadingProgress
+                                                    .expectedTotalBytes ??
+                                                1)
+                                        : null,
+                                    color: Constants.primaryColor),
+                              ),
+                            );
+                          }
+
+                          return child;
+                        },
+                      ),
               ),
               const SizedBox(height: 16),
               // Row(
@@ -792,30 +1267,14 @@ class _RockDetailPageState extends State<RockDetailPage> {
     );
   }
 
-  void saveRock() async {
-    try {
-      String timestamp = DateTime.now().toIso8601String();
-      await DatabaseHelper().addRockToSnapHistory(
-        widget.rock.rockId,
-        timestamp,
-      );
-
-      ShowSnackbarService().showSnackBar('Rock Saved');
-      await Navigator.pushAndRemoveUntil(
-        context,
-        PageTransition(
-          child: const RootPage(),
-          type: PageTransitionType.leftToRightWithFade,
-        ),
-        (route) => false,
-      );
-    } catch (e) {
-      ShowSnackbarService().showSnackBar('Error $e');
-    }
-  }
-
   void _removeFromCollection() async {
     await DatabaseHelper().removeRock(widget.rock.rockId);
+
+    for (final rockImage in widget.rock.rockImages) {
+      final file = File(rockImage.imagePath!);
+      await file.delete();
+    }
+
     Navigator.pushAndRemoveUntil(
       context,
       PageTransition(
@@ -832,7 +1291,12 @@ class _RockDetailPageState extends State<RockDetailPage> {
 
   void _addToWishlist() async {
     try {
-      await DatabaseHelper().addRockToWishlist(widget.rock.rockId);
+      await DatabaseHelper().addRockToWishlist(
+        widget.rock.rockId,
+        widget.rock.rockImages.isNotEmpty
+            ? widget.rock.rockImages.first.imagePath
+            : widget.pickedImage?.path,
+      );
       if (widget.isFavoritingRock) {
         await Navigator.pushAndRemoveUntil(
           context,
@@ -844,7 +1308,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       } else {
         scaffoldMessengerKey.currentState?.showSnackBar(
           const SnackBar(
-            content: Text('Rock added to wishlist!'),
+            content: Text('Rock added to Loved!'),
             duration: Duration(seconds: 1),
           ),
         );
@@ -870,7 +1334,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
       } else {
         scaffoldMessengerKey.currentState?.showSnackBar(
           const SnackBar(
-            content: Text('Rock removed from wishlist.'),
+            content: Text('Rock removed from Loved.'),
             duration: Duration(seconds: 1),
           ),
         );
@@ -908,10 +1372,31 @@ class _RockDetailPageState extends State<RockDetailPage> {
       ),
       const SizedBox(height: 16),
       _buildInfoSection('Formula', widget.rock.formula),
-      _buildInfoSection('Hardness', widget.rock.hardness.toString()),
+      _buildInfoSection(
+          'Hardness',
+          widget.rock.hardness == 0
+              ? "The hardness on this rock may vary"
+              : widget.rock.hardness.toString()),
       _buildInfoSection('Color', widget.rock.color),
       _buildInfoSection(
           'Magnetic', widget.rock.isMagnetic ? 'Magnetic' : 'Non-magnetic'),
+    ];
+  }
+
+  List<Widget> _buildDetailsSectionRock() {
+    return <Widget>[
+      Text(
+        widget.rock.rockName,
+        style: AppTypography.headline1(color: Constants.primaryColor),
+      ),
+      const SizedBox(height: 16),
+      _buildInfoSection(
+          'Cost',
+          costVisible
+              ? '\$${_addRockToCollectionService.costController.text}'
+              : '\$****'),
+      _buildInfoSection('Size',
+          '${_addRockToCollectionService.lengthController.text} x ${_addRockToCollectionService.widthController.text} x ${_addRockToCollectionService.heightController.text} ${_addRockToCollectionService.unitOfMeasurementNotifier.value == 'inch' ? 'inches' : 'cm'}'),
     ];
   }
 
@@ -953,15 +1438,16 @@ class _RockDetailPageState extends State<RockDetailPage> {
       _buildTypesSection(),
       const SizedBox(height: 16),
       _buildUsesSection(),
-      const SizedBox(height: 16),
-      const SizedBox(height: 80)
+      const SizedBox(height: 80),
     ];
   }
 
   List<Widget> _buildInfoSectionCost() {
     return <Widget>[
-      _buildInfoSection('Estimated value', '\$20'),
-      _buildInfoSection('Possible price range', '\$13 ~ \$70'),
+      _buildInfoSection('Estimated value',
+          '\$${widget.identifyPriceResponse!['price'].toString()}'),
+      _buildInfoSection('Possible price range',
+          '\$${widget.identifyPriceResponse!['price_range']['min'].toString()} ~ \$${widget.identifyPriceResponse!['price_range']['max'].toString()}'),
       Container(
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.only(top: 10),
@@ -1080,101 +1566,62 @@ class _RockDetailPageState extends State<RockDetailPage> {
   void _showAddRockToCollectionModal() {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (BuildContext context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          resizeToAvoidBottomInset: true,
-          body: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: DraggableScrollableSheet(
-              initialChildSize: 0.88,
-              minChildSize: 0.88,
-              maxChildSize: 0.88,
-              builder:
-                  (BuildContext context, ScrollController scrollController) {
-                return Stack(
+        return Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.88,
+            padding: const EdgeInsets.all(20.0),
+            decoration: const BoxDecoration(
+              color: Constants.darkGrey,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Stack(
+              children: [
+                Column(
                   children: [
-                    SingleChildScrollView(
-                      controller: scrollController,
-                      child: Container(
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: const BoxDecoration(
-                          color: Constants.darkGrey,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'ROCK DETAILS',
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 28,
+                                  ),
                         ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                            color: Constants.primaryColor,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      color: Constants.white,
+                      height: 0.1,
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
                         child: Form(
                           key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'COLLECTION DETAILS',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                          color: Colors.white,
-                                          fontSize: 28,
-                                        ),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.close,
-                                      color: Constants.primaryColor,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Container(
-                                color: Constants.white,
-                                height: 0.1,
-                              ),
-                              InputWidget(
-                                controller: _addRockToCollectionService
-                                    .numberController,
-                                label: 'No.',
-                                hintText: 'Tap to enter the number',
-                              ),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '*Auto numbered: 3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 6,
-                                  ),
-                                  Text(
-                                    'Use this',
-                                    style: TextStyle(
-                                      color: Constants.primaryColor,
-                                      fontSize: 14,
-                                    ),
-                                  )
-                                ],
-                              ),
                               InputWidget(
                                 label: 'Name',
                                 required: true,
@@ -1202,100 +1649,163 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              ValueListenableBuilder(
+                              ValueListenableBuilder<String?>(
                                 valueListenable:
                                     _addRockToCollectionService.imageNotifier,
                                 builder: (context, value, child) => InkWell(
-                                  onTap: () async {
-                                    final _imageFile =
-                                        await ImagePickerService()
-                                            .pickImageFromGallery(context);
-                                    final _image =
-                                        await _imageFile?.readAsBytes();
-                                    if (_image != null) {
-                                      setState(() {
-                                        _addRockToCollectionService
-                                            .imageNotifier.value = _image;
-                                      });
-                                    }
-                                  },
-                                  child: widget.rock.rockImages.isNotEmpty &&
-                                              widget.rock.rockImages.first
-                                                      .image !=
-                                                  null ||
+                                    onTap: () async {
+                                      final _imageFile =
+                                          await ImagePickerService()
+                                              .pickImageFromGallery(context);
+                                      if (_imageFile != null) {
+                                        setState(() {
                                           _addRockToCollectionService
-                                                  .imageNotifier.value !=
-                                              null ||
-                                          widget.rock.imageURL.isNotEmpty
-                                      ? Stack(
-                                          children: [
-                                            Container(
-                                              height: 100,
-                                              width: 100,
-                                              decoration: BoxDecoration(
-                                                color: Constants.colorInput,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: widget.rock.rockImages
-                                                                .isNotEmpty &&
-                                                            widget
+                                              .imageNotifier
+                                              .value = _imageFile.path;
+                                        });
+                                      }
+                                    },
+                                    child: Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        widget.rock.rockImages.isNotEmpty &&
+                                                    widget.rock.rockImages.first
+                                                            .imagePath !=
+                                                        null ||
+                                                _addRockToCollectionService
+                                                        .imageNotifier.value !=
+                                                    null ||
+                                                widget.rock.imageURL.isNotEmpty
+                                            ? Container(
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                  color: Constants.colorInput,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: widget.rock.rockImages
+                                                                  .isNotEmpty &&
+                                                              widget
+                                                                      .rock
+                                                                      .rockImages
+                                                                      .first
+                                                                      .imagePath !=
+                                                                  null ||
+                                                          value != null
+                                                      ? Image.file(
+                                                          File(
+                                                            value ??
+                                                                widget
                                                                     .rock
                                                                     .rockImages
                                                                     .first
-                                                                    .image !=
-                                                                null ||
-                                                        (value as Uint8List?) !=
-                                                            null
-                                                    ? Image.memory(
-                                                        value as Uint8List? ??
-                                                            widget
-                                                                .rock
-                                                                .rockImages
-                                                                .first
-                                                                .image!,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : widget.rock.imageURL
-                                                            .isNotEmpty
-                                                        ? Image.network(
-                                                            widget
-                                                                .rock.imageURL,
-                                                            fit: BoxFit.cover,
-                                                          )
-                                                        : null,
+                                                                    .imagePath!,
+                                                          ),
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : widget.rock.imageURL
+                                                              .isNotEmpty
+                                                          ? Image.network(
+                                                              widget.rock
+                                                                  .imageURL,
+                                                              fit: BoxFit.cover,
+                                                              loadingBuilder:
+                                                                  (context,
+                                                                      child,
+                                                                      loadingProgress) {
+                                                                if (loadingProgress != null &&
+                                                                    loadingProgress
+                                                                            .expectedTotalBytes !=
+                                                                        null &&
+                                                                    loadingProgress
+                                                                            .cumulativeBytesLoaded <
+                                                                        loadingProgress
+                                                                            .expectedTotalBytes!) {
+                                                                  return Center(
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                    color: Constants
+                                                                        .primaryColor,
+                                                                    value: loadingProgress.expectedTotalBytes !=
+                                                                            null
+                                                                        ? loadingProgress.cumulativeBytesLoaded /
+                                                                            (loadingProgress.expectedTotalBytes ??
+                                                                                1)
+                                                                        : null,
+                                                                  ));
+                                                                }
+
+                                                                return child;
+                                                              },
+                                                            )
+                                                          : null,
+                                                ),
+                                              )
+                                            : Container(
+                                                height: 100,
+                                                width: 100,
+                                                clipBehavior: Clip.hardEdge,
+                                                decoration: BoxDecoration(
+                                                  color: Constants.colorInput,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Image.network(
+                                                  rockDefaultImage['img1']
+                                                          .startsWith('assets')
+                                                      ? 'https://placehold.jp/100x100.png'
+                                                      : rockDefaultImage[
+                                                          'img1'],
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
-                                            ),
-                                            const Positioned(
-                                              right: 3,
-                                              bottom: 3,
-                                              child: Icon(
-                                                Icons.image_search,
-                                                color: Constants.white,
-                                                size: 20,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : Container(
-                                          height: 100,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            color: Constants.colorInput,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: const Icon(
-                                            Icons.add,
-                                            color: Constants.primaryColor,
+                                        const Positioned(
+                                          right: 3,
+                                          bottom: 3,
+                                          child: Icon(
+                                            Icons.image_search,
+                                            color: Constants.white,
+                                            size: 20,
                                           ),
                                         ),
-                                ),
+                                        Visibility(
+                                          visible: _addRockToCollectionService
+                                                  .imageNotifier.value !=
+                                              null,
+                                          child: Positioned(
+                                            top: -5,
+                                            right: -5,
+                                            width: 22,
+                                            height: 22,
+                                            child: IconButton(
+                                              icon: const Icon(Icons.close),
+                                              style: IconButton.styleFrom(
+                                                  foregroundColor:
+                                                      Constants.darkGrey,
+                                                  backgroundColor:
+                                                      Constants.lightestRed),
+                                              iconSize: 20,
+                                              padding: const EdgeInsets.all(0),
+                                              onPressed: () {
+                                                setState(() {
+                                                  _addRockToCollectionService
+                                                      .imageNotifier
+                                                      .value = null;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     child: InputWidget(
@@ -1316,7 +1826,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                           .costController,
                                       hintText: 'Cost',
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly
+                                        FilteringTextInputFormatter.digitsOnly,
                                       ],
                                       onChanged: (value) {
                                         if (value.isEmpty) return;
@@ -1347,6 +1857,7 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                         size: 20,
                                       ),
                                       textInputType: TextInputType.number,
+                                      maxLength: 13,
                                     ),
                                     width: 150,
                                   ),
@@ -1368,6 +1879,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                       controller: _addRockToCollectionService
                                           .lengthController,
                                       hintText: 'Length',
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
+                                      textInputType: TextInputType.number,
                                     ),
                                   ),
                                   Container(
@@ -1392,6 +1907,10 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                       controller: _addRockToCollectionService
                                           .widthController,
                                       hintText: 'Width',
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
+                                      textInputType: TextInputType.number,
                                     ),
                                   ),
                                   Container(
@@ -1546,7 +2065,11 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                       ),
                                       controller: _addRockToCollectionService
                                           .heightController,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
                                       hintText: 'Height',
+                                      textInputType: TextInputType.number,
                                     ),
                                   ),
                                 ],
@@ -1557,70 +2080,69 @@ class _RockDetailPageState extends State<RockDetailPage> {
                                     _addRockToCollectionService.notesController,
                                 hintText: 'Tap to add your notes here...',
                                 maxLines: 5,
-                              ),
-                              const SizedBox(
-                                height: 45,
                               ), // Adicionado espaço para o botão "Save"
+                              const SizedBox(
+                                height: 70,
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
-                    Positioned(
-                      bottom: 16,
-                      left: 16,
-                      right: 16,
+                  ],
+                ),
+                Visibility(
+                  visible: MediaQuery.of(context).viewInsets.bottom < 1,
+                  child: Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: InkWell(
+                      onTap: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await _addRockToCollectionService
+                              .addRockToCollection(widget.rock);
+                          if (!widget.isRemovingFromCollection) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              PageTransition(
+                                  child: const RootPage(),
+                                  type: PageTransitionType.leftToRightWithFade),
+                              (route) => false,
+                            );
+                            BottomNavService.instance.setIndex(1);
+                          } else {
+                            scaffoldMessengerKey.currentState?.showSnackBar(
+                              const SnackBar(
+                                content: Text('Rock edited successfuly!'),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
                       child: Container(
-                        decoration: const BoxDecoration(
-                          color: Constants.darkGrey,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
+                        alignment: Alignment.center,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Constants.primaryColor,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: const Text(
+                          'Save',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Constants.blackColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
                           ),
                         ),
-                        child: InkWell(
-                            onTap: () async {
-                              if (_formKey.currentState!.validate()) {
-                                await _addRockToCollectionService
-                                    .addRockToCollection(widget.rock);
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  PageTransition(
-                                      child: const RootPage(),
-                                      type: PageTransitionType
-                                          .leftToRightWithFade),
-                                  (route) => false,
-                                );
-                                BottomNavService.instance.setIndex(1);
-                              }
-                            },
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 33,
-                                    decoration: BoxDecoration(
-                                      color: Constants.primaryColor,
-                                      borderRadius: BorderRadius.circular(24),
-                                    ),
-                                    child: const Text(
-                                      'Save',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Constants.blackColor,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )),
                       ),
                     ),
-                  ],
-                );
-              },
+                  ),
+                ),
+              ],
             ),
           ),
         );

@@ -4,6 +4,7 @@ import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/bottom_nav_service.dart';
@@ -19,7 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Rock> _rockList = [];
   int contRocks = 0;
-  double price = 0;
+  String price = '';
   bool _isLoading = true;
   final _bottomNavService = BottomNavService.instance;
 
@@ -56,7 +57,9 @@ class _HomePageState extends State<HomePage> {
     for (var rock in _rockList) {
       totalPrice += rock.cost;
     }
-    price = totalPrice;
+
+    price = NumberFormat.currency(symbol: '\$', decimalDigits: 0)
+        .format(totalPrice);
   }
 
   void _filterRocks(String query) {
@@ -68,7 +71,7 @@ class _HomePageState extends State<HomePage> {
       context,
       PageTransition(
         duration: const Duration(milliseconds: 400),
-        child: const SelectRockPage(isSavingRock: false),
+        child: const SelectRockPage(),
         type: PageTransitionType.bottomToTop,
       ),
     );
@@ -203,6 +206,7 @@ class _HomePageState extends State<HomePage> {
                                     const SizedBox(height: 5),
                                     Text(
                                       '$contRocks',
+                                      textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         color: Constants.white,
                                         fontSize: 20,
@@ -227,17 +231,20 @@ class _HomePageState extends State<HomePage> {
                                         height: 22),
                                     const SizedBox(height: 5),
                                     Text(
-                                      '\$${price.toStringAsFixed(2)}',
+                                      price,
+                                      textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         color: Constants.white,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text('Value (USD)',
-                                        style: TextStyle(
-                                          color: Constants.white.withAlpha(100),
-                                        )),
+                                    Text(
+                                      'Value (USD)',
+                                      style: TextStyle(
+                                        color: Constants.white.withAlpha(100),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -265,6 +272,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               child: Container(
+                                height: 226,
                                 padding: const EdgeInsets.only(
                                     top: 20, bottom: 15, right: 10, left: 10),
                                 decoration: BoxDecoration(
@@ -328,6 +336,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               child: Container(
+                                height: 226,
                                 padding: const EdgeInsets.only(
                                     top: 20, bottom: 15, right: 10, left: 10),
                                 decoration: BoxDecoration(

@@ -28,16 +28,23 @@ class Constants {
     end: Alignment.bottomRight,
   );
 
+  static const darkDegrade = LinearGradient(
+    colors: [
+      Color.fromRGBO(184, 143, 113, 1),
+      Color.fromRGBO(82, 64, 50, 1),
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
   // Onboarding texts
-  static const titleOne = "Learn more about rocks";
-  static const descriptionOne =
-      "Read how to care for rocks in our rich rocks guide.";
-  static const titleTwo = "Find a rock lover friend";
-  static const descriptionTwo =
-      "Are you a rocks lover? Connect with other rocks lovers.";
-  static const titleThree = "Organize your colection";
+  static const titleOne = "Identify rocks instantly";
+  static const descriptionOne = "Snap a photo to recognize any rock in seconds";
+  static const titleTwo = "5000+ Rocks to Explore";
+  static const descriptionTwo = "Get detailed information about any rock.";
+  static const titleThree = "Build Your Collection";
   static const descriptionThree =
-      "Find almost all types of rocks that you like here.";
+      "Organize and expand your unique rock collection";
 
   static String gptApiKey = dotenv.env['GPT_API_KEY'] ?? '';
 }
@@ -114,11 +121,12 @@ class AppTypography {
   static TextStyle body3(
       {Color color = Colors.black,
       TextDecoration decoration = TextDecoration.none,
-      Color decorationColor = Colors.black}) {
+      Color decorationColor = Colors.black,
+      FontWeight? fontWeight}) {
     return GoogleFonts.montserrat(
       textStyle: TextStyle(
           fontSize: 14,
-          fontWeight: FontWeight.normal,
+          fontWeight: fontWeight ?? FontWeight.normal,
           color: color,
           decoration: decoration,
           decorationColor: decorationColor),

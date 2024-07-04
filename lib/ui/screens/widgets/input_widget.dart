@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class InputWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -14,6 +15,7 @@ class InputWidget extends StatelessWidget {
   final TextInputType textInputType;
   final List<TextInputFormatter>? inputFormatters;
   final Function(String)? onChanged;
+  final int? maxLength;
   const InputWidget({
     super.key,
     required this.controller,
@@ -26,6 +28,7 @@ class InputWidget extends StatelessWidget {
     this.hintText,
     this.inputFormatters,
     this.onChanged,
+    this.maxLength,
   });
 
   @override
@@ -134,6 +137,7 @@ class InputWidget extends StatelessWidget {
 
                   return null;
                 },
+                maxLength: maxLength,
               ),
             ),
           ],
@@ -149,15 +153,18 @@ class InputWidget extends StatelessWidget {
     try {
       final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate: controller.text.isEmpty
+            ? DateTime.now()
+            : DateFormat('yyyy/MM/dd').parse(controller.text),
         firstDate: DateTime(2000),
         lastDate: DateTime(2101),
       );
       if (picked != null) {
-        controller.text = picked.toLocal().toString().split(' ').first;
+        controller.text =
+            DateFormat('yyyy/MM/dd').format(picked.toLocal()).toString();
       }
     } catch (e) {
-      debugPrint('$e');
+      debugPrint('ERROR: $e');
     }
   }
 }

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
+import 'package:flutter_onboarding/ui/screens/terms_screen.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class PremiumScreen extends StatefulWidget {
-  const PremiumScreen({Key? key}) : super(key: key);
+  final bool showOwnButton;
+
+  const PremiumScreen({
+    super.key,
+    this.showOwnButton = false,
+  });
 
   @override
   State<PremiumScreen> createState() => _PremiumScreenState();
@@ -12,225 +20,213 @@ class PremiumScreen extends StatefulWidget {
 
 class _PremiumScreenState extends State<PremiumScreen> {
   bool isFreeTrialEnabled = true;
-  final InAppPurchase _iap = InAppPurchase.instance;
-  bool _available = true;
-  List<ProductDetails> _products = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _initialize();
-    final Stream<List<PurchaseDetails>> purchaseUpdated =
-        InAppPurchase.instance.purchaseStream;
-    purchaseUpdated.listen((purchases) {
-      _handlePurchaseUpdates(purchases);
-    });
-  }
-
-  Future<void> _initialize() async {
-    _available = await _iap.isAvailable();
-    if (_available) {
-      const Set<String> _kIds = {'product_id_1', 'product_id_2'};
-      final ProductDetailsResponse response =
-          await _iap.queryProductDetails(_kIds);
-      setState(() {
-        _products = response.productDetails;
-      });
-    }
-  }
-
-  void _handlePurchaseUpdates(List<PurchaseDetails> purchases) {
-    for (var purchase in purchases) {
-      if (purchase.status == PurchaseStatus.pending) {
-        // Handle pending status
-      } else if (purchase.status == PurchaseStatus.error) {
-        // Handle error status
-      } else if (purchase.status == PurchaseStatus.purchased ||
-          purchase.status == PurchaseStatus.restored) {
-        // Handle purchased or restored status
-        _verifyPurchase(purchase);
-      }
-    }
-  }
-
-  Future<void> _verifyPurchase(PurchaseDetails purchase) async {
-    // Verifique a compra com o seu servidor ou serviço de backend
-    // Após verificação, consuma ou reconheça a compra
-    if (purchase.pendingCompletePurchase) {
-      await _iap.completePurchase(purchase);
-    }
-  }
-
-  void _buyProduct(ProductDetails product) {
-    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
-    _iap.buyNonConsumable(purchaseParam: purchaseParam);
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF0F2027), Color(0xFF2C5364)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        image: DecorationImage(
-          image: AssetImage('assets/images/background.png'),
-          fit: BoxFit.cover,
-          alignment: Alignment.topCenter,
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          foregroundColor: Constants.naturalGrey,
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+    return Scaffold(
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            alignment: Alignment.topCenter,
+            padding: const EdgeInsets.only(top: 10),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/premium_background.png'),
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
+              ),
+            ),
             child: Column(
               children: [
-                const DSCustomText(
-                  text: 'GET FULL ACCESS',
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryMedium,
-                ),
-                const SizedBox(height: 12),
-                const DSCustomText(
-                  text: 'With ROCKAPP Pro',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-                const SizedBox(height: 16),
-                const FeatureItem(
-                  title: 'Unlimited rock',
-                  imagePath: 'unlimited_coin_identifications.png',
-                  subTitle: 'identifications',
-                ),
-                const FeatureItem(
-                  title: 'Infinite',
-                  imagePath: 'infinite_coin_collections.png',
-                  subTitle: 'coin collections',
-                ),
-                const FeatureItem(
-                  title: 'Ad-free',
-                  imagePath: 'ad-freeExperience.png',
-                  subTitle: 'experience',
-                ),
-                isFreeTrialEnabled
-                    ? isFreeTrialEnabledWidget()
-                    : freeTrialNotEnabledWidget(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const DSCustomText(
-                      text: 'Free trial enabled',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.white,
-                    ),
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      height: 24,
-                      child: Switch(
-                        activeColor: AppColors.naturalBlack,
-                        activeTrackColor: AppColors.primaryMedium,
-                        inactiveThumbColor: AppColors.white,
-                        inactiveTrackColor: Colors.transparent,
-                        value: isFreeTrialEnabled,
-                        onChanged: (bool value) {
-                          setState(() {
-                            isFreeTrialEnabled = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_products.isNotEmpty) {
-                      _buyProduct(_products.first);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 16),
-                    backgroundColor: AppColors.primaryMedium,
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      DSCustomText(
-                        text: 'Continue',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.naturalBlack,
-                      ),
-                      SizedBox(width: 8),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: Colors.black,
-                        size: 20,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
                 Align(
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          // Terms of Use action
-                        },
-                        child: const DSCustomText(
-                          text: 'Terms of Use',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.naturalSilver,
-                          decoration: TextDecoration.underline,
-                          decorationColor: AppColors.naturalSilver,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        '|',
-                        style: TextStyle(
-                          color: AppColors.naturalSilver,
-                          fontSize: 12,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      TextButton(
-                        onPressed: () {
-                          // Privacy Policy action
-                        },
-                        child: const DSCustomText(
-                          text: 'Privacy Policy',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.naturalSilver,
-                          decoration: TextDecoration.underline,
-                          decorationColor: AppColors.naturalSilver,
-                        ),
-                      ),
-                    ],
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    onPressed: () => Navigator.pushAndRemoveUntil(
+                      context,
+                      PageTransition(
+                          child: const RootPage(),
+                          type: PageTransitionType.bottomToTop),
+                      (route) => false,
+                    ),
+                    icon: const Icon(
+                      Icons.close,
+                      color: Constants.silver,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                Opacity(
+                  opacity: 0.6,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'assets/videos/background.gif',
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-        ),
+          Positioned(
+            top: 300,
+            left: 30,
+            right: 30,
+            child: Text(
+              'AI Powered Rock Identification at your Fingertips',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(
+                textStyle: const TextStyle(
+                  color: Constants.primaryColor,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 280,
+            left: 20,
+            right: 20,
+            child: Image.asset('assets/images/premium_benefits.png'),
+          ),
+          Positioned(
+            bottom: 210,
+            child: Text(
+              '${isFreeTrialEnabled ? '3 days free, then \$5.98/week' : 'Just \$19.99 per year'}\nNo commitment. Cancel anytime',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Constants.white,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 160,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const DSCustomText(
+                  text: 'Enable free trial',
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.white,
+                ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  height: 24,
+                  child: Switch(
+                    activeColor: AppColors.naturalBlack,
+                    activeTrackColor: AppColors.primaryMedium,
+                    inactiveThumbColor: AppColors.white,
+                    inactiveTrackColor: Colors.transparent,
+                    value: isFreeTrialEnabled,
+                    onChanged: (bool value) {
+                      setState(() {
+                        isFreeTrialEnabled = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Visibility(
+            visible: widget.showOwnButton,
+            child: Positioned(
+              bottom: 60,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {},
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Ink(
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25.0),
+                      gradient: Constants.darkDegrade,
+                    ),
+                    child: const Text(
+                      'Continue',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            child: Align(
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TermsScreen(
+                            url:
+                                'https://sites.google.com/view/rock-app-policies/terms-of-service',
+                            title: 'Policies',
+                          ),
+                        ),
+                      );
+                    },
+                    child: const DSCustomText(
+                      text: 'Terms of Use',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.naturalSilver,
+                      decoration: TextDecoration.underline,
+                      decorationColor: AppColors.naturalSilver,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    '|',
+                    style: TextStyle(
+                      color: AppColors.naturalSilver,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TermsScreen(
+                            url:
+                                'https://sites.google.com/view/rock-app-policies/privacy-policy?authuser=0',
+                            title: 'Policies',
+                          ),
+                        ),
+                      );
+                    },
+                    child: const DSCustomText(
+                      text: 'Privacy Policy',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.naturalSilver,
+                      decoration: TextDecoration.underline,
+                      decorationColor: AppColors.naturalSilver,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

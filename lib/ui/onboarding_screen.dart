@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:page_transition/page_transition.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -14,43 +16,37 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   int currentIndex = 0;
+  List<ProductDetails> _products = [];
+  final InAppPurchase _iap = InAppPurchase.instance;
+  bool _available = true;
+
+  @override
+  void initState() {
+    _initialize();
+    final Stream<List<PurchaseDetails>> purchaseUpdated =
+        InAppPurchase.instance.purchaseStream;
+    purchaseUpdated.listen((purchases) {
+      _handlePurchaseUpdates(purchases);
+    });
+    super.initState();
+  }
+
+  Future<void> _initialize() async {
+    _available = await _iap.isAvailable();
+    if (_available) {
+      const Set<String> _kIds = {'product_id_1', 'product_id_2'};
+      final ProductDetailsResponse response =
+          await _iap.queryProductDetails(_kIds);
+      setState(() {
+        _products = response.productDetails;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.blackColor,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Constants.blackColor,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20, top: 20),
-            child: InkWell(
-              onTap: () {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    PageTransition(
-                        child: const RootPage(),
-                        type: PageTransitionType.bottomToTop),
-                    (route) => false);
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        child: const PremiumScreen(),
-                        type: PageTransitionType.bottomToTop));
-              }, //to login screen. We will update later
-              child: const Text(
-                'Skip',
-                style: TextStyle(
-                  color: Constants.silver,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -63,115 +59,105 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             controller: _pageController,
             children: const [
               CreatePage(
-                image: 'assets/images/rocha-granito.png',
+                backgroundImage: 'assets/images/bg1.png',
                 title: Constants.titleOne,
                 description: Constants.descriptionOne,
               ),
               CreatePage(
-                image: 'assets/images/rock1.png',
+                backgroundImage: 'assets/images/bg2.png',
                 title: Constants.titleTwo,
                 description: Constants.descriptionTwo,
               ),
               CreatePage(
-                image: 'assets/images/emerald2.png',
+                backgroundImage: 'assets/images/bg3.png',
                 title: Constants.titleThree,
                 description: Constants.descriptionThree,
               ),
+              PremiumScreen(),
             ],
           ),
           Positioned(
-            bottom: 80,
-            left: 30,
-            child: Row(
-              children: _buildIndicator(),
-            ),
-          ),
-          Positioned(
             bottom: 60,
-            right: 30,
-            child: Container(
-              child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      if (currentIndex < 2) {
-                        currentIndex++;
-                        if (currentIndex < 3) {
-                          _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeIn);
-                        }
-                      } else {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            PageTransition(
-                                child: const RootPage(),
-                                type: PageTransitionType.bottomToTop),
-                            (route) => false);
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                child: const PremiumScreen(),
-                                type: PageTransitionType.bottomToTop));
-                      }
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 24,
-                    color: Constants.white,
-                  )),
-              padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Constants.primaryColor,
+            child: GestureDetector(
+              onTap: () {
+                if (currentIndex < 3) {
+                  _pageController.nextPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn,
+                  );
+                } else {
+                  if (_products.isNotEmpty) {
+                    _buyProduct(_products.first);
+                  }
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    PageTransition(
+                        child: const RootPage(),
+                        type: PageTransitionType.bottomToTop),
+                    (route) => false,
+                  );
+                }
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.85,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  gradient: Constants.darkDegrade,
+                ),
+                child: const Text(
+                  'Continue',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  //Extra Widgets
-
-  //Create the indicator decorations widget
-  Widget _indicator(bool isActive) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      height: 10.0,
-      width: isActive ? 20 : 8,
-      margin: const EdgeInsets.only(right: 5.0),
-      decoration: BoxDecoration(
-        color: Constants.primaryColor,
-        borderRadius: BorderRadius.circular(5),
-      ),
-    );
-  }
-
-//Create the indicator list
-  List<Widget> _buildIndicator() {
-    List<Widget> indicators = [];
-
-    for (int i = 0; i < 3; i++) {
-      if (currentIndex == i) {
-        indicators.add(_indicator(true));
-      } else {
-        indicators.add(_indicator(false));
+  void _handlePurchaseUpdates(List<PurchaseDetails> purchases) {
+    for (var purchase in purchases) {
+      if (purchase.status == PurchaseStatus.pending) {
+        // Handle pending status
+      } else if (purchase.status == PurchaseStatus.error) {
+        // Handle error status
+      } else if (purchase.status == PurchaseStatus.purchased ||
+          purchase.status == PurchaseStatus.restored) {
+        // Handle purchased or restored status
+        _verifyPurchase(purchase);
       }
     }
+  }
 
-    return indicators;
+  Future<void> _verifyPurchase(PurchaseDetails purchase) async {
+    // Verifique a compra com o seu servidor ou serviço de backend
+    // Após verificação, consuma ou reconheça a compra
+    if (purchase.pendingCompletePurchase) {
+      await _iap.completePurchase(purchase);
+    }
+  }
+
+  void _buyProduct(ProductDetails product) {
+    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
+    _iap.buyNonConsumable(purchaseParam: purchaseParam);
   }
 }
 
 class CreatePage extends StatelessWidget {
-  final String image;
+  final String backgroundImage;
   final String title;
   final String description;
 
   const CreatePage({
     Key? key,
-    required this.image,
+    required this.backgroundImage,
     required this.title,
     required this.description,
   }) : super(key: key);
@@ -179,21 +165,23 @@ class CreatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 50, right: 50, bottom: 80),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(backgroundImage),
+          fit: BoxFit.cover,
+        ),
+      ),
+      padding: const EdgeInsets.only(left: 50, right: 50, bottom: 110),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(image),
-          const SizedBox(
-            height: 20,
-          ),
+          const Spacer(flex: 2),
           Text(
-            title,
+            title.toUpperCase(),
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: GoogleFonts.bebasNeue(
               color: Constants.primaryColor,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+              fontSize: 32,
             ),
           ),
           const SizedBox(
@@ -202,9 +190,8 @@ class CreatePage extends StatelessWidget {
           Text(
             description,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
+            style: GoogleFonts.montserrat(
+              fontSize: 16,
               color: Colors.grey,
             ),
           ),

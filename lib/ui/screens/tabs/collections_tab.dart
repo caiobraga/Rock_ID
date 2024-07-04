@@ -59,15 +59,15 @@ class _CollectionsTabState extends State<CollectionsTab> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    onPressed: () async {
-                      await Navigator.push(
+                    onPressed: () {
+                      Navigator.push(
                         context,
                         PageTransition(
                           duration: const Duration(milliseconds: 400),
                           child: const CameraScreen(),
                           type: PageTransitionType.bottomToTop,
                         ),
-                      );
+                      ).then((_) => _loadCollectionRocks());
                     },
                     child: Container(
                         width: 60,
@@ -91,16 +91,27 @@ class _CollectionsTabState extends State<CollectionsTab> {
               Expanded(
                 child: ListView.builder(
                   itemCount: _collectionRocks.length,
+                  cacheExtent: 2000,
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
                   itemBuilder: (context, index) {
                     final rock = _collectionRocks[index];
 
+                    Map<String, dynamic> rockDefaultImage = {
+                      'img1': 'https://placehold.jp/60x60.png',
+                    };
+
+                    for (final defaultImage in Rock.defaultImages) {
+                      if (defaultImage['rockId'] == rock.rockId) {
+                        rockDefaultImage = defaultImage;
+                      }
+                    }
+
                     return RockListItem(
-                      image: rock.rockImages.isNotEmpty
-                          ? rock.rockImages.first.image
+                      imagePath: rock.rockImages.isNotEmpty
+                          ? rock.rockImages.first.imagePath
                           : null,
-                      imageUrl: rock.imageURL.isNotEmpty && rock.imageURL != ''
-                          ? rock.imageURL
-                          : 'https://via.placeholder.com/60',
+                      imageUrl: rockDefaultImage['img1'],
                       title: rock.rockName,
                       tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                       onTap: () {
@@ -109,12 +120,11 @@ class _CollectionsTabState extends State<CollectionsTab> {
                           PageTransition(
                             child: RockDetailPage(
                               rock: rock,
-                              isSavingRock: false,
                               isRemovingFromCollection: true,
                             ),
                             type: PageTransitionType.bottomToTop,
                           ),
-                        );
+                        ).then((_) => _loadCollectionRocks());
                       },
                       onDelete: () async {
                         await DatabaseHelper().removeRock(rock.rockId);

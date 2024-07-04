@@ -26,7 +26,7 @@ class _MyRocksPageState extends State<MyRocksPage>
   final List<String> _tabsDescriptions = [
     'Collection',
     'Snap History',
-    'Wishlist'
+    'Loved'
   ];
 
   final _bottomNavService = BottomNavService.instance;

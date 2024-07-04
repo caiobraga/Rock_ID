@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
@@ -28,7 +26,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 23,
+      version: 26,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -53,7 +51,6 @@ class DatabaseHelper {
         hardness REAL,
         color TEXT,
         isMagnetic INTEGER,
-        number TEXT,
         dateAcquired TEXT,
         cost REAL,
         locality TEXT,
@@ -69,7 +66,7 @@ class DatabaseHelper {
       CREATE TABLE rock_images(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
-        image BLOB,
+        imagePath TEXT,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -78,6 +75,7 @@ class DatabaseHelper {
       CREATE TABLE wishlist(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
+        imagePath TEXT,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -87,6 +85,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
         timestamp TEXT,
+        scannedImagePath TEXT,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -117,9 +116,6 @@ class DatabaseHelper {
     final rockImagesList =
         rockImagesMap.map((dbRock) => RockImage.fromMap(dbRock)).toList();
 
-    debugPrint(rockMap.toString());
-    debugPrint(rockImagesMap.toString());
-
     //returning rocks with it's images
     return rockList
         .map((rock) => rock.copyWith(
@@ -146,6 +142,34 @@ class DatabaseHelper {
     }
   }
 
+  Future<void> editRock(Rock rock) async {
+    final db = await database;
+    await db.update(
+      'rocks',
+      rock.toMap(),
+      where: 'rockId = ?',
+      whereArgs: [rock.rockId],
+    );
+
+    if (rock.rockImages.isNotEmpty) {
+      final dbRockImages = await db
+          .query('rock_images', where: 'rockId = ?', whereArgs: [rock.rockId]);
+
+      if (dbRockImages.isNotEmpty) {
+        await db.update(
+          'rock_images',
+          rock.rockImages.first.toMap(),
+          where: 'rockId = ?',
+          whereArgs: [rock.rockId],
+        );
+
+        return;
+      }
+
+      await db.insert('rock_images', rock.rockImages.first.toMap());
+    }
+  }
+
   Future<void> removeRock(int rockId) async {
     try {
       final db = await database;
@@ -166,24 +190,33 @@ class DatabaseHelper {
     }
   }
 
+  Future<bool> rockExists(Rock rock) async {
+    List<Rock> rocks = await findAllRocks();
+    return rocks.where((element) => element.rockId == rock.rockId).isNotEmpty;
+  }
+
   // Functions for wishlist
-  Future<void> addRockToWishlist(int rockId) async {
+  Future<void> addRockToWishlist(int rockId, String? imagePath) async {
     final db = await database;
     await db.insert(
       'wishlist',
       {
         'rockId': rockId,
+        'imagePath': imagePath,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<List<int>> wishlist() async {
+  Future<List<Map<String, dynamic>>> wishlist() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('wishlist');
 
     return List.generate(maps.length, (i) {
-      return maps[i]['rockId'] as int;
+      return {
+        'rockId': maps[i]['rockId'],
+        'imagePath': maps[i]['imagePath'],
+      };
     });
   }
 
@@ -198,13 +231,15 @@ class DatabaseHelper {
 
   // Functions for snap_history
 
-  Future<void> addRockToSnapHistory(int rockId, String timestamp) async {
+  Future<void> addRockToSnapHistory(
+      int rockId, String timestamp, String? scannedImagePath) async {
     final db = await database;
     await db.insert(
       'snap_history',
       {
         'rockId': rockId,
         'timestamp': timestamp,
+        'scannedImagePath': scannedImagePath,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -213,12 +248,12 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> snapHistory() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('snap_history');
-    debugPrint(maps.toString());
 
     return List.generate(maps.length, (i) {
       return {
         'rockId': maps[i]['rockId'],
         'timestamp': maps[i]['timestamp'],
+        'scannedImagePath': maps[i]['scannedImagePath'],
       };
     });
   }

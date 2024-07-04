@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
@@ -10,7 +10,7 @@ class RockListItem extends StatelessWidget {
   final String title;
   final List<String> tags;
   final VoidCallback onTap;
-  final Uint8List? image;
+  final String? imagePath;
   final VoidCallback? onDelete;
 
   const RockListItem({
@@ -20,12 +20,12 @@ class RockListItem extends StatelessWidget {
     required this.tags,
     required this.onTap,
     this.onDelete,
-    this.image,
+    this.imagePath,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 8.0),
@@ -35,10 +35,11 @@ class RockListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: image == null
+              child: imagePath == null
                   ? Image.network(
                       imageUrl,
                       width: 60,
@@ -55,25 +56,33 @@ class RockListItem extends StatelessWidget {
                           ),
                         );
                       },
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress != null &&
+                            loadingProgress.expectedTotalBytes != null &&
+                            loadingProgress.cumulativeBytesLoaded <
+                                loadingProgress.expectedTotalBytes!) {
+                          return SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Constants.primaryColor,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
+
+                        return child;
                       },
                     )
-                  : Image.memory(
-                      image!,
+                  : Image.file(
+                      File(imagePath!),
                       width: 60,
                       height: 60,
                       fit: BoxFit.cover,
@@ -95,10 +104,31 @@ class RockListItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DSCustomText(
-                    text: title,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: DSCustomText(
+                          text: title,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                      Visibility(
+                        visible: onDelete != null,
+                        child: InkWell(
+                          onTap: () => _showDeleteConfirmationDialog(context),
+                          customBorder: const CircleBorder(),
+                          child: const Icon(
+                            Icons.remove_circle,
+                            color: Constants.lightestRed,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 8.0),
                   SizedBox(
@@ -127,22 +157,56 @@ class RockListItem extends StatelessWidget {
                 ],
               ),
             ),
-            Visibility(
-              visible: onDelete != null,
-              child: IconButton(
-                onPressed: onDelete,
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.all(0),
-                icon: const Icon(
-                  Icons.remove_circle,
-                  color: Constants.lightestRed,
-                  size: 24,
-                ),
-              ),
-            )
           ],
         ),
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Constants.blackColor,
+          surfaceTintColor: Colors.transparent,
+          title: const Text(
+            'Removing rock',
+            style: TextStyle(color: Constants.lightestRed),
+          ),
+          content: const Text(
+            'Are you sure you want to remove the rock?',
+            style: TextStyle(color: Constants.white),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.darkGrey,
+                backgroundColor: Constants.primaryColor,
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                if (onDelete != null) {
+                  onDelete!();
+                }
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.lightestRed,
+              ),
+              child: const Text('Remove rock'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

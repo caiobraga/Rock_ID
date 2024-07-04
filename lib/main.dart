@@ -34,9 +34,9 @@ class _MyAppState extends State<MyApp> {
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,
         ).copyWith(
-          titleLarge: GoogleFonts.bebasNeue(), // Para título
-          titleMedium: GoogleFonts.montserrat(), // Para título
-          titleSmall: GoogleFonts.bebasNeue(), // Para título // Para título
+          titleLarge: GoogleFonts.bebasNeue(),
+          titleMedium: GoogleFonts.montserrat(),
+          titleSmall: GoogleFonts.bebasNeue(),
         ),
         inputDecorationTheme: InputDecorationTheme(
           hintStyle: const TextStyle(color: Constants.white),

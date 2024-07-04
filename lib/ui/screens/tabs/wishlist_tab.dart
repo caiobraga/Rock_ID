@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
-import 'package:flutter_onboarding/ui/screens/select_rock_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../camera_screen.dart';
 
 class WishlistTab extends StatefulWidget {
   const WishlistTab({super.key});
@@ -16,6 +19,7 @@ class WishlistTab extends StatefulWidget {
 
 class WishlistTabState extends State<WishlistTab> {
   final List<Rock> _wishlistRocks = [];
+  final List<Map<String, dynamic>> _wishlistRocksMap = [];
   final ValueNotifier<int> wishlistNotifier = ValueNotifier<int>(0);
 
   @override
@@ -27,9 +31,20 @@ class WishlistTabState extends State<WishlistTab> {
   void _loadWishlist() async {
     try {
       _wishlistRocks.clear();
-      List<int> wishlistIds = await DatabaseHelper().wishlist();
-      for (var rockId in wishlistIds) {
-        final rock = Rock.rockListFirstWhere(rockId);
+      final allDbRocks = await DatabaseHelper().findAllRocks();
+      List<Map<String, dynamic>> wishlistRocksMap =
+          await DatabaseHelper().wishlist();
+      _wishlistRocksMap.addAll(wishlistRocksMap);
+      for (final wishlistRock in wishlistRocksMap) {
+        Rock? rock = Rock.rockListFirstWhere(wishlistRock['rockId']);
+        final dbRock = allDbRocks.firstWhere(
+          (element) => element.rockId == rock?.rockId,
+          orElse: Rock.empty,
+        );
+
+        if (dbRock.rockId != 0) {
+          rock = rock?.copyWith(rockImages: dbRock.rockImages);
+        }
         if (rock != null) {
           _wishlistRocks.add(rock);
         }
@@ -72,7 +87,7 @@ class WishlistTabState extends State<WishlistTab> {
                             color: Constants.naturalGrey.withOpacity(0.5),
                           ),
                           const SizedBox(height: 20),
-                          Text('The Wishlist is empty!',
+                          Text('The Loved is empty!',
                               style: AppTypography.body2(
                                   color: AppColors.naturalWhite)),
                           const SizedBox(height: 10),
@@ -93,27 +108,44 @@ class WishlistTabState extends State<WishlistTab> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: _wishlistRocks.length,
+                          cacheExtent: 2000,
+                          physics: const ScrollPhysics(),
                           itemBuilder: (context, index) {
                             final rock = _wishlistRocks[index];
+                            final wishlist = _wishlistRocksMap
+                                .where((element) =>
+                                    element['rockId'] == rock.rockId)
+                                .first;
+
+                            Map<String, dynamic> rockDefaultImage = {
+                              'img1': 'https://placehold.jp/60x60.png',
+                            };
+
+                            for (final defaultImage in Rock.defaultImages) {
+                              if (defaultImage['rockId'] == rock.rockId) {
+                                rockDefaultImage = defaultImage;
+                                break;
+                              }
+                            }
+
                             return RockListItem(
-                              imageUrl: rock.imageURL.isNotEmpty &&
-                                      rock.imageURL != ''
-                                  ? rock.imageURL
-                                  : 'https://via.placeholder.com/60', // Placeholder image
+                              imagePath: wishlist['imagePath'],
+                              imageUrl:
+                                  rockDefaultImage['img1'], // Placeholder image
                               title: rock.rockName,
-                              tags: const ['Wishlist'],
+                              tags: const ['Loved'],
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   PageTransition(
                                     child: RockDetailPage(
                                       rock: rock,
-                                      isSavingRock: false,
                                       isUnfavoritingRock: true,
+                                      pickedImage: File(wishlist['imagePath']),
                                     ),
                                     type: PageTransitionType.bottomToTop,
                                   ),
-                                ).then((value) => _loadWishlist());
+                                ).then((_) => _loadWishlist());
                               },
                               onDelete: () async {
                                 await DatabaseHelper()
@@ -136,7 +168,14 @@ class WishlistTabState extends State<WishlistTab> {
   Widget _addRockToWishlistButton() {
     return ElevatedButton.icon(
       onPressed: () {
-        _showRockSelectionModal();
+        Navigator.push(
+          context,
+          PageTransition(
+            duration: const Duration(milliseconds: 400),
+            child: const CameraScreen(),
+            type: PageTransitionType.bottomToTop,
+          ),
+        ).then((_) => _loadWishlist());
       },
       icon: const Icon(Icons.add),
       label: const Text(
@@ -155,20 +194,6 @@ class WishlistTabState extends State<WishlistTab> {
           vertical: 10.0,
           horizontal: 20.0,
         ),
-      ),
-    );
-  }
-
-  void _showRockSelectionModal() {
-    Navigator.push(
-      context,
-      PageTransition(
-        duration: const Duration(milliseconds: 400),
-        child: const SelectRockPage(
-          isSavingRock: false,
-          isFavoritingRock: true,
-        ),
-        type: PageTransitionType.bottomToTop,
       ),
     );
   }

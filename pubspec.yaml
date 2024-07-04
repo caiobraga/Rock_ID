@@ -53,6 +53,13 @@ dependencies:
   camera: ^0.11.0+1
   permission_handler: ^11.3.1
   image: ^4.2.0
+  screenshot: ^2.5.0
+  share_plus: ^7.2.2
+  connectivity_plus: ^2.0.0
+  in_app_review: ^2.0.3
+  video_player: ^2.2.18
+  purchases_flutter: ^6.0.0
+  webview_flutter: ^4.8.0
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +91,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/videos/
     - .env
   #   - images/a_dot_ham.jpeg
 

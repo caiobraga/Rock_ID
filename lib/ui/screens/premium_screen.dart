@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/terms_screen.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
@@ -20,6 +21,7 @@ class PremiumScreen extends StatefulWidget {
 
 class _PremiumScreenState extends State<PremiumScreen> {
   bool isFreeTrialEnabled = true;
+  final paymentService = PaymentService();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
         children: [
           Container(
             alignment: Alignment.topCenter,
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 30),
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/premium_background.png'),
@@ -137,7 +139,9 @@ class _PremiumScreenState extends State<PremiumScreen> {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    await paymentService.configureSDK(context, isFreeTrialEnabled);
+                  },
                   customBorder: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),

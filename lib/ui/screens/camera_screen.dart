@@ -31,7 +31,8 @@ class CameraScreen extends StatefulWidget {
   _CameraScreenState createState() => _CameraScreenState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _CameraScreenState extends State<CameraScreen>
+    with SingleTickerProviderStateMixin {
   CameraController? _cameraController;
   List<CameraDescription>? cameras;
   final ImagePicker _picker = ImagePicker();
@@ -40,6 +41,7 @@ class _CameraScreenState extends State<CameraScreen> {
   bool _isLoading = false;
   Timer? _loadingTimer;
   bool _flashOn = false;
+  bool _isLoadingButton = false;
 
   Rock? _rock;
   File? _image;
@@ -255,38 +257,55 @@ class _CameraScreenState extends State<CameraScreen> {
                     ),
                   ),
                 ),
-                InkWell(
-                  splashColor: Constants.primaryColor,
-                  onTap: () async {
-                    if (await Permission.camera.isGranted) {
-                      if (_isCameraInitialized) {
-                        final takenPicture =
-                            await _cameraController!.takePicture();
-                        setState(() {
-                          _image = File(takenPicture.path);
-                        });
-                        _startScanning(
-                            _scanningFunction, Navigator.of(context));
-                      } else {
-                        await _requestCameraPermission();
-                      }
-                    } else {
-                      await _requestCameraPermission();
-                    }
-                  },
-                  customBorder: const CircleBorder(),
-                  child: Ink(
-                    decoration: const ShapeDecoration(
-                      shape: CircleBorder(),
-                      color: Constants.white,
-                    ),
-                    child: const Icon(
-                      Icons.circle,
-                      color: Constants.primaryColor,
-                      size: 66,
-                    ),
-                  ),
-                ),
+                _isLoadingButton
+                    ? const CircularProgressIndicator(color: Constants.white)
+                    : InkWell(
+                        splashColor: Constants.primaryColor,
+                        onTap: () async {
+                          if (await Permission.camera.isGranted) {
+                            if (_isCameraInitialized) {
+                              setState(() {
+                                _isLoadingButton = true;
+                                _isLoadingCamera = true;
+                              });
+                              final takenPicture =
+                                  await _cameraController!.takePicture();
+                              if (_flashOn) {
+                                await _cameraController!
+                                    .setFlashMode(FlashMode.off);
+                                setState(() {
+                                  _flashOn = false;
+                                });
+                              }
+                              setState(() {
+                                _image = File(takenPicture.path);
+                              });
+                              setState(() {
+                                _isLoadingButton = false;
+                                _isLoadingCamera = false;
+                              });
+                              _startScanning(
+                                  _scanningFunction, Navigator.of(context));
+                            } else {
+                              await _requestCameraPermission();
+                            }
+                          } else {
+                            await _requestCameraPermission();
+                          }
+                        },
+                        customBorder: const CircleBorder(),
+                        child: Ink(
+                          decoration: const ShapeDecoration(
+                            shape: CircleBorder(),
+                            color: Constants.white,
+                          ),
+                          child: const Icon(
+                            Icons.circle,
+                            color: Constants.primaryColor,
+                            size: 66,
+                          ),
+                        ),
+                      ),
                 Expanded(
                   child: InkWell(
                     onTap: () {
@@ -321,7 +340,7 @@ class _CameraScreenState extends State<CameraScreen> {
   void _showLoadingBottomSheet({final bool showTips = false}) {
     showModalBottomSheet(
       context: context,
-      isDismissible: true,
+      isDismissible: false,
       isScrollControlled: true,
       backgroundColor: Constants.blackColor,
       clipBehavior: Clip.none,
@@ -391,8 +410,6 @@ class _CameraScreenState extends State<CameraScreen> {
                                     fontSize: 16,
                                   ),
                                 ),
-                                const SizedBox(height: 100),
-                                const LoadingComponent()
                               ],
                             ),
                           ),
@@ -964,6 +981,12 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _requestGalleryPermission() async {
+    if (_flashOn) {
+      await _cameraController!.setFlashMode(FlashMode.off);
+      setState(() {
+        _flashOn = false;
+      });
+    }
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {

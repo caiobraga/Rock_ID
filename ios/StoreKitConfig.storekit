@@ -7,7 +7,8 @@
 
   ],
   "settings" : {
-    "_disableDialogs" : true,
+    "_askToBuyEnabled" : false,
+    "_disableDialogs" : false,
     "_failTransactionsEnabled" : false,
     "_locale" : "en_US",
     "_storefront" : "USA",
@@ -68,7 +69,7 @@
       "localizations" : [
 
       ],
-      "name" : "premium",
+      "name" : "rock_app_weekly_subscription",
       "subscriptions" : [
         {
           "adHocOffers" : [
@@ -77,32 +78,7 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "19.99",
-          "familyShareable" : false,
-          "groupNumber" : 1,
-          "internalID" : "E034F3B7",
-          "introductoryOffer" : null,
-          "localizations" : [
-            {
-              "description" : "",
-              "displayName" : "",
-              "locale" : "en_US"
-            }
-          ],
-          "productID" : "annual",
-          "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "annual",
-          "subscriptionGroupID" : "F78D9472",
-          "type" : "RecurringSubscription"
-        },
-        {
-          "adHocOffers" : [
-
-          ],
-          "codeOffers" : [
-
-          ],
-          "displayPrice" : "5.98",
+          "displayPrice" : "5.99",
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "9A78E93E",
@@ -114,10 +90,44 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "weekly",
+          "productID" : "rock_app_weekly_subscription_01072024",
           "recurringSubscriptionPeriod" : "P1W",
-          "referenceName" : "weekly",
+          "referenceName" : "rock_app_weekly",
           "subscriptionGroupID" : "F78D9472",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    },
+    {
+      "id" : "B42DBEEA",
+      "localizations" : [
+
+      ],
+      "name" : "yearly_subscription",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "19.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "3BEAC86A",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "yearly_subscription_06_16_2024",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "yearly_subscription_06_16_2024",
+          "subscriptionGroupID" : "B42DBEEA",
           "type" : "RecurringSubscription"
         }
       ]

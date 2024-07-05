@@ -3,10 +3,9 @@ import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/enums/localized_string.dart';
 import 'package:flutter_onboarding/services/localization_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 
 class PaymentService {
-  Future<bool> _checkIfPurchased() async {
+  static Future<bool> _checkIfPurchased() async {
     bool isPurchased = false;
     Purchases.addCustomerInfoUpdateListener((customerInfo) async {
       isPurchased = customerInfo.entitlements.active.isNotEmpty;
@@ -14,15 +13,16 @@ class PaymentService {
     return isPurchased;
   }
 
-
-  Future<void> configureSDK(BuildContext context) async {
-
+  Future<void> configureSDK(
+      BuildContext context, bool isFreeTrialEnabled) async {
     final localizationService =
         LocalizationService(Localizations.localeOf(context));
 
     if (await _checkIfPurchased()) {
-      await showToast(localizationService
-          .getString(LocalizedString.youAreAlreadySubscribed), context);
+      await showToast(
+          localizationService
+              .getString(LocalizedString.youAreAlreadySubscribed),
+          context);
       return;
     }
     try {
@@ -32,26 +32,40 @@ class PaymentService {
 
       await Purchases.configure(configuration);
 
-      PaywallResult payWallResult =
-          await RevenueCatUI.presentPaywallIfNeeded('premium');
+      final offerings = await Purchases.getOfferings();
 
-      debugPrint('Paywall result: $payWallResult');
+      Package package;
 
-      if (payWallResult == PaywallResult.purchased ||
-          payWallResult == PaywallResult.restored) {
-      } else if (payWallResult == PaywallResult.cancelled) {
-        await showToast(localizationService
-            .getString(LocalizedString.purchaseCancelledPleaseTryAgain), context);
-      } else if (payWallResult == PaywallResult.notPresented) {
-        await showToast(
-            localizationService.getString(LocalizedString.paywallNotPresented), context);
-      } else if (payWallResult == PaywallResult.error) {
-        await showToast(
-            localizationService.getString(LocalizedString.errorPleaseTryAgain), context);
+      if (isFreeTrialEnabled) {
+        package = offerings.current!.availablePackages.firstWhere(
+            (element) => element.identifier == Constants.freeTrialPackage);
+      } else {
+        package = offerings.current!.availablePackages.firstWhere(
+            (element) => element.identifier == Constants.annualPackage);
       }
+
+      await Purchases.purchasePackage(package);
+
+      // debugPrint('Paywall result: $payWallResult');
+
+      // if (payWallResult == PaywallResult.purchased ||
+      //     payWallResult == PaywallResult.restored) {
+      // } else if (payWallResult == PaywallResult.cancelled) {
+      //   await showToast(localizationService
+      //       .getString(LocalizedString.purchaseCancelledPleaseTryAgain), context);
+      // } else if (payWallResult == PaywallResult.notPresented) {
+      //   await showToast(
+      //       localizationService.getString(LocalizedString.paywallNotPresented), context);
+      // } else if (payWallResult == PaywallResult.error) {
+      //   await showToast(
+      //       localizationService.getString(LocalizedString.errorPleaseTryAgain), context);
+      // } else {
+      //   debugPrint('Result');
+      // }
     } catch (e) {
       await showToast(
-          localizationService.getString(LocalizedString.errorPleaseTryAgain), context);
+          localizationService.getString(LocalizedString.errorPleaseTryAgain),
+          context);
     }
   }
 

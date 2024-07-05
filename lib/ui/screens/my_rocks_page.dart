@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/screens/tabs/collections_tab.dart';
 import 'package:flutter_onboarding/ui/screens/tabs/snap_history_tab.dart';
-import 'package:flutter_onboarding/ui/screens/tabs/wishlist_tab.dart';
+import 'package:flutter_onboarding/ui/screens/tabs/loved_tab.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/custom_tab_bar.dart';
 
 import '../../services/bottom_nav_service.dart';
@@ -89,7 +89,7 @@ class _MyRocksPageState extends State<MyRocksPage>
                     children: const [
                       CollectionsTab(),
                       SnapHistoryTab(),
-                      WishlistTab(),
+                      LovedTab(),
                     ],
                   ),
                 ),

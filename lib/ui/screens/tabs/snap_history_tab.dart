@@ -131,6 +131,7 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                       physics: const ScrollPhysics(),
                       itemBuilder: (context, index) {
                         final rockId = _history[index]['rockId'];
+                        final imagePath = _history[index]['scannedImagePath'];
                         final rock = _allRocks.firstWhere(
                             (rock) => rock.rockId == rockId,
                             orElse: () => Rock.empty());
@@ -145,49 +146,58 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                           }
                         }
                         return RockListItem(
-                          imagePath: _history[index]['scannedImagePath'],
+                          imagePath: imagePath,
                           imageUrl: rockDefaultImage['img1'],
                           title: rock.rockName,
                           tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                           onTap: () async {
-                            bool isRemovingFromCollection = false;
-                            final allRocks =
-                                await DatabaseHelper().findAllRocks();
-                            if (allRocks
-                                .where((rockFromAll) =>
-                                    rockFromAll.rockName == rock.rockName)
-                                .isNotEmpty) {
-                              isRemovingFromCollection = true;
-                            }
+                            try {
+                              bool isRemovingFromCollection = false;
+                              final allRocks =
+                                  await DatabaseHelper().findAllRocks();
+                              if (allRocks
+                                  .where((rockFromAll) =>
+                                      rockFromAll.rockName == rock.rockName)
+                                  .isNotEmpty) {
+                                isRemovingFromCollection = true;
+                              }
 
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                child: RockDetailPage(
-                                  rock: rock,
-                                  isRemovingFromCollection:
-                                      isRemovingFromCollection,
-                                  pickedImage:
-                                      File(_history[index]['scannedImagePath']),
-                                  isFromSnapHistory: true,
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  child: RockDetailPage(
+                                    rock: rock,
+                                    isRemovingFromCollection:
+                                        isRemovingFromCollection,
+                                    pickedImage: File(
+                                        _history[index]['scannedImagePath']),
+                                    isFromSnapHistory: true,
+                                  ),
+                                  type: PageTransitionType.bottomToTop,
                                 ),
-                                type: PageTransitionType.bottomToTop,
-                              ),
-                            );
+                              );
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
                           },
                           onDelete: () async {
-                            if (_history[index]['scannedImagePath']
-                                .isNotEmpty) {
-                              try {
-                                final file =
-                                    File(_history[index]['scannedImagePath']);
-                                await file.delete();
-                              } catch (_) {}
-                            }
+                            try {
+                              if (imagePath?.isNotEmpty == true) {
+                                if (!(await DatabaseHelper()
+                                        .imageExistsCollection(imagePath)) &&
+                                    !(await DatabaseHelper()
+                                        .imageExistsLoved(imagePath))) {
+                                  final file = File(imagePath);
+                                  await file.delete();
+                                }
+                              }
 
-                            await DatabaseHelper()
-                                .removeRockFromSnapHistory(rock.rockId);
-                            _loadSnapHistory();
+                              await DatabaseHelper()
+                                  .removeRockFromSnapHistory(rock.rockId);
+                              _loadSnapHistory();
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
                           },
                         );
                       },

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
@@ -96,6 +98,9 @@ class _CollectionsTabState extends State<CollectionsTab> {
                   physics: const ScrollPhysics(),
                   itemBuilder: (context, index) {
                     final rock = _collectionRocks[index];
+                    final imagePath = rock.rockImages.isNotEmpty
+                        ? rock.rockImages.first.imagePath
+                        : null;
 
                     Map<String, dynamic> rockDefaultImage = {
                       'img1': 'https://placehold.jp/60x60.png',
@@ -108,9 +113,7 @@ class _CollectionsTabState extends State<CollectionsTab> {
                     }
 
                     return RockListItem(
-                      imagePath: rock.rockImages.isNotEmpty
-                          ? rock.rockImages.first.imagePath
-                          : null,
+                      imagePath: imagePath,
                       imageUrl: rockDefaultImage['img1'],
                       title: rock.rockName,
                       tags: const ['Sulfide minerals', 'Mar', 'Jul'],
@@ -127,8 +130,21 @@ class _CollectionsTabState extends State<CollectionsTab> {
                         ).then((_) => _loadCollectionRocks());
                       },
                       onDelete: () async {
-                        await DatabaseHelper().removeRock(rock.rockId);
-                        _loadCollectionRocks();
+                        try {
+                          if (imagePath?.isNotEmpty == true) {
+                            if (!(await DatabaseHelper()
+                                    .imageExistsSnapHistory(imagePath!)) &&
+                                !(await DatabaseHelper()
+                                    .imageExistsLoved(imagePath))) {
+                              final file = File(imagePath);
+                              await file.delete();
+                            }
+                          }
+                          await DatabaseHelper().removeRock(rock.rockId);
+                          _loadCollectionRocks();
+                        } catch (e) {
+                          debugPrint(e.toString());
+                        }
                       },
                     );
                   },

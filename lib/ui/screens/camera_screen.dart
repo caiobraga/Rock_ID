@@ -41,7 +41,7 @@ class _CameraScreenState extends State<CameraScreen>
   bool _isLoading = false;
   Timer? _loadingTimer;
   bool _flashOn = false;
-  bool _isLoadingButton = false;
+  bool _loadingDismissed = true;
 
   Rock? _rock;
   File? _image;
@@ -124,16 +124,17 @@ class _CameraScreenState extends State<CameraScreen>
               icon: const Icon(
                 Icons.close,
                 color: Constants.white,
-                size: 30,
+                size: 24,
               ),
             ),
             TextButton.icon(
               label: const Text('Unlimited IDs'),
               onPressed: () => Navigator.push(
-                  context,
-                  PageTransition(
-                      child: const PremiumScreen(),
-                      type: PageTransitionType.bottomToTop)),
+                context,
+                PageTransition(
+                    child: const PremiumScreen(showOwnButton: true),
+                    type: PageTransitionType.topToBottom),
+              ),
               icon: SvgPicture.string(
                 AppIcons.crownOnly,
                 height: 14,
@@ -169,7 +170,7 @@ class _CameraScreenState extends State<CameraScreen>
             icon: Icon(
               _flashOn ? Icons.flash_off : Icons.flash_on,
               color: Constants.white,
-              size: 28,
+              size: 22,
             ),
           ),
         ],
@@ -257,55 +258,46 @@ class _CameraScreenState extends State<CameraScreen>
                     ),
                   ),
                 ),
-                _isLoadingButton
-                    ? const CircularProgressIndicator(color: Constants.white)
-                    : InkWell(
-                        splashColor: Constants.primaryColor,
-                        onTap: () async {
-                          if (await Permission.camera.isGranted) {
-                            if (_isCameraInitialized) {
-                              setState(() {
-                                _isLoadingButton = true;
-                                _isLoadingCamera = true;
-                              });
-                              final takenPicture =
-                                  await _cameraController!.takePicture();
-                              if (_flashOn) {
-                                await _cameraController!
-                                    .setFlashMode(FlashMode.off);
-                                setState(() {
-                                  _flashOn = false;
-                                });
-                              }
-                              setState(() {
-                                _image = File(takenPicture.path);
-                              });
-                              setState(() {
-                                _isLoadingButton = false;
-                                _isLoadingCamera = false;
-                              });
-                              _startScanning(
-                                  _scanningFunction, Navigator.of(context));
-                            } else {
-                              await _requestCameraPermission();
-                            }
-                          } else {
-                            await _requestCameraPermission();
-                          }
-                        },
-                        customBorder: const CircleBorder(),
-                        child: Ink(
-                          decoration: const ShapeDecoration(
-                            shape: CircleBorder(),
-                            color: Constants.white,
-                          ),
-                          child: const Icon(
-                            Icons.circle,
-                            color: Constants.primaryColor,
-                            size: 66,
-                          ),
-                        ),
-                      ),
+                InkWell(
+                  splashColor: Constants.primaryColor,
+                  onTap: () async {
+                    await _cameraController!.pausePreview();
+                    if (await Permission.camera.isGranted) {
+                      if (_isCameraInitialized) {
+                        final takenPicture =
+                            await _cameraController!.takePicture();
+                        await _cameraController!.resumePreview();
+                        if (_flashOn) {
+                          await _cameraController!.setFlashMode(FlashMode.off);
+                          setState(() {
+                            _flashOn = false;
+                          });
+                        }
+                        setState(() {
+                          _image = File(takenPicture.path);
+                        });
+                        _startScanning(
+                            _scanningFunction, Navigator.of(context));
+                      } else {
+                        await _requestCameraPermission();
+                      }
+                    } else {
+                      await _requestCameraPermission();
+                    }
+                  },
+                  customBorder: const CircleBorder(),
+                  child: Ink(
+                    decoration: const ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: Constants.white,
+                    ),
+                    child: const Icon(
+                      Icons.circle,
+                      color: Constants.primaryColor,
+                      size: 66,
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: InkWell(
                     onTap: () {
@@ -338,6 +330,10 @@ class _CameraScreenState extends State<CameraScreen>
   }
 
   void _showLoadingBottomSheet({final bool showTips = false}) {
+    setState(() {
+      _loadingDismissed = false;
+    });
+
     showModalBottomSheet(
       context: context,
       isDismissible: false,
@@ -506,7 +502,12 @@ class _CameraScreenState extends State<CameraScreen>
           },
         );
       },
-    );
+    ).then((_) => setState(() {
+          _loadingNotifier.value = 0;
+          _loadingTimer?.cancel();
+          _loadingTimer = null;
+          _loadingDismissed = true;
+        }));
   }
 
   Widget _buildErrorImageRow(
@@ -576,56 +577,55 @@ class _CameraScreenState extends State<CameraScreen>
     setState(() {
       _isLoading = true;
       _errorMessage = null;
-      _loadingNotifier.value = 0;
     });
     _startLoading();
     _showLoadingBottomSheet();
     try {
       await scanningFunction();
-      final snaps = await DatabaseHelper().snapHistory();
-      if (snaps.length >= 10) {
-        await Navigator.pushAndRemoveUntil(
-          context,
-          PageTransition(
-            duration: const Duration(milliseconds: 300),
-            child: const PremiumScreen(showOwnButton: true),
-            type: PageTransitionType.topToBottom,
-          ),
-          (route) => false,
-        );
-
-        return;
-      }
-
-      if (_rock != null) {
-        if (widget.isScanningForRockDetails) {
-          String timestamp = DateTime.now().toIso8601String();
-          await DatabaseHelper().addRockToSnapHistory(
-            _rock!.rockId,
-            timestamp,
-            _image?.path,
+      if (!_loadingDismissed) {
+        final snaps = await DatabaseHelper().snapHistory();
+        if (snaps.length >= 10) {
+          await Navigator.pushAndRemoveUntil(
+            context,
+            PageTransition(
+              duration: const Duration(milliseconds: 300),
+              child: const PremiumScreen(showOwnButton: true),
+              type: PageTransitionType.topToBottom,
+            ),
+            (route) => false,
           );
-          _showRockDetails(navigator);
+
           return;
         }
 
-        Navigator.pop(context);
-        _showSelectRockDetailsBottomSheet();
-      } else {
-        Navigator.pop(context);
+        if (_rock != null) {
+          if (widget.isScanningForRockDetails) {
+            String timestamp = DateTime.now().toIso8601String();
+            await DatabaseHelper().addRockToSnapHistory(
+              _rock!.rockId,
+              timestamp,
+              _image?.path,
+            );
+            _showRockDetails(navigator);
+            return;
+          }
+
+          Navigator.pop(context);
+          _showSelectRockDetailsBottomSheet();
+        } else {
+          Navigator.pop(context);
+        }
       }
     } catch (e) {
       debugPrint('$e');
       setState(() {
         _errorMessage = e.toString().substring(11);
         _isLoading = false;
-        _loadingNotifier.value = 0;
         _loadingTimer?.cancel();
       });
     } finally {
       setState(() {
         _isLoading = false;
-        _loadingNotifier.value = 0;
         _loadingTimer?.cancel();
       });
     }

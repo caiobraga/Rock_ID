@@ -44,13 +44,15 @@ class _PremiumScreenState extends State<PremiumScreen> {
                 Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    onPressed: () => Navigator.pushAndRemoveUntil(
-                      context,
-                      PageTransition(
-                          child: const RootPage(),
-                          type: PageTransitionType.bottomToTop),
-                      (route) => false,
-                    ),
+                    onPressed: () => widget.showOwnButton
+                        ? Navigator.pop(context)
+                        : Navigator.pushAndRemoveUntil(
+                            context,
+                            PageTransition(
+                                child: const RootPage(),
+                                type: PageTransitionType.bottomToTop),
+                            (route) => false,
+                          ),
                     icon: const Icon(
                       Icons.close,
                       color: Constants.silver,
@@ -140,7 +142,8 @@ class _PremiumScreenState extends State<PremiumScreen> {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () async {
-                    await paymentService.configureSDK(context, isFreeTrialEnabled);
+                    await paymentService.configureSDK(
+                        context, isFreeTrialEnabled);
                   },
                   customBorder: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),

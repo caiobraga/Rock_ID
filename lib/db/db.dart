@@ -266,4 +266,41 @@ class DatabaseHelper {
       whereArgs: [rockId],
     );
   }
+
+  Future<bool> imageExistsCollection(String imagePath) async {
+    final db = await database;
+
+    final images = await db.query(
+      'rock_images',
+      where: 'imagePath = ?',
+      whereArgs: [imagePath],
+    );
+
+    return images.isNotEmpty;
+  }
+
+  Future<bool> imageExistsSnapHistory(String imagePath) async {
+    final snaps = await snapHistory();
+    for (final snapMap in snaps) {
+      final scannedImagePath = snapMap['scannedImagePath'];
+      if (scannedImagePath?.isNotEmpty == true &&
+          scannedImagePath == imagePath) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  Future<bool> imageExistsLoved(String imagePath) async {
+    final loved = await wishlist();
+    for (final lovedMap in loved) {
+      final lovedImagePath = lovedMap['imagePath'];
+      if (lovedImagePath?.isNotEmpty == true && lovedImagePath == imagePath) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

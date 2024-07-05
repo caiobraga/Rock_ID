@@ -10,14 +10,14 @@ import 'package:page_transition/page_transition.dart';
 
 import '../camera_screen.dart';
 
-class WishlistTab extends StatefulWidget {
-  const WishlistTab({super.key});
+class LovedTab extends StatefulWidget {
+  const LovedTab({super.key});
 
   @override
-  State<WishlistTab> createState() => WishlistTabState();
+  State<LovedTab> createState() => LovedTabState();
 }
 
-class WishlistTabState extends State<WishlistTab> {
+class LovedTabState extends State<LovedTab> {
   final List<Rock> _wishlistRocks = [];
   final List<Map<String, dynamic>> _wishlistRocksMap = [];
   final ValueNotifier<int> wishlistNotifier = ValueNotifier<int>(0);
@@ -116,6 +116,7 @@ class WishlistTabState extends State<WishlistTab> {
                                 .where((element) =>
                                     element['rockId'] == rock.rockId)
                                 .first;
+                            final imagePath = wishlist['imagePath'];
 
                             Map<String, dynamic> rockDefaultImage = {
                               'img1': 'https://placehold.jp/60x60.png',
@@ -129,7 +130,7 @@ class WishlistTabState extends State<WishlistTab> {
                             }
 
                             return RockListItem(
-                              imagePath: wishlist['imagePath'],
+                              imagePath: imagePath,
                               imageUrl:
                                   rockDefaultImage['img1'], // Placeholder image
                               title: rock.rockName,
@@ -148,10 +149,25 @@ class WishlistTabState extends State<WishlistTab> {
                                 ).then((_) => _loadWishlist());
                               },
                               onDelete: () async {
-                                await DatabaseHelper()
-                                    .removeRockFromWishlist(rock.rockId);
-                                _loadWishlist();
-                                wishlistNotifier.value++;
+                                try {
+                                  if (imagePath?.isNotEmpty == true) {
+                                    if (!(await DatabaseHelper()
+                                            .imageExistsCollection(
+                                                imagePath)) &&
+                                        !(await DatabaseHelper()
+                                            .imageExistsSnapHistory(
+                                                imagePath))) {
+                                      final file = File(imagePath);
+                                      await file.delete();
+                                    }
+                                  }
+                                  await DatabaseHelper()
+                                      .removeRockFromWishlist(rock.rockId);
+                                  _loadWishlist();
+                                  wishlistNotifier.value++;
+                                } catch (e) {
+                                  debugPrint(e.toString());
+                                }
                               },
                             );
                           },

@@ -10,7 +10,7 @@ import 'package:flutter_onboarding/services/bottom_nav_service.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
-import 'package:flutter_onboarding/ui/screens/tabs/wishlist_tab.dart';
+import 'package:flutter_onboarding/ui/screens/tabs/loved_tab.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/input_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -1313,7 +1313,7 @@ class _RockDetailPageState extends State<RockDetailPage>
           ),
         );
       }
-      WishlistTabState().wishlistNotifier.value++;
+      LovedTabState().wishlistNotifier.value++;
       setState(() {});
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
@@ -1339,7 +1339,7 @@ class _RockDetailPageState extends State<RockDetailPage>
           ),
         );
       }
-      WishlistTabState().wishlistNotifier.value++;
+      LovedTabState().wishlistNotifier.value++;
       setState(() {});
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');

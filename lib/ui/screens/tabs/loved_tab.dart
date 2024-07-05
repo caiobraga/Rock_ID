@@ -25,10 +25,10 @@ class LovedTabState extends State<LovedTab> {
   @override
   void initState() {
     super.initState();
-    _loadWishlist();
+    loadWishlist();
   }
 
-  void _loadWishlist() async {
+  void loadWishlist() async {
     try {
       _wishlistRocks.clear();
       final allDbRocks = await DatabaseHelper().findAllRocks();
@@ -142,11 +142,13 @@ class LovedTabState extends State<LovedTab> {
                                     child: RockDetailPage(
                                       rock: rock,
                                       isUnfavoritingRock: true,
-                                      pickedImage: File(wishlist['imagePath']),
+                                      pickedImage: imagePath != null
+                                          ? File(imagePath)
+                                          : imagePath,
                                     ),
                                     type: PageTransitionType.bottomToTop,
                                   ),
-                                ).then((_) => _loadWishlist());
+                                ).then((_) => loadWishlist());
                               },
                               onDelete: () async {
                                 try {
@@ -163,7 +165,7 @@ class LovedTabState extends State<LovedTab> {
                                   }
                                   await DatabaseHelper()
                                       .removeRockFromWishlist(rock.rockId);
-                                  _loadWishlist();
+                                  loadWishlist();
                                   wishlistNotifier.value++;
                                 } catch (e) {
                                   debugPrint(e.toString());
@@ -191,7 +193,7 @@ class LovedTabState extends State<LovedTab> {
             child: const CameraScreen(),
             type: PageTransitionType.bottomToTop,
           ),
-        ).then((_) => _loadWishlist());
+        ).then((_) => loadWishlist());
       },
       icon: const Icon(Icons.add),
       label: const Text(

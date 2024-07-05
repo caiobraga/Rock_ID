@@ -135,11 +135,15 @@ class _RockDetailPageState extends State<RockDetailPage>
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-            onPressed: () async {
-              setState(() {
-                isUnfavoritingRock ? _removeFromWishlist() : _addToWishlist();
-                isUnfavoritingRock = !isUnfavoritingRock;
-              });
+            onPressed: () {
+              isUnfavoritingRock
+                  ? _removeFromWishlist()
+                  : () {
+                      _addToWishlist();
+                      setState(() {
+                        isUnfavoritingRock = !isUnfavoritingRock;
+                      });
+                    }();
             },
             icon: Icon(
               isUnfavoritingRock ? Icons.favorite : Icons.favorite_border,
@@ -664,11 +668,11 @@ class _RockDetailPageState extends State<RockDetailPage>
       body: [
         Row(
           children: [
-            _buildImageCard(
-                'Quartz', 'Color, Common', rockDefaultImage['img1']),
+            _buildImageCard(widget.rock.rockName, 'Color, Common',
+                rockDefaultImage['img1']),
             const SizedBox(width: 8),
-            _buildImageCard(
-                'Quartz', 'Morphology, common', rockDefaultImage['img2']),
+            _buildImageCard(widget.rock.rockName, 'Morphology, Common',
+                rockDefaultImage['img2']),
           ],
         ),
       ],
@@ -1268,21 +1272,7 @@ class _RockDetailPageState extends State<RockDetailPage>
   }
 
   void _removeFromCollection() async {
-    await DatabaseHelper().removeRock(widget.rock.rockId);
-
-    for (final rockImage in widget.rock.rockImages) {
-      final file = File(rockImage.imagePath!);
-      await file.delete();
-    }
-
-    Navigator.pushAndRemoveUntil(
-      context,
-      PageTransition(
-          child: const RootPage(),
-          type: PageTransitionType.leftToRightWithFade),
-      (route) => false,
-    );
-    BottomNavService.instance.setIndex(1);
+    _showDeleteConfirmationDialog(isRemovingFromLoved: false);
   }
 
   void _addToCollection() {
@@ -1314,36 +1304,15 @@ class _RockDetailPageState extends State<RockDetailPage>
         );
       }
       LovedTabState().wishlistNotifier.value++;
+      LovedTabState().loadWishlist();
       setState(() {});
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
     }
   }
 
-  void _removeFromWishlist() async {
-    try {
-      await DatabaseHelper().removeRockFromWishlist(widget.rock.rockId);
-      if (widget.isUnfavoritingRock) {
-        await Navigator.pushAndRemoveUntil(
-          context,
-          PageTransition(
-              child: const RootPage(showFavorites: true),
-              type: PageTransitionType.leftToRightWithFade),
-          (route) => false,
-        );
-      } else {
-        scaffoldMessengerKey.currentState?.showSnackBar(
-          const SnackBar(
-            content: Text('Rock removed from Loved.'),
-            duration: Duration(seconds: 1),
-          ),
-        );
-      }
-      LovedTabState().wishlistNotifier.value++;
-      setState(() {});
-    } catch (e) {
-      ShowSnackbarService().showSnackBar('Error $e');
-    }
+  void _removeFromWishlist() {
+    _showDeleteConfirmationDialog();
   }
 
   List<Widget> _buildInfoSectionRock() {
@@ -2145,6 +2114,114 @@ class _RockDetailPageState extends State<RockDetailPage>
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void _showDeleteConfirmationDialog({final bool isRemovingFromLoved = true}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Constants.blackColor,
+          surfaceTintColor: Colors.transparent,
+          title: Text(
+            isRemovingFromLoved
+                ? 'Removing rock from loved'
+                : 'Removing rock from collection',
+            style: const TextStyle(color: Constants.lightestRed),
+          ),
+          content: Text(
+            'Are you sure you want to remove the rock from ${isRemovingFromLoved ? 'loved' : 'collection'}?',
+            style: const TextStyle(color: Constants.white),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.darkGrey,
+                backgroundColor: Constants.primaryColor,
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  if (isRemovingFromLoved) {
+                    final imagePath = widget.rock.rockImages.isNotEmpty
+                        ? widget.rock.rockImages.first.imagePath
+                        : null;
+                    if (imagePath?.isNotEmpty == true) {
+                      if (!(await DatabaseHelper()
+                              .imageExistsCollection(imagePath!)) &&
+                          !(await DatabaseHelper()
+                              .imageExistsSnapHistory(imagePath))) {
+                        final file = File(imagePath);
+                        await file.delete();
+                      }
+                    }
+                    await DatabaseHelper()
+                        .removeRockFromWishlist(widget.rock.rockId);
+                    if (widget.isUnfavoritingRock) {
+                      await Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                            child: const RootPage(showFavorites: true),
+                            type: PageTransitionType.leftToRightWithFade),
+                        (route) => false,
+                      );
+                    } else {
+                      setState(() {
+                        isUnfavoritingRock = !isUnfavoritingRock;
+                      });
+                      scaffoldMessengerKey.currentState?.showSnackBar(
+                        const SnackBar(
+                          content: Text('Rock removed from Loved.'),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      Navigator.pop(context);
+                    }
+                    LovedTabState().wishlistNotifier.value++;
+                    setState(() {});
+                  } else {
+                    await DatabaseHelper().removeRock(widget.rock.rockId);
+
+                    for (final rockImage in widget.rock.rockImages) {
+                      if (!(await DatabaseHelper()
+                              .imageExistsLoved(rockImage.imagePath!)) &&
+                          !(await DatabaseHelper()
+                              .imageExistsSnapHistory(rockImage.imagePath!))) {
+                        final file = File(rockImage.imagePath!);
+                        await file.delete();
+                      }
+                    }
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      PageTransition(
+                          child: const RootPage(),
+                          type: PageTransitionType.leftToRightWithFade),
+                      (route) => false,
+                    );
+                    BottomNavService.instance.setIndex(1);
+                  }
+                } catch (e) {
+                  ShowSnackbarService().showSnackBar('Error $e');
+                }
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Constants.lightestRed,
+              ),
+              child: const Text('Remove rock'),
+            ),
+          ],
         );
       },
     );

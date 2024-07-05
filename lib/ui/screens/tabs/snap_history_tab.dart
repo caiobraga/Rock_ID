@@ -169,8 +169,9 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                                     rock: rock,
                                     isRemovingFromCollection:
                                         isRemovingFromCollection,
-                                    pickedImage: File(
-                                        _history[index]['scannedImagePath']),
+                                    pickedImage: imagePath != null
+                                        ? File(imagePath)
+                                        : imagePath,
                                     isFromSnapHistory: true,
                                   ),
                                   type: PageTransitionType.bottomToTop,

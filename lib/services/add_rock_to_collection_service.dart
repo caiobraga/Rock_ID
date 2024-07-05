@@ -86,7 +86,11 @@ class AddRockToCollectionService {
     );
 
     if (imageNotifier.value != null) {
-      if (rock.rockImages.isNotEmpty) {
+      if (rock.rockImages.isNotEmpty &&
+          !(await DatabaseHelper()
+              .imageExistsLoved(rock.rockImages.first.imagePath!)) &&
+          !(await DatabaseHelper()
+              .imageExistsSnapHistory(rock.rockImages.first.imagePath!))) {
         final file = File(rock.rockImages.first.imagePath!);
         await file.delete();
       }

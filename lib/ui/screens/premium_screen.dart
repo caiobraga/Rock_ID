@@ -8,11 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 class PremiumScreen extends StatefulWidget {
-  final bool showOwnButton;
+  final bool isFromOnboarding;
 
   const PremiumScreen({
     super.key,
-    this.showOwnButton = false,
+    this.isFromOnboarding = false,
   });
 
   @override
@@ -21,7 +21,7 @@ class PremiumScreen extends StatefulWidget {
 
 class _PremiumScreenState extends State<PremiumScreen> {
   bool isFreeTrialEnabled = true;
-  final paymentService = PaymentService();
+  final _paymentService = PaymentService();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                 Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    onPressed: () => widget.showOwnButton
+                    onPressed: () => !widget.isFromOnboarding
                         ? Navigator.pop(context)
                         : Navigator.pushAndRemoveUntil(
                             context,
@@ -134,35 +134,32 @@ class _PremiumScreenState extends State<PremiumScreen> {
               ],
             ),
           ),
-          Visibility(
-            visible: widget.showOwnButton,
-            child: Positioned(
-              bottom: 60,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () async {
-                    await paymentService.configureSDK(
-                        context, isFreeTrialEnabled);
-                  },
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
+          Positioned(
+            bottom: 60,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () async {
+                  await _paymentService.configureSDK(
+                      context, isFreeTrialEnabled);
+                },
+                customBorder: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Ink(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    gradient: Constants.darkDegrade,
                   ),
-                  child: Ink(
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25.0),
-                      gradient: Constants.darkDegrade,
-                    ),
-                    child: const Text(
-                      'Continue',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  child: const Text(
+                    'Continue',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

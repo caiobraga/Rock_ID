@@ -5,7 +5,7 @@ import 'package:flutter_onboarding/services/localization_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class PaymentService {
-  static Future<bool> _checkIfPurchased() async {
+  static Future<bool> checkIfPurchased() async {
     bool isPurchased = false;
     Purchases.addCustomerInfoUpdateListener((customerInfo) async {
       isPurchased = customerInfo.entitlements.active.isNotEmpty;
@@ -18,7 +18,7 @@ class PaymentService {
     final localizationService =
         LocalizationService(Localizations.localeOf(context));
 
-    if (await _checkIfPurchased()) {
+    if (await checkIfPurchased()) {
       await showToast(
           localizationService
               .getString(LocalizedString.youAreAlreadySubscribed),

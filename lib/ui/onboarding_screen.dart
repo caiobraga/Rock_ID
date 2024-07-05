@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:page_transition/page_transition.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -16,32 +13,6 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   int currentIndex = 0;
-  List<ProductDetails> _products = [];
-  final InAppPurchase _iap = InAppPurchase.instance;
-  bool _available = true;
-
-  @override
-  void initState() {
-    _initialize();
-    final Stream<List<PurchaseDetails>> purchaseUpdated =
-        InAppPurchase.instance.purchaseStream;
-    purchaseUpdated.listen((purchases) {
-      _handlePurchaseUpdates(purchases);
-    });
-    super.initState();
-  }
-
-  Future<void> _initialize() async {
-    _available = await _iap.isAvailable();
-    if (_available) {
-      const Set<String> _kIds = {'product_id_1', 'product_id_2'};
-      final ProductDetailsResponse response =
-          await _iap.queryProductDetails(_kIds);
-      setState(() {
-        _products = response.productDetails;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,45 +44,41 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 title: Constants.titleThree,
                 description: Constants.descriptionThree,
               ),
-              PremiumScreen(),
+              PremiumScreen(isFromOnboarding: true),
             ],
           ),
-          Positioned(
-            bottom: 60,
-            child: GestureDetector(
-              onTap: () {
-                if (currentIndex < 3) {
-                  _pageController.nextPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeIn,
-                  );
-                } else {
-                  if (_products.isNotEmpty) {
-                    _buyProduct(_products.first);
-                  }
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    PageTransition(
-                        child: const RootPage(),
-                        type: PageTransitionType.bottomToTop),
-                    (route) => false,
-                  );
-                }
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.85,
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0),
-                  gradient: Constants.darkDegrade,
-                ),
-                child: const Text(
-                  'Continue',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+          Visibility(
+            visible: currentIndex < 3,
+            child: Positioned(
+              bottom: 60,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeIn,
+                    );
+                  },
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Ink(
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25.0),
+                      gradient: Constants.darkDegrade,
+                    ),
+                    child: const Text(
+                      'Continue',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -120,33 +87,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ],
       ),
     );
-  }
-
-  void _handlePurchaseUpdates(List<PurchaseDetails> purchases) {
-    for (var purchase in purchases) {
-      if (purchase.status == PurchaseStatus.pending) {
-        // Handle pending status
-      } else if (purchase.status == PurchaseStatus.error) {
-        // Handle error status
-      } else if (purchase.status == PurchaseStatus.purchased ||
-          purchase.status == PurchaseStatus.restored) {
-        // Handle purchased or restored status
-        _verifyPurchase(purchase);
-      }
-    }
-  }
-
-  Future<void> _verifyPurchase(PurchaseDetails purchase) async {
-    // Verifique a compra com o seu servidor ou serviço de backend
-    // Após verificação, consuma ou reconheça a compra
-    if (purchase.pendingCompletePurchase) {
-      await _iap.completePurchase(purchase);
-    }
-  }
-
-  void _buyProduct(ProductDetails product) {
-    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
-    _iap.buyNonConsumable(purchaseParam: purchaseParam);
   }
 }
 

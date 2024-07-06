@@ -25,7 +25,7 @@ import '../../db/db.dart';
 import '../../services/snackbar.dart';
 import 'widgets/premium_section.dart';
 
-class RockDetailPage extends StatefulWidget {
+class RockViewPage extends StatefulWidget {
   final Rock rock;
   final bool isFavoritingRock;
   final bool isUnfavoritingRock;
@@ -36,7 +36,7 @@ class RockDetailPage extends StatefulWidget {
   final Map<String, dynamic>? identifyPriceResponse;
   final bool isAddingFromRockList;
 
-  const RockDetailPage({
+  const RockViewPage({
     super.key,
     required this.rock,
     this.isFavoritingRock = false,
@@ -50,10 +50,10 @@ class RockDetailPage extends StatefulWidget {
   });
 
   @override
-  State<RockDetailPage> createState() => _RockDetailPageState();
+  State<RockViewPage> createState() => _RockViewPageState();
 }
 
-class _RockDetailPageState extends State<RockDetailPage>
+class _RockViewPageState extends State<RockViewPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   String buttonText = '';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/detail_page.dart';
+import 'package:flutter_onboarding/ui/screens/rock_view_page.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -139,7 +139,7 @@ class LovedTabState extends State<LovedTab> {
                                 Navigator.push(
                                   context,
                                   PageTransition(
-                                    child: RockDetailPage(
+                                    child: RockViewPage(
                                       rock: rock,
                                       isUnfavoritingRock: true,
                                       pickedImage: imagePath != null

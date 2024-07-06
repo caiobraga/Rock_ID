@@ -10,7 +10,7 @@ import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/screens/detail_page.dart';
+import 'package:flutter_onboarding/ui/screens/rock_view_page.dart';
 import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/loading_component.dart';
 import 'package:flutter_svg/svg.dart';
@@ -948,7 +948,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
       navigator
           .push(PageTransition(
-              child: RockDetailPage(
+              child: RockViewPage(
                 rock: _rock!,
                 pickedImage: _image,
                 identifyPriceResponse: rockPriceResponse,

@@ -668,11 +668,11 @@ class _RockDetailPageState extends State<RockDetailPage>
       body: [
         Row(
           children: [
-            _buildImageCard(widget.rock.rockName, 'Color, Common',
-                rockDefaultImage['img1']),
+            _buildImageCard(widget.rock.rockName,
+                'Color:\n${widget.rock.color}', rockDefaultImage['img1']),
             const SizedBox(width: 8),
-            _buildImageCard(widget.rock.rockName, 'Morphology, Common',
-                rockDefaultImage['img2']),
+            _buildImageCard(widget.rock.rockName,
+                'Morphology:\n${widget.rock.luster}', rockDefaultImage['img2']),
           ],
         ),
       ],
@@ -749,7 +749,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                           fontWeight: FontWeight.normal,
                           fontSize: 12),
                     ),
-                    overflow: TextOverflow.visible,
+                    overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),
                   const SizedBox(height: 5),
@@ -761,7 +761,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                           fontWeight: FontWeight.normal,
                           fontSize: 10),
                     ),
-                    overflow: TextOverflow.visible,
+                    overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),
                 ],

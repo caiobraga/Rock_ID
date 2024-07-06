@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,8 +24,27 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    dotenv.load(fileName: ".env");
+    _initVariablesAndStorage();
     super.initState();
+  }
+
+  void _initVariablesAndStorage() async {
+    await dotenv.load(fileName: ".env");
+    final storage = Storage.instance;
+    storage.deleteAll();
+    final userHistory = await storage.read(key: 'userHistory');
+
+    if (userHistory == null) {
+      await storage.write(
+        key: 'userHistory',
+        value: jsonEncode({
+          'numberOfRocksScanned': 0, // PAYWALL
+          'firstPaywallShown': false, // RATING
+          'firstRockSaved': false, // RATING
+          'tenthRockSaved': false, // RATING
+        }),
+      );
+    }
   }
 
   @override

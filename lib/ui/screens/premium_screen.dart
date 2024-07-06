@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
@@ -44,15 +46,18 @@ class _PremiumScreenState extends State<PremiumScreen> {
                 Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    onPressed: () => !widget.isFromOnboarding
-                        ? Navigator.pop(context)
-                        : Navigator.pushAndRemoveUntil(
-                            context,
-                            PageTransition(
-                                child: const RootPage(),
-                                type: PageTransitionType.bottomToTop),
-                            (route) => false,
-                          ),
+                    onPressed: () async {
+                      await _requestReview();
+                      !widget.isFromOnboarding
+                          ? Navigator.pop(context)
+                          : Navigator.pushAndRemoveUntil(
+                              context,
+                              PageTransition(
+                                  child: const RootPage(),
+                                  type: PageTransitionType.bottomToTop),
+                              (route) => false,
+                            );
+                    },
                     icon: const Icon(
                       Icons.close,
                       color: Constants.silver,
@@ -142,6 +147,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                 onTap: () async {
                   await _paymentService.configureSDK(
                       context, isFreeTrialEnabled);
+                  await _requestReview();
                 },
                 customBorder: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
@@ -287,6 +293,22 @@ class _PremiumScreenState extends State<PremiumScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _requestReview() async {
+    final storage = Storage.instance;
+    final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
+    if (!userHistory['firstPaywallShown']) {
+      userHistory['firstPaywallShown'] = true;
+      storage.write(
+        key: 'userHistory',
+        value: jsonEncode(userHistory),
+      );
+      // final inAppReview = InAppReview.instance;
+      // if (await inAppReview.isAvailable()) {
+      //   await inAppReview.requestReview();
+      // }
+    }
   }
 }
 

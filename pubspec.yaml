@@ -56,11 +56,12 @@ dependencies:
   screenshot: ^2.5.0
   share_plus: ^7.2.2
   connectivity_plus: ^2.0.0
-  in_app_review: ^2.0.3
+  in_app_review: ^2.0.9
   video_player: ^2.2.18
   purchases_ui_flutter: ^6.20.0
   webview_flutter: ^4.8.0
   purchases_flutter: ^6.20.0
+  flutter_secure_storage: ^9.2.2
 
 dev_dependencies:
   flutter_test:

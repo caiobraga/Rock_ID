@@ -3,6 +3,7 @@ import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/utils/utils.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -100,6 +101,13 @@ class DatabaseHelper {
 
     // Recreate tables
     await _onCreate(db, newVersion);
+  }
+
+  Future<int?> getNumberOfRocksSaved() async {
+    final db = await database;
+    return firstIntValue(
+      await db.query('rocks', columns: ['COUNT(*)']),
+    );
   }
 
   //Functions for rocks

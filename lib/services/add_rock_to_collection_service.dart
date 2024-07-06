@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:intl/intl.dart';
@@ -112,8 +114,48 @@ class AddRockToCollectionService {
       }
 
       await DatabaseHelper().insertRock(newRock);
+
+      final numberOfRocksSaved = await DatabaseHelper().getNumberOfRocksSaved();
+      final storage = Storage.instance;
+      final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
+
+      if (numberOfRocksSaved != null) {
+        switch (numberOfRocksSaved) {
+          case 1:
+            if (!userHistory['firstRockSaved']) {
+              await _requestReview();
+              userHistory['firstRockSaved'] = true;
+              await storage.write(
+                key: 'userHistory',
+                value: jsonEncode(userHistory),
+              );
+            }
+            break;
+
+          case 10:
+            if (!userHistory['tenthRockSaved']) {
+              userHistory['tenthRockSaved'] = true;
+              await _requestReview();
+              await storage.write(
+                key: 'tenthRockSaved',
+                value: userHistory,
+              );
+            }
+            break;
+
+          default:
+            break;
+        }
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
+  }
+
+  Future<void> _requestReview() async {
+    // final inAppReview = InAppReview.instance;
+    // if (await inAppReview.isAvailable()) {
+    //   inAppReview.requestReview();
+    // }
   }
 }

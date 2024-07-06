@@ -8,8 +8,10 @@ import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/add_rock_to_collection_service.dart';
 import 'package:flutter_onboarding/services/bottom_nav_service.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
+import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
+import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
 import 'package:flutter_onboarding/ui/screens/tabs/loved_tab.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/input_widget.dart';
@@ -668,11 +670,11 @@ class _RockViewPageState extends State<RockViewPage>
       body: [
         Row(
           children: [
-            _buildImageCard(widget.rock.rockName,
-                'Color:\n${widget.rock.color}', rockDefaultImage['img1']),
+            _buildImageCard(widget.rock.rockName, widget.rock.color,
+                rockDefaultImage['img1']),
             const SizedBox(width: 8),
-            _buildImageCard(widget.rock.rockName,
-                'Morphology:\n${widget.rock.luster}', rockDefaultImage['img2']),
+            _buildImageCard(widget.rock.rockName, widget.rock.luster,
+                rockDefaultImage['img2']),
           ],
         ),
       ],
@@ -692,7 +694,7 @@ class _RockViewPageState extends State<RockViewPage>
           ),
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             assetPath.startsWith('assets')
@@ -735,7 +737,7 @@ class _RockViewPageState extends State<RockViewPage>
                       },
                     ),
                   ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -752,7 +754,7 @@ class _RockViewPageState extends State<RockViewPage>
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: GoogleFonts.montserrat(
@@ -762,6 +764,7 @@ class _RockViewPageState extends State<RockViewPage>
                           fontSize: 10),
                     ),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                     softWrap: true,
                   ),
                 ],
@@ -2068,26 +2071,43 @@ class _RockViewPageState extends State<RockViewPage>
                     right: 0,
                     child: InkWell(
                       onTap: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await _addRockToCollectionService
-                              .addRockToCollection(widget.rock);
-                          if (!widget.isRemovingFromCollection) {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              PageTransition(
-                                  child: const RootPage(),
-                                  type: PageTransitionType.leftToRightWithFade),
-                              (route) => false,
-                            );
-                            BottomNavService.instance.setIndex(1);
-                          } else {
-                            scaffoldMessengerKey.currentState?.showSnackBar(
-                              const SnackBar(
-                                content: Text('Rock edited successfuly!'),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
-                            Navigator.pop(context);
+                        final numberOfRocksSaved =
+                            (await DatabaseHelper().getNumberOfRocksSaved()) ??
+                                0;
+                        if (numberOfRocksSaved >= 3 &&
+                            !(await PaymentService.checkIfPurchased())) {
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              duration: const Duration(milliseconds: 300),
+                              child: const PremiumScreen(),
+                              type: PageTransitionType.bottomToTop,
+                            ),
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          if (_formKey.currentState!.validate()) {
+                            await _addRockToCollectionService
+                                .addRockToCollection(widget.rock);
+                            if (!widget.isRemovingFromCollection) {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                    child: const RootPage(),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade),
+                                (route) => false,
+                              );
+                              BottomNavService.instance.setIndex(1);
+                            } else {
+                              scaffoldMessengerKey.currentState?.showSnackBar(
+                                const SnackBar(
+                                  content: Text('Rock edited successfuly!'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                              Navigator.pop(context);
+                            }
                           }
                         }
                       },

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -634,24 +635,30 @@ class _CameraScreenState extends State<CameraScreen> {
     _startLoading();
     _showLoadingBottomSheet();
     try {
+      final storage = Storage.instance;
+      final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
+      if (userHistory['numberOfRocksScanned'] >= 10 &&
+          !(await PaymentService.checkIfPurchased())) {
+        await Navigator.push(
+          context,
+          PageTransition(
+            duration: const Duration(milliseconds: 300),
+            child: const PremiumScreen(),
+            type: PageTransitionType.topToBottom,
+          ),
+        );
+        Navigator.pop(context);
+
+        return;
+      }
+
       await scanningFunction();
       if (!_loadingDismissed) {
-        final snaps = await DatabaseHelper().snapHistory();
-        if (snaps.length >= 10 && !(await PaymentService.checkIfPurchased())) {
-          await Navigator.pushAndRemoveUntil(
-            context,
-            PageTransition(
-              duration: const Duration(milliseconds: 300),
-              child: const PremiumScreen(),
-              type: PageTransitionType.topToBottom,
-            ),
-            (route) => false,
-          );
-
-          return;
-        }
-
         if (_rock != null) {
+          userHistory['numberOfRocksScanned']++;
+          await storage.write(
+              key: 'userHistory', value: jsonEncode(userHistory));
+
           if (widget.isScanningForRockDetails) {
             String timestamp = DateTime.now().toIso8601String();
             await DatabaseHelper().addRockToSnapHistory(

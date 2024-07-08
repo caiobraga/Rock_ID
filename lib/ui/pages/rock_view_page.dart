@@ -837,18 +837,6 @@ class _RockViewPageState extends State<RockViewPage>
     );
   }
 
-  // FAQ Section
-  Widget _buildFAQSection() {
-    List<Widget> body = [];
-    widget.rock.askedQuestions.forEach((Map<String, String> question) {
-      question.forEach((key, value) {
-        body.add(_buildFAQItem(key, value));
-      });
-    });
-    return _buildCard(
-        title: 'PEOPLE OFTEN ASK', icon: AppIcons.uncertainty, body: body);
-  }
-
   Widget _buildFAQItem(String question, String answer) {
     return Container(
       // padding: const EdgeInsets.all(10),
@@ -1383,8 +1371,6 @@ class _RockViewPageState extends State<RockViewPage>
       // const SizedBox(height: 16),
       // _buildLocationsSection(),
       const SizedBox(height: 16),
-      _buildFAQSection(),
-      const SizedBox(height: 16),
       _buildDescription(widget.rock.description),
       const SizedBox(height: 16),
       _buildIdentifySection(),
@@ -1397,8 +1383,10 @@ class _RockViewPageState extends State<RockViewPage>
       const SizedBox(height: 16),
       _buildPriceSection(),
       const SizedBox(height: 16),
-      _buildHealingSection(),
-      const SizedBox(height: 16),
+      if (widget.rock.healingPropeties.isNotEmpty) ...[
+        _buildHealingSection(),
+        const SizedBox(height: 16),
+      ],
       _buildFormationSection(),
       const SizedBox(height: 16),
       _buildMeaningSection(),

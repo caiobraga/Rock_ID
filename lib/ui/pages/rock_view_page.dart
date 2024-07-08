@@ -1092,23 +1092,6 @@ class _RockViewPageState extends State<RockViewPage>
     );
   }
 
-  // Price
-  Widget _buildPriceSection() {
-    return _buildCard(
-      title: "PRICE",
-      icon: AppIcons.price,
-      body: [
-        ExpandableText(
-          text:
-              'The price of ${widget.rock.rockName} may vary, but it is approximately ${widget.rock.price} per gram.',
-          style: AppTypography.body3(color: AppColors.naturalWhite),
-          maxLines:
-              4, // Define o número máximo de linhas antes de exibir "Learn More"
-        ),
-      ],
-    );
-  }
-
   // Healing Properties
   Widget _buildHealingSection() {
     return _buildCard(
@@ -1380,8 +1363,6 @@ class _RockViewPageState extends State<RockViewPage>
       _buildPhysicalPropertiesSection(),
       const SizedBox(height: 16),
       _buildChemicalPropertiesSession(),
-      const SizedBox(height: 16),
-      _buildPriceSection(),
       const SizedBox(height: 16),
       if (widget.rock.healingPropeties.isNotEmpty) ...[
         _buildHealingSection(),

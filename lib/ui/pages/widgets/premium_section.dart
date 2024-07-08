@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
+import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,7 +13,7 @@ class PremiumSection extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (_) => const PremiumScreen()));
+            context, MaterialPageRoute(builder: (_) => const PremiumPage()));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

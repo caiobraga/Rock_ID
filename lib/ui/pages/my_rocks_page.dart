@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/ui/screens/tabs/collections_tab.dart';
-import 'package:flutter_onboarding/ui/screens/tabs/snap_history_tab.dart';
-import 'package:flutter_onboarding/ui/screens/tabs/loved_tab.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/custom_tab_bar.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/collections_tab.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/snap_history_tab.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/loved_tab.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/custom_tab_bar.dart';
 
 import '../../services/bottom_nav_service.dart';
 

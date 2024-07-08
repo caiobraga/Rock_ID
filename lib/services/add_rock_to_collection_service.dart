@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
 
 import '../db/db.dart';
@@ -110,52 +112,55 @@ class AddRockToCollectionService {
     try {
       if (await DatabaseHelper().rockExists(rock)) {
         await DatabaseHelper().editRock(newRock);
-        return;
-      }
+      } else {
+        await DatabaseHelper().insertRock(newRock);
 
-      await DatabaseHelper().insertRock(newRock);
+        final numberOfRocksSaved =
+            await DatabaseHelper().getNumberOfRocksSaved();
+        final storage = Storage.instance;
+        final userHistory =
+            jsonDecode((await storage.read(key: 'userHistory'))!);
 
-      final numberOfRocksSaved = await DatabaseHelper().getNumberOfRocksSaved();
-      final storage = Storage.instance;
-      final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
+        if (numberOfRocksSaved != null) {
+          switch (numberOfRocksSaved) {
+            case 1:
+              if (!userHistory['firstRockSaved']) {
+                await _requestReview();
+                userHistory['firstRockSaved'] = true;
+                await storage.write(
+                  key: 'userHistory',
+                  value: jsonEncode(userHistory),
+                );
+              }
+              break;
 
-      if (numberOfRocksSaved != null) {
-        switch (numberOfRocksSaved) {
-          case 1:
-            if (!userHistory['firstRockSaved']) {
-              await _requestReview();
-              userHistory['firstRockSaved'] = true;
-              await storage.write(
-                key: 'userHistory',
-                value: jsonEncode(userHistory),
-              );
-            }
-            break;
+            case 10:
+              if (!userHistory['tenthRockSaved']) {
+                userHistory['tenthRockSaved'] = true;
+                await _requestReview();
+                await storage.write(
+                  key: 'tenthRockSaved',
+                  value: userHistory,
+                );
+              }
+              break;
 
-          case 10:
-            if (!userHistory['tenthRockSaved']) {
-              userHistory['tenthRockSaved'] = true;
-              await _requestReview();
-              await storage.write(
-                key: 'tenthRockSaved',
-                value: userHistory,
-              );
-            }
-            break;
-
-          default:
-            break;
+            default:
+              break;
+          }
         }
       }
+
+      await HomePageService.instance.notifyTotalValues();
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
   Future<void> _requestReview() async {
-    // final inAppReview = InAppReview.instance;
-    // if (await inAppReview.isAvailable()) {
-    //   inAppReview.requestReview();
-    // }
+    final inAppReview = InAppReview.instance;
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
+    }
   }
 }

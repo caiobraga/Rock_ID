@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class TermsScreen extends StatefulWidget {
+class TermsPage extends StatefulWidget {
   final String url;
   final String title;
 
-  const TermsScreen({Key? key, required this.url, required this.title})
+  const TermsPage({Key? key, required this.url, required this.title})
       : super(key: key);
 
   @override
-  State<TermsScreen> createState() => _TermsScreenState();
+  State<TermsPage> createState() => _TermsPageState();
 }
 
-class _TermsScreenState extends State<TermsScreen> {
+class _TermsPageState extends State<TermsPage> {
   late final WebViewController _controller;
 
   @override

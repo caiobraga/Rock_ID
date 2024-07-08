@@ -4,24 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/screens/terms_screen.dart';
+import 'package:flutter_onboarding/ui/pages/terms_page.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:page_transition/page_transition.dart';
 
-class PremiumScreen extends StatefulWidget {
+class PremiumPage extends StatefulWidget {
   final bool isFromOnboarding;
 
-  const PremiumScreen({
+  const PremiumPage({
     super.key,
     this.isFromOnboarding = false,
   });
 
   @override
-  State<PremiumScreen> createState() => _PremiumScreenState();
+  State<PremiumPage> createState() => _PremiumPageState();
 }
 
-class _PremiumScreenState extends State<PremiumScreen> {
+class _PremiumPageState extends State<PremiumPage> {
   bool isFreeTrialEnabled = true;
   final _paymentService = PaymentService();
 
@@ -184,7 +185,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const TermsScreen(
+                          builder: (context) => const TermsPage(
                             url:
                                 'https://sites.google.com/view/rock-app-policies/terms-of-service',
                             title: 'Policies',
@@ -215,7 +216,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const TermsScreen(
+                          builder: (context) => const TermsPage(
                             url:
                                 'https://sites.google.com/view/rock-app-policies/privacy-policy?authuser=0',
                             title: 'Policies',
@@ -304,10 +305,10 @@ class _PremiumScreenState extends State<PremiumScreen> {
         key: 'userHistory',
         value: jsonEncode(userHistory),
       );
-      // final inAppReview = InAppReview.instance;
-      // if (await inAppReview.isAvailable()) {
-      //   await inAppReview.requestReview();
-      // }
+      final inAppReview = InAppReview.instance;
+      if (await inAppReview.isAvailable()) {
+        await inAppReview.requestReview();
+      }
     }
   }
 }

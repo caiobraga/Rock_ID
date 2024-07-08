@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/rock_view_page.dart';
+import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../constants.dart';

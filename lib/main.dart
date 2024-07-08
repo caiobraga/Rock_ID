@@ -31,7 +31,6 @@ class _MyAppState extends State<MyApp> {
   void _initVariablesAndStorage() async {
     await dotenv.load(fileName: ".env");
     final storage = Storage.instance;
-    storage.deleteAll();
     final userHistory = await storage.read(key: 'userHistory');
 
     if (userHistory == null) {

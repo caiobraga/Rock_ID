@@ -10,11 +10,11 @@ import 'package:flutter_onboarding/services/bottom_nav_service.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
-import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
-import 'package:flutter_onboarding/ui/screens/tabs/loved_tab.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/input_widget.dart';
+import 'package:flutter_onboarding/ui/pages/camera_page.dart';
+import 'package:flutter_onboarding/ui/pages/premium_page.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/tab_services/loved_tab_service.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/expandable_text.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/input_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -83,7 +83,7 @@ class _RockViewPageState extends State<RockViewPage>
       defineFavorite();
       _addRockToCollectionService.setRockData(widget.rock, widget.pickedImage);
       buttonText = widget.isUnfavoritingRock
-          ? 'Remove from Wishlist'
+          ? 'Remove from loved'
           : widget.isFavoritingRock
               ? 'Add to Wishlist'
               : widget.isRemovingFromCollection
@@ -206,7 +206,7 @@ class _RockViewPageState extends State<RockViewPage>
                           context,
                           PageTransition(
                             duration: const Duration(milliseconds: 200),
-                            child: const CameraScreen(),
+                            child: const CameraPage(),
                             type: PageTransitionType.bottomToTop,
                           ),
                         );
@@ -1306,8 +1306,8 @@ class _RockViewPageState extends State<RockViewPage>
           ),
         );
       }
-      LovedTabState().wishlistNotifier.value++;
-      LovedTabState().loadWishlist();
+
+      await LovedTabService.instance.loadLovedRocks();
       setState(() {});
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
@@ -2080,7 +2080,7 @@ class _RockViewPageState extends State<RockViewPage>
                             context,
                             PageTransition(
                               duration: const Duration(milliseconds: 300),
-                              child: const PremiumScreen(),
+                              child: const PremiumPage(),
                               type: PageTransitionType.bottomToTop,
                             ),
                           );
@@ -2208,7 +2208,8 @@ class _RockViewPageState extends State<RockViewPage>
                       );
                       Navigator.pop(context);
                     }
-                    LovedTabState().wishlistNotifier.value++;
+
+                    await LovedTabService.instance.loadLovedRocks();
                     setState(() {});
                   } else {
                     await DatabaseHelper().removeRock(widget.rock.rockId);

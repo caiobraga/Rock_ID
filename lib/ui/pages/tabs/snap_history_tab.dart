@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
-import 'package:flutter_onboarding/ui/screens/rock_view_page.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
+import 'package:flutter_onboarding/ui/pages/camera_page.dart';
+import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/rock_list_item.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SnapHistoryTab extends StatefulWidget {
@@ -97,7 +97,7 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                         context,
                         PageTransition(
                           duration: const Duration(milliseconds: 400),
-                          child: const CameraScreen(),
+                          child: const CameraPage(),
                           type: PageTransitionType.bottomToTop,
                         ),
                       );

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/db/db.dart';
-import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
+import 'package:flutter_onboarding/ui/pages/camera_page.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../services/bottom_nav_service.dart';
@@ -18,48 +16,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Rock> _rockList = [];
-  int contRocks = 0;
-  String price = '';
   bool _isLoading = true;
   final _bottomNavService = BottomNavService.instance;
+  final _store = HomePageService.instance;
 
   @override
   void initState() {
-    init();
+    _store.notifyTotalValues().then(
+          (_) => setState(() {
+            _isLoading = false;
+          }),
+        );
     super.initState();
-  }
-
-  Future<void> init() async {
-    _isLoading = true;
-    try {
-      DatabaseHelper().findAllRocks().then((value) {
-        _rockList = value;
-        _calculateTotalPrice();
-        setState(() {
-          _isLoading = false;
-        });
-      });
-      DatabaseHelper().snapHistory().then((value) {
-        contRocks = value.length;
-        _calculateTotalPrice();
-        setState(() {
-          _isLoading = false;
-        });
-      });
-    } catch (e) {
-      debugPrint("Error: $e");
-    }
-  }
-
-  _calculateTotalPrice() {
-    double totalPrice = 0;
-    for (var rock in _rockList) {
-      totalPrice += rock.cost;
-    }
-
-    price = NumberFormat.currency(symbol: '\$', decimalDigits: 0)
-        .format(totalPrice);
   }
 
   void _filterRocks(String query) {
@@ -204,14 +172,21 @@ class _HomePageState extends State<HomePage> {
                                     SvgPicture.string(AppIcons.rock,
                                         height: 22),
                                     const SizedBox(height: 5),
-                                    Text(
-                                      '$contRocks',
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: Constants.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    ValueListenableBuilder<int>(
+                                      valueListenable:
+                                          _store.totalScannedRocksNotifier,
+                                      builder:
+                                          (context, totalScannedRocks, child) {
+                                        return Text(
+                                          totalScannedRocks.toString(),
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            color: Constants.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        );
+                                      },
                                     ),
                                     Text('Rocks',
                                         style: TextStyle(
@@ -230,14 +205,21 @@ class _HomePageState extends State<HomePage> {
                                     SvgPicture.string(AppIcons.coins,
                                         height: 22),
                                     const SizedBox(height: 5),
-                                    Text(
-                                      price,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: Constants.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    ValueListenableBuilder<String>(
+                                      valueListenable: _store
+                                          .totalRockCollectionPriceNotifier,
+                                      builder: (context,
+                                          totalRockCollectionPrice, child) {
+                                        return Text(
+                                          totalRockCollectionPrice,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            color: Constants.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        );
+                                      },
                                     ),
                                     Text(
                                       'Value (USD)',
@@ -268,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                                     PageTransition(
                                       duration:
                                           const Duration(milliseconds: 200),
-                                      child: const CameraScreen(),
+                                      child: const CameraPage(),
                                       type: PageTransitionType.bottomToTop,
                                     ),
                                   );
@@ -332,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                                     PageTransition(
                                       duration:
                                           const Duration(milliseconds: 200),
-                                      child: const CameraScreen(
+                                      child: const CameraPage(
                                         isScanningForRockDetails: false,
                                       ),
                                       type: PageTransitionType.bottomToTop,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
+import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -44,7 +44,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 title: Constants.titleThree,
                 description: Constants.descriptionThree,
               ),
-              PremiumScreen(isFromOnboarding: true),
+              PremiumPage(isFromOnboarding: true),
             ],
           ),
           Visibility(

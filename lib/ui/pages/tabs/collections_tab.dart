@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
-import 'package:flutter_onboarding/ui/screens/rock_view_page.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/rock_list_item.dart';
+import 'package:flutter_onboarding/ui/pages/camera_page.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
+import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/rock_list_item.dart';
 import 'package:page_transition/page_transition.dart';
 
 class CollectionsTab extends StatefulWidget {
@@ -66,7 +67,7 @@ class _CollectionsTabState extends State<CollectionsTab> {
                         context,
                         PageTransition(
                           duration: const Duration(milliseconds: 400),
-                          child: const CameraScreen(),
+                          child: const CameraPage(),
                           type: PageTransitionType.bottomToTop,
                         ),
                       ).then((_) => _loadCollectionRocks());
@@ -141,6 +142,7 @@ class _CollectionsTabState extends State<CollectionsTab> {
                             }
                           }
                           await DatabaseHelper().removeRock(rock.rockId);
+                          await HomePageService.instance.notifyTotalValues();
                           _loadCollectionRocks();
                         } catch (e) {
                           debugPrint(e.toString());

@@ -10,10 +10,11 @@ import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/screens/rock_view_page.dart';
-import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/loading_component.dart';
+import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
+import 'package:flutter_onboarding/ui/pages/premium_page.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
@@ -22,19 +23,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/snackbar.dart';
 
-class CameraScreen extends StatefulWidget {
+class CameraPage extends StatefulWidget {
   final bool isScanningForRockDetails;
 
-  const CameraScreen({
+  const CameraPage({
     super.key,
     this.isScanningForRockDetails = true,
   });
 
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  _CameraPageState createState() => _CameraPageState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _CameraPageState extends State<CameraPage> {
   CameraController? _cameraController;
   List<CameraDescription>? cameras;
   final ImagePicker _picker = ImagePicker();
@@ -146,7 +147,7 @@ class _CameraScreenState extends State<CameraScreen> {
               onPressed: () => Navigator.push(
                 context,
                 PageTransition(
-                    child: const PremiumScreen(),
+                    child: const PremiumPage(),
                     type: PageTransitionType.topToBottom),
               ),
               icon: SvgPicture.string(
@@ -643,7 +644,7 @@ class _CameraScreenState extends State<CameraScreen> {
           context,
           PageTransition(
             duration: const Duration(milliseconds: 300),
-            child: const PremiumScreen(),
+            child: const PremiumPage(),
             type: PageTransitionType.topToBottom,
           ),
         );
@@ -658,6 +659,7 @@ class _CameraScreenState extends State<CameraScreen> {
           userHistory['numberOfRocksScanned']++;
           await storage.write(
               key: 'userHistory', value: jsonEncode(userHistory));
+          await HomePageService.instance.notifyTotalValues();
 
           if (widget.isScanningForRockDetails) {
             String timestamp = DateTime.now().toIso8601String();
@@ -960,6 +962,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 pickedImage: _image,
                 identifyPriceResponse: rockPriceResponse,
                 isRemovingFromCollection: isRemovingFromCollection,
+                isFavoritingRock: true,
               ),
               type: PageTransitionType.fade))
           .then((value) {

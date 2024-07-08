@@ -962,7 +962,6 @@ class _CameraPageState extends State<CameraPage> {
                 pickedImage: _image,
                 identifyPriceResponse: rockPriceResponse,
                 isRemovingFromCollection: isRemovingFromCollection,
-                isFavoritingRock: true,
               ),
               type: PageTransitionType.fade))
           .then((value) {

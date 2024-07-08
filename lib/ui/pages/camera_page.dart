@@ -984,7 +984,6 @@ class _CameraPageState extends State<CameraPage> {
     try {
       PermissionStatus status = await Permission.camera.request();
       if (status.isGranted) {
-        _showLoadingBottomSheet(showTips: true);
         if (!_isCameraInitialized) {
           await initializeCamera();
         }

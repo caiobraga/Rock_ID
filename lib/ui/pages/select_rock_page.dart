@@ -19,19 +19,32 @@ class SelectRockPage extends StatefulWidget {
 }
 
 class _SelectRockPageState extends State<SelectRockPage> {
-  List<Rock> _rockList = Rock.rockList;
-  List<Rock> _filteredRockList = Rock.rockList;
+  List<Rock> _rockList = [];
+  List<Rock> _filteredRockList = [];
 
   final _searchRocks = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _orderCollectionRocks();
+
+    final repeatedRockList = Rock.rockList;
+    repeatedRockList.sort((a, b) => a.rockId.compareTo(b.rockId));
+    final Set<String> rockNamesSet = {};
+    for (final rock in repeatedRockList) {
+      if (!rockNamesSet.contains(rock.rockName)) {
+        _filteredRockList.add(rock);
+        rockNamesSet.add(rock.rockName);
+      }
+    }
+
+    _rockList = _filteredRockList;
 
     if (widget.isFavoritingRock) {
       _filterFavoritedRocks();
     }
+
+    _sortCollectionRocks();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(milliseconds: 300), () {
@@ -40,7 +53,7 @@ class _SelectRockPageState extends State<SelectRockPage> {
     });
   }
 
-  void _orderCollectionRocks() async {
+  void _sortCollectionRocks() async {
     // Recupera todas as rochas da coleção do banco de dados
     final collectionRocks = await DatabaseHelper().findAllRocks();
 
@@ -48,16 +61,24 @@ class _SelectRockPageState extends State<SelectRockPage> {
     final collectionRockNames =
         collectionRocks.map((rock) => rock.rockName).toSet();
 
-    // Ordena a _rockList baseada na presença das rochas na coleção
+    // Ordena a _rockList baseada no nome em ordem alfabética
     _rockList.sort((rock1, rock2) {
       final rock1InCollection = collectionRockNames.contains(rock1.rockName);
       final rock2InCollection = collectionRockNames.contains(rock2.rockName);
 
-      // Coloca as rochas que não estão na coleção antes das que estão na coleção
-      if (rock1InCollection && !rock2InCollection) return 1;
-      if (!rock1InCollection && rock2InCollection) return -1;
-      return 0;
+      // If both rocks are in the collection or both are not, sort alphabetically
+      if (rock1InCollection == rock2InCollection) {
+        return rock1.rockName.compareTo(rock2.rockName);
+      }
+
+      // If only one rock is in the collection, move it to the end
+      return rock1InCollection ? 1 : -1;
     });
+
+    // Caso a lista de coleção esteja vazia, só ordena a _filteredRockList
+    if (collectionRocks.isEmpty) {
+      _filteredRockList.sort((a, b) => a.rockName.compareTo(b.rockName));
+    }
 
     setState(() {});
   }

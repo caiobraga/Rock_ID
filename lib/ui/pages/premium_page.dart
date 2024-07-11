@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/premium_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/terms_page.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
@@ -10,13 +11,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:page_transition/page_transition.dart';
 
-class PremiumPage extends StatelessWidget {
+class PremiumPage extends StatefulWidget {
   final bool isFromOnboarding;
 
-  PremiumPage({
+  const PremiumPage({
     super.key,
     this.isFromOnboarding = false,
   });
+
+  @override
+  State<PremiumPage> createState() => _PremiumPageState();
+}
+
+class _PremiumPageState extends State<PremiumPage> {
+  bool isLoadingPurchase = false;
+
+  final _paymentService = PaymentService();
 
   final _store = PremiumPageService.instance;
 
@@ -48,7 +58,7 @@ class PremiumPage extends StatelessWidget {
                       ),
                       onPressed: () async {
                         await _requestReview();
-                        !isFromOnboarding
+                        !widget.isFromOnboarding
                             ? Navigator.pop(context)
                             : Navigator.pushAndRemoveUntil(
                                 context,
@@ -106,6 +116,62 @@ class PremiumPage extends StatelessWidget {
                 style: const TextStyle(
                   color: Constants.white,
                   fontSize: 18,
+                ),
+              ),
+            ),
+            Visibility(
+              visible: !widget.isFromOnboarding,
+              child: Positioned(
+                bottom: 60,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () async {
+                      setState(() {
+                        isLoadingPurchase = true;
+                      });
+                      await _paymentService.configureSDK(
+                        context,
+                        PremiumPageService
+                            .instance.isFreeTrialEnabledNotifier.value,
+                      );
+                      await _requestReview();
+                      setState(() {
+                        isLoadingPurchase = false;
+                      });
+                    },
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Ink(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        gradient: Constants.darkDegrade,
+                      ),
+                      child: isLoadingPurchase
+                          ? const Center(
+                              child: SizedBox(
+                                height: 26,
+                                width: 26,
+                                child: CircularProgressIndicator(
+                                  color: Constants.white,
+                                  strokeWidth: 3,
+                                ),
+                              ),
+                            )
+                          : const Text(
+                              'Continue',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    ),
+                  ),
                 ),
               ),
             ),

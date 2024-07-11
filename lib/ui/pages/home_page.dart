@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/pages/camera_page.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../services/bottom_nav_service.dart';
 import 'select_rock_page.dart';
@@ -19,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   bool _isLoading = true;
   final _bottomNavService = BottomNavService.instance;
   final _store = HomePageService.instance;
+  bool isSharing = false;
 
   @override
   void initState() {
@@ -93,40 +97,72 @@ class _HomePageState extends State<HomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 15),
-                              decoration: BoxDecoration(
-                                color: Constants.darkGrey,
-                                borderRadius: BorderRadius.circular(41),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.string(AppIcons.share),
-                                  const SizedBox(
-                                    width: 6,
-                                  ),
-                                  const Text(
-                                    'Share App',
-                                    style: TextStyle(
-                                      color: Constants.white,
-                                      fontSize: 14,
+                            InkWell(
+                              borderRadius: BorderRadius.circular(41),
+                              onTap: () async {
+                                setState(() {
+                                  isSharing = true;
+                                });
+                                if (Platform.isAndroid || Platform.isIOS) {
+                                  final appId = Platform.isAndroid
+                                      ? 'YOUR_ANDROID_PACKAGE_ID'
+                                      : 'YOUR_IOS_APP_ID';
+                                  final uri = Uri.parse(
+                                    Platform.isAndroid
+                                        ? "market://details?id=$appId"
+                                        : "https://apps.apple.com/app/id$appId",
+                                  );
+                                  await Share.shareUri(uri);
+                                  setState(() {
+                                    isSharing = false;
+                                  });
+                                }
+                              },
+                              child: Ink(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 15),
+                                decoration: BoxDecoration(
+                                  color: Constants.darkGrey,
+                                  borderRadius: BorderRadius.circular(41),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    !isSharing
+                                        ? SvgPicture.string(AppIcons.share)
+                                        : const SizedBox(
+                                            height: 16,
+                                            width: 16,
+                                            child: CircularProgressIndicator(
+                                              color: Constants.primaryColor,
+                                              strokeWidth: 2,
+                                            ),
+                                          ),
+                                    const SizedBox(
+                                      width: 6,
                                     ),
-                                  )
-                                ],
+                                    const Text(
+                                      'Share App',
+                                      style: TextStyle(
+                                        color: Constants.white,
+                                        fontSize: 14,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
+                            const SizedBox(width: 10),
                             Expanded(
-                              child: GestureDetector(
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(41),
                                 onTap: () {
                                   _bottomNavService.setIndex(1);
                                   _bottomNavService.rockCollectionClicked();
                                 },
-                                child: Container(
+                                child: Ink(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 15),
-                                  margin: const EdgeInsets.only(left: 20),
                                   decoration: BoxDecoration(
                                     color: Constants.darkGrey,
                                     borderRadius: BorderRadius.circular(41),

@@ -35,18 +35,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               });
             },
             controller: _pageController,
-            children: [
-              const CreatePage(
+            children: const [
+              CreatePage(
                 backgroundImage: 'assets/images/bg1.png',
                 title: Constants.titleOne,
                 description: Constants.descriptionOne,
               ),
-              const CreatePage(
+              CreatePage(
                 backgroundImage: 'assets/images/bg2.png',
                 title: Constants.titleTwo,
                 description: Constants.descriptionTwo,
               ),
-              const CreatePage(
+              CreatePage(
                 backgroundImage: 'assets/images/bg3.png',
                 title: Constants.titleThree,
                 description: Constants.descriptionThree,

@@ -107,12 +107,11 @@ class _HomePageState extends State<HomePage> {
                                 if (Platform.isAndroid || Platform.isIOS) {
                                   final info = await PackageInfo.fromPlatform();
                                   final appId = info.packageName;
-                                  final uri = Uri.parse(
-                                    Platform.isAndroid
-                                        ? "market://details?id=$appId"
-                                        : "https://apps.apple.com/app/id$appId",
-                                  );
-                                  await Share.shareUri(uri);
+                                  final url = Platform.isAndroid
+                                      ? "https://play.google.com/store/apps/details?id=$appId"
+                                      : "https://apps.apple.com/app/id$appId";
+                                  await Share.share(
+                                      'Check out the brand new Gem Identifier App: $url');
                                   setState(() {
                                     isSharing = false;
                                   });

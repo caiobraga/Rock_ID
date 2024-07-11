@@ -5,6 +5,7 @@ import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/pages/camera_page.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -104,9 +105,8 @@ class _HomePageState extends State<HomePage> {
                                   isSharing = true;
                                 });
                                 if (Platform.isAndroid || Platform.isIOS) {
-                                  final appId = Platform.isAndroid
-                                      ? 'YOUR_ANDROID_PACKAGE_ID'
-                                      : 'YOUR_IOS_APP_ID';
+                                  final info = await PackageInfo.fromPlatform();
+                                  final appId = info.packageName;
                                   final uri = Uri.parse(
                                     Platform.isAndroid
                                         ? "market://details?id=$appId"

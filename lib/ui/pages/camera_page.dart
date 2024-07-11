@@ -354,7 +354,7 @@ class _CameraPageState extends State<CameraPage> {
 
     showModalBottomSheet(
       context: context,
-      isDismissible: false,
+      isDismissible: true,
       isScrollControlled: true,
       backgroundColor: Constants.blackColor,
       clipBehavior: Clip.none,

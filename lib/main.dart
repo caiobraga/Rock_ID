@@ -44,6 +44,8 @@ class _MyAppState extends State<MyApp> {
         }),
       );
     }
+
+    setState(() {});
   }
 
   @override

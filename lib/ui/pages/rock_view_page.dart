@@ -74,6 +74,7 @@ class _RockViewPageState extends State<RockViewPage>
   final _screenshotController = ScreenshotController();
   bool _isLoadingShare = false;
   bool _hideEditIcon = false;
+  Rock currentRock = Rock.empty();
 
   @override
   void initState() {
@@ -81,6 +82,7 @@ class _RockViewPageState extends State<RockViewPage>
     _tabController = TabController(length: 2, vsync: this);
     setState(() {
       defineFavorite();
+      currentRock = widget.rock;
       _addRockToCollectionService.setRockData(widget.rock, widget.pickedImage);
       buttonText = widget.isUnfavoritingRock
           ? 'Remove from loved'
@@ -349,9 +351,9 @@ class _RockViewPageState extends State<RockViewPage>
                             : null,
                         child: Stack(
                           children: [
-                            widget.rock.rockImages.isNotEmpty &&
-                                        widget.rock.rockImages.first
-                                                .imagePath !=
+                            currentRock.rockImages.isNotEmpty &&
+                                        currentRock
+                                                .rockImages.first.imagePath !=
                                             null ||
                                     (_addRockToCollectionService
                                                 .imageNotifier.value !=
@@ -363,8 +365,8 @@ class _RockViewPageState extends State<RockViewPage>
                                     child: Image.file(
                                       File(_addRockToCollectionService
                                               .imageNotifier.value ??
-                                          widget.rock.rockImages.first
-                                              .imagePath!),
+                                          currentRock
+                                              .rockImages.first.imagePath!),
                                       fit: BoxFit.cover,
                                       height: 200,
                                       width: MediaQuery.of(context).size.width,
@@ -438,6 +440,10 @@ class _RockViewPageState extends State<RockViewPage>
 
                                                 return child;
                                               },
+                                              errorBuilder: (context, error,
+                                                      stackTrace) =>
+                                                  Image.asset(
+                                                      'assets/images/rock1.png'),
                                             ),
                                           ),
                             Visibility(
@@ -511,8 +517,8 @@ class _RockViewPageState extends State<RockViewPage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      widget.rock.rockImages.isNotEmpty &&
-                                  widget.rock.rockImages.first.imagePath !=
+                      currentRock.rockImages.isNotEmpty &&
+                                  currentRock.rockImages.first.imagePath !=
                                       null ||
                               (_addRockToCollectionService
                                           .imageNotifier.value !=
@@ -524,7 +530,7 @@ class _RockViewPageState extends State<RockViewPage>
                               child: Image.file(
                                 File(_addRockToCollectionService
                                         .imageNotifier.value ??
-                                    widget.rock.rockImages.first.imagePath!),
+                                    currentRock.rockImages.first.imagePath!),
                                 fit: BoxFit.cover,
                                 height: 255,
                               ),
@@ -654,7 +660,7 @@ class _RockViewPageState extends State<RockViewPage>
         iconData: Icons.error_rounded,
         body: [
           Text(
-            widget.rock.healthRisks,
+            currentRock.healthRisks,
             style: AppTypography.body3(color: AppColors.naturalWhite),
             textAlign: TextAlign.justify,
           )
@@ -664,16 +670,25 @@ class _RockViewPageState extends State<RockViewPage>
   // Images Section
   Widget _buildImagesSection() {
     return _buildCard(
-      title: 'IMAGES OF "${widget.rock.rockName.toUpperCase()}"',
+      title:
+          'IMAGES OF "${currentRock.rockCustomName.isNotEmpty ? currentRock.rockCustomName.toUpperCase() : currentRock.rockName.toUpperCase()}"',
       // iconData: Icons.image,
       icon: AppIcons.galery,
       body: [
         Row(
           children: [
-            _buildImageCard(widget.rock.rockName, widget.rock.color,
+            _buildImageCard(
+                currentRock.rockCustomName.isNotEmpty
+                    ? currentRock.rockCustomName
+                    : currentRock.rockName,
+                currentRock.color,
                 rockDefaultImage['img1']),
             const SizedBox(width: 8),
-            _buildImageCard(widget.rock.rockName, widget.rock.luster,
+            _buildImageCard(
+                currentRock.rockCustomName.isNotEmpty
+                    ? currentRock.rockCustomName
+                    : currentRock.rockName,
+                currentRock.luster,
                 rockDefaultImage['img2']),
           ],
         ),
@@ -735,6 +750,12 @@ class _RockViewPageState extends State<RockViewPage>
 
                         return child;
                       },
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        'assets/images/rock1.png',
+                        height: 50,
+                        width: 50,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
             const SizedBox(width: 8),
@@ -802,7 +823,7 @@ class _RockViewPageState extends State<RockViewPage>
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'LOCATIONS FOR "${widget.rock.rockName.toUpperCase()}"',
+                  'LOCATIONS FOR "${currentRock.rockName.toUpperCase()}"',
                   style: AppTypography.headline2(
                     color: AppColors.naturalWhite,
                     fontWeight: FontWeight.bold,
@@ -901,7 +922,7 @@ class _RockViewPageState extends State<RockViewPage>
             children: [
               Text("Color",
                   style: AppTypography.body2(color: AppColors.primaryMedium)),
-              Text(widget.rock.color,
+              Text(currentRock.color,
                   style: AppTypography.body3(color: AppColors.naturalSilver)),
               const SizedBox(height: 8),
               Row(
@@ -947,6 +968,12 @@ class _RockViewPageState extends State<RockViewPage>
 
                                 return child;
                               },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Image.asset(
+                                'assets/images/rocha-granito.jpg',
+                                height: 103,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                     ),
                   ),
@@ -992,6 +1019,12 @@ class _RockViewPageState extends State<RockViewPage>
 
                                 return child;
                               },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Image.asset(
+                                'assets/images/rocha-granito.jpg',
+                                height: 103,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                     ),
                   ),
@@ -1000,7 +1033,7 @@ class _RockViewPageState extends State<RockViewPage>
               const SizedBox(height: 16),
               Text("Luster",
                   style: AppTypography.body2(color: AppColors.primaryMedium)),
-              Text(widget.rock.luster,
+              Text(currentRock.luster,
                   style: AppTypography.body3(color: AppColors.naturalSilver)),
               const SizedBox(height: 8),
               ClipRRect(
@@ -1042,6 +1075,13 @@ class _RockViewPageState extends State<RockViewPage>
 
                           return child;
                         },
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset(
+                          'assets/images/rocha-granito.jpg',
+                          height: 182,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       ),
               ),
               const SizedBox(height: 16),
@@ -1071,10 +1111,10 @@ class _RockViewPageState extends State<RockViewPage>
         title: "PHYSICAL PROPERTIES",
         icon: AppIcons.calendarSearch,
         body: [
-          _buildInfoSection('Crystal System', widget.rock.crystalSystem),
-          _buildInfoSection('Colors', widget.rock.colors.toString()),
-          _buildInfoSection('Luster', widget.rock.luster),
-          _buildInfoSection('Diaphaneity', widget.rock.diaphaneity),
+          _buildInfoSection('Crystal System', currentRock.crystalSystem),
+          _buildInfoSection('Colors', currentRock.colors.toString()),
+          _buildInfoSection('Luster', currentRock.luster),
+          _buildInfoSection('Diaphaneity', currentRock.diaphaneity),
         ]);
   }
 
@@ -1085,9 +1125,9 @@ class _RockViewPageState extends State<RockViewPage>
       icon: AppIcons.chemical,
       body: [
         _buildInfoSection(
-            'Chemical Classification', widget.rock.quimicalClassification),
-        _buildInfoSection('Formula', widget.rock.formula),
-        _buildInfoSection('Elements listed', widget.rock.elementsListed),
+            'Chemical Classification', currentRock.quimicalClassification),
+        _buildInfoSection('Formula', currentRock.formula),
+        _buildInfoSection('Elements listed', currentRock.elementsListed),
       ],
     );
   }
@@ -1099,7 +1139,7 @@ class _RockViewPageState extends State<RockViewPage>
       icon: AppIcons.heart,
       body: [
         ExpandableText(
-          text: widget.rock.healingPropeties,
+          text: currentRock.healingPropeties,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         )
@@ -1114,7 +1154,7 @@ class _RockViewPageState extends State<RockViewPage>
       icon: AppIcons.formation,
       body: [
         ExpandableText(
-          text: widget.rock.formulation,
+          text: currentRock.formulation,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
@@ -1129,7 +1169,7 @@ class _RockViewPageState extends State<RockViewPage>
       icon: AppIcons.meaning,
       body: [
         ExpandableText(
-            text: widget.rock.meaning,
+            text: currentRock.meaning,
             style: AppTypography.body3(color: AppColors.naturalWhite),
             maxLines: 4),
       ],
@@ -1143,7 +1183,7 @@ class _RockViewPageState extends State<RockViewPage>
       icon: AppIcons.shoppingBasket,
       body: [
         ExpandableText(
-          text: widget.rock.howToSelect,
+          text: currentRock.howToSelect,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
@@ -1158,7 +1198,7 @@ class _RockViewPageState extends State<RockViewPage>
       iconData: Icons.category,
       body: [
         ExpandableText(
-          text: widget.rock.types,
+          text: currentRock.types,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
@@ -1173,7 +1213,7 @@ class _RockViewPageState extends State<RockViewPage>
       icon: AppIcons.monetization,
       body: [
         ExpandableText(
-          text: widget.rock.uses,
+          text: currentRock.uses,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
@@ -1256,9 +1296,9 @@ class _RockViewPageState extends State<RockViewPage>
   void _addToWishlist() async {
     try {
       await DatabaseHelper().addRockToWishlist(
-        widget.rock.rockId,
-        widget.rock.rockImages.isNotEmpty
-            ? widget.rock.rockImages.first.imagePath
+        currentRock.rockId,
+        currentRock.rockImages.isNotEmpty
+            ? currentRock.rockImages.first.imagePath
             : widget.pickedImage?.path,
       );
       if (widget.isFavoritingRock) {
@@ -1292,7 +1332,9 @@ class _RockViewPageState extends State<RockViewPage>
   List<Widget> _buildInfoSectionRock() {
     return <Widget>[
       Text(
-        widget.rock.rockName,
+        currentRock.rockCustomName.isNotEmpty
+            ? currentRock.rockCustomName
+            : currentRock.rockName,
         style: AppTypography.headline1(color: Constants.primaryColor),
       ),
       Text.rich(
@@ -1303,7 +1345,7 @@ class _RockViewPageState extends State<RockViewPage>
               style: AppTypography.body3(color: AppColors.naturalSilver),
             ),
             TextSpan(
-              text: widget.rock.category,
+              text: currentRock.category,
               style: AppTypography.body3(
                 color: AppColors.primaryMedium,
                 decoration: TextDecoration.underline,
@@ -1314,22 +1356,24 @@ class _RockViewPageState extends State<RockViewPage>
         ),
       ),
       const SizedBox(height: 16),
-      _buildInfoSection('Formula', widget.rock.formula),
+      _buildInfoSection('Formula', currentRock.formula),
       _buildInfoSection(
           'Hardness',
-          widget.rock.hardness == 0
+          currentRock.hardness == 0
               ? "The hardness on this rock may vary"
-              : widget.rock.hardness.toString()),
-      _buildInfoSection('Color', widget.rock.color),
+              : currentRock.hardness.toString()),
+      _buildInfoSection('Color', currentRock.color),
       _buildInfoSection(
-          'Magnetic', widget.rock.isMagnetic ? 'Magnetic' : 'Non-magnetic'),
+          'Magnetic', currentRock.isMagnetic ? 'Magnetic' : 'Non-magnetic'),
     ];
   }
 
   List<Widget> _buildDetailsSectionRock() {
     return <Widget>[
       Text(
-        widget.rock.rockName,
+        currentRock.rockCustomName.isNotEmpty
+            ? currentRock.rockCustomName
+            : currentRock.rockName,
         style: AppTypography.headline1(color: Constants.primaryColor),
       ),
       const SizedBox(height: 16),
@@ -1354,7 +1398,7 @@ class _RockViewPageState extends State<RockViewPage>
       // const SizedBox(height: 16),
       // _buildLocationsSection(),
       const SizedBox(height: 16),
-      _buildDescription(widget.rock.description),
+      _buildDescription(currentRock.description),
       const SizedBox(height: 16),
       _buildIdentifySection(),
       const SizedBox(height: 16),
@@ -1364,7 +1408,7 @@ class _RockViewPageState extends State<RockViewPage>
       const SizedBox(height: 16),
       _buildChemicalPropertiesSession(),
       const SizedBox(height: 16),
-      if (widget.rock.healingPropeties.isNotEmpty) ...[
+      if (currentRock.healingPropeties.isNotEmpty) ...[
         _buildHealingSection(),
         const SizedBox(height: 16),
       ],
@@ -1609,14 +1653,14 @@ class _RockViewPageState extends State<RockViewPage>
                                     child: Stack(
                                       clipBehavior: Clip.none,
                                       children: [
-                                        widget.rock.rockImages.isNotEmpty &&
-                                                    widget.rock.rockImages.first
+                                        currentRock.rockImages.isNotEmpty &&
+                                                    currentRock.rockImages.first
                                                             .imagePath !=
                                                         null ||
                                                 _addRockToCollectionService
                                                         .imageNotifier.value !=
                                                     null ||
-                                                widget.rock.imageURL.isNotEmpty
+                                                currentRock.imageURL.isNotEmpty
                                             ? Container(
                                                 height: 100,
                                                 width: 100,
@@ -1628,7 +1672,7 @@ class _RockViewPageState extends State<RockViewPage>
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
-                                                  child: widget.rock.rockImages
+                                                  child: currentRock.rockImages
                                                                   .isNotEmpty &&
                                                               widget
                                                                       .rock
@@ -1648,10 +1692,10 @@ class _RockViewPageState extends State<RockViewPage>
                                                           ),
                                                           fit: BoxFit.cover,
                                                         )
-                                                      : widget.rock.imageURL
+                                                      : currentRock.imageURL
                                                               .isNotEmpty
                                                           ? Image.network(
-                                                              widget.rock
+                                                              currentRock
                                                                   .imageURL,
                                                               fit: BoxFit.cover,
                                                               loadingBuilder:
@@ -2044,7 +2088,8 @@ class _RockViewPageState extends State<RockViewPage>
                             (await DatabaseHelper().getNumberOfRocksSaved()) ??
                                 0;
                         if (numberOfRocksSaved >= 3 &&
-                            !(await PaymentService.checkIfPurchased())) {
+                            !(await PaymentService.checkIfPurchased()) &&
+                            !(await DatabaseHelper().rockExists(currentRock))) {
                           await Navigator.push(
                             context,
                             PageTransition(
@@ -2056,8 +2101,9 @@ class _RockViewPageState extends State<RockViewPage>
                           Navigator.pop(context);
                         } else {
                           if (_formKey.currentState!.validate()) {
-                            await _addRockToCollectionService
-                                .addRockToCollection(widget.rock);
+                            currentRock = (await _addRockToCollectionService
+                                .addRockToCollection(currentRock))!;
+                            setState(() {});
                             if (!widget.isRemovingFromCollection) {
                               Navigator.pushAndRemoveUntil(
                                 context,
@@ -2143,8 +2189,8 @@ class _RockViewPageState extends State<RockViewPage>
               onPressed: () async {
                 try {
                   if (isRemovingFromLoved) {
-                    final imagePath = widget.rock.rockImages.isNotEmpty
-                        ? widget.rock.rockImages.first.imagePath
+                    final imagePath = currentRock.rockImages.isNotEmpty
+                        ? currentRock.rockImages.first.imagePath
                         : null;
                     if (imagePath?.isNotEmpty == true) {
                       if (!(await DatabaseHelper()
@@ -2156,7 +2202,7 @@ class _RockViewPageState extends State<RockViewPage>
                       }
                     }
                     await DatabaseHelper()
-                        .removeRockFromWishlist(widget.rock.rockId);
+                        .removeRockFromWishlist(currentRock.rockId);
                     if (widget.isUnfavoritingRock) {
                       await Navigator.pushAndRemoveUntil(
                         context,
@@ -2181,9 +2227,9 @@ class _RockViewPageState extends State<RockViewPage>
                     await LovedTabService.instance.loadLovedRocks();
                     setState(() {});
                   } else {
-                    await DatabaseHelper().removeRock(widget.rock.rockId);
+                    await DatabaseHelper().removeRock(currentRock);
 
-                    for (final rockImage in widget.rock.rockImages) {
+                    for (final rockImage in currentRock.rockImages) {
                       if (!(await DatabaseHelper()
                               .imageExistsLoved(rockImage.imagePath!)) &&
                           !(await DatabaseHelper()

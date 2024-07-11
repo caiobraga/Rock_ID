@@ -33,7 +33,8 @@ class AddRockToCollectionService {
   final ValueNotifier<String?> imageNotifier = ValueNotifier(null);
 
   void setRockData(Rock rock, File? pickedImage) {
-    nameController.text = rock.rockName;
+    nameController.text =
+        rock.rockCustomName.isNotEmpty ? rock.rockCustomName : rock.rockName;
     dateController.text = rock.dateAcquired.isEmpty
         ? DateFormat('yyyy/MM/dd').format(DateTime.now().toLocal()).toString()
         : rock.dateAcquired;
@@ -60,9 +61,8 @@ class AddRockToCollectionService {
     unitOfMeasurementNotifier.value = 'inch';
   }
 
-  Future<void> addRockToCollection(Rock rock) async {
+  Future<Rock?> addRockToCollection(Rock rock) async {
     final String name = nameController.text;
-    final String description = notesController.text;
     final String dateAcquired = dateController.text;
     final double cost = double.tryParse(
           costController.text.replaceAll(RegExp(r'[^\d.]'), ''),
@@ -77,8 +77,7 @@ class AddRockToCollectionService {
     final List<RockImage> rockImages = [];
 
     Rock newRock = rock.copyWith(
-      rockName: name,
-      description: description,
+      rockCustomName: name,
       dateAcquired: dateAcquired,
       cost: cost,
       locality: locality,
@@ -87,6 +86,7 @@ class AddRockToCollectionService {
       height: height,
       notes: notes,
       unitOfMeasurement: unitOfMeasurement,
+      isAddedToCollection: true,
     );
 
     if (imageNotifier.value != null) {
@@ -152,8 +152,10 @@ class AddRockToCollectionService {
       }
 
       await HomePageService.instance.notifyTotalValues();
+      return newRock;
     } catch (e) {
       debugPrint(e.toString());
+      return null;
     }
   }
 

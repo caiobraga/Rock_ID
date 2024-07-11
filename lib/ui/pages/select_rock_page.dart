@@ -27,35 +27,37 @@ class _SelectRockPageState extends State<SelectRockPage> {
   @override
   void initState() {
     super.initState();
-
-    final repeatedRockList = Rock.rockList;
-    repeatedRockList.sort((a, b) => a.rockId.compareTo(b.rockId));
-    final Set<String> rockNamesSet = {};
-    for (final rock in repeatedRockList) {
-      if (!rockNamesSet.contains(rock.rockName)) {
-        _filteredRockList.add(rock);
-        rockNamesSet.add(rock.rockName);
+    DatabaseHelper().incrementDefaultRockList(Rock.rockList).then((rockList) {
+      final repeatedRockList = rockList;
+      repeatedRockList.sort((a, b) => a.rockId.compareTo(b.rockId));
+      final Set<String> rockNamesSet = {};
+      for (final rock in repeatedRockList) {
+        if (!rockNamesSet.contains(rock.rockName)) {
+          _filteredRockList.add(rock);
+          rockNamesSet.add(rock.rockName);
+        }
       }
-    }
 
-    _rockList = _filteredRockList;
+      _rockList = _filteredRockList;
 
-    if (widget.isFavoritingRock) {
-      _filterFavoritedRocks();
-    }
+      if (widget.isFavoritingRock) {
+        _filterFavoritedRocks();
+      }
 
-    _sortCollectionRocks();
+      _sortCollectionRocks();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        _searchRocks.requestFocus();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(const Duration(milliseconds: 300), () {
+          _searchRocks.requestFocus();
+        });
       });
     });
   }
 
   void _sortCollectionRocks() async {
     // Recupera todas as rochas da coleção do banco de dados
-    final collectionRocks = await DatabaseHelper().findAllRocks();
+    final collectionRocks = (await DatabaseHelper().findAllRocks())
+        .where((element) => element.isAddedToCollection);
 
     // Extrai os nomes das rochas da coleção
     final collectionRockNames =
@@ -168,9 +170,14 @@ class _SelectRockPageState extends State<SelectRockPage> {
                     }
 
                     return RockListItem(
+                      imagePath: rock.rockImages.isNotEmpty
+                          ? rock.rockImages.first.imagePath
+                          : null,
                       imageUrl: rockDefaultImage[
                           'img1'], // Use a placeholder image if none available
-                      title: rock.rockName,
+                      title: rock.rockCustomName.isNotEmpty
+                          ? rock.rockCustomName
+                          : rock.rockName,
                       tags: const [
                         'Sulfide minerals',
                         'Mar',
@@ -192,7 +199,9 @@ class _SelectRockPageState extends State<SelectRockPage> {
     bool isRemovingFromCollection = false;
     final allRocks = await DatabaseHelper().findAllRocks();
     if (allRocks
-        .where((rockFromAll) => rockFromAll.rockName == rock.rockName)
+        .where((rockFromAll) =>
+            rockFromAll.rockName == rock.rockName &&
+            rockFromAll.isAddedToCollection)
         .isNotEmpty) {
       isRemovingFromCollection = true;
     }

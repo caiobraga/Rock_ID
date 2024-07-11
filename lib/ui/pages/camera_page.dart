@@ -45,6 +45,7 @@ class _CameraPageState extends State<CameraPage> {
   Timer? _loadingTimer;
   bool _flashOn = false;
   bool _loadingDismissed = true;
+  bool _isLoadingRockPrice = false;
 
   Rock? _rock;
   File? _image;
@@ -437,6 +438,13 @@ class _CameraPageState extends State<CameraPage> {
                                           fontSize: 16,
                                         ),
                                       ),
+                                      const Expanded(
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            color: Constants.primaryColor,
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -656,18 +664,18 @@ class _CameraPageState extends State<CameraPage> {
       await scanningFunction();
       if (!_loadingDismissed) {
         if (_rock != null) {
+          String timestamp = DateTime.now().toIso8601String();
+          await DatabaseHelper().addRockToSnapHistory(
+            _rock!.rockId,
+            timestamp,
+            _image?.path,
+          );
           userHistory['numberOfRocksScanned']++;
           await storage.write(
               key: 'userHistory', value: jsonEncode(userHistory));
           await HomePageService.instance.notifyTotalValues();
 
           if (widget.isScanningForRockDetails) {
-            String timestamp = DateTime.now().toIso8601String();
-            await DatabaseHelper().addRockToSnapHistory(
-              _rock!.rockId,
-              timestamp,
-              _image?.path,
-            );
             _showRockDetails(navigator);
             return;
           }
@@ -707,7 +715,6 @@ class _CameraPageState extends State<CameraPage> {
 
   void _showSelectRockDetailsBottomSheet() {
     bool _isChoosingRockForm = true;
-    bool _isLoadingRockPrice = false;
 
     showModalBottomSheet(
       context: context,
@@ -764,9 +771,6 @@ class _CameraPageState extends State<CameraPage> {
                                                 _chosenRockSize);
 
                                         if (mounted) {
-                                          setState(() {
-                                            _isLoadingRockPrice = false;
-                                          });
                                           _showRockDetails(navigator,
                                               rockPriceResponse: response);
                                         }
@@ -910,9 +914,6 @@ class _CameraPageState extends State<CameraPage> {
                                                   _showRockDetails(navigator,
                                                       rockPriceResponse:
                                                           response);
-                                                  setState(() {
-                                                    _isLoadingRockPrice = false;
-                                                  });
                                                 }
                                               } catch (e) {
                                                 ShowSnackbarService()
@@ -951,7 +952,10 @@ class _CameraPageState extends State<CameraPage> {
 
       bool isRemovingFromCollection = false;
       final allRocks = await DatabaseHelper().findAllRocks();
-      if (allRocks.where((rock) => rock.rockId == _rock?.rockId).isNotEmpty) {
+      if (allRocks
+          .where((rock) =>
+              rock.rockId == _rock?.rockId && rock.isAddedToCollection)
+          .isNotEmpty) {
         isRemovingFromCollection = true;
       }
 
@@ -965,6 +969,9 @@ class _CameraPageState extends State<CameraPage> {
               ),
               type: PageTransitionType.fade))
           .then((value) {
+        setState(() {
+          _isLoadingRockPrice = false;
+        });
         if (Navigator.of(context).canPop()) {
           Navigator.of(context).pop();
         }

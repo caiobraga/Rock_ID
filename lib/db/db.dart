@@ -27,7 +27,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 26,
+      version: 30,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -40,6 +40,7 @@ class DatabaseHelper {
         price REAL,
         category TEXT,
         rockName TEXT,
+        rockCustomName TEXT,
         size TEXT,
         rating INTEGER,
         humidity REAL,
@@ -59,7 +60,21 @@ class DatabaseHelper {
         width REAL,
         height REAL,
         notes TEXT,
-        unitOfMeasurement TEXT
+        unitOfMeasurement TEXT,
+        healthRisks TEXT,
+        crystalSystem TEXT,
+        colors TEXT,
+        luster TEXT,
+        diaphaneity TEXT,
+        quimicalClassification TEXT,
+        elementsListed TEXT,
+        healingPropeties TEXT,
+        formulation TEXT,
+        meaning TEXT,
+        howToSelect TEXT,
+        types TEXT,
+        uses TEXT,
+        isAddedToCollection INTEGER DEFAULT 0
       )
     ''');
 
@@ -106,7 +121,11 @@ class DatabaseHelper {
   Future<int?> getNumberOfRocksSaved() async {
     final db = await database;
     return firstIntValue(
-      await db.query('rocks', columns: ['COUNT(*)']),
+      await db.query(
+        'rocks',
+        columns: ['COUNT(*)'],
+        where: 'isAddedToCollection = true',
+      ),
     );
   }
 
@@ -178,21 +197,45 @@ class DatabaseHelper {
     }
   }
 
-  Future<void> removeRock(int rockId) async {
+  Future<void> removeRock(
+    Rock rock, {
+    bool isRemovingFromCollections = true,
+  }) async {
     try {
       final db = await database;
+      bool removeRock = false;
 
-      await db.delete(
-        'rock_images',
-        where: 'rockId = ?',
-        whereArgs: [rockId],
-      );
+      if (isRemovingFromCollections) {
+        rock = rock.copyWith(isAddedToCollection: false);
+        await db.update(
+          'rocks',
+          rock.toMap(),
+          where: 'rockId = ?',
+          whereArgs: [rock.rockId],
+        );
+      }
 
-      await db.delete(
-        'rocks',
-        where: 'rockId = ?',
-        whereArgs: [rockId],
-      );
+      for (final defaultRock in Rock.rockList) {
+        if (defaultRock.rockId == rock.rockId) {
+          debugPrint('REMOVEU PEDRA!!!');
+          removeRock = true;
+          break;
+        }
+      }
+
+      if (removeRock) {
+        await db.delete(
+          'rock_images',
+          where: 'rockId = ?',
+          whereArgs: [rock.rockId],
+        );
+
+        await db.delete(
+          'rocks',
+          where: 'rockId = ?',
+          whereArgs: [rock.rockId],
+        );
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -310,5 +353,26 @@ class DatabaseHelper {
     }
 
     return false;
+  }
+
+  Future<List<Rock>> incrementDefaultRockList(List<Rock> rockList) async {
+    // Busca a lista de todas as rochas no banco de dados
+    List<Rock> dbRockList = await findAllRocks();
+
+    // Cria uma nova lista que é uma cópia da lista original passada como parâmetro
+    final rockListIncremented = List<Rock>.from(rockList);
+
+    // Filtra a lista de rochas do banco de dados, excluindo aquelas que já estão na lista original
+    dbRockList = dbRockList
+        .where((dbRock) => rockList
+            .where((defaultRock) => defaultRock.rockId == dbRock.rockId)
+            .isEmpty)
+        .toList();
+
+    // Adiciona as rochas filtradas à nova lista
+    rockListIncremented.addAll(dbRockList);
+
+    // Retorna a nova lista
+    return rockListIncremented;
   }
 }

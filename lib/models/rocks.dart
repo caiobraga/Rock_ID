@@ -10,10 +10,11 @@ class Rock {
   final String temperature;
   final String category;
   final String rockName;
+  final String rockCustomName;
   final String imageURL;
-  bool isFavorited;
+  final bool isFavorited;
   final String description;
-  bool isSelected;
+  final bool isSelected;
   final String formula;
   final double hardness;
   final String color;
@@ -21,7 +22,6 @@ class Rock {
 
   //add fields
   final String healthRisks;
-  final List<Map<String, String>> askedQuestions;
   final String crystalSystem;
   final String colors;
   final String luster;
@@ -45,12 +45,14 @@ class Rock {
   final String notes;
   final String unitOfMeasurement;
   final List<RockImage> rockImages;
+  final bool isAddedToCollection;
 
   Rock({
     required this.rockId,
     required this.price,
     required this.category,
     required this.rockName,
+    this.rockCustomName = '',
     required this.size,
     required this.rating,
     required this.humidity,
@@ -64,7 +66,6 @@ class Rock {
     required this.color,
     required this.isMagnetic,
     required this.healthRisks,
-    required this.askedQuestions,
     required this.crystalSystem,
     required this.colors,
     required this.luster,
@@ -86,6 +87,7 @@ class Rock {
     this.unitOfMeasurement = '',
     this.width = 0.0,
     this.rockImages = const [],
+    this.isAddedToCollection = false,
   });
 
   factory Rock.empty() => Rock(
@@ -106,7 +108,6 @@ class Rock {
         color: '',
         isMagnetic: false,
         healthRisks: '',
-        askedQuestions: [],
         crystalSystem: '',
         colors: '',
         luster: '',
@@ -127,6 +128,7 @@ class Rock {
       'price': price,
       'category': category,
       'rockName': rockName,
+      'rockCustomName': rockCustomName,
       'size': size,
       'rating': rating,
       'humidity': humidity,
@@ -139,6 +141,19 @@ class Rock {
       'hardness': hardness,
       'color': color,
       'isMagnetic': isMagnetic ? 1 : 0,
+      'healthRisks': healthRisks,
+      'crystalSystem': crystalSystem,
+      'colors': colors,
+      'luster': luster,
+      'diaphaneity': diaphaneity,
+      'quimicalClassification': quimicalClassification,
+      'elementsListed': elementsListed,
+      'healingPropeties': healingPropeties,
+      'formulation': formulation,
+      'meaning': meaning,
+      'howToSelect': howToSelect,
+      'types': types,
+      'uses': uses,
       'cost': cost,
       'dateAcquired': dateAcquired,
       'height': height,
@@ -147,6 +162,7 @@ class Rock {
       'notes': notes,
       'unitOfMeasurement': unitOfMeasurement,
       'width': width,
+      'isAddedToCollection': isAddedToCollection ? 1 : 0,
     };
   }
 
@@ -157,6 +173,7 @@ class Rock {
       price: map['price'] ?? 0,
       category: map['category'] ?? '',
       rockName: map['rockName'] ?? '',
+      rockCustomName: map['rockCustomName'] ?? '',
       size: map['size'] ?? '',
       rating: map['rating'] ?? 0,
       humidity: map['humidity'] ?? 0,
@@ -170,7 +187,6 @@ class Rock {
       color: map['color'] ?? '',
       isMagnetic: (map['isMagnetic'] ?? 0) == 1,
       healthRisks: map['healthRisks'] ?? '',
-      askedQuestions: map['askedQuestions'] ?? [],
       crystalSystem: map['crystalSystem'] ?? '',
       colors: map['colors'] ?? '',
       luster: map['luster'] ?? '',
@@ -191,6 +207,7 @@ class Rock {
       notes: map['notes'] ?? '',
       unitOfMeasurement: map['unitOfMeasurement'] ?? '',
       width: map['width'] ?? 0.0,
+      isAddedToCollection: (map['isAddedToCollection'] ?? 0) == 1,
     );
   }
 
@@ -2000,7 +2017,8 @@ class Rock {
           "https://www.virtualmicroscope.org/sites/default/files/du9904b-Img17761.jpg",
       "cmi2":
           "https://www.virtualmicroscope.org/sites/default/files/hero-du13843a-Img24696.jpg",
-      "cmi3": 'https://ars.els-cdn.com/content/image/3-s2.0-B9780128179789000056-f04-026-9780128179789.jpg',
+      "cmi3":
+          'https://ars.els-cdn.com/content/image/3-s2.0-B9780128179789000056-f04-026-9780128179789.jpg',
       "rockId": 150
     },
     {
@@ -3338,7 +3356,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of granite dust can cause health issues, use appropriate protection during cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic/Triclinic',
       colors: 'Grey, Pink, White',
       luster: 'Vitreous, sometimes glossy',
@@ -3375,7 +3392,6 @@ class Rock {
       color: 'White, Light Grey',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem:
           'No specific crystal system as Aplite is a rock, not a mineral',
       colors: 'White, Light Grey',
@@ -3413,7 +3429,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling basalt dust may cause discomfort in the chest, shortness of breath, and coughing.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to its glassy nature',
       colors: 'Grey, Black',
       luster: 'Vitreous to Dull',
@@ -3450,7 +3465,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Breathing in volcanic ash and gases can be hazardous to health, particularly for people with breathing difficulties',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'dark gray, black',
       luster: 'Vitreous to dull',
@@ -3490,7 +3504,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to rock dusts, including those from Basaltic Trachyandesite, can lead to silicosis or other lung diseases. However, this is primarily of concern for people working with the rock on a frequent basis, such as miners or stone cutters.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'dark grey, black',
       luster: 'Vitreous',
@@ -3526,7 +3539,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While typically not dangerous, always wash hands after handling. Avoid inhaling dust when breaking or grinding the rock.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as Mugearite is a rock, not a mineral',
       colors: 'Grayish, Dark gray',
       luster: 'Vitreous to dull',
@@ -3564,7 +3576,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks associated with general handling and exposure. As with all rocks, dust created from chiseling or crushing should not be inhaled due to silica content.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable (Volcanic rock is not crystalline)',
       colors: 'Dark with common hues of brownish, greenish, or gray',
       luster: 'Typically dull to vitreous',
@@ -3604,7 +3615,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, but caution should be taken when handling any rock or mineral to avoid accidental ingestion or inhalation of dust.',
-      askedQuestions: [],
       crystalSystem: 'Isometric and Monoclinic',
       colors: 'blue, grey, white',
       luster: 'Vitreous to greasy',
@@ -3641,7 +3651,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with this rock, though fine particulates could irritate the eyes or respiratory system.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable; Boninite is an igneous rock not a mineral',
       colors: 'Dark green, light green',
@@ -3681,7 +3690,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dacite dust can potentially cause silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the minerals within',
       colors: 'Light grey, black',
       luster: 'Vitreous',
@@ -3718,7 +3726,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risk, However, Always wash your hands after handling. Do not ingest or inhale dust.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'Dark Grey to Black',
       luster: 'Subvitreous to Dull',
@@ -3756,7 +3763,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks unless ground into dust and inhaled which can potentially trigger silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it is a rock',
       colors: 'Grey, dark-grey, black-greenish',
       luster: 'Dull to grainy with sporadic parts pearly or vitreous',
@@ -3794,7 +3800,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are generally no health risks associated with Essexite unless it is ground into dust and inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'dark grey-black',
       luster: 'Vitreous to dull',
@@ -3834,7 +3839,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks, however, inhaling dust from any rock or mineral could potentially lead to respiratory problems.',
-      askedQuestions: [],
       crystalSystem:
           'Variable based on mineral composition, usually Triclinic or Hexagonal',
       colors: 'Grey, brown, black, cream',
@@ -3873,7 +3877,6 @@ class Rock {
       color: 'Dark green, black',
       isMagnetic: false,
       healthRisks: 'No known health risks associated directly with Gabbro.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable as gabbro is a rock, not a mineral ( Hence not having a specific crystal structure).',
       colors: 'Dark green, black',
@@ -3913,7 +3916,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Workplace hazard for those inhaling dusts, especially during quarrying and processing due to crystalline silica content.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'White, Pink, Gray',
       luster: 'Vitreous to grainy',
@@ -3950,7 +3952,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, but cause irritation when dust is inhaled',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it is a rock, not a mineral',
       colors: 'Dark Gray, Flesh Red, Light Gray, Red, White',
       luster: 'Vitreous to dull',
@@ -3987,7 +3988,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated, but like all rocks, should not be inhaled as dust',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable to rocks. true for individual mineral crystals',
       colors: 'grey, pink, white',
@@ -4027,7 +4027,6 @@ class Rock {
       color: 'Dark green to black',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark green, black',
       luster: 'Vitreous to dull',
@@ -4066,7 +4065,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, though long-term exposure to rock dust could lead to lung problems.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Grey',
       luster: 'Vitreous',
@@ -4105,7 +4103,6 @@ class Rock {
       color: 'Grey, pink, yellow, light green',
       isMagnetic: false,
       healthRisks: 'Long-term exposure to the dust can cause lung problems',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it is an igneous rock',
       colors: 'Grey, pink, yellow, light green',
       luster: 'Matte to vitreous',
@@ -4142,7 +4139,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks noted, but as with any rock dust, should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Does not form in crystals',
       colors: 'White, Gray',
       luster: 'Vitreous to Dull',
@@ -4180,7 +4176,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known specific health risks associated with this mineral, but handling it should be done with care.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as Kimberlite is made up of a variety of minerals rather than a single crystal structure.',
       colors: 'Gray, Green, Blue',
@@ -4219,7 +4214,6 @@ class Rock {
           'Light Green, dark green, yellowish-green, brownish green, or black',
       isMagnetic: false,
       healthRisks: 'No notable health risks',
-      askedQuestions: [],
       crystalSystem:
           'No crystal structure as Komatiite is a rock, not a mineral',
       colors:
@@ -4260,7 +4254,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, but long-term exposure to rock dust can cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, brown, green-brown',
       luster: 'Vitreous to dull',
@@ -4298,7 +4291,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally safe, but respirable dust can pose a health risk if consistently inhaled over a long period of time',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks such as Latite',
       colors: '',
       luster: '',
@@ -4334,7 +4326,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to granite dust can lead to silicosis, a lung disease caused by inhalation of crystalline silica dust.',
-      askedQuestions: [],
       crystalSystem:
           'N/A - Monzogranite is a rock, not a mineral, so it does not have a crystal system',
       colors: 'Pink, White, Grey',
@@ -4374,7 +4365,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, although dust from cutting or breaking the rock could cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, pink, greenish, often speckled',
       luster: 'Dull to vitreous',
@@ -4414,7 +4404,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Crystalline silica (a component in some igneous rocks) can cause silicosis upon inhalation over a prolonged period. However, under normal handling conditions, Nephelinite does not present significant health risks.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'gray, dark gray, greenish gray',
       luster: 'Vitreous to greasy',
@@ -4453,7 +4442,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, unless powdered norite is inhaled in significant amounts which might lead to respiratory issues.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'dark gray to black',
       luster: 'Sub-vitreous to metallic',
@@ -4489,7 +4477,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Care must be taken while handling Obsidian due to its sharp edges which can cause physical injuries',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, sometimes with white flecks',
       luster: 'Vitreous',
@@ -4529,7 +4516,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, pegmatite is not associated with specific health risks. However, certain types of pegmatite may contain minerals such as uranium or thorium that could potentially be hazardous.',
-      askedQuestions: [],
       crystalSystem: 'Varies based on mineral constituents',
       colors: 'Various',
       luster: 'Varies based on mineral constituents',
@@ -4568,7 +4554,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks associated with handling phonolite. However, as with all rocks and dusts, inhaling fine-grained dust could lead to respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, Green, White',
       luster: 'Vitreous to Dull',
@@ -4606,7 +4591,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of rock dust can cause respiratory problems. Prolonged exposure can lead to lung disorders such as silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Prismatic',
       colors: 'Gray, brown, green',
       luster: 'Vitreous to dull',
@@ -4644,7 +4628,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known general health risks associated with this rock. However, always wash hands after handling',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic (olivine)',
       colors: 'dark green, black',
       luster: 'Vitreous',
@@ -4683,7 +4666,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks. However, dust from cutting or grinding can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as it pertains to individual mineral crystals within the rock',
       colors: 'Pink, red, or purple',
@@ -4725,7 +4707,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of fine pumice dust can be harmful to lungs and eyes. It is recommended to handle it with care.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'White, gray, cream, light blue',
       luster: 'Vitreous to dull',
@@ -4765,7 +4746,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Regular exposure may cause lung issues due to inhalation of mineral dust. Always use safety measures when handling in a powdered form.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Light Grey, Dark Grey, Black',
       luster: 'Vitreous to Dull',
@@ -4804,7 +4784,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continuous inhalation of dust may cause health issues like silicosis, but it is not a significant concern unless the rock is being cut or ground.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Light grey, pinkish',
       luster: 'Vitreous to dull',
@@ -4842,7 +4821,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure and inhaling fine particles can cause silicosis, a life-threatening disease',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal or Trigonal',
       colors: 'Clear, Pink, Purple, Grey, White, Black, Green',
       luster: 'Vitreous to greasy',
@@ -4881,11 +4859,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'In general, airborne dust and particles could pose respiratory issues if consistently inhaled.',
-      askedQuestions: [
-        {'What is the mineral composition of Rhyodacite?': ''},
-        {'Where can Rhyodacite be found?': ''},
-        {'Can Rhyodacite be used for construction?': ''}
-      ],
       crystalSystem: 'Varies based on mineral components',
       colors: 'Gray, pale pink, red, brown',
       luster: 'Glassy to pearly',
@@ -4926,7 +4899,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended exposure to finely crushed rhyolite in the form of dust may cause health risks due to the silica content.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable for rocks',
       colors: 'White, Pink, Brown',
       luster: 'Typically dull or earthy, some varieties can be semi-vitreous',
@@ -4966,7 +4938,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks known, but inhaling dust from any rock or mineral can be harmful to the lungs.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'light gray, pink',
       luster: 'Vitreous',
@@ -5006,7 +4977,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with general handling. However, inhalation of rock dust may be harmful and it is advisable to use safety measures.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable because it is an aggregate of numerous minerals with their crystal systems',
       colors: 'Light gray, pink, brown',
@@ -5045,7 +5015,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust can be potentially harmful if inhaled in large quantities over time.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'dark brown, black, purplish red',
       luster: 'Vitreous',
@@ -5083,7 +5052,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks when handled safely. However, respirable dust may pose a health risk through inhalation.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'dark black, brown',
       luster: 'Vitreous',
@@ -5123,7 +5091,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally considered safe, though inhaling dust may lead to health complications similar to inhalation of other rock dust. Always wear personal protective equipment when handling large quantities of rock.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as it is a volcanic rock',
       colors: 'light to dark gray, black',
       luster: 'Matte to vitreous',
@@ -5162,7 +5129,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to rock dust may lead to silicosis, but this is extremely rare and generally associated with prolonged, occupational exposure in quarrying or mining for rocks.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable (Igneous rock)',
       colors: 'white, grey',
       luster: 'Dull to grainy',
@@ -5202,7 +5168,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with handling this rock, though inhaling rock dust can be hazardous to health.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal and Monoclinic',
       colors: 'gray, black, dark brown',
       luster: 'Vitreous to Dull',
@@ -5241,7 +5206,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, but as with any rock, inhalation of dust can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'N/A for igneous rocks',
       colors: 'Light grey to dark grey',
       luster: 'Dull to vitreous',
@@ -5279,7 +5243,6 @@ class Rock {
       color: 'Dark grey to black',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as it pertains to individual minerals within the rock',
       colors: 'Dark grey to black',
@@ -5319,7 +5282,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks in handled or kept appropriately. Chronic and/or substantial inhalation of rock dust may lead to health complications.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, dark gray, brown, black',
       luster: 'Matte to slightly vitreous',
@@ -5358,7 +5320,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks associated except for the dust, like any rock dust, which may cause health issues if continuously inhaled over a long period.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic and Monoclinic',
       colors: 'whitish, grayish',
       luster: 'Vitreous to Dull',
@@ -5397,7 +5358,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like other types of rock dust, prolonged inhalation of tuff dust may pose health risks.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'gray, brown',
       luster: 'Dull',
@@ -5435,7 +5395,6 @@ class Rock {
       color: 'green, gray, brown',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'green, gray, brown',
       luster: 'greasy',
@@ -5472,7 +5431,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continuous inhalation of dust may cause health issues related to the respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Red, Yellow, Light Grey',
       luster: 'Matte',
@@ -5510,7 +5468,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation or ingestion of dust may cause respiratory or digestive issues. Always use proper safety equipment when handling dense mineral rocks.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous, no crystal structure',
       colors: 'Red, black, gray, silver',
       luster: 'Metallic to dull',
@@ -5549,7 +5506,6 @@ class Rock {
           'Most often red, but varies depending on the nature of the sediments',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Most often red, but varies',
       luster: 'Dull to Vitreous',
@@ -5590,7 +5546,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can cause respiratory irritation if inhaled in the form of dust',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, light gray',
       luster: 'Vitreous to dull',
@@ -5627,7 +5582,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure or ingestion can cause irritation in eyes, skin and respiratory tract and could lead to more serious conditions like pneumonia.',
-      askedQuestions: [],
       crystalSystem: 'Rhombohedral',
       colors: 'White',
       luster: 'Earthly or dull',
@@ -5666,7 +5620,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chert dust can be harmful if inhaled. It can cause silicosis, a serious lung disease.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, gray, black, brown, green, red',
       luster: 'Waxy, dull, semi-vitreous',
@@ -5704,7 +5657,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust from claystone can be a health hazard if inhaled in large amounts and over long periods. Prolonged exposure can lead to silicosis.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable as claystone is sedimentary and does not have a crystal structure',
       colors: 'grey, black, red, green, blue, yellow',
@@ -5744,7 +5696,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, although dust can cause irritation to eyes and respiratory system.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as it is a sedimentary rock formed from organic material, not a mineral with a crystal structure.',
       colors: 'pale orange, yellow',
@@ -5785,7 +5736,6 @@ class Rock {
           'Variable- because diamictite can contain various types of rock, it can be many different colors',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem:
           'None- as a sedimentary rock, diamictite does not have a crystal system',
       colors: 'Variable',
@@ -5826,7 +5776,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks known, but some types (e.g., asbestos) can form in evaporite deposits and are hazardous when inhaled',
-      askedQuestions: [],
       crystalSystem: 'Depends on the specific mineral',
       colors: 'White, colorless, red, yellow, blue',
       luster: 'Generally Vitreous to pearly',
@@ -5865,7 +5814,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Working with flint may produce small, sharp fragments that can cause injury. Also, inhaling dust from flint can lead to silicosis, a lung disease.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Grey, black, white, brown, and a rusty red shade',
       luster: 'Waxy',
@@ -5904,7 +5852,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While not known to pose any significant health risks, geyserite can be abrasive to the touch due to its microcrystalline structure.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, light grey, rust',
       luster: 'Dull, earthy to pearly, sometimes vitreous',
@@ -5941,7 +5888,6 @@ class Rock {
       color: 'Grey, green-grey, blue-grey, and occasionally black',
       isMagnetic: false,
       healthRisks: 'No known significant health risks',
-      askedQuestions: [],
       crystalSystem: 'N/A for sedimentary rocks',
       colors: 'Grey, green-grey, blue-grey, black',
       luster: 'Matte to slightly shiny',
@@ -5978,7 +5924,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Protracted inhalation in large quantities can lead to Silicosis',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Brown, beige, grey, white',
       luster: 'Dull to earthy',
@@ -6016,7 +5961,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'If not properly handled, burning lignite can release pollutants in the air which can cause health issues like respiratory problems and also contribute to climate change.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'brown to black',
       luster: 'Earthy',
@@ -6053,7 +5997,6 @@ class Rock {
       color: 'grey, white, brown, yellow, black',
       isMagnetic: false,
       healthRisks: 'Inhalation of limestone dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, white, brown, yellow, black',
       luster: 'Vitreous to pearly',
@@ -6092,7 +6035,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Exposure to dust from mudstone can potentially cause respiratory problems if inhaled over a long period.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'Grey, brown, red, green',
       luster: 'Dull to earthy',
@@ -6129,7 +6071,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Potential health risks associated with oil shale include the release of harmful gases and liquids during oil shale processing, which can harm the respiratory system if inhaled and the circulatory system if ingested.',
-      askedQuestions: [],
       crystalSystem: 'None',
       colors: 'brown, black, green, red',
       luster: 'Dull, Earthy',
@@ -6167,7 +6108,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Respirable dust could pose health issues upon prolonged exposure but normal handling does not pose significant health risks.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'White, pinkish, gray',
       luster: 'Dull to earthy',
@@ -6206,7 +6146,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks, but inhaling sandstone dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Rhombic',
       colors: 'grey, yellow, red, white, pink, black',
       luster: 'Matte, earthy',
@@ -6245,7 +6184,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust may cause health risks, particularly silicosis or other lung conditions. Naturally occurring radioactive materials are common in shale gas formations and may pose a risk with prolonged exposure.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'black, blue, gray, green, red, purple, brown',
       luster: 'Dull, Earthy',
@@ -6285,7 +6223,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extremely fine-grained siltstone can become a respirable dust and impact lung health when disrupted.',
-      askedQuestions: [],
       crystalSystem: 'None',
       colors: 'brown, red, greenish, grey',
       luster: 'Matte',
@@ -6322,7 +6259,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure can cause skin and eye irritation. Inhalation can lead to respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'colorless, white, yellow, red, blue',
       luster: 'Vitreous',
@@ -6362,7 +6298,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'None specifically related to Tillite but inhaling rock dust can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'gray, brown, black, green-brown',
       luster: 'Dull to earthy',
@@ -6401,7 +6336,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust may cause respiratory irritation. Long-term exposure to high dust concentrations may cause pneumoconiosis.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'white, tan, cream-colored, rusty',
       luster: 'Shiny to dull depending on finish',
@@ -6439,7 +6373,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally no health risks, with the exception of those caused by inhalation of dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Grey, Brown, Black, Green, Red',
       luster: 'Earthy',
@@ -6477,7 +6410,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally safe to handle, although dust and small particles may irritate the eyes and respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'Rhombohedral',
       colors: 'grey, greenish, brown, black',
       luster: 'Dull to earthy',
@@ -6516,7 +6448,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of coal dust can cause black lung disease among coal miners. Anthracite dust can be harmful if inhaled and can also cause eyes and skin irritation.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'black, blueish',
       luster: 'Vitreous to sub-metallic',
@@ -6554,7 +6485,6 @@ class Rock {
       color: 'blue to blue-green',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'blue, blue-green',
       luster: 'Vitreous',
@@ -6592,7 +6522,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust can cause irritation to the respiratory system if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, gray, white, green',
       luster: 'Dull to Earthy',
@@ -6628,7 +6557,6 @@ class Rock {
       color: 'Pink, gray, green, blue, brown, black',
       isMagnetic: false,
       healthRisks: 'No major health risks known',
-      askedQuestions: [],
       crystalSystem: 'Isothermal-Isochemical',
       colors: 'Pink, gray, green, blue, brown, black',
       luster: 'Vitreous to sub-adamantine',
@@ -6667,7 +6595,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'May contain asbestos fibers which can cause health problems',
-      askedQuestions: [],
       crystalSystem: 'Crystals rarely occur in hornfels',
       colors: '',
       luster: '',
@@ -6704,7 +6631,6 @@ class Rock {
       color: 'White, pink, green, grey, yellow',
       isMagnetic: false,
       healthRisks: 'No known health risks.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, pink, green, grey, yellow',
       luster: 'Vitreous',
@@ -6741,7 +6667,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling marble dust can cause breathing issues, thus respirators are recommended when working with marble in a dusty environment.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, pink, green, grey, black, brown',
       luster: 'Pearly to vitreous to dull',
@@ -6779,7 +6704,6 @@ class Rock {
       color: 'Gray, pink, white, black, brown',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'Gray, pink, white, black, brown',
       luster: 'Vitreous to dull',
@@ -6817,7 +6741,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally no significant health risks unless pulverized and inhaled as it may contain minerals like quartz and mica which may cause lung issues.',
-      askedQuestions: [],
       crystalSystem: 'Depends on its mineral composition, often monoclinic',
       colors: 'gray, dark gray',
       luster: 'Vitreous to Silky',
@@ -6853,7 +6776,6 @@ class Rock {
       color: 'dark, often black or dark brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated directly with this rock.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Dark Brown',
       luster: 'Vitreous to Dull',
@@ -6893,7 +6815,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can create respirable dust that can cause diseases like silicosis if inhaled over a long period of time in large amounts',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Grey, Pink, Red',
       luster: 'Vitreous and sometimes waxy',
@@ -6930,7 +6851,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Undusturbed schist rocks pose no health risks. However, if the rock is crushed, crystalline silica dust can be produced which can lead to silicosis if inhaled over long periods.',
-      askedQuestions: [],
       crystalSystem: 'Anisotropic (properties vary in different directions)',
       colors: 'brown, green, grey, silver, white',
       luster: 'shiny or dull',
@@ -6969,7 +6889,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Serpentinite may contain chrysotile, a type of asbestos which can cause lung diseases when inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'green, yellow, black, white',
       luster: 'Waxy, greasy, silky',
@@ -7007,7 +6926,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks are associated with handling skarn rocks, though breathing in rock dust should be avoided. Always wash hands after handling rocks.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the specific minerals present',
       colors: 'Red, yellow, dark green, black and more',
       luster:
@@ -7046,7 +6964,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to dust created by cutting or breaking slate can lead to a lung condition called Silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as slate is a metamorphic rock',
       colors: 'gray, blue-gray, green, red, black',
       luster: 'Matte to slightly shiny',
@@ -7083,7 +7000,6 @@ class Rock {
       color: 'Black, gray, brown, sometimes greenish or reddish',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, gray, brown, greenish, reddish',
       luster:
@@ -7122,7 +7038,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chronic inhalation of talc may cause lung damage, and it has been linked to an increased risk of ovarian cancer in some studies.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'White, Gray, Green',
       luster: 'Pearly',
@@ -7159,7 +7074,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust and fibers from soapstone can irritate the lungs and eyes. Although soapstone is composed primarily of talc, it is not associated with the same health risks as talc powder.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, Green, Brown',
       luster: 'Greasy, Dull',
@@ -7197,7 +7111,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Not known to carry any health risks if handled carefully. However, inhaling rock dust may cause health issues, always wear protective gear when handling and crushing rocks.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'White to light grey',
       luster: 'Usually dull to vitreous',
@@ -7236,7 +7149,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Adamellite, like many rocks, may pose health risks due to inhaling dust caused by breaking the rock. It is important to handle with care and use appropriate safety measures.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'white, pink',
       luster: 'Vitreous to dull',
@@ -7274,7 +7186,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risk associated with handled and/or in a normal state. Inhalation of dust may pose health risks.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Greenish-grey, grey',
       luster: 'Vitreous to dull',
@@ -7312,7 +7223,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No notable health risks unless ground into a fine powder to potentially cause silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'Greenish, black, brown',
       luster: 'Vitreous to dull',
@@ -7352,7 +7262,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, epidosite is not considered to be hazardous. However, like with all rocks and minerals, precautions should be taken when handling raw specimens or inhaling dust.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Green, grey-green',
       luster: 'Vitreous to pearly',
@@ -7390,7 +7299,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to dust can lead to silicosis, a serious lung disease. Always use personal protective equipment when handling',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as felsite is amorphous (lacks a crystal structure)',
       colors: '',
@@ -7430,7 +7338,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can cause silicosis if inhaled. The sharp edges of broken flint can also pose a risk of physical injury.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Dark grey, black, dark brown, yellow, white',
       luster: 'Waxy to glassy',
@@ -7468,7 +7375,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term inhalation may cause silicosis, a severe respiratory disease. Use appropriate personal protective equipment to avoid dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'whitish-grey',
       luster: 'Dull, earthy',
@@ -7505,7 +7411,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks associated with this rock, although sharp edges could cause injury.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: '',
       luster: '',
@@ -7545,7 +7450,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock, long-term exposure to dust may damage the respiratory system',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as Ijolite is a rock not a mineral',
       colors: 'grey, pink, white',
       luster: 'Vitreous to dull',
@@ -7584,7 +7488,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks if handled properly. Dust from rocks and minerals can be harmful if inhaled excessively.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'white, gray, pink',
       luster: 'Vitreous',
@@ -7621,7 +7524,6 @@ class Rock {
       color: 'Blue, Pink, Grey to Dark Brown',
       isMagnetic: false,
       healthRisks: 'No known significant health risks associated with Llanite.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Blue, Pink, Grey to Dark Brown',
       luster: 'Vitreous',
@@ -7660,7 +7562,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Granite rocks can contain naturally occurring radioactive elements like radon gas which can emanate to the surroundings. Long-term exposure in tight spaces can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic (Tourmaline Crystals)',
       colors: 'Black, white, green, red, grey',
       luster: 'Vitreous to Greasy',
@@ -7700,7 +7601,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Risk from inhalation of dust during rock breaking or cutting. Can lead to lung problems if not properly handled.',
-      askedQuestions: [],
       crystalSystem: 'Not Applicable',
       colors: 'White, gray, pink',
       luster: 'Vitreous to dull',
@@ -7737,7 +7637,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dust generated by the cutting or grinding of novaculite can cause silicosis.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as novaculite is not a mineral but a sedimentary rock',
       colors: 'white, gray, black, banded',
@@ -7776,7 +7675,6 @@ class Rock {
       color: 'Brown, blue, gold',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Brown, blue, gold',
       luster: 'Silky',
@@ -7813,7 +7711,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks known as it is mostly theoretical and not typically handled directly.',
-      askedQuestions: [],
       crystalSystem: 'Isometric - Hexoctahedral',
       colors: 'Greenish',
       luster: 'Vitreous',
@@ -7851,7 +7748,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to granite dust can lead to silicosis. However, typical handling doesn’t expose people to such risk',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, pink, red, brown',
       luster: 'Vitreous to dull',
@@ -7888,7 +7784,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, there are no health risks associated with Rhomb porphyry. However, breathing rock dust can be harmful. Therefore, care should be taken when cutting or grinding this rock.',
-      askedQuestions: [],
       crystalSystem: 'Varies based on constituent minerals',
       colors: '',
       luster: '',
@@ -7925,7 +7820,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Rodingite itself is generally not harmful, but any dust produced during cutting or shaping should not be inhaled due to potential respiratory hazard.',
-      askedQuestions: [],
       crystalSystem: 'Isometric and Monoclinic',
       colors: 'green, grey, white',
       luster: 'Vitreous',
@@ -7963,7 +7857,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this rock.',
-      askedQuestions: [],
       crystalSystem: 'Undefined due to variable composition',
       colors: 'dark gray to black',
       luster: 'dull or earthy luster',
@@ -8001,7 +7894,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Care should be taken when handling Tachylite. Long-term exposure to the dust can be harmful when inhaled over a long period of time.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'black, dark brown',
       luster: 'Vitreous',
@@ -8039,7 +7931,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'As with any rock, improper handling or inhalation of dust can pose health risks. However, there are no unique health risks associated with Teschenite.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Dark gray, black',
       luster: 'Vitreous to dull',
@@ -8077,7 +7968,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, Theralite is not associated with significant health risks. However, prolonged and unprotected exposure to dust from any type of rock may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Dark gray to black, often with a greenish hue',
       luster: 'Vitreous to greasy',
@@ -8116,7 +8006,6 @@ class Rock {
           'Mixture of colours due to varying composition, predominantly green, grey, depepends on nodules',
       isMagnetic: false,
       healthRisks: 'Low unless ground to dust (silicosis risk)',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it is not a mineral but a rock',
       colors: 'Depends on nodules which may vary in composition',
       luster: 'Typically dull to earthy',
@@ -8155,7 +8044,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known standard health risks, but inhaling rock dust can cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark greenish-black, brown',
       luster: 'Silky to vitreous',
@@ -8194,7 +8082,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Wad can include species with pyrolusite, which has been associated with manganism, a neurodegenerative disorder following excessive manganese exposure.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, brown, green',
       luster: 'Dull, earthy',
@@ -8236,7 +8123,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, general rules of handling rocks and minerals should be followed',
-      askedQuestions: [],
       crystalSystem: 'N/A for rocks',
       colors: 'gray, green, brown',
       luster: 'Vitreous',
@@ -8274,7 +8160,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Minimal; however, consistent inhalation of rock dust could lead to respiratory problems.',
-      askedQuestions: [],
       crystalSystem:
           'Variable, but often includes pyroxene and plagioclase crystals',
       colors: 'Dark to light gray, often with a greenish hue',
@@ -8314,7 +8199,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, prolonged exposure to rock dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, green, blue, white',
       luster: 'Vitreous to dull',
@@ -8352,7 +8236,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Aplite does not pose any immediate health risks. Prolonged exposure to dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'light gray, white',
       luster: 'Vitreous to Silky',
@@ -8389,7 +8272,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to finely ground basalt dust may cause lung issues due to crystalline silica content.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it consists of small minerals',
       colors: 'Black, Grey',
       luster: 'Vitreous to Dull',
@@ -8426,7 +8308,6 @@ class Rock {
       color: 'Grey to black',
       isMagnetic: false,
       healthRisks: 'Long term exposure to rock dust may cause lung problems.',
-      askedQuestions: [],
       crystalSystem: 'No distinct crystals visible',
       colors: 'Gray, Black',
       luster: 'Vitreous',
@@ -8464,7 +8345,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with most rocks, the primary health risk involves inhalation of dust during collection or sample preparation which can cause lung damage.',
-      askedQuestions: [],
       crystalSystem: 'Unavailable',
       colors: 'Dark, black, brown',
       luster: 'Vitreous to Dull',
@@ -8503,7 +8383,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with proper handling of shoshonite.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Black, grey',
       luster: 'Dull to vitreous',
@@ -8541,7 +8420,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks when handled properly, however, dust produced from boninite can be harmful if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Grey, Brown',
       luster: 'Vitreous',
@@ -8581,7 +8459,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock, dust inhalation during crushing and grinding carries health risks, particularly if the rock contains potentially harmful minerals. Prolonged exposure can lead to lung conditions such as silicosis or other respiratory conditions.',
-      askedQuestions: [],
       crystalSystem:
           'Trigonal and/or Rhombohedral, depending on the primary carbonate mineral present (typically calcite or dolomite)',
       colors: '',
@@ -8621,7 +8498,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, Charnockite is safe to handle but inhaling dust from any type of rock could cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isomorphic',
       colors: 'Dark grey, green, blue',
       luster: 'Vitreous',
@@ -8659,7 +8535,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhabitation with respirable crystalline silica (dust) may lead to silicosis or other lung diseases. Always use appropriate safety measures when handling.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as dacite is a rock composed of a variety of minerals',
       colors: 'Grey, Black',
@@ -8698,7 +8573,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No known specific health risks associated with diabase.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable since it is a rock, a composition of multiple minerals.',
       colors: 'dark gray, black',
@@ -8736,7 +8610,6 @@ class Rock {
       color: 'grey to dark-grey, occasionally black',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as diorite is not lead to a single crystal system',
       colors: 'grey, dark-grey, black',
@@ -8775,7 +8648,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No specific health risks known.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black',
       luster: 'Vitreous to dull',
@@ -8813,7 +8685,6 @@ class Rock {
       color: 'Dark green, black',
       isMagnetic: false,
       healthRisks: 'Can generate radon gas, a health hazard when inhaled',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Dark green, black',
       luster: 'Dull to slightly metallic',
@@ -8850,7 +8721,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of dust could cause lung issues, although this is not a common concern.',
-      askedQuestions: [],
       crystalSystem: 'Tetragonal',
       colors: 'light to dark gray',
       luster: 'Vitreous to dull',
@@ -8886,7 +8756,6 @@ class Rock {
       color: 'Often light in color, but can vary',
       isMagnetic: false,
       healthRisks: 'No notable health risks associated with granophyre',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable - Granophyre lacks a specific crystal structure due to its micrographic intergrowths.',
       colors: '',
@@ -8926,7 +8795,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with normal contact with Harzburgite.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Greenish, yellowish, brownish-black',
       luster: 'Dull or greasy',
@@ -8965,7 +8833,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with hornblendite. However, as with any rock or mineral, dust generated from cutting or breaking should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'black, dark brown, green',
       luster: 'Vitreous to dull',
@@ -9004,7 +8871,6 @@ class Rock {
       color: 'Black to dark gray',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'Isothermic',
       colors: '',
       luster: '',
@@ -9043,7 +8909,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended exposure to or inhalation of volcanic ash can be harmful',
-      askedQuestions: [],
       crystalSystem:
           'No specific crystal system – non-crystalline rock due to rapid cooling',
       colors: 'White, Grey, Pink, Yellow, Dark-Coloured',
@@ -9081,7 +8946,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks identified. Typical risks associated with rock dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Gray, yellow, green, pink',
       luster: 'Vitreous',
@@ -9117,7 +8981,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no particular health risks associated with komatiite, but like any rock or dust particle, prolonged inhalation of fine particles can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'N/A for rocks, applies to minerals',
       colors: 'green, yellow-green, mottled green and yellow',
       luster: 'Glossy to dull',
@@ -9156,7 +9019,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risk is associated with lamprophyres. However, like any rock, dust produced from crushing or cutting should not be inhaled.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as lamprophyre is a rock not a single mineral',
       colors: 'Dark, black, brown, occasionally greenish',
@@ -9194,7 +9056,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks associated with this rock',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, dark grey, greenish, reddish',
       luster: 'Matte',
@@ -9232,7 +9093,6 @@ class Rock {
           'greyish to white, with a possible tint of pink due to potassium feldspar',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'greyish, white, pink',
       luster: 'Vitreous to dull',
@@ -9270,7 +9130,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock or mineral, dust can be harmful if inhaled and prolonged exposure could potentially lead to silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'gray, brown, green, pink, black',
       luster: 'Dull to Vitreous',
@@ -9308,7 +9167,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As it is low in free silica compared to feldspathic rock, it has a significantly reduced respiratory health risk.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, light grey, greenish, reddish',
       luster: 'Vitreous to greasy',
@@ -9347,7 +9205,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'This rock does not inherently present health risks. However, inhalation of rock dust can be harmful and proper precautions should be taken while handling.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, greenish gray, light brown',
       luster: 'Vitreous to dull',
@@ -9385,7 +9242,6 @@ class Rock {
       color: 'Gray, yellow, greenish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Gray, yellow, greenish',
       luster: 'Vitreous',
@@ -9421,7 +9277,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of dust may pose health risks, including silicosis',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks',
       colors: 'Green, Black, White, Pink',
       luster: 'Varies from Vitreous, dull to metallic',
@@ -9459,7 +9314,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended inhalation of pumice dust may cause lung irritation.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, pale yellow, pink, pale-blue, grey',
       luster: 'Vitreous to dull',
@@ -9496,7 +9350,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated unless grinding or breaking it down to dust, which can have bad respiratory effects.',
-      askedQuestions: [],
       crystalSystem: 'Mostly Monoclinic from Amphibole and Biotite components',
       colors: 'grey, dark grey',
       luster: 'Vitreous to dull',
@@ -9534,7 +9387,6 @@ class Rock {
           'gray, pink or red due to a high concentration of feldspar mineral crystals',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'gray, pink, red',
       luster: 'Subvitreous to vitreous',
@@ -9573,7 +9425,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with quartzolite, unless in powdered form which can damage lung tissue if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Clear, white, and a variety depending on inclusions',
       luster: 'Vitreous',
@@ -9611,7 +9462,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, though always take precautions when handling and breaking rock specimens.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'gray, white, pink',
       luster: 'Vitreous',
@@ -9650,7 +9500,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to rock dust can lead to silicosis. However, under normal handling conditions, comendite is not dangerous.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Grey, Light Pink',
       luster: 'Vitreous',
@@ -9689,7 +9538,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No evident health risks associated with handling the rock. As with all rocks, dust can be harmful if inhaled. The rock should be used responsibly in its intended manner.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark gray, black',
       luster: 'Subvitreous to Resinous',
@@ -9728,7 +9576,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks are associated with sovite. However, as with any rock, undue exposure to dust during handling or processing should be prevented.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'White, grey, beige, colorless, pale yellow',
       luster: 'Vitreous',
@@ -9766,7 +9613,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Tachylyte, similar to other volcanic glasses, pose health risks when inhaled, or handled improperly may cause cuts or injury due to its sharp edges.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, dark brown',
       luster: 'Vitreous',
@@ -9806,7 +9652,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with the handling of tephriphonolite, however, inhalation of rock dust can pose health hazards.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, brown, black',
       luster: 'Matte',
@@ -9841,7 +9686,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks identified when handled responsibly. However, constant exposure to dust may cause health issues.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to being a volcanic rock',
       colors: 'Dark gray to black',
       luster: 'Vitreous',
@@ -9879,7 +9723,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, like with any rock or mineral, exposure to dust should be limited.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'grey, dark-grey',
       luster: 'Vitreous to Dull',
@@ -9916,7 +9759,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks associated with this type of rock when used in normal circumstances',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to this category of rock',
       colors: 'gray, brownish-gray',
       luster: 'Vitreous to dull',
@@ -9953,7 +9795,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks. However, prolonged inhalation of any rock dust can potentially cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Dependent on mineral content, often triclinic',
       colors: 'Light colors, pale green, white',
       luster: 'Vitreous to dull',
@@ -9991,7 +9832,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, but fine dust or particles, if inhaled or ingested, may cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark Grey, Black',
       luster: 'Vitreous to Dull',
@@ -10028,7 +9868,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated specifically with Hawaiite. However, like many rocks and minerals, substantial exposure to dust can be harmful when inhaled.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'grey, greenish-grey',
       luster: 'Vitreous to dull',
@@ -10066,7 +9905,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure to dust may lead to Silicosis. Always use a dust mask when handling or cutting rocks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, pink',
       luster: 'Vitreous to dull',
@@ -10102,7 +9940,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with hand specimens. However, dust produced from cutting or crushing may pose risks if inhaled excessively over time.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic/Cubic - Plagioclase (Triclinic)',
       colors: 'Light green, gray',
       luster: 'Vitreous to silky',
@@ -10140,7 +9977,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Trondhjemite. However, inhalation of rock dust can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Creamy white to gray',
       luster: 'Vitreous',
@@ -10178,7 +10014,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of volcanic ash (solidified or not) can lead to health issues such as lung disease or cancer. Always handle with care and use appropriate protection.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'White, Grey, Brown, Yellow',
       luster: 'Dull to Earthy',
@@ -10215,7 +10050,6 @@ class Rock {
       color: 'Grey, dark green, brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and orthorhombic',
       colors: '',
       luster: '',
@@ -10252,7 +10086,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like most rocks and dusts, prolonged inhalation of dust can lead to health problems. But overall, it is not considered particularly toxic',
-      askedQuestions: [],
       crystalSystem:
           'Amorphous lack a crystalline structure, instead being composed of microscopic clay minerals',
       colors: 'gray to black',
@@ -10289,7 +10122,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, but inhalation of rock dust can be detrimental to health',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks',
       colors: 'Red, grey, yellow, orange',
       luster: 'Matte',
@@ -10327,7 +10159,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'No significant health risks are associated with naturally occurring banded iron formations. However, ingestion or inhalation of dust can cause health issues.',
-      askedQuestions: [],
       crystalSystem: 'None, as it is a rock, not a mineral',
       colors: 'Red, reddish brown, grey, black',
       luster: 'Metallic to dull',
@@ -10365,7 +10196,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated but it is important to avoid inhaling dust while handling rocks and minerals, as it could irritate lungs',
-      askedQuestions: [],
       crystalSystem: 'not applicable',
       colors: 'multicolored',
       luster: 'varies from dull to vitreous',
@@ -10404,7 +10234,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to calcarenite dust can potentially cause lung problems due to the inhalation of small particles. Always use dust masks and proper ventilation when handling or working with calcarenite in a confined space or for a prolonged period.',
-      askedQuestions: [],
       crystalSystem: 'Rhombohedral',
       colors: 'white, gray, pink, black',
       luster: 'Dull to earthy',
@@ -10441,7 +10270,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Excessive inhalation can cause lung problems due to the small particulates.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Light Grey',
       luster: 'Dull, Earthy',
@@ -10478,7 +10306,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Risk of silicosis due to inhalation of dust produced when chert is broken, cut, drilled or polished. Always use safety precautions when working with chert.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline or cryptocrystalline',
       colors: 'White, tan, red, green, brown, black, and gray',
       luster: 'Waxy, dull or glossy',
@@ -10515,7 +10342,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Excessive inhalation of clay dust can cause lung disease over a prolonged period. It is advised to avoid inhaling clay dust and use proper respiratory protection while handling.',
-      askedQuestions: [],
       crystalSystem: 'None',
       colors: 'grey, green, brown, red',
       luster: 'Dull',
@@ -10554,7 +10380,6 @@ class Rock {
       color: 'light-coloured, usually tan or yellow',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'light-coloured, usually tan or yellow',
       luster: 'Dull to earthy',
@@ -10592,7 +10417,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'General dust inhalation while handling can cause respiratory discomfort. Therefore, it is advisable to wear a dust mask while handling the rock to mitigate this risk.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as this is not a crystalline material',
       colors: 'Typically grey, but varies based on composition',
       luster: 'Earthy to dull, depends on the types of fragments included',
@@ -10630,7 +10454,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of diatomite can lead to long term lung problems, such as silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, off-white, light grey',
       luster: 'Dull to Earthy',
@@ -10667,7 +10490,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Breathing or handling some types of evaporites can be harmful if they contain harmful substances, always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on the type of mineral',
       colors: 'White, colorless, blue, red, yellow, pink',
       luster: 'Vitreous to dull',
@@ -10704,7 +10526,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust from flint is harmful if inhaled. It can affect the lungs and cause silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark grey, black, brown',
       luster: 'Waxy to dull',
@@ -10741,7 +10562,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks although inhaling silica dust can lead to silicosis. Always handle mineral specimens responsibly.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'White, grey, brown',
       luster: 'Dull to earthy',
@@ -10780,7 +10600,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks, but prolonged inhalation of rock dust can potentially cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black, brown',
       luster: 'Matte or Dull',
@@ -10819,7 +10638,6 @@ class Rock {
       color: 'gray, brown',
       isMagnetic: false,
       healthRisks: 'Inhalation of dust may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'gray, brown',
       luster: 'Matte',
@@ -10856,7 +10674,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with laterite itself, but caution should always be taken when handling any form of rock or soil due to the possibility of inhaling dust particles.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Red, brown',
       luster: 'Earthy',
@@ -10896,7 +10713,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure can cause black lung disease, due to the inhalation of coal dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'brown, black',
       luster: 'Vitreous to Resinous',
@@ -10932,7 +10748,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust could lead to respiratory problems. Prolonged contact could result in skin irritation.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, green, blue, buff',
       luster: 'Dull to earthy',
@@ -10971,7 +10786,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continuous inhalation of dust may cause health issues related to the respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to lack of a crystal structure',
       colors: 'gray, white, pink, brown',
       luster: 'Dull or earthy',
@@ -11010,7 +10824,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Oil shale dust may poses health risks when inhaled, such as lung problems. The extraction process can contaminate water and air posing risks to both animals and humans.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Dark-brown, black',
       luster: 'Dull to slightly shiny',
@@ -11048,7 +10861,6 @@ class Rock {
       color: 'white, gray, brown, yellow',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'white, gray, brown, yellow',
       luster: 'Dull to earthy',
@@ -11086,7 +10898,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Phosphorite dust can irritate the respiratory system when inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal system',
       colors: 'Gray, Brown, Yellow, Red',
       luster: 'Sub-Vitreous, Resinous, Earthy',
@@ -11124,7 +10935,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chronic inhalation of dust can lead to diseases like silicosis, tuberculosis, bronchitis, or lung cancer.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, yellow, red, white, brown, tan',
       luster: 'Matte',
@@ -11163,7 +10973,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Crystalline silica often found in shale dust can pose health risks such as silicosis upon prolonged exposure.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as Shale is not a crystalline mineral',
       colors: 'Grey, brown, black, yellow, green',
       luster: 'Dull',
@@ -11201,7 +11010,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks. However, like many rocks, it should not be ingested or inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'gray, brown, red, green, purple, black, white',
       luster: 'Dull to earthy',
@@ -11238,7 +11046,6 @@ class Rock {
       color: 'Colorless, white, blue or red due to impurities',
       isMagnetic: false,
       healthRisks: 'No significant health risks reported',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless, white, blue, red',
       luster: 'Vitreous',
@@ -11275,7 +11082,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No particularly adverse health risks associated with Tillite, though inhaling rock dust can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'Varies',
       luster: 'Dull to earthy',
@@ -11313,7 +11119,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Potential risk of radon exposure similar to that of other rocks or stones. However, levels are typically low and not a significant concern.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'white, tan, cream, rusty',
       luster: 'Vitreous to glossy',
@@ -11351,7 +11156,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks identified, but dust may cause irritation to eyes or skin.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal-Rhombohedral',
       colors: 'White, grey, brown, black, greenish',
       luster: 'Vitreous to Pearly',
@@ -11390,7 +11194,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to sedimentary dust can potentially cause respiratory issues, but overall, Wackestone is not known to pose significant health risks.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, white, yellow, brownish',
       luster: 'Vitreous to dull',
@@ -11428,7 +11231,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Anthracite dust can be harmful if inhaled, leading to occupational lung diseases such as anthracosis.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black',
       luster: 'Vitreous, Metallic',
@@ -11465,7 +11267,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with many rocks, prolonged inhalation of dust may pose health risks.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous due to the nature of its formation',
       colors: 'Varies greatly depending on the mineral content',
       luster: 'Typically dull',
@@ -11503,7 +11304,6 @@ class Rock {
       color: 'Green, red',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with normal handling',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on composition',
       colors: '',
       luster: '',
@@ -11539,7 +11339,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No intrinsic health risks associated with weathered and handled correctly',
-      askedQuestions: [],
       crystalSystem: 'Highly crystalline',
       colors: 'Grey, Pink',
       luster: 'Vitreous to Submetallic',
@@ -11578,7 +11377,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Due to its hard nature, inhaling hornfels dust generated by drilling or mining may cause lung damage.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as Hornfels is not a mineral but a metamorphic rock with no specific crystal structure.',
       colors: 'Black, brown, green, red, blue, gray',
@@ -11618,7 +11416,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like most rocks, litchfieldite poses no significant health risks unless ground into dust and inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, Pink, Green, Black',
       luster: 'Vitreous to Dull',
@@ -11656,7 +11453,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can cause lung disease and cancer when inhaling its dust during drilling, cutting and grinding.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Pink, Green, Grey, Black, Yellow, Red, Blue',
       luster: 'Vitreous to dull',
@@ -11695,7 +11491,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks from handling the rock itself, but dust created from cutting or breaking can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as this is a rock and not a mineral',
       colors: 'Can range widely in color, depending upon the minerals present',
       luster: 'Subvitrous to dull',
@@ -11734,7 +11529,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally considered safe unless disturbed. If powdered or crushed, it can cause mild lung irritation if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the minerals present',
       colors: 'Varies based on mineral composition',
       luster: 'Often dull to slightly shiny',
@@ -11773,7 +11567,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks are associated with pseudotachylite, but any rock dust can be harmful if inhaled in large amounts.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous, does not possess a crystalline structure',
       colors: 'Dark brown, black',
       luster: 'Vitreous, resembling glass',
@@ -11812,7 +11605,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term over-exposure to dust can potentially lead to Silicosis, a lung disease. It’s crucial to handle quartzite with proper safety gear especially while cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, Pink, Red, Brown, etc. depending on mineral content.',
       luster: 'Vitreous to Dull',
@@ -11850,7 +11642,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with all rocks, prolonged exposure to dust may lead to lung issues if personal protective equipment is not used.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Brown, black, grey, white',
       luster: 'Vitreous to Pearly',
@@ -11888,7 +11679,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When cut or broken, can contain silica which is harmful if inhaled',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'grey, green, red, brown, black',
       luster: 'Dull to slightly metallic',
@@ -11929,7 +11719,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'General rock dust inhalation risks; however, suevite is not specifically associated with any unique health hazards ',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'green, black, gray',
       luster: 'Earthy to Vitreous depending on the components',
@@ -11966,7 +11755,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of talc carbonate dust could lead to serious lung conditions, including cancer. Always handle it with care and avoid dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'White, grey, green, brown',
       luster: 'Pearly',
@@ -12004,7 +11792,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When cut or polished, soapstone can release talc, a substance which can cause respiratory issues when inhaled. Therefore, suitable protective measures should be taken when working with soapstone.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, green, brown.',
       luster: 'Greasy or waxy',
@@ -12043,7 +11830,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks unless ground to dust; dust inhalation may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the specific minerals present',
       colors: 'Varies, depending upon mineral composition',
       luster: 'Depends on the specific minerals present',
@@ -12081,7 +11867,6 @@ class Rock {
       color: 'White and light brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with normal handling',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'White and light brown',
       luster: 'Pearly to vitreous',
@@ -12120,7 +11905,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with Adamellite, although inhaling stone dust during cutting can be hazardous.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Light colored, pink, grey',
       luster: 'Vitreous to Pearly',
@@ -12156,7 +11940,6 @@ class Rock {
       color: 'Greenish, grayish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'Greenish, grayish',
       luster: 'Vitreous to sub-vitreous',
@@ -12194,7 +11977,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated, but dust inhalation should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'green, black, gray',
       luster: 'Vitreous',
@@ -12230,7 +12012,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally safe to handle but dust from cutting or carving can be hazardous to breathe.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Blue, Silver-blue',
       luster: 'Vitreous to pearly on cleavage surfaces',
@@ -12267,7 +12048,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling dust from crushed felsite may lead to silicosis, a serious pulmonary disease. Always wear protective equipment when working with rocks and minerals.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline',
       colors: 'gray, white, pink',
       luster: 'Vitreous',
@@ -12306,7 +12086,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dust during flint knapping can potentially cause silicosis, but is not a risk under normal handling.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark grey, black, brown',
       luster: 'Waxy to glassy',
@@ -12345,7 +12124,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged or intense inhalation of dust may lead to Silicosis, a lung disease caused by inhaling silica dust.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'grey, white',
       luster: 'Dull to earthy',
@@ -12384,7 +12162,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No general health risks associated, but specific risks may depend on the mineral contents.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the particular minerals in the Gossan',
       colors: 'Red, orange, yellow, brown',
       luster: 'Earthy',
@@ -12422,7 +12199,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust could lead to silicosis, a lung disease. Always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Brown, Green, Red',
       luster: 'Vitreous',
@@ -12459,7 +12235,6 @@ class Rock {
       color: 'Grey, Pale Pink',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Not Applicable - This is a rock, not a mineral',
       colors: 'Grey, Pale Pink',
       luster: 'Vitreous to Dull',
@@ -12496,7 +12271,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Larvikite, but dust created from cutting or carving should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'dark grey, blue, silver',
       luster: 'Vitreous',
@@ -12532,7 +12306,6 @@ class Rock {
       color: 'light to dark grey',
       isMagnetic: false,
       healthRisks: 'No known significant health risks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'light to dark grey',
       luster: 'Vitreous to dull',
@@ -12569,7 +12342,6 @@ class Rock {
       color: 'greyish-blue quartz, pink feldspar, dark crystals',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Trigonal and Monoclinic',
       colors: 'greyish-blue, pink, dark',
       luster: 'Vitreous',
@@ -12608,7 +12380,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with this rock, although respirable dust can be produced when cutting or breaking rock and may cause health problems if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'White, Pale pink, Grey, Black',
       luster: 'Vitreous to dull',
@@ -12647,7 +12418,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific risks, but as with all rocks, inhaling dust from crushing or breaking can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'gray, pink, white',
       luster: 'Vitreous',
@@ -12684,7 +12454,6 @@ class Rock {
       color: 'Green to Greenish-Brown',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic - Dipyramidal',
       colors: 'Green, Greenish-Brown',
       luster: 'Vitreous - Dull',
@@ -12722,7 +12491,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No notable health risks for casual exposure. Prolonged inhalation of dust from crushing or cutting granite could potentially lead to more significant health issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: '',
       luster: '',
@@ -12759,7 +12527,6 @@ class Rock {
       color: 'Mostly grey, greenish, or reddish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Grey, greenish, reddish',
       luster: 'Vitreous to dull',
@@ -12798,7 +12565,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with regular handling of Shonkinite. However, overexposure to dust may cause irritation to skin, eyes, and respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Dark color',
       luster: 'Vitreous to dull',
@@ -12836,7 +12602,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks known, but fine disintegrated particles may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'dark grey, black',
       luster: 'Sub-vitreous to dull',
@@ -12875,7 +12640,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'In general, Unakite is a safe mineral to handle and use. However, the dust from cutting or carving can be harmful if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic and Monoclinic',
       colors: '',
       luster: 'Vitreous to pearly',
@@ -12915,7 +12679,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks associated with lamprophyre, standard precautions for handling and airborne dust.',
-      askedQuestions: [],
       crystalSystem: 'Varies',
       colors: 'Dark, Green, Black, Brown',
       luster: 'Vitreous',
@@ -12956,7 +12719,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, general rules of handling rocks and minerals should be followed',
-      askedQuestions: [],
       crystalSystem: 'N/A for rocks',
       colors: 'gray, green, brown',
       luster: 'Vitreous',
@@ -12994,7 +12756,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Minimal; however, consistent inhalation of rock dust could lead to respiratory problems.',
-      askedQuestions: [],
       crystalSystem:
           'Variable, but often includes pyroxene and plagioclase crystals',
       colors: 'Dark to light gray, often with a greenish hue',
@@ -13034,7 +12795,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, prolonged exposure to rock dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, green, blue, white',
       luster: 'Vitreous to dull',
@@ -13072,7 +12832,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Aplite does not pose any immediate health risks. Prolonged exposure to dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'light gray, white',
       luster: 'Vitreous to Silky',
@@ -13109,7 +12868,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to finely ground basalt dust may cause lung issues due to crystalline silica content.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it consists of small minerals',
       colors: 'Black, Grey',
       luster: 'Vitreous to Dull',
@@ -13146,7 +12904,6 @@ class Rock {
       color: 'Grey to black',
       isMagnetic: false,
       healthRisks: 'Long term exposure to rock dust may cause lung problems.',
-      askedQuestions: [],
       crystalSystem: 'No distinct crystals visible',
       colors: 'Gray, Black',
       luster: 'Vitreous',
@@ -13184,7 +12941,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with most rocks, the primary health risk involves inhalation of dust during collection or sample preparation which can cause lung damage.',
-      askedQuestions: [],
       crystalSystem: 'Unavailable',
       colors: 'Dark, black, brown',
       luster: 'Vitreous to Dull',
@@ -13223,7 +12979,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with proper handling of shoshonite.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Black, grey',
       luster: 'Dull to vitreous',
@@ -13261,7 +13016,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks when handled properly, however, dust produced from boninite can be harmful if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Grey, Brown',
       luster: 'Vitreous',
@@ -13301,7 +13055,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock, dust inhalation during crushing and grinding carries health risks, particularly if the rock contains potentially harmful minerals. Prolonged exposure can lead to lung conditions such as silicosis or other respiratory conditions.',
-      askedQuestions: [],
       crystalSystem:
           'Trigonal and/or Rhombohedral, depending on the primary carbonate mineral present (typically calcite or dolomite)',
       colors: '',
@@ -13341,7 +13094,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, Charnockite is safe to handle but inhaling dust from any type of rock could cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isomorphic',
       colors: 'Dark grey, green, blue',
       luster: 'Vitreous',
@@ -13379,7 +13131,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhabitation with respirable crystalline silica (dust) may lead to silicosis or other lung diseases. Always use appropriate safety measures when handling.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as dacite is a rock composed of a variety of minerals',
       colors: 'Grey, Black',
@@ -13418,7 +13169,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No known specific health risks associated with diabase.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable since it is a rock, a composition of multiple minerals.',
       colors: 'dark gray, black',
@@ -13456,7 +13206,6 @@ class Rock {
       color: 'grey to dark-grey, occasionally black',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as diorite is not lead to a single crystal system',
       colors: 'grey, dark-grey, black',
@@ -13495,7 +13244,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No specific health risks known.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black',
       luster: 'Vitreous to dull',
@@ -13533,7 +13281,6 @@ class Rock {
       color: 'Dark green, black',
       isMagnetic: false,
       healthRisks: 'Can generate radon gas, a health hazard when inhaled',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Dark green, black',
       luster: 'Dull to slightly metallic',
@@ -13570,7 +13317,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of dust could cause lung issues, although this is not a common concern.',
-      askedQuestions: [],
       crystalSystem: 'Tetragonal',
       colors: 'light to dark gray',
       luster: 'Vitreous to dull',
@@ -13606,7 +13352,6 @@ class Rock {
       color: 'Often light in color, but can vary',
       isMagnetic: false,
       healthRisks: 'No notable health risks associated with granophyre',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable - Granophyre lacks a specific crystal structure due to its micrographic intergrowths.',
       colors: '',
@@ -13646,7 +13391,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with normal contact with Harzburgite.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Greenish, yellowish, brownish-black',
       luster: 'Dull or greasy',
@@ -13685,7 +13429,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with hornblendite. However, as with any rock or mineral, dust generated from cutting or breaking should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'black, dark brown, green',
       luster: 'Vitreous to dull',
@@ -13724,7 +13467,6 @@ class Rock {
       color: 'Black to dark gray',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'Isothermic',
       colors: '',
       luster: '',
@@ -13763,7 +13505,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended exposure to or inhalation of volcanic ash can be harmful',
-      askedQuestions: [],
       crystalSystem:
           'No specific crystal system – non-crystalline rock due to rapid cooling',
       colors: 'White, Grey, Pink, Yellow, Dark-Coloured',
@@ -13801,7 +13542,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks identified. Typical risks associated with rock dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Gray, yellow, green, pink',
       luster: 'Vitreous',
@@ -13837,7 +13577,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no particular health risks associated with komatiite, but like any rock or dust particle, prolonged inhalation of fine particles can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'N/A for rocks, applies to minerals',
       colors: 'green, yellow-green, mottled green and yellow',
       luster: 'Glossy to dull',
@@ -13876,7 +13615,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risk is associated with lamprophyres. However, like any rock, dust produced from crushing or cutting should not be inhaled.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as lamprophyre is a rock not a single mineral',
       colors: 'Dark, black, brown, occasionally greenish',
@@ -13914,7 +13652,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks associated with this rock',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, dark grey, greenish, reddish',
       luster: 'Matte',
@@ -13952,7 +13689,6 @@ class Rock {
           'greyish to white, with a possible tint of pink due to potassium feldspar',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'greyish, white, pink',
       luster: 'Vitreous to dull',
@@ -13990,7 +13726,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock or mineral, dust can be harmful if inhaled and prolonged exposure could potentially lead to silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'gray, brown, green, pink, black',
       luster: 'Dull to Vitreous',
@@ -14028,7 +13763,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As it is low in free silica compared to feldspathic rock, it has a significantly reduced respiratory health risk.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, light grey, greenish, reddish',
       luster: 'Vitreous to greasy',
@@ -14067,7 +13801,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'This rock does not inherently present health risks. However, inhalation of rock dust can be harmful and proper precautions should be taken while handling.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, greenish gray, light brown',
       luster: 'Vitreous to dull',
@@ -14105,7 +13838,6 @@ class Rock {
       color: 'Gray, yellow, greenish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Gray, yellow, greenish',
       luster: 'Vitreous',
@@ -14141,7 +13873,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of dust may pose health risks, including silicosis',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks',
       colors: 'Green, Black, White, Pink',
       luster: 'Varies from Vitreous, dull to metallic',
@@ -14179,7 +13910,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended inhalation of pumice dust may cause lung irritation.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, pale yellow, pink, pale-blue, grey',
       luster: 'Vitreous to dull',
@@ -14216,7 +13946,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated unless grinding or breaking it down to dust, which can have bad respiratory effects.',
-      askedQuestions: [],
       crystalSystem: 'Mostly Monoclinic from Amphibole and Biotite components',
       colors: 'grey, dark grey',
       luster: 'Vitreous to dull',
@@ -14254,7 +13983,6 @@ class Rock {
           'gray, pink or red due to a high concentration of feldspar mineral crystals',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'gray, pink, red',
       luster: 'Subvitreous to vitreous',
@@ -14293,7 +14021,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with quartzolite, unless in powdered form which can damage lung tissue if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Clear, white, and a variety depending on inclusions',
       luster: 'Vitreous',
@@ -14331,7 +14058,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, though always take precautions when handling and breaking rock specimens.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'gray, white, pink',
       luster: 'Vitreous',
@@ -14370,7 +14096,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to rock dust can lead to silicosis. However, under normal handling conditions, comendite is not dangerous.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Grey, Light Pink',
       luster: 'Vitreous',
@@ -14409,7 +14134,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No evident health risks associated with handling the rock. As with all rocks, dust can be harmful if inhaled. The rock should be used responsibly in its intended manner.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark gray, black',
       luster: 'Subvitreous to Resinous',
@@ -14448,7 +14172,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks are associated with sovite. However, as with any rock, undue exposure to dust during handling or processing should be prevented.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'White, grey, beige, colorless, pale yellow',
       luster: 'Vitreous',
@@ -14486,7 +14209,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Tachylyte, similar to other volcanic glasses, pose health risks when inhaled, or handled improperly may cause cuts or injury due to its sharp edges.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, dark brown',
       luster: 'Vitreous',
@@ -14526,7 +14248,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with the handling of tephriphonolite, however, inhalation of rock dust can pose health hazards.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, brown, black',
       luster: 'Matte',
@@ -14561,7 +14282,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks identified when handled responsibly. However, constant exposure to dust may cause health issues.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to being a volcanic rock',
       colors: 'Dark gray to black',
       luster: 'Vitreous',
@@ -14599,7 +14319,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, like with any rock or mineral, exposure to dust should be limited.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'grey, dark-grey',
       luster: 'Vitreous to Dull',
@@ -14636,7 +14355,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks associated with this type of rock when used in normal circumstances',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to this category of rock',
       colors: 'gray, brownish-gray',
       luster: 'Vitreous to dull',
@@ -14673,7 +14391,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks. However, prolonged inhalation of any rock dust can potentially cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Dependent on mineral content, often triclinic',
       colors: 'Light colors, pale green, white',
       luster: 'Vitreous to dull',
@@ -14711,7 +14428,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, but fine dust or particles, if inhaled or ingested, may cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark Grey, Black',
       luster: 'Vitreous to Dull',
@@ -14748,7 +14464,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated specifically with Hawaiite. However, like many rocks and minerals, substantial exposure to dust can be harmful when inhaled.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'grey, greenish-grey',
       luster: 'Vitreous to dull',
@@ -14786,7 +14501,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure to dust may lead to Silicosis. Always use a dust mask when handling or cutting rocks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, pink',
       luster: 'Vitreous to dull',
@@ -14822,7 +14536,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with hand specimens. However, dust produced from cutting or crushing may pose risks if inhaled excessively over time.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic/Cubic - Plagioclase (Triclinic)',
       colors: 'Light green, gray',
       luster: 'Vitreous to silky',
@@ -14860,7 +14573,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Trondhjemite. However, inhalation of rock dust can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Creamy white to gray',
       luster: 'Vitreous',
@@ -14898,7 +14610,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of volcanic ash (solidified or not) can lead to health issues such as lung disease or cancer. Always handle with care and use appropriate protection.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'White, Grey, Brown, Yellow',
       luster: 'Dull to Earthy',
@@ -14935,7 +14646,6 @@ class Rock {
       color: 'Grey, dark green, brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and orthorhombic',
       colors: '',
       luster: '',
@@ -14972,7 +14682,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like most rocks and dusts, prolonged inhalation of dust can lead to health problems. But overall, it is not considered particularly toxic',
-      askedQuestions: [],
       crystalSystem:
           'Amorphous lack a crystalline structure, instead being composed of microscopic clay minerals',
       colors: 'gray to black',
@@ -15009,7 +14718,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, but inhalation of rock dust can be detrimental to health',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks',
       colors: 'Red, grey, yellow, orange',
       luster: 'Matte',
@@ -15047,7 +14755,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'No significant health risks are associated with naturally occurring banded iron formations. However, ingestion or inhalation of dust can cause health issues.',
-      askedQuestions: [],
       crystalSystem: 'None, as it is a rock, not a mineral',
       colors: 'Red, reddish brown, grey, black',
       luster: 'Metallic to dull',
@@ -15085,7 +14792,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated but it is important to avoid inhaling dust while handling rocks and minerals, as it could irritate lungs',
-      askedQuestions: [],
       crystalSystem: 'not applicable',
       colors: 'multicolored',
       luster: 'varies from dull to vitreous',
@@ -15124,7 +14830,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to calcarenite dust can potentially cause lung problems due to the inhalation of small particles. Always use dust masks and proper ventilation when handling or working with calcarenite in a confined space or for a prolonged period.',
-      askedQuestions: [],
       crystalSystem: 'Rhombohedral',
       colors: 'white, gray, pink, black',
       luster: 'Dull to earthy',
@@ -15161,7 +14866,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Excessive inhalation can cause lung problems due to the small particulates.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Light Grey',
       luster: 'Dull, Earthy',
@@ -15198,7 +14902,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Risk of silicosis due to inhalation of dust produced when chert is broken, cut, drilled or polished. Always use safety precautions when working with chert.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline or cryptocrystalline',
       colors: 'White, tan, red, green, brown, black, and gray',
       luster: 'Waxy, dull or glossy',
@@ -15235,7 +14938,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Excessive inhalation of clay dust can cause lung disease over a prolonged period. It is advised to avoid inhaling clay dust and use proper respiratory protection while handling.',
-      askedQuestions: [],
       crystalSystem: 'None',
       colors: 'grey, green, brown, red',
       luster: 'Dull',
@@ -15274,7 +14976,6 @@ class Rock {
       color: 'light-coloured, usually tan or yellow',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'light-coloured, usually tan or yellow',
       luster: 'Dull to earthy',
@@ -15312,7 +15013,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'General dust inhalation while handling can cause respiratory discomfort. Therefore, it is advisable to wear a dust mask while handling the rock to mitigate this risk.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as this is not a crystalline material',
       colors: 'Typically grey, but varies based on composition',
       luster: 'Earthy to dull, depends on the types of fragments included',
@@ -15350,7 +15050,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of diatomite can lead to long term lung problems, such as silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, off-white, light grey',
       luster: 'Dull to Earthy',
@@ -15387,7 +15086,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Breathing or handling some types of evaporites can be harmful if they contain harmful substances, always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on the type of mineral',
       colors: 'White, colorless, blue, red, yellow, pink',
       luster: 'Vitreous to dull',
@@ -15424,7 +15122,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust from flint is harmful if inhaled. It can affect the lungs and cause silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark grey, black, brown',
       luster: 'Waxy to dull',
@@ -15461,7 +15158,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks although inhaling silica dust can lead to silicosis. Always handle mineral specimens responsibly.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'White, grey, brown',
       luster: 'Dull to earthy',
@@ -15500,7 +15196,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks, but prolonged inhalation of rock dust can potentially cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black, brown',
       luster: 'Matte or Dull',
@@ -15539,7 +15234,6 @@ class Rock {
       color: 'gray, brown',
       isMagnetic: false,
       healthRisks: 'Inhalation of dust may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'gray, brown',
       luster: 'Matte',
@@ -15576,7 +15270,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with laterite itself, but caution should always be taken when handling any form of rock or soil due to the possibility of inhaling dust particles.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Red, brown',
       luster: 'Earthy',
@@ -15616,7 +15309,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure can cause black lung disease, due to the inhalation of coal dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'brown, black',
       luster: 'Vitreous to Resinous',
@@ -15652,7 +15344,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust could lead to respiratory problems. Prolonged contact could result in skin irritation.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, green, blue, buff',
       luster: 'Dull to earthy',
@@ -15691,7 +15382,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continuous inhalation of dust may cause health issues related to the respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to lack of a crystal structure',
       colors: 'gray, white, pink, brown',
       luster: 'Dull or earthy',
@@ -15730,7 +15420,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Oil shale dust may poses health risks when inhaled, such as lung problems. The extraction process can contaminate water and air posing risks to both animals and humans.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Dark-brown, black',
       luster: 'Dull to slightly shiny',
@@ -15768,7 +15457,6 @@ class Rock {
       color: 'white, gray, brown, yellow',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'white, gray, brown, yellow',
       luster: 'Dull to earthy',
@@ -15806,7 +15494,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Phosphorite dust can irritate the respiratory system when inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal system',
       colors: 'Gray, Brown, Yellow, Red',
       luster: 'Sub-Vitreous, Resinous, Earthy',
@@ -15844,7 +15531,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chronic inhalation of dust can lead to diseases like silicosis, tuberculosis, bronchitis, or lung cancer.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, yellow, red, white, brown, tan',
       luster: 'Matte',
@@ -15883,7 +15569,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Crystalline silica often found in shale dust can pose health risks such as silicosis upon prolonged exposure.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as Shale is not a crystalline mineral',
       colors: 'Grey, brown, black, yellow, green',
       luster: 'Dull',
@@ -15921,7 +15606,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks. However, like many rocks, it should not be ingested or inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'gray, brown, red, green, purple, black, white',
       luster: 'Dull to earthy',
@@ -15958,7 +15642,6 @@ class Rock {
       color: 'Colorless, white, blue or red due to impurities',
       isMagnetic: false,
       healthRisks: 'No significant health risks reported',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless, white, blue, red',
       luster: 'Vitreous',
@@ -15995,7 +15678,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No particularly adverse health risks associated with Tillite, though inhaling rock dust can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'Varies',
       luster: 'Dull to earthy',
@@ -16033,7 +15715,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Potential risk of radon exposure similar to that of other rocks or stones. However, levels are typically low and not a significant concern.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'white, tan, cream, rusty',
       luster: 'Vitreous to glossy',
@@ -16071,7 +15752,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks identified, but dust may cause irritation to eyes or skin.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal-Rhombohedral',
       colors: 'White, grey, brown, black, greenish',
       luster: 'Vitreous to Pearly',
@@ -16110,7 +15790,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to sedimentary dust can potentially cause respiratory issues, but overall, Wackestone is not known to pose significant health risks.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, white, yellow, brownish',
       luster: 'Vitreous to dull',
@@ -16148,7 +15827,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Anthracite dust can be harmful if inhaled, leading to occupational lung diseases such as anthracosis.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black',
       luster: 'Vitreous, Metallic',
@@ -16185,7 +15863,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with many rocks, prolonged inhalation of dust may pose health risks.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous due to the nature of its formation',
       colors: 'Varies greatly depending on the mineral content',
       luster: 'Typically dull',
@@ -16223,7 +15900,6 @@ class Rock {
       color: 'Green, red',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with normal handling',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on composition',
       colors: '',
       luster: '',
@@ -16259,7 +15935,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No intrinsic health risks associated with weathered and handled correctly',
-      askedQuestions: [],
       crystalSystem: 'Highly crystalline',
       colors: 'Grey, Pink',
       luster: 'Vitreous to Submetallic',
@@ -16298,7 +15973,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Due to its hard nature, inhaling hornfels dust generated by drilling or mining may cause lung damage.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as Hornfels is not a mineral but a metamorphic rock with no specific crystal structure.',
       colors: 'Black, brown, green, red, blue, gray',
@@ -16338,7 +16012,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like most rocks, litchfieldite poses no significant health risks unless ground into dust and inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, Pink, Green, Black',
       luster: 'Vitreous to Dull',
@@ -16376,7 +16049,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can cause lung disease and cancer when inhaling its dust during drilling, cutting and grinding.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Pink, Green, Grey, Black, Yellow, Red, Blue',
       luster: 'Vitreous to dull',
@@ -16415,7 +16087,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks from handling the rock itself, but dust created from cutting or breaking can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as this is a rock and not a mineral',
       colors: 'Can range widely in color, depending upon the minerals present',
       luster: 'Subvitrous to dull',
@@ -16454,7 +16125,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally considered safe unless disturbed. If powdered or crushed, it can cause mild lung irritation if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the minerals present',
       colors: 'Varies based on mineral composition',
       luster: 'Often dull to slightly shiny',
@@ -16493,7 +16163,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks are associated with pseudotachylite, but any rock dust can be harmful if inhaled in large amounts.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous, does not possess a crystalline structure',
       colors: 'Dark brown, black',
       luster: 'Vitreous, resembling glass',
@@ -16532,7 +16201,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term over-exposure to dust can potentially lead to Silicosis, a lung disease. It’s crucial to handle quartzite with proper safety gear especially while cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, Pink, Red, Brown, etc. depending on mineral content.',
       luster: 'Vitreous to Dull',
@@ -16570,7 +16238,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with all rocks, prolonged exposure to dust may lead to lung issues if personal protective equipment is not used.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Brown, black, grey, white',
       luster: 'Vitreous to Pearly',
@@ -16608,7 +16275,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When cut or broken, can contain silica which is harmful if inhaled',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'grey, green, red, brown, black',
       luster: 'Dull to slightly metallic',
@@ -16649,7 +16315,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'General rock dust inhalation risks; however, suevite is not specifically associated with any unique health hazards ',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'green, black, gray',
       luster: 'Earthy to Vitreous depending on the components',
@@ -16686,7 +16351,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of talc carbonate dust could lead to serious lung conditions, including cancer. Always handle it with care and avoid dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'White, grey, green, brown',
       luster: 'Pearly',
@@ -16724,7 +16388,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When cut or polished, soapstone can release talc, a substance which can cause respiratory issues when inhaled. Therefore, suitable protective measures should be taken when working with soapstone.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, green, brown.',
       luster: 'Greasy or waxy',
@@ -16763,7 +16426,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks unless ground to dust; dust inhalation may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the specific minerals present',
       colors: 'Varies, depending upon mineral composition',
       luster: 'Depends on the specific minerals present',
@@ -16801,7 +16463,6 @@ class Rock {
       color: 'White and light brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with normal handling',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'White and light brown',
       luster: 'Pearly to vitreous',
@@ -16840,7 +16501,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with Adamellite, although inhaling stone dust during cutting can be hazardous.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Light colored, pink, grey',
       luster: 'Vitreous to Pearly',
@@ -16876,7 +16536,6 @@ class Rock {
       color: 'Greenish, grayish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'Greenish, grayish',
       luster: 'Vitreous to sub-vitreous',
@@ -16914,7 +16573,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated, but dust inhalation should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'green, black, gray',
       luster: 'Vitreous',
@@ -16950,7 +16608,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally safe to handle but dust from cutting or carving can be hazardous to breathe.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Blue, Silver-blue',
       luster: 'Vitreous to pearly on cleavage surfaces',
@@ -16987,7 +16644,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling dust from crushed felsite may lead to silicosis, a serious pulmonary disease. Always wear protective equipment when working with rocks and minerals.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline',
       colors: 'gray, white, pink',
       luster: 'Vitreous',
@@ -17026,7 +16682,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dust during flint knapping can potentially cause silicosis, but is not a risk under normal handling.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark grey, black, brown',
       luster: 'Waxy to glassy',
@@ -17065,7 +16720,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged or intense inhalation of dust may lead to Silicosis, a lung disease caused by inhaling silica dust.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'grey, white',
       luster: 'Dull to earthy',
@@ -17104,7 +16758,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No general health risks associated, but specific risks may depend on the mineral contents.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the particular minerals in the Gossan',
       colors: 'Red, orange, yellow, brown',
       luster: 'Earthy',
@@ -17142,7 +16795,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust could lead to silicosis, a lung disease. Always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Brown, Green, Red',
       luster: 'Vitreous',
@@ -17179,7 +16831,6 @@ class Rock {
       color: 'Grey, Pale Pink',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Not Applicable - This is a rock, not a mineral',
       colors: 'Grey, Pale Pink',
       luster: 'Vitreous to Dull',
@@ -17216,7 +16867,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Larvikite, but dust created from cutting or carving should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'dark grey, blue, silver',
       luster: 'Vitreous',
@@ -17252,7 +16902,6 @@ class Rock {
       color: 'light to dark grey',
       isMagnetic: false,
       healthRisks: 'No known significant health risks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'light to dark grey',
       luster: 'Vitreous to dull',
@@ -17289,7 +16938,6 @@ class Rock {
       color: 'greyish-blue quartz, pink feldspar, dark crystals',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Trigonal and Monoclinic',
       colors: 'greyish-blue, pink, dark',
       luster: 'Vitreous',
@@ -17328,7 +16976,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with this rock, although respirable dust can be produced when cutting or breaking rock and may cause health problems if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'White, Pale pink, Grey, Black',
       luster: 'Vitreous to dull',
@@ -17367,7 +17014,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific risks, but as with all rocks, inhaling dust from crushing or breaking can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'gray, pink, white',
       luster: 'Vitreous',
@@ -17404,7 +17050,6 @@ class Rock {
       color: 'Green to Greenish-Brown',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic - Dipyramidal',
       colors: 'Green, Greenish-Brown',
       luster: 'Vitreous - Dull',
@@ -17442,7 +17087,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No notable health risks for casual exposure. Prolonged inhalation of dust from crushing or cutting granite could potentially lead to more significant health issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: '',
       luster: '',
@@ -17479,7 +17123,6 @@ class Rock {
       color: 'Mostly grey, greenish, or reddish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Grey, greenish, reddish',
       luster: 'Vitreous to dull',
@@ -17518,7 +17161,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with regular handling of Shonkinite. However, overexposure to dust may cause irritation to skin, eyes, and respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Dark color',
       luster: 'Vitreous to dull',
@@ -17556,7 +17198,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks known, but fine disintegrated particles may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'dark grey, black',
       luster: 'Sub-vitreous to dull',
@@ -17595,7 +17236,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'In general, Unakite is a safe mineral to handle and use. However, the dust from cutting or carving can be harmful if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic and Monoclinic',
       colors: '',
       luster: 'Vitreous to pearly',
@@ -17635,7 +17275,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks associated with lamprophyre, standard precautions for handling and airborne dust.',
-      askedQuestions: [],
       crystalSystem: 'Varies',
       colors: 'Dark, Green, Black, Brown',
       luster: 'Vitreous',
@@ -17677,7 +17316,6 @@ class Rock {
           'dark blue, grey, light gray, or black with blue or silver flashes',
       isMagnetic: false,
       healthRisks: 'No significant health risks associated with it.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Dark blue, grey, light gray, black',
       luster: 'Sub-vitreous to shiny',
@@ -17715,7 +17353,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Grinding or cutting marble could generate dust that can cause allergic reactions, skin, and eye irritation. There may also be potential risks of silicosis from long-term exposure.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'white, pink, green, gray, black, yellow',
       luster: 'Pearly to Vitreous',
@@ -17754,7 +17391,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with gneiss, although breathing dust from any rock can potentially be harmful over time.',
-      askedQuestions: [],
       crystalSystem: 'Does not apply to rocks',
       colors: 'Varies',
       luster: 'Dull to pearly or vitreous',
@@ -17792,7 +17428,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, as a general rule, dust inhalation should be avoided while handling.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'gray, white, pink',
       luster: 'Vitreous to greasy',
@@ -17829,7 +17464,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks known. As with all rocks, however, dust from grinding or breaking Wehrlite should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Greenish black, brownish black',
       luster: 'Greasy to vitreous',
@@ -17868,7 +17502,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with the Aphanite, aside from typical dust inhalation when cutting or breaking the rock.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to fine-grained nature',
       colors: 'Dark grey, black',
       luster: 'Glossy',
@@ -17909,7 +17542,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No inherent health risks. However, inhalation of fine-grained dust during rock cutting or grinding could be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline/Amorphous',
       colors: 'Grey, brown, green, blue',
       luster: 'Often dull or earthy, but can vary',
@@ -17947,7 +17579,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with handling. However, inhalation of dust may pose respiratory hazard.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'grey, greyish-green, occasionally brown or black',
       luster: 'Vitreous to dull',
@@ -17985,7 +17616,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks are associated with cataclasite. However, as with any type of rock, caution should be exercised when handling sharp or fragmented samples to prevent injury.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'black, green, reddish',
       luster: 'Dull to Earthy',
@@ -18025,7 +17655,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Despite its usage in food, Sylvinite dust and particles can cause skin and eye irritation on continuous exposure.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'white, grey, yellow, red',
       luster: 'Vitreous',
@@ -18063,7 +17692,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with handling Kenyte rock, but rock dust can cause respiratory issues if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, Black',
       luster: 'Vitreous to dull',
@@ -18102,7 +17730,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Due to its hematite content, long-term exposure to dust can lead to silicosis, but this is typically only a concern in mining or industrial settings.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'red, grayish, yellow',
       luster: 'earthy to waxy',
@@ -18140,7 +17767,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust may harm the lungs, and direct contact can cause skin irritation.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, light grey',
       luster: 'Waxy to dull',
@@ -18178,7 +17804,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dust from crushed trachybasalt may cause respiratory problems. However, in its natural, unprocessed form, trachybasalt is safe.',
-      askedQuestions: [],
       crystalSystem: 'Not Available',
       colors: 'Dark greenish to black',
       luster: 'Vitreous',
@@ -18217,7 +17842,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks when handled. However, inhaling dust during the cutting or crushing process can pose potential respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark grey to black',
       luster: 'Vitreous to slightly metallic',
@@ -18256,7 +17880,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure can lead to coal workers pneumoconiosis, also known as black lung disease, caused by inhaling coal dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'black, brown-black',
       luster: 'Matte to vitreous',
@@ -18294,7 +17917,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While gossan itself is not a health risk, it can sometimes bear traces of harmful substances like arsenic, due to its connection with sulfide deposits.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the composition',
       colors: 'Reddish-brown',
       luster: 'Earthy to metallic',
@@ -18330,7 +17952,6 @@ class Rock {
       color: 'Varies',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Varies',
       colors: 'Varies',
       luster: 'Varies',
@@ -18369,7 +17990,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Harzburgite; however, dust generated by handling rocks should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'greenish, brownish, gray',
       luster: 'Greasy, Dull to Vitreous',
@@ -18407,7 +18027,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks, but inhalation of rock dust can harm respiratory system',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Gray, dark gray',
       luster: 'Matte',
@@ -18445,7 +18064,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with most rocks, prolonged inhalation of dust may be harmful. Silica can cause silicosis if inhale over an extended period time, always handle with care. ',
-      askedQuestions: [],
       crystalSystem: 'Trigonal for Hematite and Quartz',
       colors: 'red, black',
       luster: 'Metallic, Waxy',
@@ -18483,7 +18101,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Exposure to dust may harm respiratory system. Prolonged or repeated exposure may cause lung diseases.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as marl is a sedimentary rock',
       colors: 'white, grey, pink, blue, green, brown, black',
       luster: 'Earthly',
@@ -18521,7 +18138,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with natural untreated eclogite.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic and Orthorhombic',
       colors: 'Green, Blue, Red',
       luster: 'Vitreous',
@@ -18557,7 +18173,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks, though inhaling dust generated by handling or breaking the rock can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black',
       luster: 'Vitreous to dull',
@@ -18595,7 +18210,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust may cause lung problems if protective measures are not taken.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to the lack of large visible crystals',
       colors: 'dark grey, black',
       luster: 'Vitreous to dull',
@@ -18632,7 +18246,6 @@ class Rock {
       color: 'Variable, dependent on mineral composition',
       isMagnetic: false,
       healthRisks: 'No known health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Dependent on mineral composition',
       colors: 'Variable, dependent on mineral composition',
       luster: 'Variable, dependent on mineral composition',
@@ -18668,7 +18281,6 @@ class Rock {
       color: 'Varies, typically featuring shades of gray, pink, and white',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem:
           'Amorphous, due to the mixture of metamorphic and igneous material',
       colors: 'Gray, pink, white',
@@ -18708,7 +18320,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of diatomite may lead to respiratory problems. It is also abrasive and can irritate the skin and eyes on contact.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'White to off-white',
       luster: 'Earthy',
@@ -18746,7 +18357,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When broken or crushed, basanite can produce sharp fragments, so it is important to handle carefully to avoid physical harm. Long term exposure to rock dust can lead to lung issues.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Dark Grey',
       luster: 'Vitreous to Dull',
@@ -18784,7 +18394,6 @@ class Rock {
       color: 'grey, beige, white, black',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this stone',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'grey, beige, white, black',
       luster: 'Vitreous to dull',
@@ -18821,7 +18430,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'In its natural state, talc carbonate is safe. However, talc dust can harm the lungs if inhaled. Some talc may contain asbestos, a substance known to cause cancers in and around the lungs when inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'white, grey, green, brown',
       luster: 'Pearly',
@@ -18856,7 +18464,6 @@ class Rock {
       color: 'Greenish and brownish',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Unavailable',
       colors: 'Greenish and brownish',
       luster: 'Matte',
@@ -18894,7 +18501,6 @@ class Rock {
       color: 'Greenish, greyish, or brownish',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated with Lherzolite.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Greenish, greyish, or brownish',
       luster: 'Greasy, Dull, or Metallic',
@@ -18932,7 +18538,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'This is a natural rock and poses no inherent health risks, though inhaling rock dust can be harmful to respiratory health.',
-      askedQuestions: [],
       crystalSystem: 'n/a',
       colors: 'White, light gray',
       luster: 'Greasy or vitreous',
@@ -18971,7 +18576,6 @@ class Rock {
       color: 'Black, sometimes with white or red streaks (Snowflake Obsidian)',
       isMagnetic: false,
       healthRisks: 'No known health risks, but sharp edges can cause injury',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Primarily black, can have white or red streaks',
       luster: 'Vitreous to Silky',
@@ -19011,7 +18615,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to fine dust can lead to silicosis. Minimal exposure presents minor health risks.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Grey, white, reddish',
       luster: 'Vitreous',
@@ -19050,7 +18653,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, Dunite does not pose a health risk unless inhaled in its dust form, where it can cause lung problems.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Greenish yellow',
       luster: 'Greasy to Dull',
@@ -19088,7 +18690,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Although generally not harmful, inhaling dust from crushed Sovite can cause respiratory irritation. Always use appropriate safety measures when handling rock dust.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, grey, pink, brown',
       luster: 'Vitreous to earthy',
@@ -19126,7 +18727,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated to direct and indirect exposure to Troctolite.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Light to dark green, white',
       luster: 'Vitreous to dull',
@@ -19163,7 +18763,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no significant health risks associated with Itacolumite, unless the rock is breathed in as dust over a long period.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Yellow, Yellowish-Brown',
       luster: 'Earthy',
@@ -19201,7 +18800,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As a natural mineral, argillite is generally safe to handle. However, inhaling dust from any rock can potentially cause lung problems over long-term exposure.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Grey, Black, Red, Purple',
       luster: 'Dull to earthy',
@@ -19238,7 +18836,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are generally no health risks associated with anorthosite, but any rock dust can be harmful if inhaled over long periods of time.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'light gray, medium gray, sometimes bluish, greenish, or reddish',
       luster: 'Sub-vitreous to dull',
@@ -19276,7 +18873,6 @@ class Rock {
       color: 'Green',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated with this rock',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic (for chlorite), Orthorhombic (for epidote)',
       colors: 'Green',
       luster: 'Silky to shiny',
@@ -19313,7 +18909,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Ground Lapis Lazuli can be hazardous to inhale, always use caution when working with the raw material.',
-      askedQuestions: [],
       crystalSystem: 'Cubic',
       colors: 'Deep Blue, Violetish Blue, Greenish Blue',
       luster: 'Vitreous to greasy',
@@ -19349,7 +18944,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As a type of limestone, excessive inhalation of dust during processing can lead to lung disease.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, Tan, Cream-Colored, Rusty',
       luster: 'Vitreous to pearly',
@@ -19388,7 +18982,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continual exposure may cause silicosis due to the silica content in the dust.',
-      askedQuestions: [],
       crystalSystem: 'N/A, as gritstone is a rock, not a mineral',
       colors: 'Brown, Gray',
       luster: 'Matte',
@@ -19428,7 +19021,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling dust can be harmful, however, cut and set moissanite poses no known health risks.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Colorless, green, yellow, and blue',
       luster: 'Adamantine to metallic',
@@ -19467,7 +19059,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Grandidierite is not known to carry any specific health risks.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Blue, blue-green',
       luster: 'Vitreous',
@@ -19504,7 +19095,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Breathing helenite dust during grinding and polishing can cause silicosis, but finished helenite is not hazardous to wear.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Green, blue, red, and other colors',
       luster: 'Vitreous',
@@ -19542,7 +19132,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks have been associated with Danburite.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'colorless, yellow, brown, pink',
       luster: 'Vitreous',
@@ -19581,7 +19170,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'Containment of radioactive elements need to be handled carefully',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless',
       luster: 'Vitreous',
@@ -19617,7 +19205,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Algodonite can be harmful if inhaled or swallowed. It contains arsenic, which can cause serious health problems. Always wash hands after handling. Do not inhale dust, and avoid all contact with mouth.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'grey, tin-white',
       luster: 'Metallic',
@@ -19656,7 +19243,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with prasiolite. However,  always wash hands after handling, and do not ingest.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Green',
       luster: 'Vitreous',
@@ -19694,7 +19280,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Low but prolonged exposure can cause irritation and has been linked to negative effects on health.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'white, blue, gray, pink, and pale brown',
       luster: 'Vitreous to pearly on cleavages',
@@ -19732,7 +19317,6 @@ class Rock {
       color: 'Yellow, yellow-green, colorless',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Yellow, yellow-green, colorless',
       luster: 'Vitreous',
@@ -19770,7 +19354,6 @@ class Rock {
       color: 'Pink, green, brown, violet, gray, yellow, white',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Pink, green, brown, violet, gray, yellow, white',
       luster: 'Vitreous to pearly',
@@ -19807,7 +19390,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Goldstone is generally safe to handle, but care should be taken not to breathe its dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'gold, blue, purple, green',
       luster: 'Vitreous',
@@ -19844,7 +19426,6 @@ class Rock {
       color: 'Creamy white to green and black',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Creamy white, green, black',
       luster: 'Waxy to greasy',
@@ -19880,7 +19461,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, but physical discomfort (like heat flashes) are occasionally reported when initially wearing or using. Always consult a doctor or professional for medical advice.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Dark green, green/brown, blackish',
       luster: 'Vitreous',
@@ -19918,7 +19498,6 @@ class Rock {
       color: 'Raspberry pink to pinkish purple',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Raspberry pink to pinkish purple',
       luster: 'Vitreous',
@@ -19955,7 +19534,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Ulexite is not considered dangerous, but care should be taken not to inhale its dust.',
-      askedQuestions: [],
       crystalSystem: 'triclinic',
       colors: 'pure ulexite is white, but it can also be colorless',
       luster: 'silky',
@@ -19994,7 +19572,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks associated with handling tinzenite, but as with all minerals, it should not be inhaled or ingested.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Pink, Pale Yellow',
       luster: 'Vitreous',
@@ -20032,7 +19609,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'It is generally safe, with no known specific health risks, though it should not be ingested or inhaled as a dust.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Golden, brown, red, green',
       luster: 'Silky',
@@ -20069,7 +19645,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant risks, but fine dust may cause irritation if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Colorless, white, grey, green, peach, blue',
       luster: 'Vitreous to silky',
@@ -20106,7 +19681,6 @@ class Rock {
       color: 'Colorless, Yellow, Red, Green, Blue, Gray',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with sunstone.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Colorless, Yellow, Red, Green, Blue, Gray',
       luster: 'Vitreous (Glassy) to Pearly',
@@ -20146,7 +19720,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Apatite, when ground to a powder (as in fertilizer), can be harmful if inhaled or swallowed, causing respiratory and digestive issues. Always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Green, Blue, Red, Purple, Yellow, Clear',
       luster: 'Vitreous to Subresinous',
@@ -20185,7 +19758,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'None if handled properly. However, ingestion or inhalation can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on the type of crystal used',
       colors: 'Varies depending on the type of metal and crystal used',
       luster: 'Metallic',
@@ -20224,7 +19796,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks associated, always adhere to general rock handling guidelines.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable as it is an igneous rock type rather than a specific mineral',
       colors: 'Gray, green, brown or yellowish',
@@ -20264,7 +19835,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Zircon dust can cause lung cancer if inhaled in large amounts over a long time. Zircon in its raw form is harmless.',
-      askedQuestions: [],
       crystalSystem: 'Tetragonal',
       colors: 'Colorless, yellow-golden, red, brown, blue, green',
       luster: 'Vitreous to brilliant',
@@ -20301,7 +19871,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Austinite is an arsenate mineral which means it contains arsenic. Prolonged exposure and ingestion should absolutely be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Apple-green to dark green',
       luster: 'Vitreous to pearly',
@@ -20338,7 +19907,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Bastnaesite often contains small amounts of radioactive elements, so it should be handled with care. Prolonged exposure or ingestion could result in health risks.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Yellow, brown, reddish-brown',
       luster: 'Vitreous to resinous',
@@ -20376,7 +19944,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with many minerals, prolonged exposure to dust may pose a risk. Always handle with care and consider wearing a mask if handling large quantities of kornerupine dust.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'light brown, light green, green, yellowish green, white, pink',
       luster: 'Vitreous to resinous',
@@ -20412,7 +19979,6 @@ class Rock {
       color: 'Indigo, blue',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Indigo, blue',
       luster: 'Adamantine, Pearly',
@@ -20450,7 +20016,6 @@ class Rock {
       color: 'Blue, Violet',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with handling Tanzanite.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Blue, Violet',
       luster: 'Vitreous',
@@ -20487,7 +20052,6 @@ class Rock {
       color: 'Pink to blood-red',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Pink to blood-red',
       luster: 'Vitreous to adamantine',
@@ -20526,7 +20090,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust from rutile can be mildly harmful if inhaled or ingested in large quantities.',
-      askedQuestions: [],
       crystalSystem: 'Tetragonal',
       colors: 'Brown, red-brown, red, pale yellow, pale blue, violet, black',
       luster: 'Adamantine to slightly resinous',
@@ -20563,7 +20126,6 @@ class Rock {
       color: 'Green',
       isMagnetic: false,
       healthRisks: 'No known health risks associated.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Green',
       luster: 'Vitreous',
@@ -20601,7 +20163,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There is no known health risk associated with this stone as long as it is used properly. It may, however, present a choking hazard to small children.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'light gray, brown, black',
       luster: 'Vitreous',
@@ -20638,7 +20199,6 @@ class Rock {
       color: 'brown to black',
       isMagnetic: true,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Cubic',
       colors: 'brown to black',
       luster: 'Vitreous to sub-adamantine',
@@ -20676,7 +20236,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with Amber. However, consuming or inhaling ground Amber is not recommended.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'yellow-orange-brown, and others',
       luster: 'Resinous',
@@ -20714,7 +20273,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark green, Brownish green, Black',
       luster: 'Vitreous',
@@ -20752,7 +20310,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with many minerals, inhaling dust may pose health risks. Always handle rocks and minerals responsibly.',
-      askedQuestions: [],
       crystalSystem: 'Varies',
       colors: 'brown, green, black',
       luster: 'Varies',
@@ -20789,7 +20346,6 @@ class Rock {
       color: 'blue-grey to blue-green; yellow-brown',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'blue-grey, blue-green, yellow-brown',
       luster: 'Silky',
@@ -20825,7 +20381,6 @@ class Rock {
       color: 'colorless, gray, white, green, blue-green, yellow, brown, pink',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'colorless, gray, white, green, blue-green, yellow, brown, pink',
       luster: 'vitreous to pearly',
@@ -20863,7 +20418,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known significant health risks associated with exposure to this material.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless',
       luster: 'Vitreous',
@@ -20902,7 +20456,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While normally safe, dust created during processing can irritate the eyes, skin, and respiratory system.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Colorless, pink, blue, yellow, green, purple, black',
       luster: 'Adamantine to vitreous',
@@ -20938,7 +20491,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, there are no major health risks associated with direct contact and handling. However, cutting or crushing concretions might generate dust, which could pose inhalation risks.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: '',
       luster: '',
@@ -20978,7 +20530,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'It is generally safe, but as with all rocks and minerals, ingestion and inhalation should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'greenish bronze, brownish green, grayish white',
       luster: 'Vitreous to pearly',
@@ -21016,7 +20567,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like other types of serpentine, it could contain asbestos in its raw form. Hence, use with caution and avoid inhaling dust during cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic prismatic',
       colors: 'Blue-green, light olive green',
       luster: 'Waxy to pearly',
@@ -21053,7 +20603,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No inherent health risks, but illegal ivory trade threatens animal species, particularly elephants.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, cream',
       luster: 'Glossy',
@@ -21091,7 +20640,6 @@ class Rock {
       color: 'colorless, yellow, orange, red-brown, light to dark-blue, pink',
       isMagnetic: false,
       healthRisks: 'No known health risks.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'colorless, blue, yellow, orange, pink, brown',
       luster: 'Vitreous',
@@ -21129,7 +20677,6 @@ class Rock {
       color: 'gray, green, brown, yellow',
       isMagnetic: false,
       healthRisks: 'No major health risks associated with proper handling',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'gray, green, brown, yellow',
       luster: 'Vitreous, Greasy',
@@ -21166,7 +20713,6 @@ class Rock {
       color: 'yellowish-green',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'yellowish-green',
       luster: 'Vitreous',
@@ -21202,7 +20748,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chronic beryllium disease or berylliosis is caused by inhalation of beryllium dust or fumes. It can cause cough, shortness of breath, fatigue, weight loss, and chest pain.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'steel gray',
       luster: 'Metallic',
@@ -21239,7 +20784,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No recorded health risks associated with the handling or wearing of precious coral. However, the extraction of coral poses significant risks to marine ecosystems',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Red, pink, white',
       luster: 'Vitreous to waxy',
@@ -21275,7 +20819,6 @@ class Rock {
       color: 'Green in daylight, Red in incandescent light',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Green, Red',
       luster: 'Vitreous',
@@ -21313,7 +20856,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Turquoise is considered safe for handling. However, since it is a phosphate of copper and aluminium, excessive ingestion or prolonged skin contact should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Turquoise, green, blue',
       luster: 'Waxy to sub-vitreous',
@@ -21352,7 +20894,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Bayldonite, like most lead containing minerals, may pose health hazards if inhaled or ingested.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'dark green, greenish-black',
       luster: 'Adamantine, Resinous',
@@ -21390,7 +20931,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated directly with the bone; however, fossil extraction should be done carefully to avoid dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'White, off-white, yellowish',
       luster: 'Dull to resinous',
@@ -21428,7 +20968,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As it is made from hardened industrial paint, there can be health risks with raw fordite due to potential traces of lead and other toxins. However, polished and finished fordite pieces used in jewelry are usually safe to handle.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Multi-colored - any color that automotive paint may come in',
       luster: 'Varies, generally vitreous after being polished',
@@ -21465,7 +21004,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Standard precautions should be taken while handling Maw-sit-sit as with other minerals. Inhalation and ingestion should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Usually found in massive form',
       colors: 'emerald green, dark green',
       luster: 'Vitreous to dull',
@@ -21505,7 +21043,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Although Trinitite is mildly radioactive, it is generally considered to pose little health risk unless ingested or inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'light green, black, dark green',
       luster: 'Vitreous',
@@ -21543,7 +21080,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'There are no specific health risks associated with handled Pallasites under normal circumstances. However, like all meteorites, they should be handled with care to prevent damage or rust.',
-      askedQuestions: [],
       crystalSystem: 'Isometric, Orthorhombic',
       colors: '',
       luster: '',
@@ -21582,7 +21118,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no universal health risks associated with Tigers Eye when used properly. Ingestion is ill-advised due to the silicon dioxide content.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Golden, red-brown',
       luster: 'Silky',
@@ -21619,7 +21154,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Diamond dust used for polishing can cause respiratory problems if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Cubic',
       colors: 'clear, yellow, brown, green, blue, black',
       luster: 'Adamantine',
@@ -21657,7 +21191,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'In general, handling Terbium gallium garnet does not pose significant health risks. However, inhalation, ingestion or contact with eyes should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Cubic',
       colors: 'colorless',
       luster: 'Vitreous',
@@ -21692,7 +21225,6 @@ class Rock {
       color: 'Usually colorless, but can be made in a variety of colors',
       isMagnetic: false,
       healthRisks: 'None, as it is a benign and stable material',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless, can be made in a variety of colors',
       luster: 'Vitreous',
@@ -21729,7 +21261,6 @@ class Rock {
       color: 'grey, white',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'grey, white',
       luster: 'Vitreous to dull',
@@ -21768,7 +21299,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While Agrellite is not known for any health risks, it is always wise to wash hands after handling and avoid inhaling dust when breaking or grinding.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, Pink',
       luster: 'Vitreous to pearly',
@@ -21807,7 +21337,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Calcite dust can be harmful if inhaled, causing respiratory issues. Also, direct skin contact can cause irritation. Always handle with care and wash hands after use.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: '',
       luster: '',
@@ -21846,7 +21375,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks directly linked with exposure to Nacre. However, handling shells in general may induce allergies in some people.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'white, cream, silver, black, green, blue, pink, gold',
       luster: 'Pearly',
@@ -21883,7 +21411,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with proper handling of Ferroaxinite.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'purple, brown, green, blue',
       luster: 'Vitreous, pearly on cleavage surfaces',
@@ -21923,7 +21450,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Over-exposure via dust inhalation can lead to risk of lung diseases due to its phosphate content',
-      askedQuestions: [],
       crystalSystem: 'Dependent on the mineral composition',
       colors: 'Light gray to brown',
       luster: 'Vitreous to resinous',
@@ -21962,7 +21488,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'golden yellow, brown, white, or pale grey',
       luster: 'Resinous, Pearly',
@@ -22001,7 +21526,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Contains copper and sulfur, which can be hazardous in large amounts. Always wash hands after handling. Do not inhale dust or ingest.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Copper-red, purplish-blue',
       luster: 'Metallic',
@@ -22039,7 +21563,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While not toxic in its unaltered mineral form, it can be harmful if ingested or inhaled in dust form. Care should be taken when handling to prevent skin and eye irritation.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Dark green, light green, blue-green',
       luster: 'Vitreous to adamantine',
@@ -22076,7 +21599,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks when handled. Cutting and polishing can produce harmful dust. Always use a mask and proper ventilation.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Blue, yellow, green, black, purple, pink',
       luster: 'Vitreous',
@@ -22112,7 +21634,6 @@ class Rock {
       color: 'Red, blue, green, yellow, brown, black, purple and colorless',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Red, blue, green, yellow, brown, black, purple and colorless',
       luster: 'Vitreous',
@@ -22150,7 +21671,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Adamite contains arsenic. Therefore, it is recommended not to ingest, inhale, or touch the mouth or eyes after handling. Always wash your hands after handling.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Green, yellow, blue, pink, white, brown',
       luster: 'Vitreous',
@@ -22187,7 +21707,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While Beudantite is not toxic itself, it should not be ingested due to the lead content, and frequent handling should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Green, brown, black',
       luster: 'Resinous, Sub-Metallic',
@@ -22225,7 +21744,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with Anorthite. However, rock dust can irritate the eyes and respiratory system.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Colorless, gray',
       luster: 'Vitreous',
@@ -22265,7 +21783,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Crystalline silica (quartz) can be harmful when inhaled in large amounts, often in industrial settings where it can cause health issues like silicosis, chronic bronchitis, and lung cancer.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'clear, pink, purple, brown/black, yellow, white',
       luster: 'Vitreous',
@@ -22303,7 +21820,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with moonstone, but it is always advised to wash hands after handling.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'colorless, white, grey, peach, blue, green',
       luster: 'Pearly to vitreous',
@@ -22342,7 +21858,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Exposure to asbestos fibers can lead to serious health ailments such as asbestosis, mesothelioma and other types of lung cancer. It is considered extremely hazardous and its use is restricted in many countries.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'White, Blue, Brown/Gray, Green',
       luster: 'Silky, Earthy',
@@ -22381,7 +21896,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While usually not hazardous, inhaling dust from these stones can be harmful. Always wear a protective mask when cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'green, blue, turquoise',
       luster: 'Vitreous to dull',
@@ -22421,7 +21935,6 @@ class Rock {
             'Blue, yellow, purple, orange, green, colorless, pink, multicolored',
         isMagnetic: false,
         healthRisks: 'No known health risks',
-        askedQuestions: [],
         crystalSystem: 'Trigonal',
         colors: 'Blue, Colorless, Pink, Yellow, Green, Multicolored',
         luster: 'Vitreous',
@@ -22457,7 +21970,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Generally, Blairmorite poses no health risks unless ground into a fine dust and inhaled. Long term inhalation of such dust can lead to lung problems.',
-        askedQuestions: [],
         crystalSystem: 'Trigonal',
         colors: 'White, light grey, brown, greenish-black',
         luster: 'Vitreous to pearly',
@@ -22494,7 +22006,6 @@ class Rock {
         color: 'greenish, gray',
         isMagnetic: false,
         healthRisks: '',
-        askedQuestions: [],
         crystalSystem: 'Orthorhombic',
         colors: 'greenish, gray',
         luster: 'Vitreous',
@@ -22529,7 +22040,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Not known to have any health risks associated with it, but care should be taken when handling sharp or broken pieces.',
-        askedQuestions: [],
         crystalSystem: 'Triclinic',
         colors: 'Dark grey, black',
         luster: 'Vitreous to dull',
@@ -22563,7 +22073,6 @@ class Rock {
         color: 'grey to dark grey',
         isMagnetic: false,
         healthRisks: 'No known health risks',
-        askedQuestions: [],
         crystalSystem: 'Isotropic',
         colors: 'Grey, Dark Grey',
         luster: 'Glassy to Dull',
@@ -22599,7 +22108,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No specific health risks associated with the rock, although dust generated by handling or cutting granophyre may cause respiratory discomfort.',
-        askedQuestions: [],
         crystalSystem: 'Not applicable',
         colors: 'Gray, Pink',
         luster: 'Vitreous to Glassy',
@@ -22637,7 +22145,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No specific health risks associated, but excessive intake of dust may cause lung issues',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'dark, black, dark greenish black',
         luster: 'Vitreous',
@@ -22672,7 +22179,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No major health risks known, but as with any rock, dust inhalation and/or skin or eye contact with dust particles should be avoided.',
-        askedQuestions: [],
         crystalSystem: 'Triclinic',
         colors: 'Grayish-black, black',
         luster: 'Vitreous',
@@ -22707,7 +22213,6 @@ class Rock {
         color: 'dark gray to black',
         isMagnetic: false,
         healthRisks: 'No recognized health risks associated with this rock.',
-        askedQuestions: [],
         crystalSystem: 'Information Not Available',
         colors: 'Dark gray, Black',
         luster: 'Subvitreous to dull',
@@ -22744,7 +22249,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No significant health risks have been reported, however, like many rocks and minerals, dust from norite should not be inhaled.',
-        askedQuestions: [],
         crystalSystem:
             'Not applicable as norite is a rock and not a mineral; its component minerals, plagioclase feldspar and orthopyroxene, have a triclinic and orthorhombic system respectively.',
         colors: 'Black, Dark Grey, Blackish Grey',
@@ -22781,7 +22285,6 @@ class Rock {
         color: 'grey to light brown',
         isMagnetic: false,
         healthRisks: 'N/A',
-        askedQuestions: [],
         crystalSystem: 'Triclinic',
         colors: 'grey, light brown',
         luster: 'Dull or earthy',
@@ -22816,7 +22319,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'There are no specific health risks associated with direct contact. However, dust or small particles might irritate eyes or respiratory system.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'Green-Brown, Green-Black, Green',
         luster: 'Greasy, dull, vitreous',
@@ -22853,7 +22355,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'While Quartzolite itself is not harmful, the dust produced by cutting or breaking it can be harmful if inhaled.',
-        askedQuestions: [],
         crystalSystem: 'Trigonal',
         colors: 'Colorless, white or varies depending on impurities',
         luster: 'Vitreous to waxy',
@@ -22890,7 +22391,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Handling scoria does not have many health risks, but inhaling rock dust could pose risks. Masks should be worn during gardening or landscaping.',
-        askedQuestions: [],
         crystalSystem:
             'N/A; scoria is an amorphous solid without a fixed crystal structure',
         colors: 'Black, dark brown, red-brown',
@@ -22929,7 +22429,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No significant health risks are directly associated with exposure to arkose.',
-        askedQuestions: [],
         crystalSystem: 'Not applicable, as it is a rock, not a mineral',
         colors: 'Pink, Red, White',
         luster: 'Matte',
@@ -22966,7 +22465,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'If managed improperly it could lead to water pollution as it contains heavy metals and radioactive elements.',
-        askedQuestions: [],
         crystalSystem: 'N/A',
         colors: 'White, grey, brown, black',
         luster: 'Earthy to dull, some can be shiny',
@@ -23002,7 +22500,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Long-term exposure to sandstone dust can cause health issues such as silicosis.',
-        askedQuestions: [],
         crystalSystem: 'Rhombohedral',
         colors: 'White, brown, yellow, red, gray, pink, black',
         luster: 'Dull to semi-glossy',
@@ -23040,7 +22537,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No significant health risks associated with this mineral, although long term exposure to rock dust could potentially lead to silicosis.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'Blue to gray to black',
         luster: 'Greasy to Vitreous',
@@ -23075,7 +22571,6 @@ class Rock {
         color: 'Mostly light colored, but can vary',
         isMagnetic: false,
         healthRisks: 'No significant health risks identified',
-        askedQuestions: [],
         crystalSystem: 'Not applicable to rocks',
         colors: 'Mostly light colored, but can vary',
         luster: 'Often vitreous to pearly',
@@ -23112,7 +22607,6 @@ class Rock {
         color: 'Varies widely, can be gray, pink, black or white',
         isMagnetic: false,
         healthRisks: 'None specifically related to Migmatite',
-        askedQuestions: [],
         crystalSystem: 'Depends on the individual minerals present',
         colors: 'Gray, pink, black, white',
         luster: 'Sub-vitreous to dull',
@@ -23149,7 +22643,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No specific health risks associated with Mylonite beyond general rock dust inhalation in mining or cutting scenarios',
-        askedQuestions: [],
         crystalSystem:
             'Not applicable as this is a metamorphic rock composed of many minerals, each with its own crystal system',
         colors: 'gray, white, pink, brown, black',
@@ -23189,7 +22682,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'There are no known significant health risks associated with tinzenite, but as with all rocks and minerals, it is advisable not to inhale dust from any crushed or broken specimens.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic prismatic',
         colors: 'Brown, Pink-brown, Colorless, Pale yellow',
         luster: 'Vitreous to resinous',
@@ -23226,7 +22718,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'While there are no immediate health risks associated with handling Benitoite, it does contain barium, which can be harmful if ingested or if exposure is prolonged or repeated.',
-        askedQuestions: [],
         crystalSystem: 'Hexagonal',
         colors: 'Blue, colorless',
         luster: 'Vitreous',
@@ -23261,7 +22752,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'While Boleite contains lead and copper, it is safe to handle with normal care. However, ingestion or inhalation should be avoided.',
-        askedQuestions: [],
         crystalSystem: 'Isometric',
         colors: 'Deep blue',
         luster: 'Adamantine',
@@ -23299,7 +22789,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No major health risks associated, but dust and particles should not be inhaled.',
-        askedQuestions: [],
         crystalSystem: 'Triclinic',
         colors: 'Colorless, White, Grey, Yellowish',
         luster: 'Vitreous to Pearly',
@@ -23335,7 +22824,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'None if properly processed and used, unless you have a specific allergy.',
-        askedQuestions: [],
         crystalSystem: 'Amorphous',
         colors: 'Yellow, Golden Yellow, Orange',
         luster: 'Resinous',
@@ -23369,7 +22857,6 @@ class Rock {
         color: 'Variable, depending on mineral composition',
         isMagnetic: false,
         healthRisks: 'No known health risks',
-        askedQuestions: [],
         crystalSystem: 'None - Concretions are typically amorphous',
         colors: 'Variable, from dark brown, grey to white or colorless',
         luster: 'Dull to Earthy',
@@ -23406,7 +22893,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'There are no known health risks associated with this mineral.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'Green',
         luster: 'Vitreous to dull',
@@ -23443,7 +22929,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'There are no specific health risks associated with this type of rock. However, excessive inhalation of rock dust can potentially cause health issues.',
-        askedQuestions: [],
         crystalSystem: 'Isometric',
         colors: 'blue, green, black or sometimes white',
         luster: 'Sub-Adamantine, Adamantine, Dull',
@@ -23478,7 +22963,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'There are no known health risks associated with Danburite.',
-        askedQuestions: [],
         crystalSystem: 'Orthorhombic',
         colors: 'Colorless, white, pale pink, pale yellow',
         luster: 'Vitreous',
@@ -23515,7 +22999,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No specific health risks, but always wash hands after handling.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'Colorless, green, blue, grey',
         luster: 'Vitreous to dull',
@@ -23550,7 +23033,6 @@ class Rock {
         color: 'Blue, smoky blue, violet',
         isMagnetic: false,
         healthRisks: 'None identified',
-        askedQuestions: [],
         crystalSystem: 'Orthorhombic',
         colors: '',
         luster: '',
@@ -23585,7 +23067,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No associated health risks. However, it might be unsafe to inhale dust from cutting or polishing this stone.',
-        askedQuestions: [],
         crystalSystem: 'Hexagonal',
         colors: 'pale pink, dark pink, raspberry-red',
         luster: 'Vitreous',
@@ -23623,7 +23104,6 @@ class Rock {
             'Most commonly black, but can range from brown, violet, green, pink, or in a dual-colored pink and green',
         isMagnetic: false,
         healthRisks: 'No known health risks associated with this mineral.',
-        askedQuestions: [],
         crystalSystem: 'Trigonal',
         colors: 'Black, Brown, Violet, Green, Pink, Pink and Green',
         luster: 'Vitreous',
@@ -23660,7 +23140,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Inhalation of the dust can lead to silicosis, and caution must be taken near active flows due to harmful gases and radiant heat.',
-        askedQuestions: [],
         crystalSystem: 'Amorphous',
         colors: 'Black, brown, grey',
         luster: 'Greasy to dull',
@@ -23696,7 +23175,6 @@ class Rock {
         color: 'Grey to black, occasionally greenish',
         isMagnetic: false,
         healthRisks: 'No known health risks',
-        askedQuestions: [],
         crystalSystem: 'Triclinic and Monoclinic',
         colors: 'Grey to black, occasionally greenish-tinged',
         luster: 'Dull to Vitreous',
@@ -23735,7 +23213,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Mineral dust can pose health risks if inhaled over a prolonged period. Use proper precautions when handling.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'Dark green, black',
         luster: 'Vitreous to dull to greasy',
@@ -23771,7 +23248,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Inhalation can lead to silicosis or other related pulmonary diseases.',
-        askedQuestions: [],
         crystalSystem: 'Not Applicable',
         colors: 'light gray, dark gray, tan, light brown',
         luster: 'Vitreous to dull',
@@ -23805,7 +23281,6 @@ class Rock {
         color: 'Gray, greenish gray, light brown',
         isMagnetic: false,
         healthRisks: 'No significant health risk',
-        askedQuestions: [],
         crystalSystem: 'Triclinic and Monoclinic',
         colors: 'Gray, greenish gray, light brown',
         luster: 'Vitreous to Dull',
@@ -23842,7 +23317,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Prolonged inhalation of pumice dust may cause breathing problems.',
-        askedQuestions: [],
         crystalSystem: 'Amorphous',
         colors: 'White, cream, blue, grey, green-brown, black',
         luster: 'Dull, vitreous, silky',
@@ -23880,7 +23354,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No specific health risks identified. However, the mining process can pose health risks due to dust.',
-        askedQuestions: [],
         crystalSystem: 'Triclinic/monoclinic',
         colors: 'Grey, brown, green, pink, black',
         luster: 'Vitreous to dull',
@@ -23915,7 +23388,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Depending on the type of rock, some may contain harmful elements such as asbestos which pose significant health risks when inhaled. Always take proper precautions when handling unknown rock samples.',
-        askedQuestions: [],
         crystalSystem: 'Varies',
         colors: 'Varies',
         luster: 'Varies',
@@ -23951,7 +23423,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Excessive inhalation of claystone dust may cause lung problems.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'gray, white, yellow, red',
         luster: 'Dull',
@@ -23985,7 +23456,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No known health risks associated; however, inhaling rock dust can be harmful.',
-        askedQuestions: [],
         crystalSystem:
             'Dependent on parent material - can be Triclinic or Monoclinic',
         colors: 'Green, Brown, Black, White',
@@ -24023,7 +23493,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No major health risks associated with handling Manganaxinite, but due to its chemical composition, it should not be swallowed or inhaled.',
-        askedQuestions: [],
         crystalSystem: 'Triclinic',
         colors: 'Yellow, Orange, Brownish',
         luster: 'Vitreous, Glassy',
@@ -24059,7 +23528,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Contact and inhalation should be avoided as it may contain radioactive elements',
-        askedQuestions: [],
         crystalSystem: 'Hexagonal',
         colors: 'Yellow, brown, brownish-red, honey-yellow',
         luster: 'Vitreous to resinous',
@@ -24093,7 +23561,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Breithauptite contains antimony which can be harmful in large amounts. It is recommended to wash hands after handling and avoid inhaling dust when handling or breaking it.',
-        askedQuestions: [],
         crystalSystem: 'Hexagonal',
         colors: 'Tin-white, Copper-red',
         luster: 'Metallic',
@@ -24129,7 +23596,6 @@ class Rock {
             'they vary greatly in color based on mineral deposit present during fossilization. Common tones include tan, brown, and grey.',
         isMagnetic: false,
         healthRisks: '',
-        askedQuestions: [],
         crystalSystem: 'not applicable',
         colors: 'tan, brown, grey',
         luster: 'pearly to dull',
@@ -24165,7 +23631,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No known health risks, but some people may be allergic to the type of metal used in pearl jewelry.',
-        askedQuestions: [],
         crystalSystem: 'Orthorhombic',
         colors:
             'White, off-white, pink, silver, cream, golden, green, blue, black',
@@ -24201,7 +23666,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'In its fibrous form, actinolite can be a type of asbestos which is harmful when inhaled. it is important to handle this rock carefully and avoid any kind of exposure.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors:
             'Dark green to grayish green, colorless, white, gray, and brown',
@@ -24237,7 +23701,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'As an igneous rock, long-term exposure to dust can harm respiratory health. Always use protective gear while handling.',
-        askedQuestions: [],
         crystalSystem: 'Not applicable',
         colors: 'Grey, greenish-grey, or dark grey',
         luster: 'Dull or vitreous',
@@ -24272,7 +23735,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Inhaling diatomite dust can lead to lung problems, including cancer.',
-        askedQuestions: [],
         crystalSystem: 'Amorphous',
         colors: 'White to light grey',
         luster: 'Earthy',
@@ -24307,7 +23769,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Avoid ingesting, breathing, or touching the dust. Azurite may release Copper into the body, which can cause serious health issues.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'Azure blue, dark blue, light blue',
         luster: 'Vitreous',
@@ -24344,7 +23805,6 @@ class Rock {
         isMagnetic: true,
         healthRisks:
             'There are no significant health risks associated with Boracite. However, like all rocks and minerals, it should not be inhaled or ingested.',
-        askedQuestions: [],
         crystalSystem: 'Orthorhombic',
         colors: 'Colorless, white, gray, green, blue, yellow',
         luster: 'Vitreous to greasy',
@@ -24380,7 +23840,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No significant health risks are listed for obsidian. However, care should be taken to avoid inhaling dust produced when carving or shaping it.',
-        askedQuestions: [],
         crystalSystem: 'Amorphous',
         colors: 'Black, occasionally brown or green, rarely blue-red',
         luster: 'Vitreous',
@@ -24415,7 +23874,6 @@ class Rock {
         color: 'Pink, green, and white',
         isMagnetic: false,
         healthRisks: '',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic and Triclinic',
         colors: 'Pink, green, white',
         luster: 'Vitreous to pearly',
@@ -24451,7 +23909,6 @@ class Rock {
         color: 'Colorless, pink to lilac, rarely green',
         isMagnetic: false,
         healthRisks: 'No major health risks associated with Kunzite',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'Colorless, pink, lilac, green',
         luster: 'Vitreous to Pearly',
@@ -24486,7 +23943,6 @@ class Rock {
         color: 'Colorless, green, yellow, red, grey, blue',
         isMagnetic: false,
         healthRisks: '',
-        askedQuestions: [],
         crystalSystem: 'Triclinic',
         colors: 'Colorless, green, yellow, red, grey, blue',
         luster: 'Vitreous, Pearly',
@@ -24523,7 +23979,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'No significant health risks, but like with all rocks and dust, prolonged inhalation should be avoided.',
-        askedQuestions: [],
         crystalSystem:
             'Hexagonal, Trigonal, Monoclinic, Orthorhombic, Tetragonal',
         colors: 'White, Black, Light-Colored, Clast-Free',
@@ -24559,7 +24014,6 @@ class Rock {
         color: 'grayish to brownish',
         isMagnetic: false,
         healthRisks: '',
-        askedQuestions: [],
         crystalSystem: 'Not applicable',
         colors: '',
         luster: '',
@@ -24595,7 +24049,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'There are no known health risks associated with normal handling of this material. However, like all rocks and dust, continued inhalation, handling or ingestion might cause health problems.',
-        askedQuestions: [],
         crystalSystem: 'Orthorhombic',
         colors: 'dark green, gray',
         luster: 'Dull to Vitreous',
@@ -24630,7 +24083,6 @@ class Rock {
         color: 'light grey, pink, yellow, can also be green, blue or black',
         isMagnetic: false,
         healthRisks: '',
-        askedQuestions: [],
         crystalSystem: 'Triclinic or Monoclinic',
         colors: 'light grey, pink, yellow, green, blue, black',
         luster: 'Vitreous to Pearly',
@@ -24666,7 +24118,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Amphibole minerals, a component of amphibolite, have been associated with certain health risks such as respiratory issues if dust is inhaled over a prolonged period. However, in solid rock form, these risks are minimal.',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic and Orthorhombic',
         colors: '',
         luster: 'Vitreous to Pearly',
@@ -24703,7 +24154,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Ivory may be a potential allergenic material for some people, and there are ethical and ecological concerns due to the source of the ivory.',
-        askedQuestions: [],
         crystalSystem: 'N/A',
         colors: 'white, cream-colored',
         luster: 'Vitreous to resinous',
@@ -24740,7 +24190,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             'Suspected to be harmful to health when breathed in as dust, as it may potentially contain asbestos',
-        askedQuestions: [],
         crystalSystem: 'Monoclinic',
         colors: 'Green, yellowish, grayish, whitish green',
         luster: 'Waxy to greasy',
@@ -24777,7 +24226,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "No known health risks, but care should be taken to avoid inhaling dust from rock.",
-        askedQuestions: [],
         crystalSystem: "Not applicable",
         colors: "yellow, brown, gold, tan",
         luster: "Matte - Dull",
@@ -24812,7 +24260,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "While baryte itself is not harmful, the release of soluble barium ions into water and soil can be. Prolonged exposure can lead to barium poisoning.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Colorless, white, light shades of blue, yellow, grey, brown",
         luster: "Vitreous to pearly",
@@ -24847,7 +24294,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Emeralds are safe to handle but may carry risk if ingested as they can contain traces of chromium.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Green",
         luster: "Vitreous",
@@ -24883,7 +24329,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Emeralds are generally safe to handle, but should not be inhaled or ingested as dust. Long-term exposure to emeralds should also be avoided.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Green",
         luster: "Vitreous",
@@ -24918,7 +24363,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "While Beryllonite may not pose direct health risks, long-term or intense exposure to beryllium or beryllium compounds, which Beryllonite contains, is known to be seriously harmful to health.",
-        askedQuestions: [],
         crystalSystem: "Monoclinic",
         colors: "colorless, white, yellowish or greenish",
         luster: "Vitreous to pearly",
@@ -24953,7 +24397,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "There are no notable health risks associated with this mineral.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Green, White, Yellow, Brown",
         luster: "Vitreous",
@@ -24989,7 +24432,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Raw bone material may carry diseases or bacteria harmful to humans. Always ensure bone material has been properly sanitized before handling.",
-        askedQuestions: [],
         crystalSystem: "N/A",
         colors: "White, off-white, yellowish",
         luster: "Sub-vitreous, resinous",
@@ -25028,7 +24470,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "In general, handling constant physical contact with raw or polished Anyolite stone is considered safe.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Green, black",
         luster: "Vitreous to pearly",
@@ -25066,7 +24507,6 @@ class Rock {
         color: "Green, yellow-green, black",
         isMagnetic: false,
         healthRisks: "Inhalation of dust may cause respiratory irritation.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Green, yellow-green, black",
         luster: "Vitreous",
@@ -25102,7 +24542,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Generally safe, though dust inhalation should be avoided.",
-        askedQuestions: [],
         crystalSystem: "Varies",
         colors: "Green, gray-green",
         luster: "Vitreous to pearly",
@@ -25138,7 +24577,6 @@ class Rock {
         color: "White, gray, yellow, brown",
         isMagnetic: false,
         healthRisks: "Inhalation of dust can cause respiratory issues.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal (calcite), Trigonal (quartz)",
         colors: "White, gray, yellow, brown",
         luster: "Vitreous to dull",
@@ -25173,7 +24611,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Contains copper; prolonged exposure can cause skin irritation and respiratory issues.",
-        askedQuestions: [],
         crystalSystem: "Monoclinic",
         colors: "Blue, green",
         luster: "Vitreous to silky",
@@ -25209,7 +24646,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Generally safe to handle; however, beryllium dust can be toxic if inhaled.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Green, blue, yellow, colorless",
         luster: "Vitreous",
@@ -25244,7 +24680,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Generally safe; however, as with all minerals, avoid inhaling dust.",
-        askedQuestions: [],
         crystalSystem: "Monoclinic",
         colors: "Colorless, pale yellow",
         luster: "Vitreous to greasy",
@@ -25279,7 +24714,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Generally safe; however, dust inhalation should be avoided.",
-        askedQuestions: [],
         crystalSystem: "Monoclinic",
         colors: "Black, dark brown, greenish-black",
         luster: "Vitreous to pearly",
@@ -25313,7 +24747,6 @@ class Rock {
         color: "Dark brown, black",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Dark brown, black",
         luster: "Adamantine to metallic",
@@ -25346,7 +24779,6 @@ class Rock {
         color: "Pink, reddish-brown",
         isMagnetic: false,
         healthRisks: "Generally safe to handle; avoid inhaling dust.",
-        askedQuestions: [],
         crystalSystem: "Triclinic",
         colors: "Pink, reddish-brown",
         luster: "Vitreous to silky",
@@ -25382,7 +24814,6 @@ class Rock {
         color: "Red, green, yellow, orange, brown, black, pink",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Isometric",
         colors: "Red, green, yellow, orange, brown, black, pink",
         luster: "Vitreous to resinous",
@@ -25418,7 +24849,6 @@ class Rock {
         color: "Various (white, black, blue, green, red)",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Amorphous",
         colors: "Various (white, black, blue, green, red)",
         luster: "Vitreous to pearly",
@@ -25452,7 +24882,6 @@ class Rock {
         color: "Various (iridescent colors)",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "N/A (organic)",
         colors: "Various (iridescent colors)",
         luster: "Vitreous",
@@ -25486,7 +24915,6 @@ class Rock {
         color: "Various",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "N/A (organic)",
         colors: "Various",
         luster: "Pearly to dull",
@@ -25520,7 +24948,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Generally safe to handle; however, bauxite dust can be a respiratory irritant.",
-        askedQuestions: [],
         crystalSystem: "N/A (mixture)",
         colors: "White, gray, yellow, red",
         luster: "Dull to earthy",
@@ -25554,7 +24981,6 @@ class Rock {
         isMagnetic: false,
         healthRisks:
             "Generally safe to handle; however, beryllium dust can be toxic if inhaled.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Green, blue, yellow, colorless",
         luster: "Vitreous",
@@ -25588,7 +25014,6 @@ class Rock {
         color: "Green",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Green",
         luster: "Vitreous",
@@ -25623,7 +25048,6 @@ class Rock {
         color: "Yellow, greenish-yellow",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Yellow, greenish-yellow",
         luster: "Vitreous",
@@ -25657,7 +25081,6 @@ class Rock {
         color: "Pink, orange-pink",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Pink, orange-pink",
         luster: "Vitreous",
@@ -25691,7 +25114,6 @@ class Rock {
         color: "Colorless, white, yellow, pink, green",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Colorless, white, yellow, pink, green",
         luster: "Vitreous",
@@ -25725,7 +25147,6 @@ class Rock {
         color: "Red, green, yellow, orange, brown, black, pink",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Isometric",
         colors: "Red, green, yellow, orange, brown, black, pink",
         luster: "Vitreous to resinous",
@@ -25761,7 +25182,6 @@ class Rock {
         color: "Blue, white, green, gray, black",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Triclinic",
         colors: "Blue, white, green, gray, black",
         luster: "Vitreous to pearly",
@@ -25795,7 +25215,6 @@ class Rock {
         color: "Various (white, black, blue, green, red)",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Amorphous",
         colors: "Various (white, black, blue, green, red)",
         luster: "Vitreous to pearly",
@@ -25829,7 +25248,6 @@ class Rock {
         color: "Green, yellow-green",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Green, yellow-green",
         luster: "Vitreous",
@@ -25862,7 +25280,6 @@ class Rock {
         color: "Colorless, white, pink, yellow, brown",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Colorless, white, pink, yellow, brown",
         luster: "Vitreous",
@@ -25895,7 +25312,6 @@ class Rock {
         color: "Pink, red, brownish-red",
         isMagnetic: false,
         healthRisks: "Generally safe to handle; avoid inhaling dust.",
-        askedQuestions: [],
         crystalSystem: "Triclinic",
         colors: "Pink, red, brownish-red",
         luster: "Vitreous to pearly",
@@ -25929,7 +25345,6 @@ class Rock {
         color: "Green, yellow-green",
         isMagnetic: false,
         healthRisks: "Generally safe to handle; avoid inhaling dust.",
-        askedQuestions: [],
         crystalSystem: "Monoclinic",
         colors: "Green, yellow-green",
         luster: "Waxy to greasy",
@@ -25956,6 +25371,7 @@ class Rock {
     String? temperature,
     String? category,
     String? rockName,
+    String? rockCustomName,
     String? imageURL,
     bool? isFavorited,
     String? description,
@@ -25965,7 +25381,6 @@ class Rock {
     String? color,
     bool? isMagnetic,
     String? healthRisks,
-    List<Map<String, String>>? askedQuestions,
     String? crystalSystem,
     String? colors,
     String? luster,
@@ -25987,6 +25402,7 @@ class Rock {
     String? notes,
     String? unitOfMeasurement,
     List<RockImage>? rockImages,
+    bool? isAddedToCollection,
   }) {
     return Rock(
       rockId: rockId ?? this.rockId,
@@ -25997,6 +25413,7 @@ class Rock {
       temperature: temperature ?? this.temperature,
       category: category ?? this.category,
       rockName: rockName ?? this.rockName,
+      rockCustomName: rockCustomName ?? this.rockCustomName,
       imageURL: imageURL ?? this.imageURL,
       isFavorited: isFavorited ?? this.isFavorited,
       description: description ?? this.description,
@@ -26006,7 +25423,6 @@ class Rock {
       color: color ?? this.color,
       isMagnetic: isMagnetic ?? this.isMagnetic,
       healthRisks: healthRisks ?? this.healthRisks,
-      askedQuestions: askedQuestions ?? this.askedQuestions,
       crystalSystem: crystalSystem ?? this.crystalSystem,
       colors: colors ?? this.colors,
       luster: luster ?? this.luster,
@@ -26029,6 +25445,7 @@ class Rock {
       notes: notes ?? this.notes,
       unitOfMeasurement: unitOfMeasurement ?? this.unitOfMeasurement,
       rockImages: rockImages ?? this.rockImages,
+      isAddedToCollection: isAddedToCollection ?? this.isAddedToCollection,
     );
   }
 }

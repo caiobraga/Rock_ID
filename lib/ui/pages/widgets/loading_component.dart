@@ -12,9 +12,7 @@ class LoadingComponent extends StatelessWidget {
     return Stack(
       children: [
         // Blurred background
-        Container(
-          color: Constants.blackColor, // Semi-transparent background
-        ),
+        Container(),
         Center(
           child: Padding(
             padding: const EdgeInsets.only(bottom: loadingWidgetSize),
@@ -22,8 +20,8 @@ class LoadingComponent extends StatelessWidget {
               width: 110,
               height: 75,
               decoration: BoxDecoration(
+                color: Constants.blackColor,
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.shade800.withOpacity(0.5),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

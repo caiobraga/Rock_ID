@@ -107,7 +107,9 @@ class _LovedTabState extends State<LovedTab> {
                                 imagePath: imagePath,
                                 imageUrl: rockDefaultImage[
                                     'img1'], // Placeholder image
-                                title: rock.rockName,
+                                title: rock.rockCustomName.isNotEmpty
+                                    ? rock.rockCustomName
+                                    : rock.rockName,
                                 tags: const ['Loved'],
                                 onTap: () {
                                   Navigator.push(
@@ -137,7 +139,12 @@ class _LovedTabState extends State<LovedTab> {
                                                   imagePath)) &&
                                           !(await DatabaseHelper()
                                               .imageExistsSnapHistory(
-                                                  imagePath))) {
+                                                  imagePath)) &&
+                                          (Rock.rockList
+                                              .where((defaultRock) =>
+                                                  defaultRock.rockId ==
+                                                  rock.rockId)
+                                              .isNotEmpty)) {
                                         final file = File(imagePath);
                                         await file.delete();
                                       }

@@ -54,11 +54,14 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
         );
 
         if (dbRock.rockId != 0) {
-          rock = rock.copyWith(rockImages: dbRock.rockImages);
+          rock = dbRock;
         }
 
         allRocksWithImages.add(rock);
       }
+
+      allRocksWithImages =
+          await DatabaseHelper().incrementDefaultRockList(allRocksWithImages);
 
       setState(() {
         _allRocks.addAll(allRocksWithImages);
@@ -103,17 +106,15 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                       );
                     },
                     child: Container(
-                        width: 60,
-                        height: 60,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: Constants.primaryDegrade,
-                        ),
-                        child: const Icon(Icons.add,
-                            color: Colors.white,
-                            size: 40,
-                            weight: 40,
-                            grade: 20)),
+                      width: 60,
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: Constants.primaryDegrade,
+                      ),
+                      child: const Icon(Icons.add,
+                          color: Colors.white, size: 40, weight: 40, grade: 20),
+                    ),
                   ),
                 )
               : null,
@@ -148,7 +149,9 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                         return RockListItem(
                           imagePath: imagePath,
                           imageUrl: rockDefaultImage['img1'],
-                          title: rock.rockName,
+                          title: rock.rockCustomName.isNotEmpty
+                              ? rock.rockCustomName
+                              : rock.rockName,
                           tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                           onTap: () async {
                             try {
@@ -157,7 +160,8 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                                   await DatabaseHelper().findAllRocks();
                               if (allRocks
                                   .where((rockFromAll) =>
-                                      rockFromAll.rockName == rock.rockName)
+                                      rockFromAll.rockName == rock.rockName &&
+                                      rockFromAll.isAddedToCollection)
                                   .isNotEmpty) {
                                 isRemovingFromCollection = true;
                               }
@@ -187,7 +191,11 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                                 if (!(await DatabaseHelper()
                                         .imageExistsCollection(imagePath)) &&
                                     !(await DatabaseHelper()
-                                        .imageExistsLoved(imagePath))) {
+                                        .imageExistsLoved(imagePath)) &&
+                                    (Rock.rockList
+                                        .where((defaultRock) =>
+                                            defaultRock.rockId == rock.rockId)
+                                        .isNotEmpty)) {
                                   final file = File(imagePath);
                                   await file.delete();
                                 }

@@ -31,7 +31,9 @@ class _CollectionsTabState extends State<CollectionsTab> {
       _collectionRocks.clear();
       List<Rock> collectionRocks = await DatabaseHelper().findAllRocks();
       setState(() {
-        _collectionRocks.addAll(collectionRocks);
+        _collectionRocks.addAll(collectionRocks.where(
+          (rock) => rock.isAddedToCollection,
+        ));
       });
     } catch (e) {
       debugPrint('$e');
@@ -73,17 +75,15 @@ class _CollectionsTabState extends State<CollectionsTab> {
                       ).then((_) => _loadCollectionRocks());
                     },
                     child: Container(
-                        width: 60,
-                        height: 60,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: Constants.primaryDegrade,
-                        ),
-                        child: const Icon(Icons.add,
-                            color: Colors.white,
-                            size: 40,
-                            weight: 40,
-                            grade: 20)),
+                      width: 60,
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: Constants.primaryDegrade,
+                      ),
+                      child: const Icon(Icons.add,
+                          color: Colors.white, size: 40, weight: 40, grade: 20),
+                    ),
                   ),
                 )
               : null,
@@ -116,7 +116,9 @@ class _CollectionsTabState extends State<CollectionsTab> {
                     return RockListItem(
                       imagePath: imagePath,
                       imageUrl: rockDefaultImage['img1'],
-                      title: rock.rockName,
+                      title: rock.rockCustomName.isNotEmpty
+                          ? rock.rockCustomName
+                          : rock.rockName,
                       tags: const ['Sulfide minerals', 'Mar', 'Jul'],
                       onTap: () {
                         Navigator.push(
@@ -136,12 +138,16 @@ class _CollectionsTabState extends State<CollectionsTab> {
                             if (!(await DatabaseHelper()
                                     .imageExistsSnapHistory(imagePath!)) &&
                                 !(await DatabaseHelper()
-                                    .imageExistsLoved(imagePath))) {
+                                    .imageExistsLoved(imagePath)) &&
+                                (Rock.rockList
+                                    .where((defaultRock) =>
+                                        defaultRock.rockId == rock.rockId)
+                                    .isNotEmpty)) {
                               final file = File(imagePath);
                               await file.delete();
                             }
                           }
-                          await DatabaseHelper().removeRock(rock.rockId);
+                          await DatabaseHelper().removeRock(rock);
                           await HomePageService.instance.notifyTotalValues();
                           _loadCollectionRocks();
                         } catch (e) {

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
@@ -1811,31 +1812,12 @@ class _RockViewPageState extends State<RockViewPage>
                                           .costController,
                                       hintText: 'Cost',
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
-                                      ],
-                                      onChanged: (value) {
-                                        if (value.isEmpty) return;
-                                        final formatter = NumberFormat.currency(
+                                        CurrencyTextInputFormatter.currency(
+                                          decimalDigits: 2,
+                                          locale: 'en_US',
                                           symbol: '',
-                                          decimalDigits: 0,
-                                        );
-                                        final formattedValue =
-                                            formatter.format(double.tryParse(
-                                                  value.replaceAll(
-                                                    RegExp(r'[^\d.]'),
-                                                    '',
-                                                  ),
-                                                ) ??
-                                                0.0);
-                                        _addRockToCollectionService
-                                            .costController
-                                            .value = TextEditingValue(
-                                          text: formattedValue,
-                                          selection: TextSelection.collapsed(
-                                            offset: formattedValue.length,
-                                          ),
-                                        );
-                                      },
+                                        ),
+                                      ],
                                       rightIcon: const Icon(
                                         Icons.attach_money_sharp,
                                         color: Constants.white,
@@ -2094,7 +2076,7 @@ class _RockViewPageState extends State<RockViewPage>
                             context,
                             PageTransition(
                               duration: const Duration(milliseconds: 300),
-                              child: PremiumPage(),
+                              child: const PremiumPage(),
                               type: PageTransitionType.bottomToTop,
                             ),
                           );

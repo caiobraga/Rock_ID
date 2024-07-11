@@ -63,6 +63,7 @@ dependencies:
   purchases_flutter: ^6.20.0
   flutter_secure_storage: ^9.2.2
   package_info_plus: ^5.0.1
+  currency_text_input_formatter: ^2.2.3
 
 dev_dependencies:
   flutter_test:

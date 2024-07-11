@@ -2094,7 +2094,7 @@ class _RockViewPageState extends State<RockViewPage>
                             context,
                             PageTransition(
                               duration: const Duration(milliseconds: 300),
-                              child: const PremiumPage(),
+                              child: PremiumPage(),
                               type: PageTransitionType.bottomToTop,
                             ),
                           );

@@ -13,7 +13,7 @@ class PremiumSection extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (_) => const PremiumPage()));
+            context, MaterialPageRoute(builder: (_) => PremiumPage()));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

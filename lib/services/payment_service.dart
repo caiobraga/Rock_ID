@@ -45,23 +45,6 @@ class PaymentService {
       }
 
       await Purchases.purchasePackage(package);
-
-      // debugPrint('Paywall result: $payWallResult');
-
-      // if (payWallResult == PaywallResult.purchased ||
-      //     payWallResult == PaywallResult.restored) {
-      // } else if (payWallResult == PaywallResult.cancelled) {
-      //   await showToast(localizationService
-      //       .getString(LocalizedString.purchaseCancelledPleaseTryAgain), context);
-      // } else if (payWallResult == PaywallResult.notPresented) {
-      //   await showToast(
-      //       localizationService.getString(LocalizedString.paywallNotPresented), context);
-      // } else if (payWallResult == PaywallResult.error) {
-      //   await showToast(
-      //       localizationService.getString(LocalizedString.errorPleaseTryAgain), context);
-      // } else {
-      //   debugPrint('Result');
-      // }
     } catch (e) {
       await showToast(
           localizationService.getString(LocalizedString.errorPleaseTryAgain),

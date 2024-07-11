@@ -168,7 +168,7 @@ class _RootPageState extends State<RootPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'ROCKAPP',
+          'GEM IDENTIFIER',
           style: TextStyle(
             color: Constants.primaryColor,
             fontSize: 40,
@@ -182,7 +182,7 @@ class _RootPageState extends State<RootPage> {
               context,
               PageTransition(
                 duration: const Duration(milliseconds: 300),
-                child: const PremiumPage(),
+                child: PremiumPage(),
                 type: PageTransitionType.topToBottom,
               ),
             ),

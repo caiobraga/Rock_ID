@@ -148,8 +148,7 @@ class _CameraPageState extends State<CameraPage> {
               onPressed: () => Navigator.push(
                 context,
                 PageTransition(
-                    child: const PremiumPage(),
-                    type: PageTransitionType.topToBottom),
+                    child: PremiumPage(), type: PageTransitionType.topToBottom),
               ),
               icon: SvgPicture.string(
                 AppIcons.crownOnly,
@@ -652,7 +651,7 @@ class _CameraPageState extends State<CameraPage> {
           context,
           PageTransition(
             duration: const Duration(milliseconds: 300),
-            child: const PremiumPage(),
+            child: PremiumPage(),
             type: PageTransitionType.topToBottom,
           ),
         );

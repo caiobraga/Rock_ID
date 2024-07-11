@@ -59,12 +59,11 @@ class _CollectionsTabState extends State<CollectionsTab> {
           backgroundColor: Constants.darkGrey,
           floatingActionButton: _collectionRocks.isEmpty
               ? Center(
-                  child: FloatingActionButton(
-                    backgroundColor: Constants.primaryColor,
-                    shape: RoundedRectangleBorder(
+                  child: InkWell(
+                    customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    onPressed: () {
+                    onTap: () {
                       Navigator.push(
                         context,
                         PageTransition(
@@ -74,7 +73,7 @@ class _CollectionsTabState extends State<CollectionsTab> {
                         ),
                       ).then((_) => _loadCollectionRocks());
                     },
-                    child: Container(
+                    child: Ink(
                       width: 60,
                       height: 60,
                       decoration: const BoxDecoration(

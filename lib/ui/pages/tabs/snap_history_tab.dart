@@ -90,12 +90,11 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
           backgroundColor: Constants.darkGrey,
           floatingActionButton: _history.isEmpty
               ? Center(
-                  child: FloatingActionButton(
-                    backgroundColor: Constants.primaryColor,
-                    shape: RoundedRectangleBorder(
+                  child: InkWell(
+                    customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    onPressed: () async {
+                    onTap: () async {
                       await Navigator.push(
                         context,
                         PageTransition(
@@ -105,7 +104,7 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                         ),
                       );
                     },
-                    child: Container(
+                    child: Ink(
                       width: 60,
                       height: 60,
                       decoration: const BoxDecoration(

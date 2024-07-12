@@ -279,28 +279,34 @@ class _CameraPageState extends State<CameraPage> {
                 InkWell(
                   splashColor: Constants.primaryColor,
                   onTap: () async {
-                    await _cameraController!.pausePreview();
-                    if (await Permission.camera.isGranted) {
-                      if (_isCameraInitialized) {
-                        final takenPicture =
-                            await _cameraController!.takePicture();
-                        await _cameraController!.resumePreview();
-                        if (_flashOn) {
-                          await _cameraController!.setFlashMode(FlashMode.off);
+                    try {
+                      await _cameraController!.pausePreview();
+                      if (await Permission.camera.isGranted) {
+                        if (_isCameraInitialized) {
+                          final takenPicture =
+                              await _cameraController!.takePicture();
+                          await _cameraController!.resumePreview();
+                          if (_flashOn) {
+                            await _cameraController!
+                                .setFlashMode(FlashMode.off);
+                            setState(() {
+                              _flashOn = false;
+                            });
+                          }
                           setState(() {
-                            _flashOn = false;
+                            _image = File(takenPicture.path);
                           });
+                          _startScanning(
+                              _scanningFunction, Navigator.of(context));
+                        } else {
+                          await _requestCameraPermission();
                         }
-                        setState(() {
-                          _image = File(takenPicture.path);
-                        });
-                        _startScanning(
-                            _scanningFunction, Navigator.of(context));
                       } else {
                         await _requestCameraPermission();
                       }
-                    } else {
-                      await _requestCameraPermission();
+                    } catch (e) {
+                      ShowSnackbarService().showSnackBar(
+                          e.toString().replaceAll('Exception: ', ''));
                     }
                   },
                   customBorder: const CircleBorder(),

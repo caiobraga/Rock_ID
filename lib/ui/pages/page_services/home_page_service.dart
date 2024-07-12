@@ -26,9 +26,10 @@ class HomePageService {
     for (final rock in rockList) {
       totalPrice += rock.cost;
     }
-    totalRockCollectionPriceNotifier.value =
-        NumberFormat.currency(symbol: '\$', decimalDigits: 0)
-            .format(totalPrice);
+    totalRockCollectionPriceNotifier.value = NumberFormat.currency(
+      symbol: '\$',
+      decimalDigits: 2,
+    ).format(totalPrice);
 
     final userHistory = await _storage.read(key: 'userHistory');
     totalScannedRocksNotifier.value =

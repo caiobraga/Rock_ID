@@ -1639,13 +1639,13 @@ class _RockViewPageState extends State<RockViewPage>
                               ),
                               const SizedBox(height: 16),
                               const Text(
-                                'Photos',
+                                'Photo',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: 12),
                               ValueListenableBuilder<String?>(
                                 valueListenable:
                                     _addRockToCollectionService.imageNotifier,
@@ -1800,6 +1800,7 @@ class _RockViewPageState extends State<RockViewPage>
                                       ],
                                     )),
                               ),
+                              const SizedBox(height: 20),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -1841,13 +1842,9 @@ class _RockViewPageState extends State<RockViewPage>
                                                   symbol: '',
                                                   decimalDigits: 2,
                                                   locale: 'en_US');
-                                          final formattedValue =
-                                              formatter.format(double.tryParse(
-                                                    value.replaceAll(
-                                                      RegExp(r'[^\d.]'),
-                                                      '',
-                                                    ),
-                                                  ) ??
+                                          final formattedValue = formatter
+                                              .format(double.tryParse(value
+                                                      .replaceAll(',', '')) ??
                                                   0.0);
                                           _addRockToCollectionService
                                               .costController
@@ -1897,6 +1894,25 @@ class _RockViewPageState extends State<RockViewPage>
                                         ),
                                       ],
                                       textInputType: TextInputType.number,
+                                      onChanged: (value) {
+                                        if (value.isEmpty) return;
+                                        final formatter = NumberFormat.currency(
+                                            symbol: '',
+                                            decimalDigits: 2,
+                                            locale: 'en_US');
+                                        final formattedValue = formatter.format(
+                                            double.tryParse(value.replaceAll(
+                                                    ',', '')) ??
+                                                0.0);
+                                        _addRockToCollectionService
+                                            .lengthController
+                                            .value = TextEditingValue(
+                                          text: formattedValue,
+                                          selection: TextSelection.collapsed(
+                                            offset: value.length,
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                   Container(
@@ -1929,6 +1945,25 @@ class _RockViewPageState extends State<RockViewPage>
                                           symbol: '',
                                         ),
                                       ],
+                                      onChanged: (value) {
+                                        if (value.isEmpty) return;
+                                        final formatter = NumberFormat.currency(
+                                            symbol: '',
+                                            decimalDigits: 2,
+                                            locale: 'en_US');
+                                        final formattedValue = formatter.format(
+                                            double.tryParse(value.replaceAll(
+                                                    ',', '')) ??
+                                                0.0);
+                                        _addRockToCollectionService
+                                            .widthController
+                                            .value = TextEditingValue(
+                                          text: formattedValue,
+                                          selection: TextSelection.collapsed(
+                                            offset: value.length,
+                                          ),
+                                        );
+                                      },
                                       textInputType: TextInputType.number,
                                     ),
                                   ),
@@ -2094,6 +2129,25 @@ class _RockViewPageState extends State<RockViewPage>
                                       ],
                                       hintText: 'Height',
                                       textInputType: TextInputType.number,
+                                      onChanged: (value) {
+                                        if (value.isEmpty) return;
+                                        final formatter = NumberFormat.currency(
+                                            symbol: '',
+                                            decimalDigits: 2,
+                                            locale: 'en_US');
+                                        final formattedValue = formatter.format(
+                                            double.tryParse(value.replaceAll(
+                                                    ',', '')) ??
+                                                0.0);
+                                        _addRockToCollectionService
+                                            .heightController
+                                            .value = TextEditingValue(
+                                          text: formattedValue,
+                                          selection: TextSelection.collapsed(
+                                            offset: value.length,
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],

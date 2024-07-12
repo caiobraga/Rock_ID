@@ -40,11 +40,20 @@ class AddRockToCollectionService {
         : rock.dateAcquired;
     costController.text = NumberFormat.currency(
       symbol: '',
-      decimalDigits: 0,
+      decimalDigits: 2,
     ).format(rock.cost);
-    lengthController.text = rock.length.toString();
-    widthController.text = rock.width.toString();
-    heightController.text = rock.height.toString();
+    lengthController.text = NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 2,
+    ).format(rock.length);
+    widthController.text = NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 2,
+    ).format(rock.width);
+    heightController.text = NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 2,
+    ).format(rock.height);
     localityController.text = rock.locality;
     notesController.text == rock.notes;
     unitOfMeasurementNotifier.value =

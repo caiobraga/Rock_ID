@@ -31,26 +31,39 @@ class _SelectRockPageState extends State<SelectRockPage> {
       final repeatedRockList = rockList;
       repeatedRockList.sort((a, b) => a.rockId.compareTo(b.rockId));
       final Set<String> rockNamesSet = {};
-      for (final rock in repeatedRockList) {
-        if (!rockNamesSet.contains(rock.rockName)) {
-          _filteredRockList.add(rock);
-          rockNamesSet.add(rock.rockName);
-        }
-      }
+      DatabaseHelper().findAllRocks().then(
+        (allRocks) {
+          for (final rock in repeatedRockList) {
+            if (!rockNamesSet.contains(rock.rockName)) {
+              if (allRocks
+                  .where((element) => element.rockId == rock.rockId)
+                  .isNotEmpty) {
+                _filteredRockList.add(
+                  allRocks
+                      .firstWhere((element) => element.rockId == rock.rockId),
+                );
+              } else {
+                _filteredRockList.add(rock);
+              }
+              rockNamesSet.add(rock.rockName);
+            }
+          }
 
-      _rockList = _filteredRockList;
+          _rockList = _filteredRockList;
 
-      if (widget.isFavoritingRock) {
-        _filterFavoritedRocks();
-      }
+          if (widget.isFavoritingRock) {
+            _filterFavoritedRocks();
+          }
 
-      _sortCollectionRocks();
+          _sortCollectionRocks();
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Future.delayed(const Duration(milliseconds: 300), () {
-          _searchRocks.requestFocus();
-        });
-      });
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Future.delayed(const Duration(milliseconds: 300), () {
+              _searchRocks.requestFocus();
+            });
+          });
+        },
+      );
     });
   }
 
@@ -223,8 +236,9 @@ class _SelectRockPageState extends State<SelectRockPage> {
   void _filterRocks(String query) {
     setState(() {
       _filteredRockList = _rockList
-          .where((rock) =>
-              rock.rockName.toLowerCase().contains(query.toLowerCase()))
+          .where((rock) => rock.rockCustomName.isNotEmpty
+              ? rock.rockCustomName.toLowerCase().contains(query.toLowerCase())
+              : rock.rockName.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
   }

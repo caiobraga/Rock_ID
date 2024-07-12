@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/tab_services/collections_tab_service.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../constants.dart';
@@ -21,12 +22,24 @@ class SelectRockPage extends StatefulWidget {
 class _SelectRockPageState extends State<SelectRockPage> {
   List<Rock> _rockList = [];
   List<Rock> _filteredRockList = [];
+  final searchController = TextEditingController();
 
   final _searchRocks = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        _searchRocks.requestFocus();
+      });
+    });
+    _initializeList();
+  }
+
+  void _initializeList() {
+    _rockList.clear();
+    _filteredRockList.clear();
     DatabaseHelper().incrementDefaultRockList(Rock.rockList).then((rockList) {
       final repeatedRockList = rockList;
       repeatedRockList.sort((a, b) => a.rockId.compareTo(b.rockId));
@@ -56,14 +69,11 @@ class _SelectRockPageState extends State<SelectRockPage> {
           }
 
           _sortCollectionRocks();
-
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Future.delayed(const Duration(milliseconds: 300), () {
-              _searchRocks.requestFocus();
-            });
-          });
         },
       );
+      setState(() {
+        searchController.text = '';
+      });
     });
   }
 
@@ -156,8 +166,10 @@ class _SelectRockPageState extends State<SelectRockPage> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
+                  controller: searchController,
                   style: const TextStyle(color: Constants.white),
                   onChanged: (query) {
+                    searchController.text = query;
                     _filterRocks(query);
                   },
                 ),
@@ -230,7 +242,12 @@ class _SelectRockPageState extends State<SelectRockPage> {
         ),
         type: PageTransitionType.bottomToTop,
       ),
-    );
+    ).then((_) {
+      _initializeList();
+      CollectionsTabService.instance
+          .loadCollectionRocks()
+          .then((_) => setState(() {}));
+    });
   }
 
   void _filterRocks(String query) {

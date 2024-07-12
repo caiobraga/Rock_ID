@@ -243,7 +243,10 @@ class DatabaseHelper {
 
   Future<bool> rockExists(Rock rock) async {
     List<Rock> rocks = await findAllRocks();
-    return rocks.where((element) => element.rockId == rock.rockId).isNotEmpty;
+    return rocks
+        .where((element) =>
+            element.rockId == rock.rockId && element.isAddedToCollection)
+        .isNotEmpty;
   }
 
   // Functions for wishlist

@@ -3334,6 +3334,1062 @@ class Rock {
           "https://www.alexstrekeisen.it/immagini/diagrammi/alno2019(6).jpg",
       "rockId": 256
     },
+    {
+        "rockId": 736,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/6/60/Gneiss.jpg",
+        "img2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/03/corundum-gneiss-with-sapphire.jpg",
+        "cmi1": "https://oaklandgeology.com/wp-content/uploads/2016/12/gneiss-pet.jpg",
+        "cmi2": "https://www.alexstrekeisen.it/immagini/diagrammi/gneiss2020(5).jpg",
+        "cmi3": "https://www.alexstrekeisen.it/immagini/diagrammi/gneiss2020(3).jpg"
+    },
+    {
+        "rockId": 737,
+        "img1": "https://www.alexstrekeisen.it/immagini/diagrammi/borolanite(1).jpg",
+        "img2": "https://www.alexstrekeisen.it/immagini/diagrammi/borolanite(2).jpg",
+        "cmi1": "https://www.alexstrekeisen.it/immagini/diagrammi/borolanite(3).jpg",
+        "cmi2": "https://www.alexstrekeisen.it/immagini/pluto/borolanite(1).jpg",
+        "cmi3": "https://www.virtualmicroscope.org/sites/default/files/hero-SMG137-borolanite-Img25262.jpg"
+    },
+    {
+        "rockId": 738,
+        "img1": "https://rocks.comparenature.com/PImg/Wehrlite93Normal_200.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Wherlite.JPG",
+        "cmi1": "http://www.newtonsdisciple.com/publishImages/Wehrlite~~element4.JPG",
+        "cmi2": "https://www.alexstrekeisen.it/immagini/diagrammi/peridotite2019(3).jpg",
+        "cmi3": "http://www.newtonsdisciple.com/Poikilitic_Wehrlite_Troodos_Ophiolite_Complex_Troodos_Cyprus_5.jpg"
+    },
+    {
+        "rockId": 744,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Kenyte_from_Mount_Kenya.jpg/800px-Kenyte_from_Mount_Kenya.jpg",
+        "img2": "https://rocks.comparenature.com/PImg/Kenyte132Normal_200.jpg",
+        "cmi1": "https://media.sciencephoto.com/image/c0166204/800wm/C0166204-Kenyte_lava.jpg",
+        "cmi2": "http://www.jsjgeology.net/Erebus_files/image002.jpg",
+        "cmi3": "http://www.jsjgeology.net/Mt.-Kenya_files/image004.jpg"
+    },
+    {
+        "rockId": 745,
+        "img1": "https://rocks.comparenature.com/PImg/Jasperoid156Normal_200.jpg",
+        "img2": "https://turnstone.ca/jaspero2.jpg",
+        "cmi1": "https://www.researchgate.net/profile/David-Freedman-4/publication/333657569/figure/fig19/AS:767192995999750@1559924472527/Mineralized-breccias-from-carbonate-breccia-replacement-deposits-along-the-TiCup-horizon.jpg",
+        "cmi2": "https://plug.plugon.us/img/a/aec/aec656f20778496782e9b6e329e6f6b9/img1.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Jasperoid.jpg"
+    },
+    {
+        "rockId": 749,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Sub-bituminus.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Bituminous_Coal.JPG/1280px-Bituminous_Coal.JPG",
+        "cmi1": "https://energyeducation.ca/wiki/images/e/e9/640px-Bituminous_Coal.jpg",
+        "cmi2": "https://assets.fishersci.com/TFS-Assets/CCG/product-images/ESNG0030.jpg-650.jpg",
+        "cmi3": "https://5.imimg.com/data5/UG/MR/NW/SELLER-55849917/bituminous-coal-500x500.jpg"
+    },
+    {
+        "rockId": 751,
+        "img1": "https://www.researchgate.net/profile/Daniel-Munoz-Lopez/publication/346311996/figure/fig5/AS:961758491590664@1606312501999/Devonian-protolith-a-Field-image-showing-the-relationship-between-bedding-S-0-and.jpg",
+        "img2": "https://m.media-amazon.com/images/I/71+Pw-Q7zKL._AC_SX679_.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Peridotite_5773.jpg/480px-Peridotite_5773.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/0/08/BasaltUSGOV.jpg",
+        "cmi3": "https://media.cheggcdn.com/media/0c9/0c9695d8-9a26-41fa-85d3-92be31781a7c/phpboJGSC.png"
+    },
+    {
+        "rockId": 754,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/BIF_%28jaspilite_meta-BIF%2C_Paleoproterozoic_Minas_Gerais.jpg/800px-BIF_%28jaspilite_meta-BIF%2C_Paleoproterozoic_Minas_Gerais.jpg",
+        "img2": "https://t4.ftcdn.net/jpg/00/53/31/07/240_F_53310726_9RTUJ6pIayadSOUIAjE0M40hvf5AEuKE.jpg",
+        "cmi1": "https://www.allcrystal.com/wp-content/uploads/2024/02/rough-jaspilite-rock-on-white-background-x-no-credit-needed-300x200.jpg",
+        "cmi2": "http://www.jsjgeology.net/Banded-iron-formations_files/image004.jpg",
+        "cmi3": "http://www.jsjgeology.net/Banded-iron-formations_files/image006.jpg"
+    },
+    {
+        "rockId": 762,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Basanite%26Dunite_bomb.JPG/1280px-Basanite%26Dunite_bomb.JPG",
+        "img2": "https://www.mindat.org/imagecache/03/cf/02034850017098418581739.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/04/eb/03610300016094139857215.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/42/c8/02709930017088107948205.jpg",
+        "cmi3": "http://www.newtonsdisciple.com/publishImages/Basanite~~element3.jpg"
+    },
+    {
+        "rockId": 763,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Syenite.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/4/45/Sy%C3%A9nite_Tretorre.jpg",
+        "cmi1": "https://www.virtualmicroscope.org/sites/default/files/at616-Syenite1_Rob.jpg",
+        "cmi2": "https://m.media-amazon.com/images/I/71nxCkvAzLL._SX522_.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kakortokite_%28eudialytic_nepheline_syenite%29_Kangerdluarssaq_Fjord%2CGreenland.jpg/255px-Kakortokite_%28eudialytic_nepheline_syenite%29_Kangerdluarssaq_Fjord%2CGreenland.jpg"
+    },
+    {
+        "rockId": 765,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Diorite_orbiculaire-5729~2016_11_03.jpg/1280px-Diorite_orbiculaire-5729~2016_11_03.jpg",
+        "img2": "https://phaidra.cab.unipd.it/api/imageserver?IIIF=o:436079.tif/full/,480/0/default.jpg",
+        "cmi1": "https://auctions.afimg.jp/h1061126094/ya/image/h1061126094.2.jpg",
+        "cmi2": "https://auctions.afimg.jp/h1061126094/ya/image/h1061126094.10.jpg",
+        "cmi3": "https://auctions.afimg.jp/h1061126094/ya/image/h1061126094.4.jpg"
+    },
+    {
+        "rockId": 766,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Estonian_Museum_of_Natural_History_Specimen_No_177565_photo_%28g220_g220-15_1_jpg%29.jpg/1024px-Estonian_Museum_of_Natural_History_Specimen_No_177565_photo_%28g220_g220-15_1_jpg%29.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Lherzolite_Lers.jpg/1024px-Lherzolite_Lers.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Garnet_lherzolite_-_xenolith_from_a_kimberlite_pipe%2C_Kimberley_SA.jpg/1024px-Garnet_lherzolite_-_xenolith_from_a_kimberlite_pipe%2C_Kimberley_SA.jpg",
+        "cmi2": "https://www.alexstrekeisen.it/immagini/diagrammi/peridotite2019(7).jpg",
+        "cmi3": "https://geologybase.com/wp-content/uploads/2023/12/Lherzolite-rock.jpg"
+    },
+    {
+        "rockId": 770,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Basanite%26Dunite_bomb.JPG/390px-Basanite%26Dunite_bomb.JPG",
+        "img2": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxDz-s06Lpney9N5MaJBjF1cJ2Ng6dxRD9RAtbuUl-U0ltr5N6nsesc02b8y__BiivLtIU1eEjW2J2rXyme8qTMqqTa-IdIL7-TudonVtQETpaxXvf94iRXYHlzQ5COX6p9VVnJILLkvxrtZ-BIAYrWdJtoLSlN4jZzWXjx2tFQ5oIe88weeTznOaejPs/w640-h478-rw/Dunite--.jpg",
+        "cmi1": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjEybMhCoR6x_UVJkwXLFUzUI7aMJaUzm42ZPwmxw3d5VxEPzSnnk5bpR-sYSY_bnH0Nxea1I0Bozbdq0iJ-fQT4BDeBje3fLhXlyL0ZTa7JjFE9tjj_shuFdSHIr29-aoIufGxIkFKZieT2KvRVWawwpVQvEcVmpbGIbDeZaCC5dTS1wM3Mqn0j4Xn_5E/w640-h582-rw/dunite-xenoliths.jpg",
+        "cmi2": "http://www.newtonsdisciple.com/Olivine.jpg",
+        "cmi3": "https://www.geologysuperstore.com/wp-content/uploads/2023/03/Dunite_Peridotite-removebg-preview.png"
+    },
+    {
+        "rockId": 773,
+        "img1": "https://i.ebayimg.com/images/g/qFMAAOSwEmNl8zcf/s-l960.jpg",
+        "img2": "https://www.jsg.utexas.edu/vargas/img_catalog_mid/MS_VP3102.jpg",
+        "cmi1": "https://rocks.comparenature.com/PImg/Itacolumite74Normal_200.jpg",
+        "cmi2": "https://m.media-amazon.com/images/I/61tOHCVpl+L._SY879_.jpg",
+        "cmi3": "https://www.researchgate.net/profile/Tomas-Derka/publication/235753026/figure/fig45/AS:669520234565640@1536637471451/A-B-Plates-of-flexible-sandstone-itacolumite-scaled-from-the-cave-ceilings-A-Cueva.jpg"
+    },
+    {
+        "rockId": 776,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/8/86/Chlorite_schist.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Piece_of_greenschist_from_Dalupirip%2C_Itogon%2C_Benguet%2C_Philippines_02.jpg/1280px-Piece_of_greenschist_from_Dalupirip%2C_Itogon%2C_Benguet%2C_Philippines_02.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/ff/50/08191900015556020158733.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/16/f5/06817560017058609941026.jpg",
+        "cmi3": "https://www.alexstrekeisen.it/immagini/diagrammi/greenschist2020.jpg"
+    },
+    {
+        "rockId": 777,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Lapis_lazuli_block.jpg/300px-Lapis_lazuli_block.jpg",
+        "img2": "https://imageswscdn.wslojas.com.br/files/20504/MED_pedra-lapis-lazuli-verdadeira-com-excelente-qualidade-a-unidade-gemas-puras-com-padrao-de-colecao-6474511.png",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Lazurite.jpg/330px-Lazurite.jpg",
+        "cmi2": "https://www.anahana.com/hs-fs/hubfs/raw-blue-lazurite-lapis-lazuli-banner.jpg?amp;amp;&width=420&name=raw-blue-lazurite-lapis-lazuli-banner.jpg",
+        "cmi3": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-LpT2-QT0b8GiHaBOgSSv1T6sKGCVkj_cFPqcFJzLdZnj4jr2le9eWFakYzgxyLiAWkfRvtphvxh1U-hIpPpMjIJ-tZvorx1F0MRVz6yavoen1F9SR7FLM2pJwUGV5pWX-77sTTS47x3w/s400/l%C3%A1pis+lazili.jpg"
+    },
+    {
+        "rockId": 780,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/0/05/Moissanite-USGS-20-1001d-14x-.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Moissanite-USGS-20-1001c-14x-.jpg",
+        "cmi1": "https://t3.ftcdn.net/jpg/01/41/59/24/240_F_141592487_kgV5byV9o2nMHOI67KSlatPtHxEEAzsl.jpg",
+        "cmi2": "https://i.ebayimg.com/images/g/cZ4AAOSwk-Rj-SPE/s-l960.jpg",
+        "cmi3": "https://i.ebayimg.com/images/g/Z2EAAOSwftRjOJBi/s-l1600.jpg"
+    },
+    {
+        "rockId": 781,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Grandidierite-169886.jpg/375px-Grandidierite-169886.jpg",
+        "img2": "https://i.ebayimg.com/images/g/j2wAAOSwQj9ij18r/s-l1600.jpg",
+        "cmi1": "https://www.weinrichmineralsinc.com/userfiles/products/large/9/5/9539566.jpg",
+        "cmi2": "https://www.weinrichmineralsinc.com/userfiles/products/large/9/5/9539554.jpg",
+        "cmi3": "https://www.weinrichmineralsinc.com/userfiles/products/large/9/5/9539564.jpg"
+    },
+    {
+        "rockId": 782,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Emerald_Obsidianite_Jewelry_600px.jpg/330px-Emerald_Obsidianite_Jewelry_600px.jpg",
+        "img2": "https://www.silverrushstyle.com/media/mod_structure/235/th_250x232x100_w0logo-5.jpg",
+        "cmi1": "https://thumbs.worthpoint.com/zoom/images1/1/0218/19/rough-helenite-gaia-green-glass-mount_1_535abd5d65f2d1e76ce4118a679638e3.jpg",
+        "cmi2": "https://thumbs.worthpoint.com/zoom/images1/1/0118/12/rough-helenite-gaia-stone-glass_1_3d28376aaddec843d5e10124b43c4bd3.jpg",
+        "cmi3": "https://gemsnewdirections.com/images/Hellenite/7590.JPG"
+    },
+    {
+        "rockId": 783,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Danburite-162634.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Danburite_2581.jpg/800px-Danburite_2581.jpg",
+        "cmi1": "https://assets1.fossilera.com/sp/611475/danburite/708x500%3E/danburite.jpg",
+        "cmi2": "https://earthlygems.com/image/cache/catalog/natural/danburite/danburite-cluster-1b-DSC04591-150x150.jpg",
+        "cmi3": "https://earthlygems.com/image/cache/catalog/natural/danburite/danburite-1b-DSC02473-150x150.jpg"
+    },
+    {
+        "rockId": 784,
+        "img1": "https://www.coppercanyonlapidary.com/wp-content/uploads/2021/06/GG.jpg",
+        "img2": "https://i.ebayimg.com/images/g/O0MAAOSw3QVgwHSa/s-l140.jpg",
+        "cmi1": "https://www.coppercanyonlapidary.com/wp-content/uploads/2021/06/DD.jpg",
+        "cmi2": "https://en.newpiezo.com/_src/Knowledge.Item/31_img2/%D0%B3%D0%B3%D0%B0%D0%B3%D0%BC.jpg",
+        "cmi3": "https://www.coppercanyonlapidary.com/wp-content/uploads/2021/06/FF-300x300.jpg"
+    },
+    {
+        "rockId": 785,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Algodonit_-_Houghton_County%2C_Michigan%2C_USA.jpg/1024px-Algodonit_-_Houghton_County%2C_Michigan%2C_USA.jpg",
+        "img2": "https://www.mindat.org/imagecache/69/33/02823510014947021929341.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/09/c7/01236760014955097772641.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/dc/54/01170240014946718857012.jpg",
+        "cmi3": "https://cdn.irocks.com/storage/media/22869/conversions/MD-113363a-small.jpg"
+    },
+    {
+        "rockId": 786,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/QuartzPrase.jpg/390px-QuartzPrase.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/QuartzPrase.jpg/1200px-QuartzPrase.jpg",
+        "cmi1": "https://m.media-amazon.com/images/I/81hI7rpjclL._AC_SX679_.jpg",
+        "cmi2": "https://m.media-amazon.com/images/I/81-JUFIleLL._AC_SX679_.jpg",
+        "cmi3": "https://angeltimes.ie/wp-content/uploads/2023/05/Prasiolite.jpg"
+    },
+    {
+        "rockId": 787,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Anhydrite_HMNH1.jpg/390px-Anhydrite_HMNH1.jpg",
+        "img2": "https://www.mindat.org/imagecache/d6/11/01476800014950775667367.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/cd/52/00034860014956799374837.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/c8/e8/01044070015823651841973.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Chickenwire_Gypsum_anhydrite.jpg/1024px-Chickenwire_Gypsum_anhydrite.jpg"
+    },
+    {
+        "rockId": 788,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/2/26/Brazilianite-4jg60a.jpg",
+        "img2": "https://www.mindat.org/imagecache/cd/3a/01946590014948702845994.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/a2/d6/01878980014977269622868.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/5b/c7/08165740015083375254315.jpg",
+        "cmi3": "https://www.mcdougallminerals.com/wp-content/uploads/2021/01/1005241.jpg"
+    },
+    {
+        "rockId": 789,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Andalusite_-_Malacheta%2C_Minas_Gerais%2C_Brazil.jpg/390px-Andalusite_-_Malacheta%2C_Minas_Gerais%2C_Brazil.jpg",
+        "img2": "https://www.mindat.org/imagecache/c7/92/04544790014948297835817.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/9d/02/06933530015047045231838.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/40/7f/01544440017056231462975.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/a5/03/08949360015059090689230.jpg"
+    },
+    {
+        "rockId": 790,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Goldfluss_%28Aventuringlas%29.jpg/330px-Goldfluss_%28Aventuringlas%29.jpg",
+        "img2": "https://www.tuffnellglass.com/contents/media/DSCN6358a.jpg",
+        "cmi1": "https://d17anp2eo56k6j.cloudfront.net/media/catalog/product/cache/9f1c959b611825c9ec248454b7fd061b/v/i/vintage-goldstone-glass-ring_1_30-3-3623.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Goldstone_glass_under_magnification.jpg/330px-Goldstone_glass_under_magnification.jpg",
+        "cmi3": "https://www.coppercanyonlapidary.com/wp-content/uploads/2020/03/goldstone-mass-BLOG.jpg"
+    },
+    {
+        "rockId": 791,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Nephrite_jordanow_slaski.jpg/330px-Nephrite_jordanow_slaski.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Amphibole_2_-_Nephrite_Jade_Basic_calcium_magnesium_iron_silicate_Lander_County_Wyoming_2075.jpg/255px-Amphibole_2_-_Nephrite_Jade_Basic_calcium_magnesium_iron_silicate_Lander_County_Wyoming_2075.jpg",
+        "cmi1": "https://www.gemrockinternational.com/de/wp-content/uploads/2020/10/NEPHRITE.jpg",
+        "cmi2": "https://modminerals.com/wp-content/uploads/2020/12/Nephrite-Gem-Stones-MDM.jpg",
+        "cmi3": "https://minerals-stones.com/56324-large_default/nephrite-natural-polished-748g-pakistan.jpg"
+    },
+    {
+        "rockId": 792,
+        "img1": "https://dreaminggoddess.com/wp-content/uploads/2021/03/SPE-MOL-02-5.jpg",
+        "img2": "https://dreaminggoddess.com/wp-content/uploads/2021/03/SPE-MOL-02-3.jpg",
+        "cmi1": "https://dreaminggoddess.com/wp-content/uploads/2019/09/Moldavite-3.jpg",
+        "cmi2": "https://dreaminggoddess.com/wp-content/uploads/2019/09/Moldavite-closeup.jpg",
+        "cmi3": "https://static.wixstatic.com/media/6f2b58_cd3cf50d9b1847b391764e52451c7c73~mv2.jpg/v1/fill/w_495,h_750,al_c,q_85,enc_auto/6f2b58_cd3cf50d9b1847b391764e52451c7c73~mv2.jpg"
+    },
+    {
+        "rockId": 793,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Pezzotta%C3%AFte%2C_amazonite%2C_zircon_1.jpeg/390px-Pezzotta%C3%AFte%2C_amazonite%2C_zircon_1.jpeg",
+        "img2": "https://www.mindat.org/imagecache/cb/fe/05596420014946297563249.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Pezzottaite-256889.jpg/330px-Pezzottaite-256889.jpg",
+        "cmi2": "https://www.gemselect.com/other-info/graphics/pezzottaite-madagascar.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/7a/8e/04286210017058574045807.jpg"
+    },
+    {
+        "rockId": 794,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Ulexite-39574.jpg/300px-Ulexite-39574.jpg",
+        "img2": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/t6lvzdndtlofzc1t.jpg",
+        "cmi1": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/bhgpknxghwpzuoey.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Ulexite-237267.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Ulexite-Calcite-40061.jpg"
+    },
+    {
+        "rockId": 795,
+        "img1": "https://www.mindat.org/imagecache/cf/bb/06746230017067290989765.jpg",
+        "img2": "https://www.mindat.org/imagecache/88/aa/08058030014977577914472.jpg",
+        "cmi1": "https://cdn.irocks.com/storage/media/80328/conversions/JWL16-40a-Tinzenite-South%20Africa-fine-mineral-specimen-large.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/c1/95/02046130017112103414522.jpg",
+        "cmi3": "https://cdn.irocks.com/storage/media/80331/conversions/JWL16-40d-Tinzenite-South%20Africa-fine-mineral-specimen-large.jpg"
+    },
+    {
+        "rockId": 796,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Tiger%27s_eye.jpg/390px-Tiger%27s_eye.jpg",
+        "img2": "https://www.himalayansaltfactory.com.au/wp-content/uploads/2019/11/5kg-Tiger-Eye-Rough-Parcel-768x768.jpg",
+        "cmi1": "https://5.imimg.com/data5/SELLER/Default/2020/12/UI/AS/ZU/14338679/tiger-eye-rough-raw-1000x1000.JPG",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Quartz_-_Tigers-Eye_-_raw_stone_from_Southafrica.jpg/330px-Quartz_-_Tigers-Eye_-_raw_stone_from_Southafrica.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Blue_tiger_eye_-_falcon_eye.jpg/330px-Blue_tiger_eye_-_falcon_eye.jpg"
+    },
+    {
+        "rockId": 797,
+        "img1": "https://www.mindat.org/imagecache/8b/39/01749610016013712543685.jpg",
+        "img2": "https://www.mindat.org/imagecache/ca/78/01646260014977515423562.jpg",
+        "cmi1": "https://orecart.com/wp-content/uploads/2023/01/IMG_9500-scaled.jpg",
+        "cmi2": "https://cdn.irocks.com/storage/media/62447/conversions/HECK123a-large.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Gypse-s%C3%A9l%C3%A9nite_3.jpeg/390px-Gypse-s%C3%A9l%C3%A9nite_3.jpeg"
+    },
+    {
+        "rockId": 798,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Sunstone1.jpg",
+        "img2": "https://i.etsystatic.com/14414326/r/il/8c7d4b/2374600030/il_1588xN.2374600030_3ekx.jpg",
+        "cmi1": "https://as1.ftcdn.net/v2/jpg/02/38/40/76/1000_F_238407636_Lr9U8FHDPp6NXVsyb1RRCuGH540IdLxo.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunstone2.jpg",
+        "cmi3": "https://as2.ftcdn.net/v2/jpg/01/16/14/01/1000_F_116140162_Y7W3iQ50lY9I3D9l9XmIGJYRE3RtK7ai.jpg"
+    },
+    {
+        "rockId": 799,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Apatite-Scheelite-Cubanite-204051.jpg/345px-Apatite-Scheelite-Cubanite-204051.jpg",
+        "img2": "https://m.media-amazon.com/images/I/71AfP8zFDiL._SL1181_.jpg",
+        "cmi1": "https://www.geologysuperstore.com/wp-content/uploads/2022/10/apatite_2.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Apatite_Canada.jpg/330px-Apatite_Canada.jpg",
+        "cmi3": "https://didatico.igc.usp.br/wp-content/uploads/2017/04/apatita-4-1536x1024.jpg"
+    },
+    {
+        "rockId": 800,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aqua_aura.jpg/330px-Aqua_aura.jpg",
+        "img2": "https://i.etsystatic.com/36892464/r/il/5a799d/5077022916/il_300x300.5077022916_fg55.jpg",
+        "cmi1": "https://i.pinimg.com/originals/ed/79/76/ed79764fe3053db733720ca251389af8.jpg",
+        "cmi2": "https://a0.anyrgb.com/pngimg/1090/844/crystal-cluster-druse-metalcoated-crystal-smoky-quartz-rose-quartz-quartz-mineral-stone-crystal-rock.png",
+        "cmi3": "https://i.pinimg.com/736x/f3/17/3c/f3173ce044ad100e225e50943d6f0c46.jpg"
+    },
+    {
+        "rockId": 802,
+        "img1": "https://www.mindat.org/imagecache/31/6c/00427640014946267215533.jpg",
+        "img2": "https://www.rockngem.com/wp-content/uploads/2023/05/zircon.5.jpg",
+        "cmi1": "https://cdn.britannica.com/89/8689-004-513BF70C/Zircon-quartz-Cheyenne-Canyon-Colorado.jpg?w=400&h=300&c=crop",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Zircon-dtn1a.jpg",
+        "cmi3": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Jacinth-Zircon4-edited.webp?fit=977%2C977&ssl=1"
+    },
+    {
+        "rockId": 803,
+        "img1": "https://www.mindat.org/imagecache/f3/cf/04229170017071596716562.jpg",
+        "img2": "https://www.mindat.org/imagecache/88/de/09646110015199252837192.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/9/96/Austinite-177832.jpg",
+        "cmi2": "https://www.dakotamatrix.com/images/database/austinite22498a.jpg",
+        "cmi3": "https://cdn.irocks.com/storage/media/8136/conversions/tcp05a-large.jpg"
+    },
+    {
+        "rockId": 804,
+        "img1": "https://www.mindat.org/imagecache/41/bc/08436470017087116743796.jpg",
+        "img2": "https://media.gemstones.com/image/upload/t_gemstones_ratio_4x3_m/d_gemstones-site:default-noimage.png/v1643204166/gemstones-site/gemopedia/bastnaesite/bastnaesite-specimen.jpg",
+        "cmi1": "https://i.pinimg.com/564x/d8/dc/52/d8dc52a93333ff78d41302605a171e85.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Bastnaesit_Burundi.jpg/1024px-Bastnaesit_Burundi.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/b/bb/Bastnasite-155010.jpg"
+    },
+    {
+        "rockId": 805,
+        "img1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/12/Kornerupine-2-jpg.webp?resize=1000%2C1000&ssl=1",
+        "img2": "https://www.csgemstones.com/uploadPim/190/300_Kornerupine-thumbnail-520-520.jpg",
+        "cmi1": "https://heritagegemsandjewels.com/cdn/shop/products/image_e50ac59f-8b35-4df1-94fe-4215121e638d_550x.jpg?v=1592322337",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Kornerupine-162065.jpg/450px-Kornerupine-162065.jpg",
+        "cmi3": "https://www.gemsociety.org/wp-content/uploads/2013/12/KORNERUPINE.jpg"
+    },
+    {
+        "rockId": 806,
+        "img1": "https://nationalgemlab.in/wp-content/uploads/2017/03/Boletie-300x262.jpg",
+        "img2": "https://www.mindat.org/imagecache/2b/63/01598450014946610827095.jpg",
+        "cmi1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Boleite-edited.webp?resize=640%2C426&ssl=1",
+        "cmi2": "https://www.gemsociety.org/wp-content/uploads/2013/12/Boleite.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Boleite-rom51c.jpg"
+    },
+    {
+        "rockId": 807,
+        "img1": "https://t4.ftcdn.net/jpg/06/29/16/93/360_F_629169390_iM1GF9pWfpAyHQ6viUQyedHNPLsYCJEI.jpg",
+        "img2": "https://www.tanzaniteexperience.com/wp-content/uploads/2021/05/rough-tanzanite.png",
+        "cmi1": "https://i.etsystatic.com/23489191/r/il/2d2a5d/4126828203/il_fullxfull.4126828203_5zbg.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Zo\u00efsite_%28Tanzanite%29.jpg/800px-Zo\u00efsite_%28Tanzanite%29.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Trichroic_Tanzanite_Crystal_-_violet_%26_burgundy.jpg/320px-Trichroic_Tanzanite_Crystal_-_violet_%26_burgundy.jpg"
+    },
+    {
+        "rockId": 808,
+        "img1": "https://i.etsystatic.com/12906588/r/il/de0207/4163302105/il_570xN.4163302105_2svg.jpg",
+        "img2": "https://wearecolor.us/resources/ruby-article-new2-195480.png",
+        "cmi1": "https://www.lotuswei.com/cdn/shop/articles/Ruby_Gemstone_Raw_2000x1111_24309712-95e2-4c14-b982-b9593b7f51c3_1600x.jpg?v=1640501290",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/1/17/Corundum-215330.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Ruby_cristal.jpg"
+    },
+    {
+        "rockId": 809,
+        "img1": "https://www.le-comptoir-geologique.com/_media/img/large/pic2fa1.tmp.jpg",
+        "img2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/07/Rutile-1024x913.webp?resize=1024%2C913&ssl=1",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/8/88/Hematite-Rutile-57088.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/b0/a6/08272120014951844188992.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/3/36/Rutile-ww7a.jpg"
+    },
+    {
+        "rockId": 811,
+        "img1": "https://alchemistandmagpie.com/wp-content/uploads/2020/10/smoky-quartz-sm.jpg",
+        "img2": "https://cdn11.bigcommerce.com/s-74zp6w28re/images/stencil/original/products/1816/60358/new-moon-beginnings-raw-smoky-quartz-crystal-point-crr-aa635__06743.1635742488.jpg?c=1",
+        "cmi1": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/m79fp27cecv9yqkb.jpg",
+        "cmi2": "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/277/conversions/IMG_3344-watermark.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/3/32/Smoky-quartz-TUCQTZ09-03-arkenstone-irocks.png"
+    },
+    {
+        "rockId": 812,
+        "img1": "https://7cad390533514c32acc8-75d23ce06fcfaf780446d85d50c33f7b.ssl.cf6.rackcdn.com/sc/1691740403-normal-yttrium%20iron%20garnet.png",
+        "img2": "https://7cad390533514c32acc8-75d23ce06fcfaf780446d85d50c33f7b.ssl.cf6.rackcdn.com/sc/1691741507-normal-yttrium%20iron%20garnet-2.png",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Wiki-YIG.jpg/800px-Wiki-YIG.jpg",
+        "cmi2": "https://www.sputtertargets.net/wp-content/uploads/2024/03/yttrium-iron-garnet-crystal-substrate.png",
+        "cmi3": "https://thebeautyintherocks.com/10848-thickbox_default/eudialyte-229-ct.jpg"
+    },
+    {
+        "rockId": 813,
+        "img1": "https://gandharagems.com/cdn/shop/articles/Amber-Gemstone-Value-Price-History-Jewelry.jpg?v=1653316087",
+        "img2": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/images/1145000-1149999/1147443/5e67056a6a693.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Amber2.jpg/1200px-Amber2.jpg",
+        "cmi2": "https://media.thejewellershop.com/shops/1/landingpages/lexikon/gems/lexikon-gems_bernstein.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/63/35/08262830017055470748979.jpg"
+    },
+    {
+        "rockId": 814,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Aegirine_-_Mt_Malosa%2C_Zomba%2C_Malawi_%28alt%29.jpg/800px-Aegirine_-_Mt_Malosa%2C_Zomba%2C_Malawi_%28alt%29.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/8/83/Aegirine_-_Acmite_in_syenite_Sodium_iron_silicate_Magnet_Cove_Hot_Springs_County_Arkansas_2000.jpg",
+        "cmi1": "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/14314/Aegirine.jpg",
+        "cmi2": "https://cdn.irocks.com/storage/media/22805/conversions/MD-238900a-large.jpg",
+        "cmi3": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/qyzijlhd0ieq8q6p.jpg"
+    },
+    {
+        "rockId": 815,
+        "img1": "https://lh6.googleusercontent.com/proxy/LxzfLDdw8Ijh7gpW_qZAHkpoI4NWNAyCgx_zyRmaI0izUVVQHvs4n_jcQDPTwyKaLSNcUXSTJvI3Vyem5cVop10s8hIPRsw",
+        "img2": "https://www.mindat.org/imagecache/64/69/03560040017119228579981.jpg",
+        "cmi1": "https://t4.ftcdn.net/jpg/04/76/03/31/360_F_476033149_W5fLe5b2imCSFh0z7QhOib5dvfkJHZfu.jpg",
+        "cmi2": "https://live.staticflickr.com/3941/15645114352_ef42db6416_b.jpg",
+        "cmi3": "https://img.freepik.com/premium-photo/piece-raw-skarn-stone-white_696657-33761.jpg?size=626&ext=jpg&ga=GA1.1.1141335507.1717891200&semt=sph"
+    },
+    {
+        "rockId": 816,
+        "img1": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjPjSX7hGcbxUEDqVfmFoVK9zEqvt7wJQptG2iP98CzdYva8nERL6iwsk3AVsyC6zLQWde8o_dbGso2Uuhc34Cy5AeypnpvwrqAqEuMwLjva3U7Uxzh2asiME3JCH-TGBZcSz-D1Miz8RE/s1600/Hawk's+Eye2.jpg",
+        "img2": "https://invokeproducts.com/cdn/shop/products/PXL_20211009_184806358.PORTRAIT_1024x1024@2x.jpg?v=1633976298",
+        "cmi1": "https://cdn.shopify.com/s/files/1/1547/3947/files/hawks-eye-stone_4_1024x1024.jpg?v=1595288214",
+        "cmi2": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/59f7e12cab847.jpg",
+        "cmi3": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/09/HAWKS-EYE-STONE-5-768x1024.webp?resize=768%2C1024&ssl=1"
+    },
+    {
+        "rockId": 817,
+        "img1": "https://store.kenkengems.com/cdn/shop/articles/Prehnite.jpg?v=1658111980",
+        "img2": "https://miamiminingco.com/wp-content/uploads/2023/01/prehnite-tumbles.jpg",
+        "cmi1": "https://mineraemporium.com/wp-content/uploads/2023/06/prehnite-palmstone-scaled.jpeg",
+        "cmi2": "https://rockidentifier.com/image-handle/image/1080/153753846349299716.jpeg?x-oss-process=image/format,webp",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Prehnite_-_Southbury%2C_Connecticut%2C_USA.jpg/1200px-Prehnite_-_Southbury%2C_Connecticut%2C_USA.jpg"
+    },
+    {
+        "rockId": 818,
+        "img1": "https://media.gemstones.com/image/upload/gemstones-site/gemopedia/yag-yttrium-aluminum-garnet/colors/yag-pink.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/4/45/Yttrium-aluminum_garnet_%28synthetic_gemstone%29_1.jpg",
+        "cmi1": "https://www.gemstones-guide.com/images/YGM-pink.jpg",
+        "cmi2": "https://cdn11.bigcommerce.com/s-qyo98s7z1r/images/stencil/500x659/products/3570/934/G-2378__63843.1564952773.jpg?c\\u003d2",
+        "cmi3": "https://v.etsystatic.com/video/upload/q_auto/trim.389C947C-FD94-43EA-BE36-CC0CEFE07603_huvjhs.jpg"
+    },
+    {
+        "rockId": 819,
+        "img1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Chemical-composition-of-Corundum-2-jpeg.webp?resize=800%2C719&ssl=1",
+        "img2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/03/Corundum-from-Jagdalik-Kabul-Prov.-Afghanistan.jpg?fit=369%2C415&ssl=1",
+        "cmi1": "https://www.le-comptoir-geologique.com/_media/img/large/pic1df0.tmp.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Several_corundum_crystals.jpg/1200px-Several_corundum_crystals.jpg",
+        "cmi3": "https://geology.com/minerals/photos/corundum-crystals.jpg"
+    },
+    {
+        "rockId": 820,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Vaqueros_Sandstone_Sanborn_County_Park.jpg/800px-Vaqueros_Sandstone_Sanborn_County_Park.jpg",
+        "img2": "https://www.thoughtco.com/thmb/Ul_i3om-PldomDhvuaUW8VG5Z0E=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/concoakhills-58b5abc33df78cdcd897b323.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Konkrece_Geologick\u00e1_zahrada_DP_Praha_2017_2.jpg/800px-Konkrece_Geologick\u00e1_zahrada_DP_Praha_2017_2.jpg",
+        "cmi2": "https://images.squarespace-cdn.com/content/v1/5c9f919e94d71a2bab6d18d8/1585938821691-CZ84S1ZM7KQQHJNS2LV2/LargeConcretion.jpg",
+        "cmi3": "https://images.squarespace-cdn.com/content/v1/5c9f919e94d71a2bab6d18d8/1585940199509-W6B2MM1YPVH1FEJKE3BA/Reeves-Concretion1.jpg?format=1000w"
+    },
+    {
+        "rockId": 821,
+        "img1": "https://static.wikia.nocookie.net/encyclopedia-gemstonia/images/b/b9/Hypersthene.jpg/revision/latest/scale-to-width-down/800?cb=20220115004604",
+        "img2": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/images/1335000-1339999/1337724/5fa4dea87d251.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Hypersthene_-_USGS_Mineral_Specimens_657.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/7c/c8/07114720015704149169485.jpg",
+        "cmi3": "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/7096/Hypersthene.jpg"
+    },
+    {
+        "rockId": 822,
+        "img1": "https://www.minfind.com/mfthumbs/800_600_FFFFFF_17427074611af7094f048.jpg",
+        "img2": "https://www.mindat.org/imagecache/5e/c0/06920820014946281902903.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Serpentine-bowenite.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Antigorite_%28Var._Bowenite%29.jpg/800px-Antigorite_%28Var._Bowenite%29.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/35/5e/09428660016014903407963.jpg"
+    },
+    {
+        "rockId": 823,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Horn_Louvre_OA4069.jpg/1024px-Horn_Louvre_OA4069.jpg",
+        "img2": "https://super.abril.com.br/wp-content/uploads/2017/08/de-que-c3a9-feito-e-como-se-forma-o-marfim-dos-elefantes.png?w=720&h=440&crop=1",
+        "cmi1": "https://pensamentoverde.com.br/wp-content/uploads/2017/01/china-proibe-comercializacao-de-marfim.jpg",
+        "cmi2": "https://static.dicionariodesimbolos.com.br/upload/fe/9f/marfim-2_xl.jpeg",
+        "cmi3": "https://dinamicambiental.com.br/wp-content/uploads/2021/09/marfim-3D-salva-obras-de-arte-antigas-e-elefantes.jpg"
+    },
+    {
+        "rockId": 824,
+        "img1": "https://gemstoneguru.com/wp-content/uploads/2012/04/Topaz-1024x827.png",
+        "img2": "https://ehqrd9ou2vi.exactdn.com/wp-content/uploads/2022/11/topaz-scorio-stone.jpg?strip=all&lossy=1&fit=875%2C490&ssl=1",
+        "cmi1": "https://www.allcrystal.com/wp-content/uploads/2023/02/Topaz-crystals-x-no-credit-needed.webp",
+        "cmi2": "https://cdn.shoplightspeed.com/shops/636706/files/59772013/700x700x3/novembers-traditional-birthstone-the-topaz-stone.jpg",
+        "cmi3": "https://media.istockphoto.com/id/535427664/pt/foto/\u00e9pingl\u00e9s-imperial-top\u00e1zio.jpg?s=612x612&w=0&k=20&c=LPlx13hRxOFrkJf4bJ1QzMmALaoAfb_06_YJHXo3u3M="
+    },
+    {
+        "rockId": 825,
+        "img1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/09/enstatite-4-jpeg.webp?fit=1198%2C1048&ssl=1",
+        "img2": "https://www.mindat.org/imagecache/56/b2/05176760014976503236375.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/8/82/Enstatite-pas-146b.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Enstatite-83152.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Enstatite-202036.jpg"
+    },
+    {
+        "rockId": 826,
+        "img1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Libyan-Desert-Glass-5.webp?fit=1024%2C1024&ssl=1",
+        "img2": "https://www.fossilera.com/sp/512475/libyan-desert-glass/lechatelierite.jpg",
+        "cmi1": "https://images.theconversation.com/files/275324/original/file-20190520-69169-1pwuxu4.jpg?ixlib=rb-4.1.0&rect=0%2C216%2C2945%2C1819&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip",
+        "cmi2": "https://cdn11.bigcommerce.com/s-69uljzvjbu/images/stencil/1280x1280/products/551/9072/Libyanglass13B__96906.1669076078.jpg?c=2",
+        "cmi3": "https://www.mindat.org/imagecache/0a/d8/09430200017188212449377.jpg"
+    },
+    {
+        "rockId": 827,
+        "img1": "https://euroclean.org/wp-content/uploads/2014/02/beryllium.jpg",
+        "img2": "https://mineralsmakelife.org/wp-content/uploads/2017/03/beryllium_1_-_Copy_2.png",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Be-140g.jpg",
+        "cmi2": "https://images.newscientist.com/wp-content/uploads/2023/06/14213843/SEI_160227394.jpg",
+        "cmi3": "https://www.kha.com/wp-content/uploads/2018/08/s13.jpg"
+    },
+    {
+        "rockId": 828,
+        "img1": "https://gem-a.com/wp-content/uploads/2019/05/Breaking-down-the-Misunderstandings-about-Precious-Coral.jpeg",
+        "img2": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD7O-fxJdSJIW25qIAnu3TJduLYtfKnJzbmA&s",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Red_coral_gemstone.jpg/1024px-Red_coral_gemstone.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/6/66/Corallo_vivo.jpg",
+        "cmi3": "https://www.gemselect.com/other-info/graphics/natural-red-coral.jpg"
+    },
+    {
+        "rockId": 829,
+        "img1": "https://diamondrensu.com/cdn/shop/articles/c2a0b04860d31458c82408d04dc50065.jpg?v=1702852021",
+        "img2": "https://www.doamore.com/wp-content/uploads/2022/06/oval-lab-alexandrite.jpg",
+        "cmi1": "https://cdn-cmjll.nitrocdn.com/IxGMUPMdTVYKuCVzxLRZFzaCFVRJqXfA/assets/images/optimized/rev-f85974e/www.crystalsandstones.com/wp-content/uploads/2019/10/c8eb812929594f2ba9e4bfc345452870-color-change-a-color.jpg",
+        "cmi2": "https://cdn.shopify.com/s/files/1/1357/7369/t/45/assets/pf-12491023--countries-3-Edited?v=1625865215",
+        "cmi3": "https://i.ebayimg.com/images/g/m1cAAOSwPjVjr~E9/s-l1200.webp"
+    },
+    {
+        "rockId": 830,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Turquoise-40031.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Big_turquoise_from_Cananea.jpg/800px-Big_turquoise_from_Cananea.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Turquoise_with_quartz.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Turquoise_of_Nishapur_-_village_of_Ma%27dan_14.JPG/800px-Turquoise_of_Nishapur_-_village_of_Ma%27dan_14.JPG",
+        "cmi3": "https://i.natgeofe.com/k/a5fcda78-f668-4973-9927-4ca25f3c613f/turquiose-polished_square.jpg"
+    },
+    {
+        "rockId": 831,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/7/72/Bayldonite-Malachite-160206.jpg",
+        "img2": "https://www.mindat.org/imagecache/9c/87/03669260014948220135309.jpg",
+        "cmi1": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjWc_JUfVEgA6i34u8l4G8msoOA_fgg9q1pyDb4te7FgXD_pF-MYY5fTTkmL-tZENgP6yp2Tu_ikbEkQGSLyfV3GvXV6KTbti0L5_JxNesUapCPzhsqrEAmT2eHkluN6qI1DNutHW8ey9hZ/s1600/Bayldonite-173845.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/12/72/05179580014946385149947.jpg",
+        "cmi3": "https://cdn.irocks.com/storage/media/25164/MD-36986a.jpg"
+    },
+    {
+        "rockId": 832,
+        "img1": "https://differentseasonsjewelry.com/wp-content/uploads/2020/03/14640202115_2498c058fc_o.jpg",
+        "img2": "https://i.pinimg.com/736x/58/88/a3/5888a3c81d14db36340f62153b102495.jpg",
+        "cmi1": "https://assets3.fossilera.com/sp/106956/polished-dinosaur-bone/unknown.jpg",
+        "cmi2": "https://i.ebayimg.com/images/g/HwkAAOSwbY1kuW6z/s-l1200.jpg",
+        "cmi3": "https://live.staticflickr.com/2103/2155744987_9660dba6bf_b.jpg"
+    },
+    {
+        "rockId": 833,
+        "img1": "https://files.meiobit.com/wp-content/uploads/2016/03/20160331fordite_3.jpg",
+        "img2": "https://www.rockngem.com/wp-content/uploads/2014/11/web_Hamby-DSCN0003.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Fordite_%28Dearborn%2C_Michigan%29_1.jpg/291px-Fordite_%28Dearborn%2C_Michigan%29_1.jpg",
+        "cmi2": "https://www.rockngem.com/wp-content/uploads/2011/12/web_Photo-1.jpg",
+        "cmi3": "https://i.pinimg.com/736x/5b/da/32/5bda329cd40eb8bdfbddac2e1e45ae8e.jpg"
+    },
+    {
+        "rockId": 834,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Mawsitsit_%28chromian_jade%29_%28Namshamaw_Deposit%2C_Hpakan-Tawmaw_Jade_Tract%2C_Late_Jurassic%2C_147_Ma%3B_Maw_Sit_Sit%2C_near_Kansi%2C_western_Kachin_State%2C_Indo-Burma_Range%2C_northern_Burma%29_5_%2817062584510%29.jpg/1920px-thumbnail.jpg",
+        "img2": "https://media.gemstones.com/image/upload/v1637676337/gemstones-site/gemopedia/maw-sit-sit/maw-sit-sit-polished.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/77/79/01870790015304615013393.jpg",
+        "cmi2": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgBlDDgeVJ-_wwYe7AdfYJfiDLv4DE1qHVdHgnkReDRstzsU_j1PQcSRzM9PoSqq-SE_ZyUoe_HgqSDn06KDVkywMXbM0n6P_W2CV2sm469hOPuj48D9thQqOEHLLoj9K84sLs14t7JMr8/w640-h512/Maw+Sit+Sit+Chromium+Jadeite+Rough+%25281%2529.jpg",
+        "cmi3": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Maw-Sit-Sit-5-jpg.webp?fit=1402%2C1087&ssl=1"
+    },
+    {
+        "rockId": 835,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/7/77/Trinitite_from_Trinity_Site.jpg",
+        "img2": "https://www.mindat.org/imagecache/96/9b/02347520014977320168190.jpg",
+        "cmi1": "https://physicsopenlab.org/wp-content/uploads/2018/12/IMG_20181220_173301.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Trinitite-pieces3.jpg/800px-Trinitite-pieces3.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Trinitite-detail2.jpg/800px-Trinitite-detail2.jpg"
+    },
+    {
+        "rockId": 836,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Esquel.jpg/800px-Esquel.jpg",
+        "img2": "https://www.fossilera.com/sp/668755/sericho-pallasites/pallasite.jpg",
+        "cmi1": "https://www.fossilera.com/p/1162/brahin.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Pallasite-Esquel-RoyalOntarioMuseum-Jan18-09.jpg",
+        "cmi3": "https://i.pinimg.com/736x/53/3d/d3/533dd3ea05cc17c125f02c896212fcff.jpg"
+    },
+    {
+        "rockId": 838,
+        "img1": "https://www.fireandicediamonds.com/wp-content/uploads/2023/11/fireandicediamonds-85770-diamond-carat-everything-blogbanner1.jpg",
+        "img2": "https://lh3.googleusercontent.com/Zd_medVOHHcor6IM63-6fACeqzVXabUNB_s4xLKnGaA45c20Tp_O4cSnKeFpZJA624EfF1sJtu1e78z-RDbltUgsMYzBQM0=s750",
+        "cmi1": "https://docs.growndiamondcorp.com/blog/types-of-diamonds.png",
+        "cmi2": "https://bsmedia.business-standard.com/_media/bs/img/article/2022-05/20/full/1653032824-7331.jpg?im=FeatureCrop,size=(382,233)",
+        "cmi3": "https://i.natgeofe.com/k/905d83a3-45ed-46d1-8717-833d30b8c964/diamond-polished_4x3.jpg"
+    },
+    {
+        "rockId": 839,
+        "img1": "https://i.etsystatic.com/15882813/r/il/1a37fc/4989548768/il_fullxfull.4989548768_fdfs.jpg",
+        "img2": "https://i.ebayimg.com/images/g/VVwAAOSwQ95i2k~Q/s-l1200.webp",
+        "cmi1": "https://img.directindustry.com/images_di/photo-mg/33187-2470839.jpg",
+        "cmi2": "https://image.made-in-china.com/2f0j00uMwiFIpzfdgl/Tgg-Crystal-Terbium-Gallium-Garnet-Magneto-Optical-Faraday-Polarizer.webp",
+        "cmi3": "https://ncelements.com/wp-content/uploads/2021/10/Terbium-Gallium-Garnet-Crystal_10x8.png"
+    },
+    {
+        "rockId": 840,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/b/bd/CZ_brilliant.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Baguette_Double_Side_Checkerboard_Cut_CZ.JPG/800px-Baguette_Double_Side_Checkerboard_Cut_CZ.JPG",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Multicolor_Cubic_zirconia.JPG/800px-Multicolor_Cubic_zirconia.JPG",
+        "cmi2": "https://icecartel.com/cdn/shop/articles/moissanite-vs-diamond-vs-cubic-zirconia.jpg?v=1679121400",
+        "cmi3": "https://m.media-amazon.com/images/I/51nE9hGfUVL._AC_UF894,1000_QL80_.jpg"
+    },
+    {
+        "rockId": 841,
+        "img1": "https://media.gemstones.com/image/upload/v1632240151/gemstones-site/gemopedia/bytownite/bytownite-polished.jpg",
+        "img2": "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/7duxze5j4zwfzjmc.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/b/be/Bytownite-mrz296a.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/64/7f/09431780014947110195737.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/90/e1/05813930014961122159001.jpg"
+    },
+    {
+        "rockId": 842,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Museo_di_mineralogia%2C_pietre_fluorescenti%2C_agrellite_3.JPG/800px-Museo_di_mineralogia%2C_pietre_fluorescenti%2C_agrellite_3.JPG",
+        "img2": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAWJcBp3xcNID_a0FRdUsYRavPg9X1g4xW9A&s",
+        "cmi1": "https://www.mindat.org/imagecache/85/53/01327260016014842791962.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/60/b2/06394750014947103028434.jpg",
+        "cmi3": "https://www.healingwithcrystals.net.au/uploads/1/5/5/7/15572098/agrellite-luster_orig.jpg"
+    },
+    {
+        "rockId": 843,
+        "img1": "https://media.australian.museum/media/dd/images/D024859_0003.3c33929.0e9cf2d.width-800.29f4ca4.jpg",
+        "img2": "https://consciousitems.com/cdn/shop/articles/clear-calcite-01.jpg?v=1668413470",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Calcite_Variation.png",
+        "cmi2": "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/8139/conversions/White-Calcite-header.webp",
+        "cmi3": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Calcite-2-1024x868.webp?resize=640%2C543&ssl=1"
+    },
+    {
+        "rockId": 844,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/NautilusCutawayLogarithmicSpiral.jpg/800px-NautilusCutawayLogarithmicSpiral.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Nacre_sticks.JPG/1024px-Nacre_sticks.JPG",
+        "cmi1": "https://www.minerals-kingdom.com/wp-content/uploads/2015/04/nacre-stone.jpg",
+        "cmi2": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-gC9OMr6NePvmJaQXxWDvW8cLZW26VSSaPcybYy5DpU3JI1ieE9X6DaY8tB3RWOeNmbHco90KbKmmG7JhB0wnEZED4pFBCq6l1NypHSYjb1C9eKEW5ak5r3C7EB0fLwqXAHZZD8vngE7AeO5u3WyjF_JUU_TTuLSbQG43fDT8_7nlPcr0cWBK5ljOxtQ/s1600/nacre-shall.webp",
+        "cmi3": "https://i.shgcdn.com/e8098c38-19e9-4b6b-b279-fdeab0fe0e93/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+    },
+    {
+        "rockId": 845,
+        "img1": "https://media.gemstones.com/image/upload/v1637157495/gemstones-site/gemopedia/ferroaxinite/ferroaxinite-specimen.jpg",
+        "img2": "https://www.geologypage.com/wp-content/uploads/2014/03/Axinite-Fe.jpg",
+        "cmi1": "https://www.geologypage.com/wp-content/uploads/2014/03/Ferroaxinite2.jpg",
+        "cmi2": "https://nationalgemlab.in/wp-content/uploads/2017/04/ferroaxinite-1-300x300.jpg",
+        "cmi3": "https://live.staticflickr.com/5304/5639420142_9773053940_b.jpg"
+    },
+    {
+        "rockId": 846,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Siilinj\u00e4rvi_S\u00e4rkij\u00e4rvi_pit.jpg/1024px-Siilinj\u00e4rvi_S\u00e4rkij\u00e4rvi_pit.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Thin_section_scan_crossed_polarizers_Siilinj\u00e4rvi_R301-61.70.jpg/1024px-Thin_section_scan_crossed_polarizers_Siilinj\u00e4rvi_R301-61.70.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Siilinj\u00e4rvi_mine_Saarinen_pit.jpg/1024px-Siilinj\u00e4rvi_mine_Saarinen_pit.jpg",
+        "cmi2": "https://ars.els-cdn.com/content/image/3-s2.0-B9780124104389000133-f13-03-9780124104389.jpg",
+        "cmi3": "https://ars.els-cdn.com/content/image/3-s2.0-B9780124104389000133-f13-02-9780124104389.jpg"
+    },
+    {
+        "rockId": 847,
+        "img1": "https://www.terrasoleil.com/cdn/shop/products/AfterlightImage10_1000x.jpg?v=1661991494",
+        "img2": "https://sparklerockpop.com/cdn/shop/articles/Astrophyllite_Raw_Crystal_Metaphysical_Blog_-Natural_Healing_Gemstone_-_Stone_of_Motivation_Self_Growth_Positivity_Marriage_3930x.jpg?v=1550601772",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/2/22/Astrophyllite-168179.jpg",
+        "cmi2": "https://mineraemporium.com/wp-content/uploads/2023/05/astrophyllite-tumbled-stone-scaled.jpeg",
+        "cmi3": "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/5424/conversions/Astrophyllite-header.webp"
+    },
+    {
+        "rockId": 848,
+        "img1": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/awlxatcob9wij3kd.jpg",
+        "img2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/03/Extra-large-chalcopyrite-bornite-peacock-ore-chunk-from-Mexico.jpg?fit=570%2C427&ssl=1",
+        "cmi1": "https://cdn.britannica.com/45/128545-050-68A51EE7/Bornite.jpg",
+        "cmi2": "https://cdn.shopify.com/s/files/1/2152/9153/files/Bornite_8_600x600.jpg?v=1681750966",
+        "cmi3": "https://cff2.earth.com/uploads/2018/11/13060600/what-is-bornite.jpg"
+    },
+    {
+        "rockId": 849,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Atacamite_on_malachite_-_Mt_Gunson_mines%2C_South_Australia.jpg/800px-Atacamite_on_malachite_-_Mt_Gunson_mines%2C_South_Australia.jpg",
+        "img2": "https://www.mindat.org/imagecache/db/89/06710710014950186386045.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/13/22/09113920014966920115274.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Atacamite-235102.jpg",
+        "cmi3": "https://cdn.britannica.com/82/123782-004-0AC8A5D8/Atacamite.jpg"
+    },
+    {
+        "rockId": 850,
+        "img1": "https://www.shutterstock.com/image-photo/blue-sapphire-gemstone-gen-closeup-600nw-2220102655.jpg",
+        "img2": "https://www.burtonsgemsandopals.com/cdn/shop/files/4.80ctBlueSapphire.jpg?v=1689299417",
+        "cmi1": "https://m.media-amazon.com/images/I/61tyMXyNnUL._AC_SL1200_.jpg",
+        "cmi2": "https://m.media-amazon.com/images/I/71ML+VrDFWL._SL1500_.jpg",
+        "cmi3": "https://www.shutterstock.com/image-photo/precious-blue-sapphire-gemstone-close-600nw-2288707005.jpg"
+    },
+  {
+        "rockId": 851,
+        "img1": "https://www.calderagem.com/cdn/shop/articles/where_is_the_gemstone_spinel_from.png?v=1702756028&width=2048",
+        "img2": "https://www.gia.edu/images/polished-spinel.png",
+        "cmi1": "https://www.americangemsociety.org/wp-content/uploads/2018/08/bigstock-three-spinel-crystals-54512156-e1533849623908.jpg",
+        "cmi2": "https://elliethompsonco.com/templates/yootheme/cache/37/Ruby_and_Red_Spinel-37c0b984.jpeg",
+        "cmi3": "https://cdn.prod.website-files.com/5f89ba7d4b6f3712fa4761f1/61041d53d073277a3284bd4b_spinel-gemstone.jpg"
+    },
+    {
+        "rockId": 852,
+        "img1": "https://www.mindat.org/imagecache/60/f8/09182130015048064078981.jpg",
+        "img2": "https://www.mindat.org/imagecache/9e/0d/09626870016014900429779.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Adamitemexique1.jpg/800px-Adamitemexique1.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/8/89/Adamite-179841.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Adamite_-_Gild_Hill%2C_Deep_Creek_Mountains%2C_Tooele_County%2C_Utah%2C_USA.jpg/800px-Adamite_-_Gild_Hill%2C_Deep_Creek_Mountains%2C_Tooele_County%2C_Utah%2C_USA.jpg"
+    },
+    {
+        "rockId": 853,
+        "img1": "https://www.mindat.org/imagecache/97/65/02030190014964867107701.jpg",
+        "img2": "https://www.mindat.org/imagecache/ff/91/08696810015636517604678.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Beudantite-ea12a.jpg",
+        "cmi2": "https://cdn.irocks.com/storage/media/26381/MD-131118a.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Beudantite-ea12b.jpg"
+    },
+    {
+        "rockId": 854,
+        "img1": "https://www.mindat.org/imagecache/a6/3c/05277810015564751703917.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Anorthite-rare08-38b.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Anorthite-221029.jpg",
+        "cmi2": "https://cdn.britannica.com/78/123778-004-E89BFB17/Anorthite.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/43/b7/03309130017055941001549.jpg"
+    },
+    {
+        "rockId": 855,
+        "img1": "https://www.lillypadvillage.com/wp-content/uploads/2017/01/Crystal-Quartz.jpg",
+        "img2": "https://cdn.britannica.com/48/100748-050-FFD5027B/Quartz-one-silica-varieties.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Quartz_Br\u00e9sil.jpg/800px-Quartz_Br\u00e9sil.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Quartz-Hematite-151637.jpg",
+        "cmi3": "https://media.australian.museum/media/dd/images/Some_image.width-800.44b7ba4.jpg"
+    },
+    {
+        "rockId": 856,
+        "img1": "https://t4.ftcdn.net/jpg/05/41/13/83/360_F_541138390_paKecrOAR6jh88TlBX9BZ4qZxInLKQTH.jpg",
+        "img2": "https://www.moonomens.com/wp-content/uploads/2023/06/moonstone-3.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/AdulaireSuisse2.jpg/1024px-AdulaireSuisse2.jpg",
+        "cmi2": "https://media.gemstones.com/image/upload/gemstones-site/gemopedia/moonstone-orthoclase/colors/moonstone-white.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Moonston.jpg"
+    },
+    {
+        "rockId": 857,
+        "img1": "https://psacunion.ca/sites/psac/files/styles/content_image_banner/public/gettyimages-1319162451_0.jpg?itok=D1NbqKS2",
+        "img2": "https://www.airsafe.net.au/wp-content/uploads/2023/05/1684086213604.jpg",
+        "cmi1": "https://www.mesothelioma.com/wp-content/uploads/Mesothelioma-What-Is-Asbestos.jpg",
+        "cmi2": "https://media.post.rvohealth.io/wp-content/uploads/sites/3/2023/08/asbestos-chunks-732x549-thumbnail-732x549.jpg",
+        "cmi3": "https://www.infoescola.com/wp-content/uploads/2014/03/amianto.jpg"
+    },
+    {
+        "rockId": 858,
+        "img1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/10/The-Eilat-Stone-King-Solomon-Stone-2-scaled.webp?fit=2560%2C1708&ssl=1",
+        "img2": "https://www.allcrystal.com/wp-content/uploads/2023/07/Eilat-Stone-x-Etsy-claSEAca.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Eilat_Stone_Jewel.jpg/800px-Eilat_Stone_Jewel.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/88/b2/09348530017084469464359.jpg",
+        "cmi3": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/10/The-Eilat-Stone-King-Solomon-Stone-5-1024x680.webp?resize=1024%2C680&ssl=1"
+    },
+    {
+        "rockId": 870,
+        "img1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/05/Pyroxenite-Stillwater-Complex-Neoarchean.jpg?fit=967%2C846&ssl=1",
+        "img2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/05/Microcline-bearing-pyroxenite.jpg?resize=1024%2C566&ssl=1",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Orthopyroxenite_%28ALH84001%29.gif",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/7/75/Metapyroxenite_from_the_Ophiolite_on_Unst_in_Shetland_Islands_in_Scotland.jpg",
+        "cmi3": "https://www.alexstrekeisen.it/immagini/diagrammi/pyroxenite2020(4).jpg"
+    },
+    {
+        "rockId": 881,
+        "img1": "https://cdn.luxe.digital/media/20220617132203/benitoite-meaning-properties-value-definition-luxe-digital-780x520.jpg",
+        "img2": "https://gemanativa.com/wp-content/uploads/2024/02/Benitoita-1.png",
+        "cmi1": "https://savemountdiablo.org/wp-content/uploads/2023/10/Benitoite_UVL-928x522.jpg",
+        "cmi2": "https://gemanativa.com/wp-content/uploads/2024/02/Benitoite-SS-1024x1024.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Benitoite_HD.jpg/1024px-Benitoite_HD.jpg"
+    },
+    {
+        "rockId": 889,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Diopside_Aoste.jpg/800px-Diopside_Aoste.jpg",
+        "img2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/06/Diopside-2.jpg?fit=491%2C800&ssl=1",
+        "cmi1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/06/Diopside.jpg?resize=640%2C771&ssl=1",
+        "cmi2": "https://www.mindat.org/imagecache/49/68/02549840016014866199254.jpg",
+        "cmi3": "https://www.allcrystal.com/wp-content/uploads/2023/05/Diopside-x-no-credit-needed-1.jpg"
+    },
+    {
+        "rockId": 890,
+        "img1": "https://www.gia.edu/images/polished-iolite-gem.png",
+        "img2": "https://thingsthatrocksd.com/cdn/shop/products/IMG_6825_2000x2000.jpg?v=1677437065",
+        "cmi1": "https://www.gia.edu/images/151543_iolite_rough_hero_v2.png",
+        "cmi2": "https://www.le-comptoir-geologique.com/_media/img/large/d16-01-092019-2.jpg",
+        "cmi3": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFola3-2TciJ5K6kB9-bLP3rsr6eNmuevk6Q&s"
+    },
+    {
+        "rockId": 892,
+        "img1": "https://images.tcdn.com.br/img/img_prod/672876/turmalina_verde_bruta_na_matriz_5_5_cm_121g_4179_1_0d7d35ffd72d6d80c2b54f5e1627fe95.jpg",
+        "img2": "https://cristaisaquarius.com.br/media/mf_webp/jpg/media/catalog/product/2/0/20230103_122349_1.webp?width=675&height=520&store=default&image-type=image",
+        "cmi1": "https://images.tcdn.com.br/img/img_prod/672876/turmalina_verde_bruta_na_matriz_5_5_cm_121g_4179_2_1bca470fc265be9d3b50061b120a46e7.jpg",
+        "cmi2": "https://images.tcdn.com.br/img/img_prod/768811/turmalina_verde_no_quartzo_tangerina_ou_ferruginoso_elbaita_verdelita_8_2_cm_cod_1l2_151187_1_45d4f387bdbb4a418c768edd4eb8a43d.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/38/b3/05094600016042412451833.jpg"
+    },
+    {
+        "rockId": 900,
+        "img1": "https://www.treehugger.com/thmb/_IOLkNTvry_28WfhpOgJY2KTA28=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__mnn__images__2016__07__wave-arizona-78d6b09c1ec341789128425be6f9042f.jpg",
+        "img2": "https://cdn.shopify.com/s/files/1/0717/5271/2479/files/Utah_1024x1024.jpg?v=1679892580",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Monument_Valley_Navajo_Tribal_Park._The_Three_Sisters_%282%29.jpg/800px-Monument_Valley_Navajo_Tribal_Park._The_Three_Sisters_%282%29.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Monument_Valley_%2815%29.jpg/800px-Monument_Valley_%2815%29.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Organ_Rock_Towers.jpg/800px-Organ_Rock_Towers.jpg"
+    },
+    {
+        "rockId": 903,
+        "img1": "https://files.secure.website/wscfus/7885803/32224162/norms-yellow-oval-6ct-1jpg-w1000-o.jpg",
+        "img2": "https://www.mindat.org/imagecache/bc/8d/01530400014982255038406.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Manganaxinite-d05-32b.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/4/46/Manganaxinite-pas-119b.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Manganaxinite-pas-119a.jpg"
+    },
+    {
+        "rockId": 905,
+        "img1": "https://www.le-comptoir-geologique.com/_media/img/medium/breithauptite2-2.png",
+        "img2": "https://www.mindat.org/imagecache/2d/fa/06236520017067898019993.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/3c/d3/01572230015870446543280.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Breithauptite.jpg/800px-Breithauptite.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Breithauptite-229669.jpg/800px-Breithauptite-229669.jpg"
+    },
+    {
+        "rockId": 906,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Pleuroceras_solare%2C_Little_Switzerland%2C_Bavaria%2C_Germany.jpg/800px-Pleuroceras_solare%2C_Little_Switzerland%2C_Bavaria%2C_Germany.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Ammonite-fossil-25-45mm.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Ammonite_Asteroceras.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Amonite-portugal.JPG/800px-Amonite-portugal.JPG",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Ammonite_Jeletzkytes.jpg/800px-Ammonite_Jeletzkytes.jpg"
+    },
+    {
+        "rockId": 907,
+        "img1": "https://brokenbaypearlfarm.com.au/wp-content/uploads/2023/06/Pearls-harvested-from-4-5-year-old-pearl-shell-2_-Broken-Bay-Pearl-Farm-NSW.jpg",
+        "img2": "https://www.williecreekpearls.com.au/cdn/shop/files/Pearls_Banner.jpg?v=1698373510&width=2800",
+        "cmi1": "https://i.natgeofe.com/k/c46608ab-61ed-4b2e-9e32-4dd5980ebd6a/pearl-polished_4x3.jpg",
+        "cmi2": "https://c02.purpledshub.com/uploads/sites/62/2022/04/Pearl.-Image-BROKER.-Alamy.-HF98DB-949a94a.jpg?w=1029&webp=1",
+        "cmi3": "https://hips.hearstapps.com/hmg-prod/images/close-up-image-of-organic-pearl-in-a-shell-royalty-free-image-1698874106.jpg?crop=0.66667xw:1xh;center,top&resize=980:*"
+    },
+    {
+        "rockId": 908,
+        "img1": "https://media.gemstones.com/image/upload/v1631027626/gemstones-site/gemopedia/actinolite/actinolite-polished.jpg",
+        "img2": "https://www.mindat.org/imagecache/cd/76/03892500014962069266794.jpg",
+        "cmi1": "https://cdn.britannica.com/89/123289-004-30990A0A/Actinolite-crystals.jpg",
+        "cmi2": "https://www.alexstrekeisen.it/immagini/diagrammi/actinolite2020(2).jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Actinolite_Portugal.jpg/800px-Actinolite_Portugal.jpg"
+    },
+    {
+        "rockId": 911,
+        "img1": "https://static.wikia.nocookie.net/geology/images/8/8a/Azurite.jpg/revision/latest?cb=20090324011953",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Azurite_-_New_Nevada_Lode%2C_La_Sal%2C_Utah%2C_USA.jpg/800px-Azurite_-_New_Nevada_Lode%2C_La_Sal%2C_Utah%2C_USA.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Azurite-22332.jpg",
+        "cmi2": "https://i.ebayimg.com/images/g/LGEAAOSwwqhiggTM/s-l1200.webp",
+        "cmi3": "https://elevatedcalm.com/cdn/shop/products/elevated-calm-azurite-chrysocolla-c-12.jpg?v=1677115506"
+    },
+    {
+        "rockId": 912,
+        "img1": "https://www.mindat.org/imagecache/a2/d2/09448920014946324523092.jpg",
+        "img2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Boracite-3-jpg.webp?resize=995%2C746&ssl=1",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Boracite-169813.jpg",
+        "cmi2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Boracite-5-jpg.webp?fit=521%2C640&ssl=1",
+        "cmi3": "https://www.weinrichmineralsinc.com/userfiles/products/2/0/2051962.jpg"
+    },
+    {
+        "rockId": 915,
+        "img1": "https://media.gemstones.com/image/private/s--J6a3fCcc--/v1677180383/gemstones-site/articles/kunzite-GSL830011_iafbfn.jpg",
+        "img2": "https://i0.wp.com/i.etsystatic.com/7390884/r/il/e8982b/4390749816/il_fullxfull.4390749816_a4pq.jpg?w=640&ssl=1",
+        "cmi1": "https://www.burtonsgemsandopals.com/cdn/shop/products/bigkunzitecrystal.jpg?v=1656107123",
+        "cmi2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/05/081-kunzite-08517-x.jpg?fit=730%2C600&ssl=1",
+        "cmi3": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgcIdqDmaJakP2CktCSwc7LaqBLs-DGupZ1TTC0PCIUBnMYBfUU-XxtumY0c1jQQlClEBVQIJ-83sOplx3hrujPjFPmD2Ik0lu1NVW7WsP0_PZwivopBNC7yNphe_4S8KqZ8GRm4y2CxRuLPx7bmW9ir8UTEAsfPng6xp260PrjMi58XqOhsa_9TdlYaE0/s1350/4-kunzite.jpeg"
+    },
+    {
+        "rockId": 918,
+        "img1": "https://www.researchgate.net/profile/Pekka-Tuisku-2/publication/41506234/figure/fig3/AS:670042169565198@1536761910819/A-schlieren-type-diatexite-from-Kaamanen-area-The-leucosomes-consist-of-garnet-and_Q320.jpg",
+        "img2": "https://www.researchgate.net/profile/Pekka-Tuisku-2/publication/41506234/figure/fig4/AS:670042173759488@1536761911003/A-Stromatic-metatexite-from-Kaamanen-area-The-leucosomes-consist-of-granite-containing_Q320.jpg",
+        "cmi1": "https://mineralcollectionblog.wordpress.com/wp-content/uploads/2016/12/enderbite-khlebodarivka.jpg",
+        "cmi2": "https://mineralcollectionblog.wordpress.com/wp-content/uploads/2016/12/enderbite-khlebodarivka-2.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Anderbit.Vinitisia.jpg"
+    },
+    {
+        "rockId": 921,
+        "img1": "https://www.alexstrekeisen.it/immagini/diagrammi/amphibolite2020(1).jpg",
+        "img2": "https://www.alexstrekeisen.it/immagini/diagrammi/amphibolite2017(3).jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Schollenamphibolit_glacial_erratic_1.jpg/1024px-Schollenamphibolit_glacial_erratic_1.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Amphibolite_Geopark_Prague_2014_1.jpg/800px-Amphibolite_Geopark_Prague_2014_1.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Nordic_Sunset_Granite_%28garnet_amphibolite%29_Murmansk.jpg/800px-Nordic_Sunset_Granite_%28garnet_amphibolite%29_Murmansk.jpg"
+    },
+    {
+        "rockId": 923,
+        "img1": "https://energyinbalance.com.au/wp-content/uploads/2021/01/antigorite-258-grams-3.jpg",
+        "img2": "https://rockidentifier.com/image-handle/image/1080/154125189221711885.jpeg?x-oss-process=image/format,webp",
+        "cmi1": "https://www.mindat.org/imagecache/66/14/08123080016014827672368.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/24/f1/03453970014948795242561.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Antigorite_from_Poland.jpg/1200px-Antigorite_from_Poland.jpg"
+    },
+    {
+        "rockId": 925,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Abandoned_baryte_mine_shaft_at_Ben_Eagach_near_Aberfeldy%2C_Perthshire%2C_Scotland.JPG/1024px-Abandoned_baryte_mine_shaft_at_Ben_Eagach_near_Aberfeldy%2C_Perthshire%2C_Scotland.JPG",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Baryte_Morocco.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Barite_FRIZINGTON.jpg/800px-Barite_FRIZINGTON.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Barite_-_Cerro_Warihuyn%2C_Miraflores%2C_Huamalies%2C_Huanuco%2C_Peru.jpg/800px-Barite_-_Cerro_Warihuyn%2C_Miraflores%2C_Huamalies%2C_Huanuco%2C_Peru.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/37/1b/04516240017055883792388.jpg"
+    },
+    {
+        "rockId": 926,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gachala_Emerald_3526711557_849c4c7367.jpg/800px-Gachala_Emerald_3526711557_849c4c7367.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/2/27/Beryl-130023.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Emerald_in_a_quartz_and_pegmatite_matrix.JPG/800px-Emerald_in_a_quartz_and_pegmatite_matrix.JPG",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/B\u00e9ryl_var._\u00e9meraude_sur_gangue_%28Muzo_Mine_Boyaca_-_Colombie%29_2.jpg/800px-B\u00e9ryl_var._\u00e9meraude_sur_gangue_%28Muzo_Mine_Boyaca_-_Colombie%29_2.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Emerald.png"
+    },
+    {
+        "rockId": 928,
+        "img1": "https://www.gemsociety.org/wp-content/uploads/2013/12/BEN002B.jpg",
+        "img2": "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/c5gn64flr3jjufva.jpg?auto_optimize=medium",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Beryllonite.jpg/800px-Beryllonite.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/a4/65/00069740015976859476748.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/64/b0/00037060014977352064219.jpg"
+    },
+    {
+        "rockId": 931,
+        "img1": "https://www.alexstrekeisen.it/immagini/diagrammi/anyolie2020(4).jpg",
+        "img2": "https://gem.agency/wp-content/uploads/2015/04/anyolite-ruby-in-zoisite.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Anyolite_%28corundum-amphibole_zoisitite%29_%28Neoproterozoic%3B_Mundarara_Mine%2C_about_27_km_west_of_Longido%2C_Tanzania%29_2_%2849144140952%29.jpg/1024px-Anyolite_%28corundum-amphibole_zoisitite%29_%28Neoproterozoic%3B_Mundarara_Mine%2C_about_27_km_west_of_Longido%2C_Tanzania%29_2_%2849144140952%29.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/92/b7/04498140014947245486978.jpg",
+        "cmi3": "https://www.allcrystal.com/wp-content/uploads/2023/09/ruby-zoiste-on-dark-background-x-no-credit-needed.jpg"
+    },
+    {
+        "rockId": 932,
+        "img1": "https://www.le-comptoir-geologique.com/_media/img/xlarge/pic15a1.tmp.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/0/05/Olivine-Dunit.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/23/ac/03503530016014694206580.jpg",
+        "cmi2": "https://geologybase.com/wp-content/uploads/2023/07/Coarse-grained-peridotite-rock-image.jpg",
+        "cmi3": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/Dunite-a-peridotite-here-composed-exclusively-of-olivine.jpg?resize=616%2C538&ssl=1"
+    },
+    {
+        "rockId": 934,
+        "img1": "https://cdn.awsli.com.br/800x800/1689/1689418/produto/152980699/90db329d-880e-4264-bdea-2473589483b7--1--krtaer203u.png",
+        "img2": "https://d5gag3xtge2og.cloudfront.net/producao/33630454/G/image00012.jpeg",
+        "cmi1": "https://d5gag3xtge2og.cloudfront.net/producao/33305944/G/73eab03b_b380_4807_b36d_5bbe71b63410.jpeg",
+        "cmi2": "https://www.alemdesalem.com.br/wp-content/uploads/2019/03/20211112_110934.jpg",
+        "cmi3": "https://images.tcdn.com.br/img/img_prod/672876/90_calcita_mel_bruta_5_5_cm_198g_7453_1_a8173b82771869b204bf993a8caef37b.jpg"
+    },
+    {
+        "rockId": 935,
+        "img1": "https://media.gemstones.com/image/upload/v1631726147/gemstones-site/gemopedia/azurmalachite/azurmalachite-polished.jpg",
+        "img2": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/10/Azurmalachite.jpeg?resize=600%2C577&ssl=1",
+        "cmi1": "https://geology.com/gemstones/azurmalachite/azurmalachite.jpg",
+        "cmi2": "https://www.langantiques.com/university/wp-content/uploads/elementor/thumbs/Azurite-on-Malachite-SS-q9r86twkzfljqigwa1yn71yi5qtvjovyn9bndidj7s.jpg",
+        "cmi3": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/10/Azurmalachite-1.webp?resize=1024%2C819&ssl=1"
+    },
+    {
+        "rockId": 936,
+        "img1": "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/c5gn64flr3jjufva.jpg?auto_optimize=medium",
+        "img2": "https://www.gemsociety.org/wp-content/uploads/2013/12/BEN002B.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/a4/65/00069740015976859476748.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/64/b0/00037060014977352064219.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Beryllonite.jpg/800px-Beryllonite.jpg"
+    },
+    {
+        "rockId": 938,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Biotite_aggregate_-_Ochtendung%2C_Eifel%2C_Germany.jpg/800px-Biotite_aggregate_-_Ochtendung%2C_Eifel%2C_Germany.jpg",
+        "img2": "https://rockidentifier.com/image-handle/image/1080/154035579024048136.jpeg?x-oss-process=image/format,webp",
+        "cmi1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/biotite-mineralbiotite-mineral.jpg?ssl=1",
+        "cmi2": "https://www.alexstrekeisen.it/immagini/diagrammi/biotite2020.png",
+        "cmi3": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/biotite-mineral-3.jpg?resize=259%2C194&ssl=1"
+    },
+    {
+        "rockId": 939,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Brookite-gem7-07a.jpg",
+        "img2": "https://www.mindat.org/imagecache/e6/7e/02625600016014911809047.jpg",
+        "cmi1": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/sbgibg5pucjjyljh.jpg",
+        "cmi2": "https://www.gemsociety.org/wp-content/uploads/2013/12/1024px-Brookite_quartz_8-1024x680.jpg",
+        "cmi3": "https://www.mardanifineminerals.com/wp-content/uploads/2020/10/066-brookite-07351-x.jpg"
+    },
+    {
+        "rockId": 940,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Bustamite.jpg/800px-Bustamite.jpg",
+        "img2": "https://media.gemstones.com/image/upload/v1632240097/gemstones-site/gemopedia/bustamite/colors/bustamite-polished.jpg",
+        "cmi1": "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/mevtklcdpnhslywq.jpg",
+        "cmi2": "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/n3gbv8ayulnwcyyg.jpg",
+        "cmi3": "https://www.bluegems.com.au/wp-content/uploads/2021/03/BUSTAMITE-BROKEN-HILL-6-1.jpeg"
+    },
+    {
+        "rockId": 941,
+        "img1": "https://www.eusemfronteiras.com.br/wp-content/uploads/2023/07/Design-sem-nome-3.png",
+        "img2": "https://www.withclarity.com/cdn/shop/articles/Garnet_Color_345x345@2x.jpg?v=1698056314",
+        "cmi1": "https://media.gettyimages.com/id/522198182/pt/foto/grossula-grossularite.jpg?s=612x612&w=gi&k=20&c=yKsTJdAFxSukYZcAwCeuKEDIEGrswsgyWrRO_S8BMbc=",
+        "cmi2": "https://help.thediamondstore.co.uk/wp-content/uploads/garnet-legend.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Garnet_Andradite20.jpg"
+    },
+    {
+        "rockId": 942,
+        "img1": "https://australianopaldirect.com/content/blog/blog-1/image13.jpg",
+        "img2": "https://i.ebayimg.com/images/g/dC0AAOSwMdFj6n~E/s-l400.jpg",
+        "cmi1": "https://m.media-amazon.com/images/I/317avJfIwWS._AC_UY1100_.jpg",
+        "cmi2": "https://media.istockphoto.com/id/465357582/pt/foto/australian-opal.jpg?s=612x612&w=0&k=20&c=CVafytXOCoHdZDLeV0aif9pru55AVuOw6W47-9eV2uE=",
+        "cmi3": "https://opalgalaxy.com/wp-content/uploads/2023/03/DSC7926o-1000x1000.jpg"
+    },
+    {
+        "rockId": 943,
+        "img1": "https://www.kaimirratutan.com/wp-content/uploads/2023/04/origins-of-ammolite-featured.jpg",
+        "img2": "https://uploads.nationaljeweler.com/uploads/a707aa459c7f1d49ee080e2a0e053649.jpg",
+        "cmi1": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZ5-cckfZFAWWfMszzIuvOhL5AfpbwltUbXrXqatxESEb7ik830NhqaWMapQOW9-_-pCSTwKYYFUX5JKO4ZKzaxtVgncRuGbSnxX7BKitVd6Edm2pCXdFIGM7w5Rr3lbgLVD8Vyyx7_Ioha0GG1yCGchc20rx89-Q1-PdGEtEV3dyiNSkMs7P6YZN013w/s1200/ammolite.jpg",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Ammolite.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/IridescentAmmonite.jpg/800px-IridescentAmmonite.jpg"
+    },
+    {
+        "rockId": 944,
+        "img1": "https://cdn11.bigcommerce.com/s-58d8d/images/stencil/1280x1280/products/103/289/indian_ocean_mix_medium_1__37331.1676419919.jpg?c=2",
+        "img2": "https://m.media-amazon.com/images/I/71fwVdI-odL.jpg",
+        "cmi1": "https://i.etsystatic.com/10523765/r/il/639b07/1853238916/il_570xN.1853238916_he75.jpg",
+        "cmi2": "https://ae01.alicdn.com/kf/H731f57d8340d4d0e865068f7ce17b19b7.jpg_640x640Q90.jpg_.webp",
+        "cmi3": "https://cdn11.bigcommerce.com/s-58d8d/images/stencil/1280x1280/products/165/3907/4a75434c-8a27-4b2c-802a-a9007906fbca__08696.1697493909.jpg?c=2"
+    },
+    {
+        "rockId": 945,
+        "img1": "https://www.hydro.com/globalassets/061022_bauxita-hydro-paragominas.jpg?quality=85&width=1036&rmode=crop&rsampler=bicubic&rxy=0.5,0.5&compand=true",
+        "img2": "https://gem.agency/wp-content/uploads/2020/05/Bauxite-1.jpg",
+        "cmi1": "https://upload.wikimedia.org/wikipedia/commons/1/11/Bauxite_h\u00e9rault.JPG",
+        "cmi2": "https://upload.wikimedia.org/wikipedia/commons/0/04/BauxiteUSGOV.jpg",
+        "cmi3": "https://www.sandatlas.org/wp-content/uploads/00592-IMG_8257-8-cm-bauxite.jpg"
+    },
+    {
+        "rockId": 948,
+        "img1": "https://www.gemsociety.org/wp-content/uploads/2013/11/Heliodor-TN.jpg",
+        "img2": "https://www.mardanifineminerals.com/wp-content/uploads/2020/10/012-Heliodor-07195-x.jpg",
+        "cmi1": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/07/Heliodor-2-1015x1024.webp?resize=640%2C659&ssl=1",
+        "cmi2": "https://media.gemstones.com/image/upload/v1622814850/gemstones-site/gemopedia/heliodor/colors/heliodor-canary-yellow.jpg",
+        "cmi3": "https://www.mindat.org/imagecache/ed/0d/00132510014977339787390.jpg"
+    },
+    {
+        "rockId": 949,
+        "img1": "https://media.gemstones.com/image/upload/v1629426135/gemstones-site/gemopedia/morganite/colors/morganite-pink-1.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Morganit-G-EmpireTheWorldOfGems.jpg",
+        "cmi1": "https://www.sagegoddess.com/wp-content/uploads/2021/04/Natural_Morganite_2of3_4_20.jpg.optimal.jpg",
+        "cmi2": "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/228/Morganite.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/5/50/Beryl-178682.jpg"
+    },
+    {
+        "rockId": 950,
+        "img1": "https://www.mindat.org/imagecache/07/a8/00103080014946326984947.jpg",
+        "img2": "https://www.minerals.net/MineralImages/diaspore-v-twin-mugla-turkey.jpg",
+        "cmi1": "https://www.allcrystal.com/wp-content/uploads/2023/05/Diaspore-x-Wikimedia-Robert-M.-Lavinsky-1.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/75/1d/02051050017056211167096.jpg",
+        "cmi3": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Diaspore-Margarite-rare-09-05b.jpg"
+    },
+    {
+        "rockId": 952,
+        "img1": "https://t4.ftcdn.net/jpg/06/33/39/51/360_F_633395182_UW32fE7GLcp1U767zQqeITMY5UFhUJUn.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/0/00/Kyanite_crystals.jpg",
+        "cmi1": "https://www.mindat.org/imagecache/4b/57/05313640014946251682728.jpg",
+        "cmi2": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhq4tfOTG6HYwW1_rAXzNgD-HLwrg6Sg3KSzaZ2mqxR0s6hZXAbOY-Bb2948ggstpWFwb0QjWQZnweMCr7MOs8GJw1DBNLYfWLzfAYQzTdtBAgklRaNRnHF3ho_Pnn6NE5M2vdLM5tb-DhpM7ZYLrYFGotmZ0bKV35kryPfxdEMyG6RZ1yxtlEh4BjzaXQ/w1200-h630-p-k-no-nu/kyanite-.webp",
+        "cmi3": "https://www.rubysminerals.com/cdn/shop/products/image_a4123058-ce08-46d3-83ce-93a77f1b150a.jpg?v=1659523481"
+    },
+    {
+        "rockId": 954,
+        "img1": "https://www.le-comptoir-geologique.com/_media/img/xlarge/pic15a1.tmp.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/0/05/Olivine-Dunit.jpg",
+        "cmi1": "https://geologybase.com/wp-content/uploads/2023/07/Coarse-grained-peridotite-rock-image.jpg",
+        "cmi2": "https://www.mindat.org/imagecache/23/ac/03503530016014694206580.jpg",
+        "cmi3": "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/Dunite-a-peridotite-here-composed-exclusively-of-olivine.jpg?resize=616%2C538&ssl=1"
+    },
+    {
+        "rockId": 955,
+        "img1": "https://upload.wikimedia.org/wikipedia/commons/2/27/Fenacitas.jpg",
+        "img2": "https://www.mindat.org/imagecache/8b/2c/05004190014946258831025.jpg",
+        "cmi1": "https://www.gemsociety.org/wp-content/uploads/2017/03/Rough-and-Finished-Phenakite.png",
+        "cmi2": "https://www.mindat.org/imagecache/31/f3/06703880016014823035991.jpg",
+        "cmi3": "https://cdn.britannica.com/53/9653-004-28F703B3/Phenakite-feldspar-Minas-Gerais-state-Brazil.jpg"
+    },
+    {
+        "rockId": 956,
+        "img1": "https://www.mindat.org/imagecache/ff/74/04284420014947393115446.jpg",
+        "img2": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/8224M-rhodonite3.jpg/800px-8224M-rhodonite3.jpg",
+        "cmi1": "https://m.media-amazon.com/images/I/91TJFh+00UL.jpg",
+        "cmi2": "https://cdn.hswstatic.com/gif/rhodonite.jpg",
+        "cmi3": "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/eeobugizm9vfwek8.jpg"
+    },
   ];
 
   //List of Rocks data

@@ -1076,11 +1076,6 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future<void> _scanningFunction() async {
-    try {
-      _rock = await GetRockService().getRock(_image);
-    } catch (e) {
-      ShowSnackbarService()
-          .showSnackBar(e.toString().replaceAll('Exception: ', ''));
-    }
+    _rock = await GetRockService().getRock(_image);
   }
 }

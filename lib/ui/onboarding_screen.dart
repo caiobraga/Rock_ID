@@ -64,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   await HapticFeedback.heavyImpact();
                   if (currentIndex < 3) {
                     _pageController.nextPage(
-                      duration: const Duration(milliseconds: 800),
+                      duration: const Duration(milliseconds: 700),
                       curve: Curves.easeIn,
                     );
                   } else {

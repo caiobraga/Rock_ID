@@ -12,6 +12,7 @@
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		65133B532C365A9300E058B6 /* StoreKitConfig.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 65133B522C365A9300E058B6 /* StoreKitConfig.storekit */; };
 		65133B542C365A9300E058B6 /* StoreKitConfig.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 65133B522C365A9300E058B6 /* StoreKitConfig.storekit */; };
+		65C79EBA2C3866850072A652 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 65C79EB92C3866850072A652 /* RevenueCat */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		801F4DE9963FEDEFFD5D2DE4 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB28AFA0CB3F996EAA1762E8 /* Pods_RunnerTests.framework */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -83,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C79EBA2C3866850072A652 /* RevenueCat in Frameworks */,
 				ED6268CB34D4AB7B9EA06D8A /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,6 +211,9 @@
 			dependencies = (
 			);
 			name = Runner;
+			packageProductDependencies = (
+				65C79EB92C3866850072A652 /* RevenueCat */,
+			);
 			productName = Runner;
 			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
 			productType = "com.apple.product-type.application";
@@ -242,6 +247,9 @@
 				Base,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
+			packageReferences = (
+				65C79EB82C3866850072A652 /* XCRemoteSwiftPackageReference "purchases-ios" */,
+			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -746,6 +754,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		65C79EB82C3866850072A652 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		65C79EB92C3866850072A652 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 65C79EB82C3866850072A652 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 97C146E61CF9000F007C117D /* Project object */;
 }

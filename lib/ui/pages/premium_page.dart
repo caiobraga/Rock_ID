@@ -40,7 +40,7 @@ class _PremiumPageState extends State<PremiumPage> {
           children: [
             Container(
               alignment: Alignment.topCenter,
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 27),
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/premium_background.png'),

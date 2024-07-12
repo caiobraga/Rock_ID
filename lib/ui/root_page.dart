@@ -167,6 +167,7 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: const Text(
           'GEM IDENTIFIER',
           style: TextStyle(

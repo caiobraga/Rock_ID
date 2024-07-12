@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
@@ -10,15 +9,16 @@ import 'package:flutter_onboarding/services/add_rock_to_collection_service.dart'
 import 'package:flutter_onboarding/services/bottom_nav_service.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
-import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/pages/camera_page.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_onboarding/ui/pages/tabs/tab_services/loved_tab_service.dart';
 import 'package:flutter_onboarding/ui/pages/widgets/expandable_text.dart';
 import 'package:flutter_onboarding/ui/pages/widgets/input_widget.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -113,10 +113,20 @@ class _RockViewPageState extends State<RockViewPage>
     }
   }
 
+  final _nodeCost = FocusNode();
+  final _nodeName = FocusNode();
+  final _nodeLocality = FocusNode();
+  final _nodeHeight = FocusNode();
+  final _nodeWidth = FocusNode();
+  final _nodeLength = FocusNode();
+  final _nodeNotes = FocusNode();
+  final _nodeDateAcquisition = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         leading: Navigator.of(context).canPop()
             ? IconButton(
                 icon: const Icon(
@@ -1609,6 +1619,7 @@ class _RockViewPageState extends State<RockViewPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               InputWidget(
+                                focusNode: _nodeName,
                                 label: 'Name',
                                 required: true,
                                 controller:
@@ -1795,6 +1806,7 @@ class _RockViewPageState extends State<RockViewPage>
                                 children: [
                                   Expanded(
                                     child: InputWidget(
+                                      focusNode: _nodeDateAcquisition,
                                       label: 'Acquisition',
                                       controller: _addRockToCollectionService
                                           .dateController,
@@ -1806,31 +1818,61 @@ class _RockViewPageState extends State<RockViewPage>
                                     width: 10,
                                   ),
                                   SizedBox(
-                                    child: InputWidget(
-                                      label: '',
-                                      controller: _addRockToCollectionService
-                                          .costController,
-                                      hintText: 'Cost',
-                                      inputFormatters: [
-                                        CurrencyTextInputFormatter.currency(
-                                          decimalDigits: 2,
-                                          locale: 'en_US',
-                                          symbol: '',
-                                        ),
-                                      ],
-                                      rightIcon: const Icon(
-                                        Icons.attach_money_sharp,
-                                        color: Constants.white,
-                                        size: 20,
-                                      ),
-                                      textInputType: TextInputType.number,
-                                      maxLength: 13,
-                                    ),
                                     width: 150,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 12),
+                                      child: InputWidget(
+                                        focusNode: _nodeCost,
+                                        label: '',
+                                        controller: _addRockToCollectionService
+                                            .costController,
+                                        hintText: 'Cost',
+                                        inputFormatters: [
+                                          CurrencyTextInputFormatter.currency(
+                                            decimalDigits: 2,
+                                            locale: 'en_US',
+                                            symbol: '',
+                                          ),
+                                        ],
+                                        onChanged: (value) {
+                                          if (value.isEmpty) return;
+                                          final formatter =
+                                              NumberFormat.currency(
+                                                  symbol: '',
+                                                  decimalDigits: 2,
+                                                  locale: 'en_US');
+                                          final formattedValue =
+                                              formatter.format(double.tryParse(
+                                                    value.replaceAll(
+                                                      RegExp(r'[^\d.]'),
+                                                      '',
+                                                    ),
+                                                  ) ??
+                                                  0.0);
+                                          _addRockToCollectionService
+                                              .costController
+                                              .value = TextEditingValue(
+                                            text: formattedValue,
+                                            selection: TextSelection.collapsed(
+                                              offset: value.length,
+                                            ),
+                                          );
+                                        },
+                                        rightIcon: const Icon(
+                                          Icons.attach_money_sharp,
+                                          color: Constants.white,
+                                          size: 20,
+                                        ),
+                                        // textInputType: TextInputType.number,
+                                        textInputType: TextInputType.number,
+                                        maxLength: 13,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
                               InputWidget(
+                                focusNode: _nodeLocality,
                                 label: 'Locality',
                                 controller: _addRockToCollectionService
                                     .localityController,
@@ -1842,12 +1884,17 @@ class _RockViewPageState extends State<RockViewPage>
                                 children: [
                                   Expanded(
                                     child: InputWidget(
+                                      focusNode: _nodeLength,
                                       label: 'Size',
                                       controller: _addRockToCollectionService
                                           .lengthController,
                                       hintText: 'Length',
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
+                                        CurrencyTextInputFormatter.currency(
+                                          decimalDigits: 2,
+                                          locale: 'en_US',
+                                          symbol: '',
+                                        ),
                                       ],
                                       textInputType: TextInputType.number,
                                     ),
@@ -1870,12 +1917,17 @@ class _RockViewPageState extends State<RockViewPage>
                                   ),
                                   Expanded(
                                     child: InputWidget(
+                                      focusNode: _nodeWidth,
                                       label: '',
                                       controller: _addRockToCollectionService
                                           .widthController,
                                       hintText: 'Width',
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
+                                        CurrencyTextInputFormatter.currency(
+                                          decimalDigits: 2,
+                                          locale: 'en_US',
+                                          symbol: '',
+                                        ),
                                       ],
                                       textInputType: TextInputType.number,
                                     ),
@@ -1898,6 +1950,7 @@ class _RockViewPageState extends State<RockViewPage>
                                   ),
                                   Expanded(
                                     child: InputWidget(
+                                      focusNode: _nodeHeight,
                                       labelFromWidget: Expanded(
                                         child: Row(
                                           children: [
@@ -2033,7 +2086,11 @@ class _RockViewPageState extends State<RockViewPage>
                                       controller: _addRockToCollectionService
                                           .heightController,
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
+                                        CurrencyTextInputFormatter.currency(
+                                          decimalDigits: 2,
+                                          locale: 'en_US',
+                                          symbol: '',
+                                        ),
                                       ],
                                       hintText: 'Height',
                                       textInputType: TextInputType.number,
@@ -2042,6 +2099,7 @@ class _RockViewPageState extends State<RockViewPage>
                                 ],
                               ),
                               InputWidget(
+                                focusNode: _nodeNotes,
                                 label: 'Notes',
                                 controller:
                                     _addRockToCollectionService.notesController,
@@ -2133,6 +2191,29 @@ class _RockViewPageState extends State<RockViewPage>
           ),
         );
       },
+    );
+  }
+
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      nextFocus: true,
+      actions: [
+        KeyboardActionsItem(
+          focusNode: _nodeCost,
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                onTap: () => node.unfocus(),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Done"),
+                ),
+              );
+            }
+          ],
+        ),
+      ],
     );
   }
 

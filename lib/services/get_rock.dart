@@ -14,7 +14,8 @@ class GetRockService {
           await CheckConnectivityService().checkIfUserHasConnectivity();
       if (!isConnected) {
         throw Exception(
-            'You need to have an internet connection to scan a rock.');
+          'You need to have an internet connection to scan a rock.',
+        );
       }
       Map<String, dynamic>? chatResponse =
           await ChatGPTService(apiKey: Constants.gptApiKey).identifyRock(image);

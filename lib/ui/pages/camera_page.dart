@@ -774,8 +774,9 @@ class _CameraPageState extends State<CameraPage> {
                                               rockPriceResponse: response);
                                         }
                                       } catch (e) {
-                                        ShowSnackbarService()
-                                            .showSnackBar('Error $e');
+                                        ShowSnackbarService().showSnackBar(e
+                                            .toString()
+                                            .replaceAll('Exception: ', ''));
                                       }
                                     },
                                     child: const Text(
@@ -916,7 +917,10 @@ class _CameraPageState extends State<CameraPage> {
                                                 }
                                               } catch (e) {
                                                 ShowSnackbarService()
-                                                    .showSnackBar('Error $e');
+                                                    .showSnackBar(e
+                                                        .toString()
+                                                        .replaceAll(
+                                                            'Exception: ', ''));
                                               }
                                             },
                                             child: ClipRRect(
@@ -981,8 +985,8 @@ class _CameraPageState extends State<CameraPage> {
         );
       });
     } catch (e) {
-      scaffoldMessengerKey.currentState
-          ?.showSnackBar(SnackBar(content: Text(e.toString())));
+      scaffoldMessengerKey.currentState?.showSnackBar(
+          SnackBar(content: Text(e.toString().replaceAll('Exception: ', ''))));
     }
   }
 
@@ -1066,6 +1070,11 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   Future<void> _scanningFunction() async {
-    _rock = await GetRockService().getRock(_image);
+    try {
+      _rock = await GetRockService().getRock(_image);
+    } catch (e) {
+      ShowSnackbarService()
+          .showSnackBar(e.toString().replaceAll('Exception: ', ''));
+    }
   }
 }

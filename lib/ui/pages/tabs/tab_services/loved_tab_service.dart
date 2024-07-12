@@ -25,7 +25,7 @@ class LovedTabService {
       lovedRocksMapNotifier.value.clear();
       lovedRocksMapNotifier.value.addAll(wishlistRocksMap);
       for (final wishlistRock in wishlistRocksMap) {
-        Rock? rock = Rock.rockListFirstWhere(wishlistRock['rockId']);
+        Rock? rock = await Rock.rockListFirstWhere(wishlistRock['rockId']);
         final dbRock = allDbRocks.firstWhere(
           (element) => element.rockId == rock?.rockId,
           orElse: Rock.empty,

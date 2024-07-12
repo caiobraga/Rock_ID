@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 
 class Rock {
@@ -211,9 +212,11 @@ class Rock {
     );
   }
 
-  static Rock? rockListFirstWhere(int id) {
+  static Future<Rock?> rockListFirstWhere(int id) async {
+    final rockListCompleted = await DatabaseHelper().incrementDefaultRockList(rockList);
+
     try {
-      return rockList.firstWhere((element) => element.rockId == id);
+      return rockListCompleted.firstWhere((element) => element.rockId == id);
     } catch (e) {
       return null;
     }

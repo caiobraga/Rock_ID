@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/premium_page_service.dart';
@@ -60,9 +61,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () async {
+                  await HapticFeedback.heavyImpact();
                   if (currentIndex < 3) {
                     _pageController.nextPage(
-                      duration: const Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 800),
                       curve: Curves.easeIn,
                     );
                   } else {

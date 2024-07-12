@@ -65,6 +65,7 @@ dependencies:
   package_info_plus: ^5.0.1
   keyboard_actions: "^4.1.0"
   currency_text_input_formatter: ^2.2.3
+  haptic_feedback: ^0.5.1+1
 
 dev_dependencies:
   flutter_test:

@@ -32,7 +32,7 @@ class LovedTabService {
         );
 
         if (dbRock.rockId != 0) {
-          rock = rock?.copyWith(rockImages: dbRock.rockImages);
+          rock = dbRock;
         }
         if (rock != null) {
           lovedRocksNotifier.value.add(rock);

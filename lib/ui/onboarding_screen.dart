@@ -38,17 +38,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             controller: _pageController,
             children: const [
               CreatePage(
-                backgroundImage: 'assets/images/bg1.png',
+                onboardingImage: 'assets/images/onb1.png',
                 title: Constants.titleOne,
                 description: Constants.descriptionOne,
               ),
               CreatePage(
-                backgroundImage: 'assets/images/bg2.png',
+                onboardingImage: 'assets/images/onb2.png',
                 title: Constants.titleTwo,
                 description: Constants.descriptionTwo,
               ),
               CreatePage(
-                backgroundImage: 'assets/images/bg3.png',
+                onboardingImage: 'assets/images/onb3.png',
                 title: Constants.titleThree,
                 description: Constants.descriptionThree,
               ),
@@ -64,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   await HapticFeedback.heavyImpact();
                   if (currentIndex < 3) {
                     _pageController.nextPage(
-                      duration: const Duration(milliseconds: 700),
+                      duration: const Duration(milliseconds: 850),
                       curve: Curves.easeIn,
                     );
                   } else {
@@ -139,13 +139,13 @@ Future<void> _requestReview() async {
 }
 
 class CreatePage extends StatelessWidget {
-  final String backgroundImage;
+  final String onboardingImage;
   final String title;
   final String description;
 
   const CreatePage({
     Key? key,
-    required this.backgroundImage,
+    required this.onboardingImage,
     required this.title,
     required this.description,
   }) : super(key: key);
@@ -153,17 +153,22 @@ class CreatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(backgroundImage),
+          image: AssetImage('assets/images/onbackground.png'),
           fit: BoxFit.cover,
         ),
       ),
-      padding: const EdgeInsets.only(left: 30, right: 30, bottom: 110),
+      padding: const EdgeInsets.only(top: 30, left: 30, right: 30, bottom: 110),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Spacer(flex: 2),
+          Image.asset(
+            onboardingImage,
+            height: MediaQuery.of(context).size.height * 0.65,
+            alignment: Alignment.center,
+          ),
           Text(
             title.toUpperCase(),
             textAlign: TextAlign.center,

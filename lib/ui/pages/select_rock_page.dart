@@ -3,6 +3,8 @@ import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
 import 'package:flutter_onboarding/ui/pages/tabs/tab_services/collections_tab_service.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/tab_services/loved_tab_service.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/tab_services/snap_history_tab_service.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../constants.dart';
@@ -247,6 +249,10 @@ class _SelectRockPageState extends State<SelectRockPage> {
       CollectionsTabService.instance
           .loadCollectionRocks()
           .then((_) => setState(() {}));
+      SnapHistoryTabService.instance
+          .loadSnapHistory()
+          .then((_) => setState(() {}));
+      LovedTabService.instance.loadLovedRocks().then((_) => setState(() {}));
     });
   }
 

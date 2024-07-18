@@ -84,6 +84,7 @@ class _RockViewPageState extends State<RockViewPage>
     setState(() {
       defineFavorite();
       currentRock = widget.rock;
+      debugPrint(currentRock.toMap().toString());
       _addRockToCollectionService.setRockData(widget.rock, widget.pickedImage);
       buttonText = widget.isUnfavoritingRock
           ? 'Remove from loved'

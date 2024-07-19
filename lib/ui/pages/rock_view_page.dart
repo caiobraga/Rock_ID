@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/services/rock_view_service.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/rock_view_page_service.dart';
 import 'package:flutter_onboarding/services/bottom_nav_service.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
@@ -61,7 +61,7 @@ class _RockViewPageState extends State<RockViewPage>
   late TabController _tabController;
   String buttonText = '';
   bool _feedbackGiven = false;
-  final _store = RockViewService.instance;
+  final _store = RockViewPageService.instance;
   final _formKey = GlobalKey<FormState>();
   bool isUnfavoritingRock = false;
   Map<String, dynamic> rockDefaultImage = {

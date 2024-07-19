@@ -9,15 +9,15 @@ import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart
 import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
 
-import '../db/db.dart';
+import '../../../db/db.dart';
 
-class RockViewService {
-  RockViewService._();
+class RockViewPageService {
+  RockViewPageService._();
 
-  static RockViewService? _instance;
+  static RockViewPageService? _instance;
 
-  static RockViewService get instance {
-    _instance ??= RockViewService._();
+  static RockViewPageService get instance {
+    _instance ??= RockViewPageService._();
     return _instance!;
   }
 

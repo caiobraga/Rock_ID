@@ -2,10 +2,10 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/camera_page.dart';
 import 'package:flutter_onboarding/ui/pages/home_page.dart';
 import 'package:flutter_onboarding/ui/pages/my_rocks_page.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_transition/page_transition.dart';
@@ -25,15 +25,14 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
+  final _store = RootPageService.instance;
   List<Rock> myCart = [];
-  bool _isPaywallVisible = true;
 
   final _bottomNavService = BottomNavService.instance;
 
   @override
   void initState() {
-    PaymentService.checkIfPurchased()
-        .then((value) => setState(() => _isPaywallVisible = !value));
+    _store.evaluateIsPremiumActivated().then((_) => setState(() {}));
     super.initState();
     if (widget.showFavorites) {
       _bottomNavService.setIndex(1);
@@ -181,19 +180,24 @@ class _RootPageState extends State<RootPage> {
           ),
         ),
         actions: [
-          Visibility(
-            visible: _isPaywallVisible,
-            child: GestureDetector(
-              child: SvgPicture.string(AppIcons.crown),
-              onTap: () => Navigator.push(
-                context,
-                PageTransition(
-                  duration: const Duration(milliseconds: 300),
-                  child: const PremiumPage(),
-                  type: PageTransitionType.topToBottom,
+          ValueListenableBuilder<bool>(
+            valueListenable: _store.isPremiumActivated,
+            builder: (context, isPremiumActivated, child) {
+              return Visibility(
+                visible: !isPremiumActivated,
+                child: GestureDetector(
+                  child: SvgPicture.string(AppIcons.crown),
+                  onTap: () => Navigator.push(
+                    context,
+                    PageTransition(
+                      duration: const Duration(milliseconds: 300),
+                      child: const PremiumPage(),
+                      type: PageTransitionType.topToBottom,
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ],
         toolbarHeight: 80,

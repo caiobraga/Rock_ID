@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/enums/localized_string.dart';
 import 'package:flutter_onboarding/services/localization_service.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class PaymentService {
@@ -45,6 +46,7 @@ class PaymentService {
       }
 
       await Purchases.purchasePackage(package);
+      await RootPageService.instance.evaluateIsPremiumActivated();
     } catch (e) {
       await showToast(
           localizationService.getString(LocalizedString.errorPleaseTryAgain),

@@ -66,6 +66,7 @@ dependencies:
   keyboard_actions: "^4.1.0"
   currency_text_input_formatter: ^2.2.3
   haptic_feedback: ^0.5.1+1
+  rename: ^3.0.2
 
 dev_dependencies:
   flutter_test:

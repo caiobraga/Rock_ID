@@ -27,7 +27,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 30,
+      version: 31,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -74,7 +74,8 @@ class DatabaseHelper {
         howToSelect TEXT,
         types TEXT,
         uses TEXT,
-        isAddedToCollection INTEGER DEFAULT 0
+        isAddedToCollection INTEGER DEFAULT 0,
+        createdAt TEXT
       )
     ''');
 
@@ -92,6 +93,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
         imagePath TEXT,
+        createdAt TEXT,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
     ''');
@@ -100,7 +102,7 @@ class DatabaseHelper {
       CREATE TABLE snap_history(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rockId INTEGER,
-        timestamp TEXT,
+        createdAt TEXT,
         scannedImagePath TEXT,
         FOREIGN KEY (rockId) REFERENCES rocks (rockId)
       )
@@ -135,7 +137,8 @@ class DatabaseHelper {
 
     //getting list of rocks
     final List<Map<String, dynamic>> rockMap = await db.query('rocks');
-    final rockList = rockMap.map((dbRock) => Rock.fromMap(dbRock)).toList();
+    List<Rock> rockList =
+        rockMap.map((dbRock) => Rock.fromMap(dbRock)).toList();
 
     //getting list of rocks images
     final List<Map<String, dynamic>> rockImagesMap =
@@ -144,19 +147,32 @@ class DatabaseHelper {
         rockImagesMap.map((dbRock) => RockImage.fromMap(dbRock)).toList();
 
     //returning rocks with it's images
-    return rockList
+    rockList = List.from(rockList
         .map((rock) => rock.copyWith(
             rockImages: rockImagesList
                 .where((rockImage) => rockImage.rockId == rock.rockId)
                 .toList()))
-        .toList();
+        .toList());
+
+    rockList.sort(
+      (a, b) =>
+          (DateTime.tryParse(b.createdAt)?.compareTo(
+              DateTime.tryParse(a.createdAt) ?? DateTime.now().toLocal())) ??
+          0,
+    );
+
+    rockList = List.from(rockList);
+    return rockList;
   }
 
   Future<void> insertRock(Rock rock) async {
     final db = await database;
     await db.insert(
       'rocks',
-      rock.toMap(),
+      {
+        ...rock.toMap(),
+        'createdAt': DateTime.now().toLocal().toString(),
+      },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
@@ -217,7 +233,6 @@ class DatabaseHelper {
 
       for (final defaultRock in Rock.rockList) {
         if (defaultRock.rockId == rock.rockId) {
-          debugPrint('REMOVEU PEDRA!!!');
           removeRock = true;
           break;
         }
@@ -257,6 +272,7 @@ class DatabaseHelper {
       {
         'rockId': rockId,
         'imagePath': imagePath,
+        'createdAt': DateTime.now().toLocal().toString(),
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -266,12 +282,18 @@ class DatabaseHelper {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('wishlist');
 
-    return List.generate(maps.length, (i) {
+    List<Map<String, dynamic>> wishlist = List.generate(maps.length, (i) {
       return {
         'rockId': maps[i]['rockId'],
         'imagePath': maps[i]['imagePath'],
+        'createdAt': maps[i]['createdAt'],
       };
     });
+
+    wishlist.sort((a, b) => DateTime.parse(b['createdAt'])
+        .compareTo(DateTime.parse(a['createdAt'])));
+    wishlist = List.from(wishlist);
+    return wishlist;
   }
 
   Future<void> removeRockFromWishlist(int rockId) async {
@@ -286,13 +308,13 @@ class DatabaseHelper {
   // Functions for snap_history
 
   Future<void> addRockToSnapHistory(
-      int rockId, String timestamp, String? scannedImagePath) async {
+      int rockId, String? scannedImagePath) async {
     final db = await database;
     await db.insert(
       'snap_history',
       {
         'rockId': rockId,
-        'timestamp': timestamp,
+        'createdAt': DateTime.now().toLocal().toString(),
         'scannedImagePath': scannedImagePath,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -303,13 +325,18 @@ class DatabaseHelper {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('snap_history');
 
-    return List.generate(maps.length, (i) {
+    List<Map<String, dynamic>> snapHistory = List.generate(maps.length, (i) {
       return {
         'rockId': maps[i]['rockId'],
-        'timestamp': maps[i]['timestamp'],
+        'createdAt': maps[i]['createdAt'],
         'scannedImagePath': maps[i]['scannedImagePath'],
       };
     });
+
+    snapHistory.sort((a, b) => DateTime.parse(b['createdAt'])
+        .compareTo(DateTime.parse(a['createdAt'])));
+    snapHistory = List.from(snapHistory);
+    return snapHistory;
   }
 
   Future<void> removeRockFromSnapHistory(int rockId) async {

@@ -2,6 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/camera_page.dart';
 import 'package:flutter_onboarding/ui/pages/home_page.dart';
 import 'package:flutter_onboarding/ui/pages/my_rocks_page.dart';
@@ -25,11 +26,14 @@ class RootPage extends StatefulWidget {
 
 class _RootPageState extends State<RootPage> {
   List<Rock> myCart = [];
+  bool _isPaywallVisible = true;
 
   final _bottomNavService = BottomNavService.instance;
 
   @override
   void initState() {
+    PaymentService.checkIfPurchased()
+        .then((value) => setState(() => _isPaywallVisible = !value));
     super.initState();
     if (widget.showFavorites) {
       _bottomNavService.setIndex(1);
@@ -177,14 +181,17 @@ class _RootPageState extends State<RootPage> {
           ),
         ),
         actions: [
-          GestureDetector(
-            child: SvgPicture.string(AppIcons.crown),
-            onTap: () => Navigator.push(
-              context,
-              PageTransition(
-                duration: const Duration(milliseconds: 300),
-                child: const PremiumPage(),
-                type: PageTransitionType.topToBottom,
+          Visibility(
+            visible: _isPaywallVisible,
+            child: GestureDetector(
+              child: SvgPicture.string(AppIcons.crown),
+              onTap: () => Navigator.push(
+                context,
+                PageTransition(
+                  duration: const Duration(milliseconds: 300),
+                  child: const PremiumPage(),
+                  type: PageTransitionType.topToBottom,
+                ),
               ),
             ),
           ),

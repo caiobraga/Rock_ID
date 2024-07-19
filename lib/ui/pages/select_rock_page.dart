@@ -12,8 +12,11 @@ import './widgets/rock_list_item.dart'; // Import the RockListItem widget
 
 class SelectRockPage extends StatefulWidget {
   final bool isFavoritingRock;
+  final bool showKeyboard;
+
   const SelectRockPage({
     super.key,
+    this.showKeyboard = true,
     this.isFavoritingRock = false,
   });
 
@@ -31,11 +34,13 @@ class _SelectRockPageState extends State<SelectRockPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        _searchRocks.requestFocus();
+    if (widget.showKeyboard) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(const Duration(milliseconds: 300), () {
+          _searchRocks.requestFocus();
+        });
       });
-    });
+    }
     _initializeList();
   }
 

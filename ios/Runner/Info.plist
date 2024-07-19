@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Rock Id</string>
+	<string>Gem Identifier</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>rock_id</string>
+	<string>Gem Identifier</string>
 	<key>NSCalendarsUsageDescription</key>
     <string>Manage appointments and schedule reminders.</string>
 
@@ -43,6 +43,11 @@
 
     <key>aps-environment</key>
     <string>production</string> <!-- Use "development" for development builds -->
+
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+    	<string>UIInterfaceOrientationPortrait</string>
+	</array>
 
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>

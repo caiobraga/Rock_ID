@@ -160,35 +160,39 @@ class CreatePage extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.only(top: 30, left: 30, right: 30, bottom: 110),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            onboardingImage,
-            height: MediaQuery.of(context).size.height * 0.65,
-            alignment: Alignment.center,
-          ),
-          Text(
-            title.toUpperCase(),
-            textAlign: TextAlign.center,
-            style: GoogleFonts.bebasNeue(
-              color: Constants.primaryColor,
-              fontSize: 36,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          verticalDirection: VerticalDirection.down,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              onboardingImage,
+              height: MediaQuery.of(context).size.height * 0.65,
+              alignment: Alignment.center,
             ),
-          ),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat(
-              fontSize: 18,
-              color: Colors.grey,
+            Text(
+              title.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: GoogleFonts.bebasNeue(
+                color: Constants.primaryColor,
+                fontSize: 36,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-        ],
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.montserrat(
+                fontSize: 18,
+                color: Colors.grey,
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
       ),
     );
   }

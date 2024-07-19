@@ -111,13 +111,27 @@ class _LovedTabState extends State<LovedTab> {
                                     ? rock.rockCustomName
                                     : rock.rockName,
                                 tags: const ['Loved'],
-                                onTap: () {
+                                onTap: () async {
+                                  bool isRemovingFromCollection = false;
+                                  final allRocks =
+                                      await DatabaseHelper().findAllRocks();
+                                  if (allRocks
+                                      .where((rockFromAll) =>
+                                          rockFromAll.rockName ==
+                                              rock.rockName &&
+                                          rockFromAll.isAddedToCollection)
+                                      .isNotEmpty) {
+                                    isRemovingFromCollection = true;
+                                  }
+
                                   Navigator.push(
                                     context,
                                     PageTransition(
                                       child: RockViewPage(
                                         rock: rock,
                                         isUnfavoritingRock: true,
+                                        isRemovingFromCollection:
+                                            isRemovingFromCollection,
                                         pickedImage: imagePath != null
                                             ? File(imagePath)
                                             : imagePath,

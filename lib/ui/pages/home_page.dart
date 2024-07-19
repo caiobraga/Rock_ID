@@ -9,7 +9,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../services/bottom_nav_service.dart';
 import 'select_rock_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isLoading = true;
-  final _bottomNavService = BottomNavService.instance;
   final _store = HomePageService.instance;
   bool isSharing = false;
 
@@ -39,12 +37,12 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  void _showRockSelectionModal() {
+  void _showRockSelectionModal({final bool showKeyboard = true}) {
     Navigator.push(
       context,
       PageTransition(
         duration: const Duration(milliseconds: 400),
-        child: const SelectRockPage(),
+        child: SelectRockPage(showKeyboard: showKeyboard),
         type: PageTransitionType.bottomToTop,
       ),
     );
@@ -155,10 +153,8 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(41),
-                                onTap: () {
-                                  _bottomNavService.setIndex(1);
-                                  _bottomNavService.rockCollectionClicked();
-                                },
+                                onTap: () => _showRockSelectionModal(
+                                    showKeyboard: false),
                                 child: Ink(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 15),
@@ -174,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                                         width: 6,
                                       ),
                                       const Text(
-                                        'Rock Collection',
+                                        'Explore Rocks',
                                         style: TextStyle(
                                           color: Constants.white,
                                           fontSize: 14,

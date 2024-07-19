@@ -671,10 +671,8 @@ class _CameraPageState extends State<CameraPage> {
       await scanningFunction();
       if (!_loadingDismissed) {
         if (_rock != null) {
-          String timestamp = DateTime.now().toIso8601String();
           await DatabaseHelper().addRockToSnapHistory(
             _rock!.rockId,
-            timestamp,
             _image?.path,
           );
           userHistory['numberOfRocksScanned']++;

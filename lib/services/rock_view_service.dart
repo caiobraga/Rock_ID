@@ -11,13 +11,13 @@ import 'package:intl/intl.dart';
 
 import '../db/db.dart';
 
-class AddRockToCollectionService {
-  AddRockToCollectionService._();
+class RockViewService {
+  RockViewService._();
 
-  static AddRockToCollectionService? _instance;
+  static RockViewService? _instance;
 
-  static AddRockToCollectionService get instance {
-    _instance ??= AddRockToCollectionService._();
+  static RockViewService get instance {
+    _instance ??= RockViewService._();
     return _instance!;
   }
 

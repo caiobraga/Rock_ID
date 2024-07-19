@@ -110,13 +110,34 @@ class _PremiumPageState extends State<PremiumPage> {
             ),
             Positioned(
               bottom: 185,
-              child: Text(
-                '${isFreeTrialEnabled ? '3 days free, then \$5.98/week' : 'Just \$19.99 per year'}\nNo commitment. Cancel anytime',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Constants.white,
-                  fontSize: 18,
+              child: Text.rich(
+                TextSpan(
+                  text: isFreeTrialEnabled ? '7 days free, then ' : 'Just ',
+                  style: const TextStyle(
+                    color: Constants.white,
+                    fontSize: 18,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: isFreeTrialEnabled
+                          ? '\$5.99/week'
+                          : '\$19.99 per year',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Constants.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const TextSpan(
+                      text: '\nNo commitment. Cancel anytime',
+                      style: TextStyle(
+                        color: Constants.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
             Visibility(

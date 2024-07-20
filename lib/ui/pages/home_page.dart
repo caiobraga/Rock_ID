@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/pages/camera_page.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
@@ -274,8 +275,9 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: GestureDetector(
+                              child: InkWell(
                                 onTap: () async {
+                                  await HapticFeedback.heavyImpact();
                                   await Navigator.push(
                                     context,
                                     PageTransition(
@@ -286,7 +288,8 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   );
                                 },
-                                child: Container(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Ink(
                                   height: 226,
                                   padding: const EdgeInsets.only(
                                       top: 20, bottom: 15, right: 10, left: 10),
@@ -338,8 +341,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(width: 20),
                             Expanded(
-                              child: GestureDetector(
+                              child: InkWell(
                                 onTap: () async {
+                                  await HapticFeedback.heavyImpact();
                                   await Navigator.push(
                                     context,
                                     PageTransition(
@@ -352,7 +356,8 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   );
                                 },
-                                child: Container(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Ink(
                                   height: 226,
                                   padding: const EdgeInsets.only(
                                       top: 20, bottom: 15, right: 10, left: 10),

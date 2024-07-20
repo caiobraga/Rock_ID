@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/ui/pages/camera_page.dart';
@@ -215,8 +216,9 @@ class _RootPageState extends State<RootPage> {
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(top: 30.0),
-        child: InkWell(
+        child: GestureDetector(
           onTap: () async {
+            await HapticFeedback.heavyImpact();
             await Navigator.push(
               context,
               PageTransition(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
@@ -52,6 +53,7 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       onTap: () async {
+                        await HapticFeedback.heavyImpact();
                         await Navigator.push(
                           context,
                           PageTransition(

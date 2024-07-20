@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
@@ -151,7 +152,8 @@ class _RockViewPageState extends State<RockViewPage>
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              await HapticFeedback.heavyImpact();
               isUnfavoritingRock
                   ? _removeFromWishlist()
                   : () {
@@ -216,6 +218,7 @@ class _RockViewPageState extends State<RockViewPage>
                   children: [
                     GestureDetector(
                       onTap: () async {
+                        await HapticFeedback.heavyImpact();
                         await Navigator.push(
                           context,
                           PageTransition(
@@ -233,11 +236,14 @@ class _RockViewPageState extends State<RockViewPage>
                     ),
                     const SizedBox(width: 16),
                     GestureDetector(
-                      onTap: () => widget.isFavoritingRock
-                          ? _addToWishlist()
-                          : widget.isRemovingFromCollection
-                              ? _removeFromCollection()
-                              : _addToCollection(),
+                      onTap: () async {
+                        await HapticFeedback.heavyImpact();
+                        widget.isFavoritingRock
+                            ? _addToWishlist()
+                            : widget.isRemovingFromCollection
+                                ? _removeFromCollection()
+                                : _addToCollection();
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.7,
                         height: 50,

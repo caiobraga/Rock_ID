@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
@@ -186,7 +187,8 @@ class _LovedTabState extends State<LovedTab> {
 
   Widget _addRockToWishlistButton() {
     return ElevatedButton.icon(
-      onPressed: () {
+      onPressed: () async {
+        await HapticFeedback.heavyImpact();
         Navigator.push(
           context,
           PageTransition(

@@ -82,27 +82,33 @@ class _RockViewPageState extends State<RockViewPage>
 
   @override
   void initState() {
-    super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    setState(() {
-      defineFavorite();
-      currentRock = widget.rock;
-      debugPrint(currentRock.toMap().toString());
-      _store.setRockData(widget.rock, widget.pickedImage);
-      buttonText = widget.isFavoritingRock
-          ? 'Add to Wishlist'
-          : widget.isRemovingFromCollection
-              ? 'Remove from My Collection'
-              : 'Add to My Collection';
-      for (final defaultImage in Rock.defaultImages) {
-        if (defaultImage['rockId'] == widget.rock.rockId) {
-          rockDefaultImage = defaultImage;
+    defineFavorite().then((_) {
+      setState(() {
+        _store.setRockData(widget.rock, widget.pickedImage);
+        currentRock = widget.rock;
+        buttonText = widget.isFavoritingRock
+            ? 'Add to Wishlist'
+            : widget.isRemovingFromCollection
+                ? 'Remove from My Collection'
+                : 'Add to My Collection';
+        for (final defaultImage in Rock.defaultImages) {
+          if (defaultImage['rockId'] == widget.rock.rockId) {
+            rockDefaultImage = defaultImage;
+          }
         }
-      }
+      });
     });
+    super.initState();
   }
 
-  void defineFavorite() async {
+  @override
+  void dispose() {
+    _store.dispose();
+    super.dispose();
+  }
+
+  Future<void> defineFavorite() async {
     final wishlistRocksMap = await DatabaseHelper().wishlist();
 
     for (final wishlistRock in wishlistRocksMap) {

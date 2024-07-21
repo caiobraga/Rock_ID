@@ -55,7 +55,7 @@ class RockViewPageService {
       decimalDigits: 2,
     ).format(rock.height);
     localityController.text = rock.locality;
-    notesController.text == rock.notes;
+    notesController.text = rock.notes;
     unitOfMeasurementNotifier.value =
         rock.unitOfMeasurement.isEmpty ? 'inch' : rock.unitOfMeasurement;
     imageNotifier.value = pickedImage?.path;
@@ -173,5 +173,9 @@ class RockViewPageService {
     if (await inAppReview.isAvailable()) {
       inAppReview.requestReview();
     }
+  }
+
+  void dispose() {
+    _instance = null;
   }
 }

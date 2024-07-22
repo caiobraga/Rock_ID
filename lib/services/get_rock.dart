@@ -30,7 +30,12 @@ class GetRockService {
       Rock? localRock = await _getLocalRockByName(rockName);
 
       if (localRock != null) {
-        return localRock;
+        final dbRocks = await DatabaseHelper().findAllRocks();
+        final dbRock = dbRocks.firstWhere(
+          (element) => element.rockId == localRock.rockId,
+          orElse: Rock.empty,
+        );
+        return dbRock.rockId == 0 ? localRock : dbRock;
       }
 
       return await getRockInfo(rockName);

@@ -6,8 +6,10 @@ import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/premium_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:page_transition/page_transition.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -71,11 +73,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     setState(() {
                       isLoadingPurchase = true;
                     });
-                    await _paymentService.configureSDK(
+                    final response = await _paymentService.configureSDK(
                       context,
                       PremiumPageService
                           .instance.isFreeTrialEnabledNotifier.value,
                     );
+                    if (response) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'You have successfully subscribed!',
+                          ),
+                        ),
+                      );
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                          child: const RootPage(),
+                          type: PageTransitionType.bottomToTop,
+                        ),
+                        (route) => false,
+                      );
+                    }
                     await _requestReview();
                     setState(() {
                       isLoadingPurchase = false;

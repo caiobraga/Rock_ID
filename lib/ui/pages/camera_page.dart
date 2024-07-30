@@ -451,11 +451,10 @@ class _CameraPageState extends State<CameraPage> {
                                           fontSize: 16,
                                         ),
                                       ),
-                                      Expanded(
-                                        child: LoadingComponent(
-                                          scanningForPrice:
-                                              !widget.isScanningForRockDetails,
-                                        ),
+                                      const SizedBox(height: 80),
+                                      LoadingComponent(
+                                        scanningForPrice:
+                                            !widget.isScanningForRockDetails,
                                       ),
                                     ],
                                   ),

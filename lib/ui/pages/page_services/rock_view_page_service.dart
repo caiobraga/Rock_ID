@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/services/review_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
 
 import '../../../db/db.dart';
@@ -169,10 +169,7 @@ class RockViewPageService {
   }
 
   Future<void> _requestReview() async {
-    final inAppReview = InAppReview.instance;
-    if (await inAppReview.isAvailable()) {
-      inAppReview.requestReview();
-    }
+    await ReviewService.instance.getReview();
   }
 
   void dispose() {

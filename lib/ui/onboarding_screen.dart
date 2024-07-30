@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
+import 'package:flutter_onboarding/services/review_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/premium_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:page_transition/page_transition.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -150,10 +150,7 @@ Future<void> _requestReview() async {
       key: 'userHistory',
       value: jsonEncode(userHistory),
     );
-    final inAppReview = InAppReview.instance;
-    if (await inAppReview.isAvailable()) {
-      await inAppReview.requestReview();
-    }
+    await ReviewService.instance.getReview();
   }
 }
 

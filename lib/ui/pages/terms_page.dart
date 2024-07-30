@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsPage extends StatefulWidget {
@@ -13,11 +14,11 @@ class TermsPage extends StatefulWidget {
 }
 
 class _TermsPageState extends State<TermsPage> {
+  bool isLoading = true;
   late final WebViewController _controller;
 
   @override
   void initState() {
-    super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -39,7 +40,12 @@ class _TermsPageState extends State<TermsPage> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(Uri.parse(widget.url)).then((_) {
+        setState(() {
+          isLoading = false;
+        });
+      });
+    super.initState();
   }
 
   @override
@@ -48,7 +54,9 @@ class _TermsPageState extends State<TermsPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: WebViewWidget(controller: _controller),
+      body: isLoading
+          ? const LoadingComponent()
+          : WebViewWidget(controller: _controller),
     );
   }
 }

@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
+import 'package:flutter_onboarding/services/review_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/premium_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/terms_page.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:page_transition/page_transition.dart';
 
 class PremiumPage extends StatefulWidget {
@@ -318,18 +318,19 @@ class _PremiumPageState extends State<PremiumPage> {
   }
 
   Future<void> _requestReview() async {
-    final storage = Storage.instance;
-    final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
-    if (!userHistory['firstPaywallShown']) {
-      userHistory['firstPaywallShown'] = true;
-      storage.write(
-        key: 'userHistory',
-        value: jsonEncode(userHistory),
-      );
-      final inAppReview = InAppReview.instance;
-      if (await inAppReview.isAvailable()) {
-        await inAppReview.requestReview();
+    try {
+      final storage = Storage.instance;
+      final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
+      if (!userHistory['firstPaywallShown']) {
+        userHistory['firstPaywallShown'] = true;
+        storage.write(
+          key: 'userHistory',
+          value: jsonEncode(userHistory),
+        );
+        await ReviewService.instance.getReview();
       }
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }

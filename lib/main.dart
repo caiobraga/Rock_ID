@@ -21,6 +21,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  await RootPageService.instance.evaluateIsPremiumActivated();
 
   runApp(const MyApp());
 }

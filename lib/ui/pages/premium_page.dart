@@ -13,10 +13,12 @@ import 'package:page_transition/page_transition.dart';
 
 class PremiumPage extends StatefulWidget {
   final bool isFromOnboarding;
+  final bool showOwnButton;
 
   const PremiumPage({
     super.key,
     this.isFromOnboarding = false,
+    this.showOwnButton = false,
   });
 
   @override
@@ -60,7 +62,7 @@ class _PremiumPageState extends State<PremiumPage> {
                         await _requestReview();
                         !widget.isFromOnboarding
                             ? Navigator.pop(context)
-                            : Navigator.pushAndRemoveUntil(
+                            : await Navigator.pushAndRemoveUntil(
                                 context,
                                 PageTransition(
                                     child: const RootPage(),
@@ -121,7 +123,7 @@ class _PremiumPageState extends State<PremiumPage> {
                     TextSpan(
                       text: isFreeTrialEnabled
                           ? '\$5.99/week'
-                          : '\$19.99 per year',
+                          : '\$39.99 per year',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Constants.white,
@@ -141,7 +143,7 @@ class _PremiumPageState extends State<PremiumPage> {
               ),
             ),
             Visibility(
-              visible: !widget.isFromOnboarding,
+              visible: !widget.isFromOnboarding || widget.showOwnButton,
               child: Positioned(
                 bottom: 60,
                 child: Material(

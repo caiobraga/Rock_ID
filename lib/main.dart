@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
+import 'package:flutter_onboarding/ui/pages/premium_page.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'constants.dart';
@@ -29,18 +33,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Widget? firstShowPage;
+
   @override
   void initState() {
-    _initVariablesAndStorage();
+    _initVariablesAndStorage().then((value) => setState(() {}));
     super.initState();
   }
 
-  void _initVariablesAndStorage() async {
+  Future<void> _initVariablesAndStorage() async {
     await dotenv.load(fileName: ".env");
     final storage = Storage.instance;
     final userHistory = await storage.read(key: 'userHistory');
 
     if (userHistory == null) {
+      firstShowPage = const OnboardingScreen();
       await storage.write(
         key: 'userHistory',
         value: jsonEncode({
@@ -50,6 +57,15 @@ class _MyAppState extends State<MyApp> {
           'tenthRockSaved': false, // RATING
         }),
       );
+    } else if (jsonDecode(userHistory)['firstPaywallShown']) {
+      if (RootPageService.instance.isPremiumActivatedNotifier.value) {
+        firstShowPage = const RootPage();
+      } else {
+        firstShowPage = const PremiumPage(
+          isFromOnboarding: true,
+          showOwnButton: true,
+        );
+      }
     }
 
     setState(() {});
@@ -77,8 +93,8 @@ class _MyAppState extends State<MyApp> {
         ),
         scaffoldBackgroundColor: Colors.black,
       ),
-      title: 'Onboarding Screen',
-      home: const OnboardingScreen(),
+      title: 'Gem Identifier',
+      home: firstShowPage ?? const LoadingComponent(),
       debugShowCheckedModeBanner: false,
     );
   }

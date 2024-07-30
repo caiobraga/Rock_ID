@@ -1499,7 +1499,7 @@ class Rock {
       "rockId": 107
     },
     {
-      "img1": "https://rocks.comparenature.com/PImg/Kenyte132Normal_200.jpgg",
+      "img1": "https://rocks.comparenature.com/PImg/Kenyte132Normal_200.jpg",
       "img2": "https://www.turnstone.ca/kent1.jpg",
       "cmi1": "https://turnstone.ca/appin4.jpg",
       "cmi2":
@@ -3085,7 +3085,7 @@ class Rock {
       "rockId": 235
     },
     {
-      "img1": "https://rocks.comparenature.com/PImg/Kenyte132Normal_200.jpgg",
+      "img1": "https://rocks.comparenature.com/PImg/Kenyte132Normal_200.jpg",
       "img2": "https://www.turnstone.ca/kent1.jpg",
       "cmi1": "https://turnstone.ca/appin4.jpg",
       "cmi2":

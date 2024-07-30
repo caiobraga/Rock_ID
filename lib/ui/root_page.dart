@@ -182,7 +182,7 @@ class _RootPageState extends State<RootPage> {
         ),
         actions: [
           ValueListenableBuilder<bool>(
-            valueListenable: _store.isPremiumActivated,
+            valueListenable: _store.isPremiumActivatedNotifier,
             builder: (context, isPremiumActivated, child) {
               return Visibility(
                 visible: !isPremiumActivated,

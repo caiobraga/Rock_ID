@@ -6,11 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/pages/page_services/rock_view_page_service.dart';
 import 'package:flutter_onboarding/services/bottom_nav_service.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
-import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/camera_page.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/rock_view_page_service.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_onboarding/ui/pages/tabs/tab_services/loved_tab_service.dart';
 import 'package:flutter_onboarding/ui/pages/widgets/expandable_text.dart';
@@ -689,15 +689,16 @@ class _RockViewPageState extends State<RockViewPage>
 
   Widget _buildHealthRisksSection() {
     return _buildCard(
-        title: 'HEALTH RISKS',
-        iconData: Icons.error_rounded,
-        body: [
-          Text(
-            currentRock.healthRisks,
-            style: AppTypography.body3(color: AppColors.naturalWhite),
-            textAlign: TextAlign.justify,
-          )
-        ]);
+      title: 'HEALTH RISKS',
+      iconData: Icons.error_rounded,
+      body: [
+        Text(
+          currentRock.healthRisks,
+          style: AppTypography.body3(color: AppColors.naturalWhite),
+          textAlign: TextAlign.justify,
+        )
+      ],
+    );
   }
 
   // Images Section
@@ -1353,7 +1354,10 @@ class _RockViewPageState extends State<RockViewPage>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if ((double.tryParse(_store.costController.text) ?? 0) > 0)
+            if ((double.tryParse(_store.costController.text
+                        .replaceAll(RegExp(r'[^\d.]'), '')) ??
+                    0) >
+                0)
               _buildInfoSection('Cost',
                   costVisible ? '\$${_store.costController.text}' : '\$****'),
             if (sizeText.isNotEmpty)
@@ -1403,9 +1407,7 @@ class _RockViewPageState extends State<RockViewPage>
 
   List<Widget> _buildDetailsAboutRock() {
     return <Widget>[
-      const SizedBox(height: 16),
       const PremiumSection(),
-      const SizedBox(height: 16),
       _buildHealthRisksSection(),
       const SizedBox(height: 16),
       _buildImagesSection(),
@@ -1415,9 +1417,7 @@ class _RockViewPageState extends State<RockViewPage>
       _buildDescription(currentRock.description),
       const SizedBox(height: 16),
       _buildIdentifySection(),
-      const SizedBox(height: 16),
       const PremiumSection(),
-      const SizedBox(height: 16),
       _buildPhysicalPropertiesSection(),
       const SizedBox(height: 16),
       _buildChemicalPropertiesSession(),
@@ -1429,9 +1429,7 @@ class _RockViewPageState extends State<RockViewPage>
       _buildFormationSection(),
       const SizedBox(height: 16),
       _buildMeaningSection(),
-      const SizedBox(height: 16),
       const PremiumSection(),
-      const SizedBox(height: 16),
       _buildSelectSection(),
       const SizedBox(height: 16),
       _buildTypesSection(),
@@ -2166,7 +2164,8 @@ class _RockViewPageState extends State<RockViewPage>
                             (await DatabaseHelper().getNumberOfRocksSaved()) ??
                                 0;
                         if (numberOfRocksSaved >= 3 &&
-                            !(await PaymentService.checkIfPurchased()) &&
+                            !RootPageService
+                                .instance.isPremiumActivatedNotifier.value &&
                             !(await DatabaseHelper().rockExists(currentRock))) {
                           await Navigator.push(
                             context,

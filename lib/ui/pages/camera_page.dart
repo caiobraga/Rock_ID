@@ -9,12 +9,12 @@ import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
-import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
-import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
+import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
 import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
@@ -143,27 +143,31 @@ class _CameraPageState extends State<CameraPage> {
                 size: 24,
               ),
             ),
-            TextButton.icon(
-              label: const Text('Unlimited IDs'),
-              onPressed: () => Navigator.push(
-                context,
-                PageTransition(
-                  child: const PremiumPage(),
-                  type: PageTransitionType.topToBottom,
+            Visibility(
+              visible:
+                  !RootPageService.instance.isPremiumActivatedNotifier.value,
+              child: TextButton.icon(
+                label: const Text('Unlimited IDs'),
+                onPressed: () => Navigator.push(
+                  context,
+                  PageTransition(
+                    child: const PremiumPage(),
+                    type: PageTransitionType.topToBottom,
+                  ),
                 ),
-              ),
-              icon: SvgPicture.string(
-                AppIcons.crownOnly,
-                height: 14,
-              ),
-              style: TextButton.styleFrom(
-                foregroundColor: Constants.darkGrey,
-                backgroundColor: Constants.primaryColor,
-                textStyle: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+                icon: SvgPicture.string(
+                  AppIcons.crownOnly,
+                  height: 14,
                 ),
-                minimumSize: Size.zero,
+                style: TextButton.styleFrom(
+                  foregroundColor: Constants.darkGrey,
+                  backgroundColor: Constants.primaryColor,
+                  textStyle: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  minimumSize: Size.zero,
+                ),
               ),
             ),
           ],
@@ -199,7 +203,8 @@ class _CameraPageState extends State<CameraPage> {
         children: [
           Expanded(
             child: _isLoadingCamera
-                ? const LoadingComponent()
+                ? LoadingComponent(
+                    scanningForPrice: !widget.isScanningForRockDetails)
                 : _isCameraInitialized && _cameraController != null
                     ? FittedBox(
                         fit: BoxFit.contain,
@@ -212,6 +217,7 @@ class _CameraPageState extends State<CameraPage> {
                       )
                     : Center(
                         child: Container(
+                          padding: const EdgeInsets.all(20),
                           decoration: const BoxDecoration(
                             color: Constants.blackColor,
                           ),
@@ -445,11 +451,10 @@ class _CameraPageState extends State<CameraPage> {
                                           fontSize: 16,
                                         ),
                                       ),
-                                      const Expanded(
-                                        child: Center(
-                                          child: CircularProgressIndicator(
-                                            color: Constants.primaryColor,
-                                          ),
+                                      Expanded(
+                                        child: LoadingComponent(
+                                          scanningForPrice:
+                                              !widget.isScanningForRockDetails,
                                         ),
                                       ),
                                     ],
@@ -654,7 +659,7 @@ class _CameraPageState extends State<CameraPage> {
       final storage = Storage.instance;
       final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
       if (userHistory['numberOfRocksScanned'] >= 10 &&
-          !(await PaymentService.checkIfPurchased())) {
+          !RootPageService.instance.isPremiumActivatedNotifier.value) {
         await Navigator.push(
           context,
           PageTransition(

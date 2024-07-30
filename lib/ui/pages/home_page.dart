@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/ui/pages/camera_page.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:page_transition/page_transition.dart';
@@ -53,9 +54,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const LoadingComponent()
           : SingleChildScrollView(
               child: Center(
                 child: FractionallySizedBox(
@@ -110,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                                       ? "https://play.google.com/store/apps/details?id=$appId"
                                       : "https://apps.apple.com/app/id$appId";
                                   await Share.share(
-                                      'Check out the brand new Gem Identifier App: $url');
+                                      'Identify any rock instantly with AI! $url');
                                   setState(() {
                                     isSharing = false;
                                   });
@@ -290,7 +289,6 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 borderRadius: BorderRadius.circular(20),
                                 child: Ink(
-                                  height: 226,
                                   padding: const EdgeInsets.only(
                                       top: 20, bottom: 15, right: 10, left: 10),
                                   decoration: BoxDecoration(
@@ -302,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       const Text(
-                                        'RECOGNIZE THE\nDETAILS OF\nA ROCK',
+                                        'RECOGNIZE THE\nDETAILS OF\nA ROCK OR A GEM',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Constants.white,
@@ -358,7 +356,6 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 borderRadius: BorderRadius.circular(20),
                                 child: Ink(
-                                  height: 226,
                                   padding: const EdgeInsets.only(
                                       top: 20, bottom: 15, right: 10, left: 10),
                                   decoration: BoxDecoration(
@@ -370,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       const Text(
-                                        'RECOGNIZE THE\nVALUE OF\nA ROCK',
+                                        'RECOGNIZE THE\nVALUE OF\nA ROCK OR A GEM',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Constants.white,

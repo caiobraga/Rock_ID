@@ -10,9 +10,9 @@ class RootPageService {
     return _instance!;
   }
 
-  ValueNotifier<bool> isPremiumActivated = ValueNotifier(false);
+  ValueNotifier<bool> isPremiumActivatedNotifier = ValueNotifier(false);
 
   Future<void> evaluateIsPremiumActivated() async {
-    isPremiumActivated.value = await PaymentService.checkIfPurchased();
+    isPremiumActivatedNotifier.value = await PaymentService.checkIfPurchased();
   }
 }

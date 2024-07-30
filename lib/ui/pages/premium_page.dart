@@ -153,12 +153,33 @@ class _PremiumPageState extends State<PremiumPage> {
                       setState(() {
                         isLoadingPurchase = true;
                       });
-                      await _paymentService.configureSDK(
+                      final response = await _paymentService.configureSDK(
                         context,
                         PremiumPageService
                             .instance.isFreeTrialEnabledNotifier.value,
                       );
-                      await _requestReview();
+
+                      if (response) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'You have successfully subscribed!',
+                            ),
+                          ),
+                        );
+                        !widget.isFromOnboarding
+                            ? Navigator.pop(context)
+                            : Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                    child: const RootPage(),
+                                    type: PageTransitionType.bottomToTop),
+                                (route) => false,
+                              );
+
+                        await _requestReview();
+                      }
+                      // await _requestReview();
                       setState(() {
                         isLoadingPurchase = false;
                       });

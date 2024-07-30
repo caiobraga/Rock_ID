@@ -14,7 +14,7 @@ class PaymentService {
     return isPurchased;
   }
 
-  Future<void> configureSDK(
+  Future<bool> configureSDK(
       BuildContext context, bool isFreeTrialEnabled) async {
     final localizationService =
         LocalizationService(Localizations.localeOf(context));
@@ -24,15 +24,14 @@ class PaymentService {
           localizationService
               .getString(LocalizedString.youAreAlreadySubscribed),
           context);
-      return;
+      return false;
     }
+
     try {
       await Purchases.setLogLevel(LogLevel.debug);
       PurchasesConfiguration configuration =
           PurchasesConfiguration(Constants.revenueCatKey);
-
       await Purchases.configure(configuration);
-
       final offerings = await Purchases.getOfferings();
 
       Package package;
@@ -44,17 +43,20 @@ class PaymentService {
         package = offerings.current!.availablePackages.firstWhere(
             (element) => element.identifier == Constants.annualPackage);
       }
-
       await Purchases.purchasePackage(package);
       await RootPageService.instance.evaluateIsPremiumActivated();
+      return true;
     } catch (e) {
+      debugPrint("Error: $e");
       await showToast(
           localizationService.getString(LocalizedString.errorPleaseTryAgain),
           context);
+      return false;
     }
   }
 
   Future<void> showToast(String message, context) async {
+    debugPrint("Message: $message");
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
     ));

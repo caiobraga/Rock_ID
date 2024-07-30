@@ -13,6 +13,7 @@ class LocalizationService {
       LocalizedString.purchaseCancelledPleaseTryAgain: 'Purchase cancelled, please try again',
       LocalizedString.paywallNotPresented: 'Paywall not presented',
       LocalizedString.errorPleaseTryAgain: 'Error, please try again',
+      LocalizedString.purchaseSuccessful: 'Purchase successful',
     },
   };
 

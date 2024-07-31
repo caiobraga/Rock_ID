@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
@@ -21,7 +22,6 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  await RootPageService.instance.evaluateIsPremiumActivated();
 
   runApp(const MyApp());
 }
@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _initVariablesAndStorage() async {
+    await RootPageService.instance.evaluateIsPremiumActivated();
     await dotenv.load(fileName: ".env");
     final storage = Storage.instance;
     final userHistory = await storage.read(key: 'userHistory');
@@ -59,7 +60,7 @@ class _MyAppState extends State<MyApp> {
         }),
       );
     } else if (jsonDecode(userHistory)['firstPaywallShown']) {
-      if (RootPageService.instance.isPremiumActivatedNotifier.value) {
+      if (await PaymentService.checkIfPurchased()) {
         firstShowPage = const RootPage();
       } else {
         firstShowPage = const PremiumPage(

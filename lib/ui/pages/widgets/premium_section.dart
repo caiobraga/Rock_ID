@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
+import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
 
-class PremiumSection extends StatelessWidget {
+class PremiumSection extends StatefulWidget {
   const PremiumSection({Key? key}) : super(key: key);
+
+  @override
+  State<PremiumSection> createState() => _PremiumSectionState();
+}
+
+class _PremiumSectionState extends State<PremiumSection> {
+  bool isPremiumEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    PaymentService.checkIfPurchased().then((value) {
+      setState(() {
+        isPremiumEnabled = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: !RootPageService.instance.isPremiumActivatedNotifier.value,
+      visible: !isPremiumEnabled,
       child: Column(
         children: [
           const SizedBox(height: 16),

@@ -14,43 +14,33 @@ class PaymentService {
     return isPurchased;
   }
 
-  Future<bool> configureSDK(
-      BuildContext context, bool isFreeTrialEnabled) async {
-    final localizationService =
-        LocalizationService(Localizations.localeOf(context));
+  Future<bool> configureSDK(BuildContext context, bool isFreeTrialEnabled) async {
+    final localizationService = LocalizationService(Localizations.localeOf(context));
 
     if (await checkIfPurchased()) {
-      await showToast(
-          localizationService
-              .getString(LocalizedString.youAreAlreadySubscribed),
-          context);
+      await showToast(localizationService.getString(LocalizedString.youAreAlreadySubscribed), context);
       return false;
     }
 
     try {
       await Purchases.setLogLevel(LogLevel.debug);
-      PurchasesConfiguration configuration =
-          PurchasesConfiguration(Constants.revenueCatKey);
+      PurchasesConfiguration configuration = PurchasesConfiguration(Constants.revenueCatKey);
       await Purchases.configure(configuration);
       final offerings = await Purchases.getOfferings();
 
       Package package;
 
       if (isFreeTrialEnabled) {
-        package = offerings.current!.availablePackages.firstWhere(
-            (element) => element.identifier == Constants.freeTrialPackage);
+        package = offerings.current!.availablePackages.firstWhere((element) => element.identifier == Constants.freeTrialPackage);
       } else {
-        package = offerings.current!.availablePackages.firstWhere(
-            (element) => element.identifier == Constants.annualPackage);
+        package = offerings.current!.availablePackages.firstWhere((element) => element.identifier == Constants.annualPackage);
       }
       await Purchases.purchasePackage(package);
       await RootPageService.instance.evaluateIsPremiumActivated();
       return true;
     } catch (e) {
       debugPrint("Error: $e");
-      await showToast(
-          localizationService.getString(LocalizedString.errorPleaseTryAgain),
-          context);
+      await showToast(localizationService.getString(LocalizedString.errorPleaseTryAgain), context);
       return false;
     }
   }

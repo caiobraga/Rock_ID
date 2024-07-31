@@ -5,6 +5,8 @@ PODS:
     - Flutter
     - ReachabilitySwift
   - Flutter (1.0.0)
+  - flutter_email_sender (0.0.1):
+    - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
   - haptic_feedback (0.5.1):
@@ -23,21 +25,21 @@ PODS:
     - FlutterMacOS
   - permission_handler_apple (9.3.0):
     - Flutter
-  - purchases_flutter (6.29.4):
+  - purchases_flutter (6.30.1):
     - Flutter
-    - PurchasesHybridCommon (= 10.9.0)
-  - purchases_ui_flutter (6.29.4):
+    - PurchasesHybridCommon (= 11.1.0)
+  - purchases_ui_flutter (6.30.1):
     - Flutter
-    - PurchasesHybridCommonUI (= 10.9.0)
-  - PurchasesHybridCommon (10.9.0):
-    - RevenueCat (= 4.43.0)
-  - PurchasesHybridCommonUI (10.9.0):
-    - PurchasesHybridCommon (= 10.9.0)
-    - RevenueCatUI (= 4.43.0)
+    - PurchasesHybridCommonUI (= 11.1.0)
+  - PurchasesHybridCommon (11.1.0):
+    - RevenueCat (= 4.43.2)
+  - PurchasesHybridCommonUI (11.1.0):
+    - PurchasesHybridCommon (= 11.1.0)
+    - RevenueCatUI (= 4.43.2)
   - ReachabilitySwift (5.2.3)
-  - RevenueCat (4.43.0)
-  - RevenueCatUI (4.43.0):
-    - RevenueCat (= 4.43.0)
+  - RevenueCat (4.43.2)
+  - RevenueCatUI (4.43.2):
+    - RevenueCat (= 4.43.2)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -58,6 +60,7 @@ DEPENDENCIES:
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - Flutter (from `Flutter`)
+  - flutter_email_sender (from `.symlinks/plugins/flutter_email_sender/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - haptic_feedback (from `.symlinks/plugins/haptic_feedback/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -90,6 +93,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   Flutter:
     :path: Flutter
+  flutter_email_sender:
+    :path: ".symlinks/plugins/flutter_email_sender/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   haptic_feedback:
@@ -124,9 +129,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  camera_avfoundation: 759172d1a77ae7be0de08fc104cfb79738b8a59e
+  camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_email_sender: 10a22605f92809a11ef52b2f412db806c6082d40
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   haptic_feedback: 8cb3ee0cb6b797946c2b0df9c99ebc8f7ed79c71
   image_picker_ios: b545a5f16c0fa88e3ecbbce3ed4de45567a8ec18
@@ -135,19 +141,19 @@ SPEC CHECKSUMS:
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
-  purchases_flutter: a10ab0c4bb4effbc9b78be6513658ae659e67a20
-  purchases_ui_flutter: 7ff2039a24c5e54b72907944e47f0c0963799412
-  PurchasesHybridCommon: 0e157d11d04fdfdd434b5c6d05acb58fd1cc9db8
-  PurchasesHybridCommonUI: 3541d756f566e7de74e43195135fc71f98a3e19d
+  purchases_flutter: a7dba78a5da88e0672a881372d2a34478e723537
+  purchases_ui_flutter: be9f0e3bdd2b0ad7588520ef662a1b6f7478d0ea
+  PurchasesHybridCommon: 4022d5944cb30ec44ba5159e42aa161fe0e30175
+  PurchasesHybridCommonUI: fb80871b28d3d21ae2d0a2102e228331931e6856
   ReachabilitySwift: 7f151ff156cea1481a8411701195ac6a984f4979
-  RevenueCat: f7b90c52f4b7e322bc9e7adaf734030523534b06
-  RevenueCatUI: 1d945ac4cd70052c092e467588f545281b1ca8c3
+  RevenueCat: 3d934653b7e8b09af88fd47e9e84cfaf5d0a89ba
+  RevenueCatUI: 1417f375baf005eaf3afa8bc99724f567abfd6da
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
-  webview_flutter_wkwebview: be0f0d33777f1bfd0c9fdcb594786704dbf65f36
+  webview_flutter_wkwebview: 2a23822e9039b7b1bc52e5add778e5d89ad488d1
 
 PODFILE CHECKSUM: 2c7e36b60c854e83be256d3cfd6a75bde1a96b7a
 

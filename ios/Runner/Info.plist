@@ -20,6 +20,12 @@
     <key>NSContactsUsageDescription</key>
     <string>Share content and import contacts.</string>
 
+    <key>NSSiriUsageDescription</key>
+    <string>This app requires access to Siri for enhanced user interaction and voice command functionalities.</string>
+
+    <key>aps-environment</key>
+    <string>development</string>
+
     <key>NSBluetoothPeripheralUsageDescription</key>
     <string>Connect to external devices for enhanced features.</string>
 

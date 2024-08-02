@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
-import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
-import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,16 +32,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget? firstShowPage;
+  Widget? firstShowPage = const OnboardingScreen();
 
   @override
   void initState() {
-    _initVariablesAndStorage().then((value) => setState(() {}));
     super.initState();
+    _initVariablesAndStorage().then((value) => setState(() {}));
   }
 
   Future<void> _initVariablesAndStorage() async {
-    await RootPageService.instance.evaluateIsPremiumActivated();
     await dotenv.load(fileName: ".env");
     final storage = Storage.instance;
     final userHistory = await storage.read(key: 'userHistory');
@@ -63,10 +60,10 @@ class _MyAppState extends State<MyApp> {
       if (await PaymentService.checkIfPurchased()) {
         firstShowPage = const RootPage();
       } else {
-        firstShowPage = const PremiumPage(
-          isFromOnboarding: true,
-          showOwnButton: true,
-        );
+        // firstShowPage = const PremiumPage(
+        //   isFromOnboarding: true,
+        //   showOwnButton: true,
+        // );
       }
     }
 
@@ -78,6 +75,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
+        dividerTheme: const DividerThemeData(color: Colors.transparent),
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,
         ).copyWith(

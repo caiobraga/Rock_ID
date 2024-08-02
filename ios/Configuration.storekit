@@ -1,0 +1,169 @@
+{
+  "identifier" : "A2ADFB1C",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.0",
+      "familyShareable" : false,
+      "internalID" : "6505078817",
+      "localizations" : [
+        {
+          "description" : "Rock App",
+          "displayName" : "Rock App",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "jndasc637bc3o8g3",
+      "referenceName" : "rock app subscription",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6504056802",
+    "_developerTeamID" : "XFHFWF5Z2W",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 744232390.54800296,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21505920",
+      "localizations" : [
+
+      ],
+      "name" : "rock_app_weekly_subscription",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+            {
+              "internalID" : "84A53A81",
+              "numberOfPeriods" : 1,
+              "offerID" : "weekly_free",
+              "paymentMode" : "free",
+              "referenceName" : "One weekly free",
+              "subscriptionPeriod" : "P1W"
+            }
+          ],
+          "codeOffers" : [
+            {
+              "eligibility" : [
+                "new"
+              ],
+              "internalID" : "74C0FF4A",
+              "isStackable" : true,
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "referenceName" : "Seven days free",
+              "subscriptionPeriod" : "P1W"
+            }
+          ],
+          "displayPrice" : "6.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6505078424",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlock all features for just $5.99/week!",
+              "displayName" : "Weekly Subscription",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "rock_app_weekly_subscription_01072024",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "rock_app_weekly",
+          "subscriptionGroupID" : "21505920",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    },
+    {
+      "id" : "21500385",
+      "localizations" : [
+
+      ],
+      "name" : "yearly_subscription",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "39.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6504464631",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlock all features for just $19.99/year!",
+              "displayName" : "Yearly Subscription",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "yearly_subscription_06_16_2024",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Rockapp",
+          "subscriptionGroupID" : "21500385",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

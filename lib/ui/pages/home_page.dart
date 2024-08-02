@@ -311,27 +311,7 @@ class _HomePageState extends State<HomePage> {
                                       Image.asset('assets/images/rocktap.png',
                                           height: 55),
                                       const SizedBox(height: 15),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4.0, horizontal: 16),
-                                        margin: const EdgeInsets.all(4.0),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Constants.primaryColor,
-                                            width: 1,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ),
-                                        child: const Text(
-                                          'TAP HERE',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Constants.primaryColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
+                                      buildTapHere(),
                                     ],
                                   ),
                                 ),
@@ -378,27 +358,7 @@ class _HomePageState extends State<HomePage> {
                                       Image.asset('assets/images/coinstap.png',
                                           height: 55),
                                       const SizedBox(height: 15),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4.0, horizontal: 16),
-                                        margin: const EdgeInsets.all(4.0),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Constants.primaryColor,
-                                            width: 1,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ),
-                                        child: const Text(
-                                          'TAP HERE',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Constants.primaryColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
+                                      buildTapHere(),
                                     ],
                                   ),
                                 ),
@@ -412,6 +372,28 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+    );
+  }
+
+  Widget buildTapHere() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16),
+      margin: const EdgeInsets.all(4.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Constants.primaryColor,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: const Text(
+        'TAP HERE',
+        style: TextStyle(
+          fontSize: 16,
+          color: Constants.primaryColor,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }

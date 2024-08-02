@@ -7,40 +7,57 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 
 class PaymentService {
   static Future<bool> checkIfPurchased() async {
-    bool isPurchased = false;
-    Purchases.addCustomerInfoUpdateListener((customerInfo) async {
-      isPurchased = customerInfo.entitlements.active.isNotEmpty;
-    });
-    return isPurchased;
+    try {
+      PurchasesConfiguration configuration =
+          PurchasesConfiguration(Constants.revenueCatKey);
+      await Purchases.configure(configuration);
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      return customerInfo.activeSubscriptions.isNotEmpty;
+    } catch (e) {
+      debugPrint("Error: $e");
+      return false;
+    }
   }
 
-  Future<bool> configureSDK(BuildContext context, bool isFreeTrialEnabled) async {
-    final localizationService = LocalizationService(Localizations.localeOf(context));
+  Future<bool> configureSDK(
+      BuildContext context, bool isFreeTrialEnabled) async {
+    final localizationService =
+        LocalizationService(Localizations.localeOf(context));
 
     if (await checkIfPurchased()) {
-      await showToast(localizationService.getString(LocalizedString.youAreAlreadySubscribed), context);
+      debugPrint("You are already subscribed");
+      await showToast(
+          localizationService
+              .getString(LocalizedString.youAreAlreadySubscribed),
+          context);
       return false;
     }
 
     try {
       await Purchases.setLogLevel(LogLevel.debug);
-      PurchasesConfiguration configuration = PurchasesConfiguration(Constants.revenueCatKey);
+      PurchasesConfiguration configuration =
+          PurchasesConfiguration(Constants.revenueCatKey);
       await Purchases.configure(configuration);
       final offerings = await Purchases.getOfferings();
 
       Package package;
 
       if (isFreeTrialEnabled) {
-        package = offerings.current!.availablePackages.firstWhere((element) => element.identifier == Constants.freeTrialPackage);
+        package = offerings.current!.availablePackages.firstWhere(
+            (element) => element.identifier == Constants.freeTrialPackage);
       } else {
-        package = offerings.current!.availablePackages.firstWhere((element) => element.identifier == Constants.annualPackage);
+        package = offerings.current!.availablePackages.firstWhere(
+            (element) => element.identifier == Constants.annualPackage);
       }
       await Purchases.purchasePackage(package);
       await RootPageService.instance.evaluateIsPremiumActivated();
+
       return true;
     } catch (e) {
       debugPrint("Error: $e");
-      await showToast(localizationService.getString(LocalizedString.errorPleaseTryAgain), context);
+      await showToast(
+          localizationService.getString(LocalizedString.errorPleaseTryAgain),
+          context);
       return false;
     }
   }

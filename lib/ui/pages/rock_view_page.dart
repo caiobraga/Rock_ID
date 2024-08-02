@@ -79,6 +79,7 @@ class _RockViewPageState extends State<RockViewPage>
   Rock currentRock = Rock.empty();
   final ScrollController _scrollController = ScrollController();
   bool _isFabVisible = true;
+  bool isPremiumEnabled = RootPageService.instance.isPremiumActivatedNotifier.value;
 
   @override
   void initState() {
@@ -1408,6 +1409,8 @@ class _RockViewPageState extends State<RockViewPage>
   List<Widget> _buildDetailsAboutRock() {
     return <Widget>[
       const PremiumSection(),
+      if (isPremiumEnabled)
+        const SizedBox(height: 16),
       _buildHealthRisksSection(),
       const SizedBox(height: 16),
       _buildImagesSection(),
@@ -1418,6 +1421,8 @@ class _RockViewPageState extends State<RockViewPage>
       const SizedBox(height: 16),
       _buildIdentifySection(),
       const PremiumSection(),
+      if (isPremiumEnabled)
+        const SizedBox(height: 16),
       _buildPhysicalPropertiesSection(),
       const SizedBox(height: 16),
       _buildChemicalPropertiesSession(),
@@ -1430,6 +1435,8 @@ class _RockViewPageState extends State<RockViewPage>
       const SizedBox(height: 16),
       _buildMeaningSection(),
       const PremiumSection(),
+      if (isPremiumEnabled)
+        const SizedBox(height: 16),
       _buildSelectSection(),
       const SizedBox(height: 16),
       _buildTypesSection(),

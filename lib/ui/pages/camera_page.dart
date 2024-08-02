@@ -9,8 +9,8 @@ import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
-import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
 import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
@@ -73,18 +73,13 @@ class _CameraPageState extends State<CameraPage> {
     },
   ];
 
-  bool isPremiumEnabled = false;
+  bool isPremiumEnabled = RootPageService.instance.isPremiumActivatedNotifier.value;
 
   @override
   void initState() {
     initializeCamera();
     _openSnapTipsFirstTime();
     super.initState();
-    PaymentService.checkIfPurchased().then((value) {
-      setState(() {
-        isPremiumEnabled = value;
-      });
-    });
   }
 
   Future<void> initializeCamera() async {
@@ -663,7 +658,8 @@ class _CameraPageState extends State<CameraPage> {
     try {
       final storage = Storage.instance;
       final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
-      if (userHistory['numberOfRocksScanned'] >= 10 && !isPremiumEnabled) {
+      if (userHistory['numberOfRocksScanned'] >= 10 &&
+          !isPremiumEnabled) {
         await Navigator.push(
           context,
           PageTransition(

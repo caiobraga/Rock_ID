@@ -195,7 +195,7 @@ class _RootPageState extends State<RootPage> {
                       child: GestureDetector(
                         child: SvgPicture.string(
                           AppIcons.crown,
-                          height: 72,
+                          height: 68,
                         ),
                         onTap: () async {
                           await Navigator.push(
@@ -214,7 +214,7 @@ class _RootPageState extends State<RootPage> {
                 GestureDetector(
                   child: SvgPicture.string(
                     AppIcons.cog,
-                    height: 60,
+                    height: 68,
                   ),
                   onTap: () async {
                     await Navigator.push(

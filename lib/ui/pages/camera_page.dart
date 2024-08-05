@@ -9,6 +9,7 @@ import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
+import 'package:flutter_onboarding/services/mix_panel_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
@@ -73,7 +74,8 @@ class _CameraPageState extends State<CameraPage> {
     },
   ];
 
-  bool isPremiumEnabled = RootPageService.instance.isPremiumActivatedNotifier.value;
+  bool isPremiumEnabled =
+      RootPageService.instance.isPremiumActivatedNotifier.value;
 
   @override
   void initState() {
@@ -288,6 +290,12 @@ class _CameraPageState extends State<CameraPage> {
                 InkWell(
                   splashColor: Constants.primaryColor,
                   onTap: () async {
+                    final _mixPanel = await MixpanelService.init();
+                    _mixPanel.track("Rock Scanned");
+                    _mixPanel.track('Save Rock', properties: {
+                      'log_count': 10,
+                      'is_premium': isPremiumEnabled ? true : false,
+                    });
                     try {
                       await _cameraController!.pausePreview();
                       if (await Permission.camera.isGranted) {
@@ -649,6 +657,8 @@ class _CameraPageState extends State<CameraPage> {
 
   Future<void> _startScanning(Future<void> Function() scanningFunction,
       NavigatorState navigator) async {
+    final _mixPanel = await MixpanelService.init();
+    _mixPanel.track("Rock Scanned");
     setState(() {
       _isLoading = true;
       _errorMessageNotifier.value = null;
@@ -658,8 +668,7 @@ class _CameraPageState extends State<CameraPage> {
     try {
       final storage = Storage.instance;
       final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
-      if (userHistory['numberOfRocksScanned'] >= 10 &&
-          !isPremiumEnabled) {
+      if (userHistory['numberOfRocksScanned'] >= 10 && !isPremiumEnabled) {
         await Navigator.push(
           context,
           PageTransition(
@@ -680,6 +689,11 @@ class _CameraPageState extends State<CameraPage> {
             _rock!.rockId,
             _image?.path,
           );
+          final _mixPanel = await MixpanelService.init();
+          _mixPanel.track('Save Rock', properties: {
+            'log_count': userHistory['numberOfRocksScanned'],
+            'is_premium': isPremiumEnabled ? true : false,
+          });
           userHistory['numberOfRocksScanned']++;
           await storage.write(
               key: 'userHistory', value: jsonEncode(userHistory));

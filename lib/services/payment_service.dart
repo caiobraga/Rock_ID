@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/enums/localized_string.dart';
 import 'package:flutter_onboarding/services/localization_service.dart';
+import 'package:flutter_onboarding/services/mix_panel_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
@@ -21,6 +22,7 @@ class PaymentService {
 
   Future<bool> configureSDK(
       BuildContext context, bool isFreeTrialEnabled) async {
+    final _mixpanel = await MixpanelService.init();
     final localizationService =
         LocalizationService(Localizations.localeOf(context));
 
@@ -51,7 +53,7 @@ class PaymentService {
       }
       await Purchases.purchasePackage(package);
       await RootPageService.instance.evaluateIsPremiumActivated();
-
+      _mixpanel.track("Subscription Purchased");
       return true;
     } catch (e) {
       debugPrint("Error: $e");

@@ -52,6 +52,7 @@ class Constants {
 
   static String gptApiKey = dotenv.env['GPT_API_KEY'] ?? '';
   static String revenueCatKey = dotenv.env['REVENUE_CAT_KEY'] ?? '';
+  static String mixPanelKey = dotenv.env['MIXPANEL_KEY'] ?? '';
 
   static const freeTrialPackage = '\$rc_weekly';
   static const annualPackage = '\$rc_annual';

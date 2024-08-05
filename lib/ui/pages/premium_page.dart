@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
+import 'package:flutter_onboarding/services/mix_panel_service.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
 import 'package:flutter_onboarding/services/review_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/premium_page_service.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_onboarding/ui/pages/terms_page.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:flutter_onboarding/ui/widgets/text.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 
 class PremiumPage extends StatefulWidget {
@@ -27,15 +29,29 @@ class PremiumPage extends StatefulWidget {
 
 class _PremiumPageState extends State<PremiumPage> {
   bool isLoadingPurchase = false;
-
   final _paymentService = PaymentService();
-
   final _store = PremiumPageService.instance;
-
+  late final Mixpanel _mixpanel;
   @override
   void initState() {
-    debugPrint("Response: ${widget.isFromOnboarding}");
     super.initState();
+    _initMixpanel();
+  }
+
+  Future<void> _initMixpanel() async {
+    debugPrint("Initializing Mixpanel");
+    _mixpanel = await MixpanelService.init();
+    _trackPaywallPrompt();
+  }
+
+  void _trackPaywallPrompt() {
+    debugPrint("Tracking Paywall Prompt");
+    _mixpanel.track(
+      "Paywall Prompt",
+      properties: {
+        'location': widget.isFromOnboarding ? 'Onboarding' : 'Other',
+      }
+    );
   }
 
   @override

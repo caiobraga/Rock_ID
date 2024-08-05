@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_onboarding/services/payment_service.dart';
+import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,7 +47,6 @@ class _MyAppState extends State<MyApp> {
     final userHistory = await storage.read(key: 'userHistory');
 
     if (userHistory == null) {
-      firstShowPage = const OnboardingScreen();
       await storage.write(
         key: 'userHistory',
         value: jsonEncode({
@@ -60,10 +60,9 @@ class _MyAppState extends State<MyApp> {
       if (await PaymentService.checkIfPurchased()) {
         firstShowPage = const RootPage();
       } else {
-        // firstShowPage = const PremiumPage(
-        //   isFromOnboarding: true,
-        //   showOwnButton: true,
-        // );
+        firstShowPage = const PremiumPage(
+          isFromOnboarding: true,
+        );
       }
     }
 

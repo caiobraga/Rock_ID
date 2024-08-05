@@ -407,9 +407,8 @@ class _CameraPageState extends State<CameraPage> {
                     child: ValueListenableBuilder<int>(
                       valueListenable: _loadingNotifier,
                       builder: (context, value, child) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        return ListView(
+                          padding: const EdgeInsets.symmetric(vertical: 28),
                           children: [
                             if (_isLoading &&
                                 errorMessage == null &&
@@ -428,7 +427,7 @@ class _CameraPageState extends State<CameraPage> {
                                           loadingProgress.expectedTotalBytes!) {
                                     return const LoadingComponent();
                                   }
-
+                            
                                   return child;
                                 },
                               ),
@@ -483,7 +482,7 @@ class _CameraPageState extends State<CameraPage> {
                                       Icons.verified,
                                       Constants.mediumGreen,
                                       'assets/images/prefectImage.png',
-                                      'This is a good Exemple',
+                                      'This is a good Example',
                                       Constants.lightestGreen,
                                     ),
                                     const SizedBox(height: 20),
@@ -515,7 +514,7 @@ class _CameraPageState extends State<CameraPage> {
                                       assetPath2: 'assets/images/too_dark.png',
                                       label2: 'Too dark',
                                     ),
-                                    const SizedBox(height: 20),
+                                    const SizedBox(height: 10),
                                     GestureDetector(
                                       onTap: () {
                                         Navigator.pop(context);

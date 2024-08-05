@@ -20,7 +20,7 @@ class PremiumPage extends StatefulWidget {
   const PremiumPage({
     super.key,
     this.isFromOnboarding = false,
-    this.showOwnButton = false,
+    this.showOwnButton = true,
   });
 
   @override
@@ -46,12 +46,9 @@ class _PremiumPageState extends State<PremiumPage> {
 
   void _trackPaywallPrompt() {
     debugPrint("Tracking Paywall Prompt");
-    _mixpanel.track(
-      "Paywall Prompt",
-      properties: {
-        'location': widget.isFromOnboarding ? 'Onboarding' : 'Other',
-      }
-    );
+    _mixpanel.track("Paywall Prompt", properties: {
+      'location': widget.isFromOnboarding ? 'Onboarding' : 'Other',
+    });
   }
 
   @override
@@ -59,9 +56,9 @@ class _PremiumPageState extends State<PremiumPage> {
     return Container(
       alignment: Alignment.topCenter,
       padding: const EdgeInsets.only(top: 27),
-      decoration: !widget.isFromOnboarding
+      decoration: widget.showOwnButton
           ? const BoxDecoration(
-            color: Colors.black,
+              color: Colors.black,
               image: DecorationImage(
                 image: AssetImage('assets/images/premium_background.png'),
                 fit: BoxFit.cover,
@@ -76,7 +73,7 @@ class _PremiumPageState extends State<PremiumPage> {
         persistentFooterButtons: [
           Center(
             child: Visibility(
-              visible: !widget.isFromOnboarding || widget.showOwnButton,
+              visible: widget.showOwnButton,
               child: Column(
                 children: [
                   Material(

@@ -211,7 +211,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   title: Constants.titleThree,
                   description: Constants.descriptionThree,
                 ),
-                PremiumPage(isFromOnboarding: true),
+                PremiumPage(isFromOnboarding: true, showOwnButton: false,),
               ],
             ),
           ],

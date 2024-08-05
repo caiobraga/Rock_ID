@@ -8,7 +8,7 @@ import 'package:flutter_onboarding/services/review_service.dart';
 import 'package:flutter_onboarding/ui/pages/page_services/premium_page_service.dart';
 import 'package:flutter_onboarding/ui/pages/terms_page.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/widgets/text.dart';
+import 'package:flutter_onboarding/ui/widgets/ds_custom_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:page_transition/page_transition.dart';
@@ -214,7 +214,6 @@ class _PremiumPageState extends State<PremiumPage> {
           valueListenable: _store.isFreeTrialEnabledNotifier,
           builder: (context, isFreeTrialEnabled, child) {
             return Column(
-              // padding: EdgeInsets.zero,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -265,7 +264,10 @@ class _PremiumPageState extends State<PremiumPage> {
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.018),
-                Image.asset('assets/images/premium_benefits.png'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Image.asset('assets/images/premium_benefits.png'),
+                ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.018),
                 Text.rich(
                   TextSpan(

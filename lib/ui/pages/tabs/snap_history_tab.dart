@@ -9,6 +9,7 @@ import 'package:flutter_onboarding/ui/pages/camera_page.dart';
 import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
 import 'package:flutter_onboarding/ui/pages/tabs/tab_services/snap_history_tab_service.dart';
 import 'package:flutter_onboarding/ui/pages/widgets/rock_list_item.dart';
+import 'package:flutter_onboarding/utils/string_utils.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SnapHistoryTab extends StatefulWidget {
@@ -118,7 +119,30 @@ class _SnapHistoryTabState extends State<SnapHistoryTab> {
                               title: rock.rockCustomName.isNotEmpty
                                   ? rock.rockCustomName
                                   : rock.rockName,
-                              tags: const ['Sulfide minerals', 'Mar', 'Jul'],
+                              tags: [
+                                {
+                                  'icon': Icons.category,
+                                  'text': StringUtils.capitalizeFirstLetter(
+                                    rock.category.isEmpty
+                                        ? 'Unknown'
+                                        : rock.category,
+                                  ),
+                                },
+                                {
+                                  'icon': Icons.color_lens,
+                                  'text': StringUtils.capitalizeFirstLetter(
+                                    rock.color.isEmpty ? 'Unknown' : rock.color,
+                                  ),
+                                },
+                                {
+                                  'icon': Icons.brightness_4,
+                                  'text': StringUtils.capitalizeFirstLetter(
+                                    rock.luster.isEmpty
+                                        ? 'Unknown'
+                                        : rock.luster,
+                                  ),
+                                },
+                              ],
                               onTap: () async {
                                 try {
                                   bool isRemovingFromCollection = false;

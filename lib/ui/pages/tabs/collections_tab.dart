@@ -114,7 +114,22 @@ class _CollectionsTabState extends State<CollectionsTab> {
                         title: rock.rockCustomName.isNotEmpty
                             ? rock.rockCustomName
                             : rock.rockName,
-                        tags: const ['Sulfide minerals', 'Mar', 'Jul'],
+                        tags: [
+                          {
+                            'icon': Icons.calendar_today,
+                            'text': rock.dateAcquired,
+                          },
+                          {
+                            'icon': Icons.location_on,
+                            'text': rock.locality.isEmpty
+                                ? 'Unknown'
+                                : rock.locality,
+                          },
+                          {
+                            'icon': Icons.attach_money,
+                            'text': rock.cost > 0 ? rock.cost.toString() : '?',
+                          },
+                        ],
                         onTap: () {
                           Navigator.push(
                             context,

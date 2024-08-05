@@ -427,45 +427,42 @@ class _CameraPageState extends State<CameraPage> {
                                           loadingProgress.expectedTotalBytes!) {
                                     return const LoadingComponent();
                                   }
-                            
+
                                   return child;
                                 },
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 50,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'Wait for a moment',
-                                        style: TextStyle(
-                                          color: Constants.white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                        ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 50,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Wait for a moment',
+                                      style: TextStyle(
+                                        color: Constants.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
                                       ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        'Identifying $value%',
-                                        style: const TextStyle(
-                                          color: Constants.white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                        ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      'Identifying $value%',
+                                      style: const TextStyle(
+                                        color: Constants.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
                                       ),
-                                      const SizedBox(height: 80),
-                                      LoadingComponent(
-                                        scanningForPrice:
-                                            !widget.isScanningForRockDetails,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    const SizedBox(height: 80),
+                                    LoadingComponent(
+                                      scanningForPrice:
+                                          !widget.isScanningForRockDetails,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -473,89 +470,85 @@ class _CameraPageState extends State<CameraPage> {
                                     !errorMessage.contains(
                                         'need to have an internet connection') ||
                                 showTips))
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    _buildErrorImageRow(
-                                      Icons.verified,
-                                      Constants.mediumGreen,
-                                      'assets/images/prefectImage.png',
-                                      'This is a good Example',
-                                      Constants.lightestGreen,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _buildErrorImageRow(
+                                    Icons.verified,
+                                    Constants.mediumGreen,
+                                    'assets/images/prefectImage.png',
+                                    'This is a good Example',
+                                    Constants.lightestGreen,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  const Text(
+                                    'The following will lead to poor results',
+                                    style: TextStyle(
+                                      color: Constants.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
-                                    const SizedBox(height: 20),
-                                    const Text(
-                                      'The following will lead to poor results',
-                                      style: TextStyle(
-                                        color: Constants.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
+                                  ),
+                                  const SizedBox(height: 15),
+                                  _buildErrorImageRow(
+                                    Icons.close,
+                                    Constants.mediumRed,
+                                    'assets/images/smal_stone.png',
+                                    'Too far',
+                                    Constants.lightestRed,
+                                    assetPath2: 'assets/images/blurred.jpg',
+                                    label2: 'Image blurred',
+                                  ),
+                                  const SizedBox(height: 10),
+                                  _buildErrorImageRow(
+                                    Icons.close,
+                                    Constants.mediumRed,
+                                    'assets/images/varias_rochas.png',
+                                    'Too many',
+                                    Constants.lightestRed,
+                                    assetPath2: 'assets/images/too_dark.png',
+                                    label2: 'Too dark',
+                                  ),
+                                  const SizedBox(height: 10),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 30, vertical: 10),
+                                      margin: const EdgeInsets.only(top: 10),
+                                      decoration: BoxDecoration(
+                                        color: Constants.primaryColor,
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    _buildErrorImageRow(
-                                      Icons.close,
-                                      Constants.mediumRed,
-                                      'assets/images/smal_stone.png',
-                                      'Too far',
-                                      Constants.lightestRed,
-                                      assetPath2: 'assets/images/blurred.jpg',
-                                      label2: 'Image blurred',
-                                    ),
-                                    const SizedBox(height: 10),
-                                    _buildErrorImageRow(
-                                      Icons.close,
-                                      Constants.mediumRed,
-                                      'assets/images/varias_rochas.png',
-                                      'Too many',
-                                      Constants.lightestRed,
-                                      assetPath2: 'assets/images/too_dark.png',
-                                      label2: 'Too dark',
-                                    ),
-                                    const SizedBox(height: 10),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 30, vertical: 10),
-                                        margin: const EdgeInsets.only(top: 10),
-                                        decoration: BoxDecoration(
-                                          color: Constants.primaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Icon(
-                                              Icons.camera_alt,
-                                              size: 30, // Size of the icon
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Icon(
+                                            Icons.camera_alt,
+                                            size: 30, // Size of the icon
+                                            color: Constants
+                                                .darkGrey, // Color of the icon
+                                          ),
+                                          const SizedBox(
+                                              width:
+                                                  10), // Space between icon and text
+                                          Text(
+                                            !showTips ? 'Retake' : 'Got it!',
+                                            style: const TextStyle(
+                                              fontSize: 18, // Size of the text
                                               color: Constants
-                                                  .darkGrey, // Color of the icon
+                                                  .darkGrey, // Color of the text,
+                                              fontWeight: FontWeight.w600,
                                             ),
-                                            const SizedBox(
-                                                width:
-                                                    10), // Space between icon and text
-                                            Text(
-                                              !showTips ? 'Retake' : 'Got it!',
-                                              style: const TextStyle(
-                                                fontSize:
-                                                    18, // Size of the text
-                                                color: Constants
-                                                    .darkGrey, // Color of the text,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                           ],
                         );

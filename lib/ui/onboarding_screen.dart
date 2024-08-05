@@ -9,7 +9,7 @@ import 'package:flutter_onboarding/ui/pages/page_services/premium_page_service.d
 import 'package:flutter_onboarding/ui/pages/premium_page.dart';
 import 'package:flutter_onboarding/ui/pages/terms_page.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/widgets/text.dart';
+import 'package:flutter_onboarding/ui/widgets/ds_custom_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -211,7 +211,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   title: Constants.titleThree,
                   description: Constants.descriptionThree,
                 ),
-                PremiumPage(isFromOnboarding: true, showOwnButton: false,),
+                PremiumPage(
+                  isFromOnboarding: true,
+                  showOwnButton: false,
+                ),
               ],
             ),
           ],

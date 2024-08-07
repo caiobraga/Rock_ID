@@ -33,7 +33,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget? firstShowPage = const OnboardingScreen();
+  Widget? firstShowPage;
 
   @override
   void initState() {
@@ -47,6 +47,8 @@ class _MyAppState extends State<MyApp> {
     final userHistory = await storage.read(key: 'userHistory');
 
     if (userHistory == null) {
+      firstShowPage = const OnboardingScreen();
+
       await storage.write(
         key: 'userHistory',
         value: jsonEncode({
@@ -56,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           'tenthRockSaved': false, // RATING
         }),
       );
-    } else if (jsonDecode(userHistory)['firstPaywallShown']) {
+    } else {
       if (await PaymentService.checkIfPurchased()) {
         firstShowPage = const RootPage();
       } else {

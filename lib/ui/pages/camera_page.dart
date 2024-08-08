@@ -659,8 +659,8 @@ class _CameraPageState extends State<CameraPage> {
     _showLoadingBottomSheet();
     try {
       final storage = Storage.instance;
-      final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
-      if (userHistory['numberOfRocksScanned'] >= 10 && !isPremiumEnabled) {
+      final userTraces = jsonDecode((await storage.read(key: 'userTraces'))!);
+      if (userTraces['numberOfRocksScanned'] >= 10 && !isPremiumEnabled) {
         await Navigator.push(
           context,
           PageTransition(
@@ -683,12 +683,11 @@ class _CameraPageState extends State<CameraPage> {
           );
           final _mixPanel = await MixpanelService.init();
           _mixPanel.track('Save Rock', properties: {
-            'log_count': userHistory['numberOfRocksScanned'],
+            'log_count': userTraces['numberOfRocksScanned'],
             'is_premium': isPremiumEnabled ? true : false,
           });
-          userHistory['numberOfRocksScanned']++;
-          await storage.write(
-              key: 'userHistory', value: jsonEncode(userHistory));
+          userTraces['numberOfRocksScanned']++;
+          await storage.write(key: 'userTraces', value: jsonEncode(userTraces));
           await HomePageService.instance.notifyTotalValues();
 
           if (widget.isScanningForRockDetails) {

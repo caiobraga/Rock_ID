@@ -335,12 +335,12 @@ class _PremiumPageState extends State<PremiumPage> {
   Future<void> _requestReview() async {
     try {
       final storage = Storage.instance;
-      final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
-      if (!userHistory['firstPaywallShown']) {
-        userHistory['firstPaywallShown'] = true;
+      final userTraces = jsonDecode((await storage.read(key: 'userTraces'))!);
+      if (!userTraces['firstPaywallShown']) {
+        userTraces['firstPaywallShown'] = true;
         storage.write(
-          key: 'userHistory',
-          value: jsonEncode(userHistory),
+          key: 'userTraces',
+          value: jsonEncode(userTraces),
         );
         await ReviewService.instance.getReview();
       }

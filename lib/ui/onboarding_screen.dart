@@ -226,12 +226,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
 Future<void> _requestReview() async {
   final storage = Storage.instance;
-  final userHistory = jsonDecode((await storage.read(key: 'userHistory'))!);
-  if (!userHistory['firstPaywallShown']) {
-    userHistory['firstPaywallShown'] = true;
+  final userTraces = jsonDecode((await storage.read(key: 'userTraces'))!);
+  if (!userTraces['firstPaywallShown']) {
+    userTraces['firstPaywallShown'] = true;
     storage.write(
-      key: 'userHistory',
-      value: jsonEncode(userHistory),
+      key: 'userTraces',
+      value: jsonEncode(userTraces),
     );
     await ReviewService.instance.getReview();
   }

@@ -44,13 +44,13 @@ class _MyAppState extends State<MyApp> {
   Future<void> _initVariablesAndStorage() async {
     await dotenv.load(fileName: ".env");
     final storage = Storage.instance;
-    final userHistory = await storage.read(key: 'userHistory');
+    final userTraces = await storage.read(key: 'userTraces');
 
-    if (userHistory == null) {
+    if (userTraces == null) {
       firstShowPage = const OnboardingScreen();
 
       await storage.write(
-        key: 'userHistory',
+        key: 'userTraces',
         value: jsonEncode({
           'numberOfRocksScanned': 0, // PAYWALL
           'firstPaywallShown': false, // RATING

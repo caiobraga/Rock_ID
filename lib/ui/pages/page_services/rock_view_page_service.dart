@@ -127,29 +127,28 @@ class RockViewPageService {
         final numberOfRocksSaved =
             await DatabaseHelper().getNumberOfRocksSaved();
         final storage = Storage.instance;
-        final userHistory =
-            jsonDecode((await storage.read(key: 'userHistory'))!);
+        final userTraces = jsonDecode((await storage.read(key: 'userTraces'))!);
 
         if (numberOfRocksSaved != null) {
           switch (numberOfRocksSaved) {
             case 1:
-              if (!userHistory['firstRockSaved']) {
+              if (!userTraces['firstRockSaved']) {
                 await _requestReview();
-                userHistory['firstRockSaved'] = true;
+                userTraces['firstRockSaved'] = true;
                 await storage.write(
-                  key: 'userHistory',
-                  value: jsonEncode(userHistory),
+                  key: 'userTraces',
+                  value: jsonEncode(userTraces),
                 );
               }
               break;
 
             case 10:
-              if (!userHistory['tenthRockSaved']) {
-                userHistory['tenthRockSaved'] = true;
+              if (!userTraces['tenthRockSaved']) {
+                userTraces['tenthRockSaved'] = true;
                 await _requestReview();
                 await storage.write(
                   key: 'tenthRockSaved',
-                  value: userHistory,
+                  value: userTraces,
                 );
               }
               break;

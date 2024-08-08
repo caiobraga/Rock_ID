@@ -31,8 +31,8 @@ class HomePageService {
       decimalDigits: 2,
     ).format(totalPrice);
 
-    final userHistory = await _storage.read(key: 'userHistory');
+    final userTraces = await _storage.read(key: 'userTraces');
     totalScannedRocksNotifier.value =
-        jsonDecode(userHistory!)['numberOfRocksScanned'];
+        jsonDecode(userTraces!)['numberOfRocksScanned'];
   }
 }

@@ -1032,8 +1032,11 @@ class _CameraPageState extends State<CameraPage> {
             'Permission Required',
             style: TextStyle(color: Constants.lightestBrown),
           ),
-          content: Text(
-            'This app needs ${!isGallery ? 'camera' : 'gallery'} access to function properly. Please open settings and grant ${!isGallery ? 'camera' : 'gallery'} permission.',
+          content: isGallery ?  Text(
+            "Allow access to to photo's to upload photo's from your library",
+            style: const TextStyle(color: Constants.white),
+          ):  Text(
+            "Allow Gem ID access to Camera to take of the rocks you want to identify",
             style: const TextStyle(color: Constants.white),
           ),
           actions: <Widget>[

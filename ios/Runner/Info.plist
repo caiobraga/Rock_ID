@@ -62,15 +62,15 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
     <key>NSCameraUsageDescription</key>
-    <string>App needs access to camera to pick rock images</string>
+    <string>Allow Gem ID access to Camera to take photos of the rocks you want to identify</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-     <string>App needs access to photo library to pick images.</string>
+     <string>Allow access to photo's to upload photo's from your library</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>App needs access to write photo library to be able to share images.</string>
+	<string>Allow access to photo's to upload photo's from your library</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

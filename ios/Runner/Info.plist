@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Rock Id</string>
+	<string>Gem ID</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,12 +13,18 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>rock_id</string>
+	<string>Gem ID</string>
 	<key>NSCalendarsUsageDescription</key>
     <string>Manage appointments and schedule reminders.</string>
 
     <key>NSContactsUsageDescription</key>
     <string>Share content and import contacts.</string>
+
+    <key>NSSiriUsageDescription</key>
+    <string>This app requires access to Siri for enhanced user interaction and voice command functionalities.</string>
+
+    <key>aps-environment</key>
+    <string>development</string>
 
     <key>NSBluetoothPeripheralUsageDescription</key>
     <string>Connect to external devices for enhanced features.</string>
@@ -44,6 +50,11 @@
     <key>aps-environment</key>
     <string>production</string> <!-- Use "development" for development builds -->
 
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+    	<string>UIInterfaceOrientationPortrait</string>
+	</array>
+
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -51,15 +62,15 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
     <key>NSCameraUsageDescription</key>
-    <string>App needs access to camera to pick rock images</string>
+    <string>Allow Gem ID access to Camera to take photos of the rocks you want to identify</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-     <string>App needs access to photo library to pick images.</string>
+     <string>Allow access to photo's to upload photo's from your library</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>App needs access to write photo library to be able to share images.</string>
+	<string>Allow access to photo's to upload photo's from your library</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

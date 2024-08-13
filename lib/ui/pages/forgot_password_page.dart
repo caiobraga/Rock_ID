@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/custom_textfield.dart';
-import 'package:flutter_onboarding/ui/screens/signin_page.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/custom_textfield.dart';
+import 'package:flutter_onboarding/ui/pages/signin_page.dart';
 import 'package:page_transition/page_transition.dart';
 
-class ForgotPassword extends StatelessWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+class ForgotPasswordPage extends StatelessWidget {
+  const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,19 +1,23 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
+import 'package:flutter_onboarding/services/review_service.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
 import 'package:intl/intl.dart';
 
-import '../db/db.dart';
+import '../../../db/db.dart';
 
-class AddRockToCollectionService {
-  AddRockToCollectionService._();
+class RockViewPageService {
+  RockViewPageService._();
 
-  static AddRockToCollectionService? _instance;
+  static RockViewPageService? _instance;
 
-  static AddRockToCollectionService get instance {
-    _instance ??= AddRockToCollectionService._();
+  static RockViewPageService get instance {
+    _instance ??= RockViewPageService._();
     return _instance!;
   }
 
@@ -29,19 +33,29 @@ class AddRockToCollectionService {
   final ValueNotifier<String?> imageNotifier = ValueNotifier(null);
 
   void setRockData(Rock rock, File? pickedImage) {
-    nameController.text = rock.rockName;
+    nameController.text =
+        rock.rockCustomName.isNotEmpty ? rock.rockCustomName : rock.rockName;
     dateController.text = rock.dateAcquired.isEmpty
         ? DateFormat('yyyy/MM/dd').format(DateTime.now().toLocal()).toString()
         : rock.dateAcquired;
     costController.text = NumberFormat.currency(
       symbol: '',
-      decimalDigits: 0,
+      decimalDigits: 2,
     ).format(rock.cost);
-    lengthController.text = rock.length.toString();
-    widthController.text = rock.width.toString();
-    heightController.text = rock.height.toString();
+    lengthController.text = NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 2,
+    ).format(rock.length);
+    widthController.text = NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 2,
+    ).format(rock.width);
+    heightController.text = NumberFormat.currency(
+      symbol: '',
+      decimalDigits: 2,
+    ).format(rock.height);
     localityController.text = rock.locality;
-    notesController.text == rock.notes;
+    notesController.text = rock.notes;
     unitOfMeasurementNotifier.value =
         rock.unitOfMeasurement.isEmpty ? 'inch' : rock.unitOfMeasurement;
     imageNotifier.value = pickedImage?.path;
@@ -56,9 +70,8 @@ class AddRockToCollectionService {
     unitOfMeasurementNotifier.value = 'inch';
   }
 
-  Future<void> addRockToCollection(Rock rock) async {
+  Future<Rock?> addRockToCollection(Rock rock) async {
     final String name = nameController.text;
-    final String description = notesController.text;
     final String dateAcquired = dateController.text;
     final double cost = double.tryParse(
           costController.text.replaceAll(RegExp(r'[^\d.]'), ''),
@@ -73,8 +86,7 @@ class AddRockToCollectionService {
     final List<RockImage> rockImages = [];
 
     Rock newRock = rock.copyWith(
-      rockName: name,
-      description: description,
+      rockCustomName: name,
       dateAcquired: dateAcquired,
       cost: cost,
       locality: locality,
@@ -83,6 +95,7 @@ class AddRockToCollectionService {
       height: height,
       notes: notes,
       unitOfMeasurement: unitOfMeasurement,
+      isAddedToCollection: true,
     );
 
     if (imageNotifier.value != null) {
@@ -108,12 +121,57 @@ class AddRockToCollectionService {
     try {
       if (await DatabaseHelper().rockExists(rock)) {
         await DatabaseHelper().editRock(newRock);
-        return;
+      } else {
+        await DatabaseHelper().insertRock(newRock);
+
+        final numberOfRocksSaved =
+            await DatabaseHelper().getNumberOfRocksSaved();
+        final storage = Storage.instance;
+        final userTraces = jsonDecode((await storage.read(key: 'userTraces'))!);
+
+        if (numberOfRocksSaved != null) {
+          switch (numberOfRocksSaved) {
+            case 1:
+              if (!userTraces['firstRockSaved']) {
+                await _requestReview();
+                userTraces['firstRockSaved'] = true;
+                await storage.write(
+                  key: 'userTraces',
+                  value: jsonEncode(userTraces),
+                );
+              }
+              break;
+
+            case 10:
+              if (!userTraces['tenthRockSaved']) {
+                userTraces['tenthRockSaved'] = true;
+                await _requestReview();
+                await storage.write(
+                  key: 'tenthRockSaved',
+                  value: userTraces,
+                );
+              }
+              break;
+
+            default:
+              break;
+          }
+        }
       }
 
-      await DatabaseHelper().insertRock(newRock);
+      await HomePageService.instance.notifyTotalValues();
+      return newRock;
     } catch (e) {
       debugPrint(e.toString());
+      return null;
     }
+  }
+
+  Future<void> _requestReview() async {
+    await ReviewService.instance.getReview();
+  }
+
+  void dispose() {
+    _instance = null;
   }
 }

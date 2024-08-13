@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
-import 'package:flutter_onboarding/ui/screens/signin_page.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/custom_textfield.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
+import 'package:flutter_onboarding/ui/pages/forgot_password_page.dart';
+import 'package:flutter_onboarding/ui/pages/signup_page.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/custom_textfield.dart';
 import 'package:page_transition/page_transition.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({Key? key}) : super(key: key);
+class SignIn extends StatelessWidget {
+  const SignIn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +21,9 @@ class SignUp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('assets/images/signup.png'),
+              Image.asset('assets/images/signin.png'),
               const Text(
-                'Sign Up',
+                'Sign In',
                 style: TextStyle(
                   fontSize: 35.0,
                   fontWeight: FontWeight.w700,
@@ -36,11 +38,6 @@ class SignUp extends StatelessWidget {
                 icon: Icons.alternate_email,
               ),
               const CustomTextfield(
-                obscureText: false,
-                hintText: 'Enter Full name',
-                icon: Icons.person,
-              ),
-              const CustomTextfield(
                 obscureText: true,
                 hintText: 'Enter Password',
                 icon: Icons.lock,
@@ -49,7 +46,13 @@ class SignUp extends StatelessWidget {
                 height: 10,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                          child: const RootPage(),
+                          type: PageTransitionType.bottomToTop));
+                },
                 child: Container(
                   width: size.width,
                   decoration: BoxDecoration(
@@ -60,12 +63,42 @@ class SignUp extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: const Center(
                     child: Text(
-                      'Sign Up',
+                      'Sign In',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
                       ),
                     ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                          child: const ForgotPasswordPage(),
+                          type: PageTransitionType.bottomToTop));
+                },
+                child: Center(
+                  child: Text.rich(
+                    TextSpan(children: [
+                      TextSpan(
+                        text: 'Forgot Password? ',
+                        style: TextStyle(
+                          color: Constants.blackColor,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Reset Here',
+                        style: TextStyle(
+                          color: Constants.primaryColor,
+                        ),
+                      ),
+                    ]),
                   ),
                 ),
               ),
@@ -99,8 +132,8 @@ class SignUp extends StatelessWidget {
                       height: 30,
                       child: Image.asset('assets/images/google.png'),
                     ),
-                    const Text(
-                      'Sign Up with Google',
+                    Text(
+                      'Sign In with Google',
                       style: TextStyle(
                         color: Constants.blackColor,
                         fontSize: 18.0,
@@ -117,20 +150,20 @@ class SignUp extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       PageTransition(
-                          child: const SignIn(),
+                          child: const SignUp(),
                           type: PageTransitionType.bottomToTop));
                 },
-                child: const Center(
+                child: Center(
                   child: Text.rich(
                     TextSpan(children: [
                       TextSpan(
-                        text: 'Have an Account? ',
+                        text: 'New to Rocky? ',
                         style: TextStyle(
                           color: Constants.blackColor,
                         ),
                       ),
                       TextSpan(
-                        text: 'Login',
+                        text: 'Register',
                         style: TextStyle(
                           color: Constants.primaryColor,
                         ),

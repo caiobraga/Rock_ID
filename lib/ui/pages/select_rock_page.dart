@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/ui/screens/detail_page.dart';
+import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/tab_services/collections_tab_service.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/tab_services/loved_tab_service.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/tab_services/snap_history_tab_service.dart';
+import 'package:flutter_onboarding/utils/string_utils.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../constants.dart';
@@ -9,8 +13,11 @@ import './widgets/rock_list_item.dart'; // Import the RockListItem widget
 
 class SelectRockPage extends StatefulWidget {
   final bool isFavoritingRock;
+  final bool showKeyboard;
+
   const SelectRockPage({
     super.key,
+    this.showKeyboard = true,
     this.isFavoritingRock = false,
   });
 
@@ -19,45 +26,92 @@ class SelectRockPage extends StatefulWidget {
 }
 
 class _SelectRockPageState extends State<SelectRockPage> {
-  List<Rock> _rockList = Rock.rockList;
-  List<Rock> _filteredRockList = Rock.rockList;
+  List<Rock> _rockList = [];
+  List<Rock> _filteredRockList = [];
+  final searchController = TextEditingController();
 
   final _searchRocks = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _orderCollectionRocks();
-
-    if (widget.isFavoritingRock) {
-      _filterFavoritedRocks();
+    if (widget.showKeyboard) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(const Duration(milliseconds: 300), () {
+          _searchRocks.requestFocus();
+        });
+      });
     }
+    _initializeList();
+  }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        _searchRocks.requestFocus();
+  void _initializeList() {
+    _rockList.clear();
+    _filteredRockList.clear();
+    DatabaseHelper().incrementDefaultRockList(Rock.rockList).then((rockList) {
+      final repeatedRockList = rockList;
+      repeatedRockList.sort((a, b) => a.rockId.compareTo(b.rockId));
+      final Set<String> rockNamesSet = {};
+      DatabaseHelper().findAllRocks().then(
+        (allRocks) {
+          for (final rock in repeatedRockList) {
+            if (!rockNamesSet.contains(rock.rockName)) {
+              if (allRocks
+                  .where((element) => element.rockId == rock.rockId)
+                  .isNotEmpty) {
+                _filteredRockList.add(
+                  allRocks
+                      .firstWhere((element) => element.rockId == rock.rockId),
+                );
+              } else {
+                _filteredRockList.add(rock);
+              }
+              rockNamesSet.add(rock.rockName);
+            }
+          }
+
+          _rockList = _filteredRockList;
+
+          if (widget.isFavoritingRock) {
+            _filterFavoritedRocks();
+          }
+
+          _sortCollectionRocks();
+        },
+      );
+      setState(() {
+        searchController.text = '';
       });
     });
   }
 
-  void _orderCollectionRocks() async {
+  void _sortCollectionRocks() async {
     // Recupera todas as rochas da coleção do banco de dados
-    final collectionRocks = await DatabaseHelper().findAllRocks();
+    final collectionRocks = (await DatabaseHelper().findAllRocks())
+        .where((element) => element.isAddedToCollection);
 
     // Extrai os nomes das rochas da coleção
     final collectionRockNames =
         collectionRocks.map((rock) => rock.rockName).toSet();
 
-    // Ordena a _rockList baseada na presença das rochas na coleção
+    // Ordena a _rockList baseada no nome em ordem alfabética
     _rockList.sort((rock1, rock2) {
       final rock1InCollection = collectionRockNames.contains(rock1.rockName);
       final rock2InCollection = collectionRockNames.contains(rock2.rockName);
 
-      // Coloca as rochas que não estão na coleção antes das que estão na coleção
-      if (rock1InCollection && !rock2InCollection) return 1;
-      if (!rock1InCollection && rock2InCollection) return -1;
-      return 0;
+      // If both rocks are in the collection or both are not, sort alphabetically
+      if (rock1InCollection == rock2InCollection) {
+        return rock1.rockName.compareTo(rock2.rockName);
+      }
+
+      // If only one rock is in the collection, move it to the end
+      return rock1InCollection ? 1 : -1;
     });
+
+    // Caso a lista de coleção esteja vazia, só ordena a _filteredRockList
+    if (collectionRocks.isEmpty) {
+      _filteredRockList.sort((a, b) => a.rockName.compareTo(b.rockName));
+    }
 
     setState(() {});
   }
@@ -120,8 +174,10 @@ class _SelectRockPageState extends State<SelectRockPage> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
+                  controller: searchController,
                   style: const TextStyle(color: Constants.white),
                   onChanged: (query) {
+                    searchController.text = query;
                     _filterRocks(query);
                   },
                 ),
@@ -147,13 +203,33 @@ class _SelectRockPageState extends State<SelectRockPage> {
                     }
 
                     return RockListItem(
+                      imagePath: rock.rockImages.isNotEmpty
+                          ? rock.rockImages.first.imagePath
+                          : null,
                       imageUrl: rockDefaultImage[
                           'img1'], // Use a placeholder image if none available
-                      title: rock.rockName,
-                      tags: const [
-                        'Sulfide minerals',
-                        'Mar',
-                        'Jul'
+                      title: rock.rockCustomName.isNotEmpty
+                          ? rock.rockCustomName
+                          : rock.rockName,
+                      tags: [
+                        {
+                          'icon': Icons.category,
+                          'text': StringUtils.capitalizeFirstLetter(
+                            rock.category.isEmpty ? 'Unknown' : rock.category,
+                          ),
+                        },
+                        {
+                          'icon': Icons.color_lens,
+                          'text': StringUtils.capitalizeFirstLetter(
+                            rock.color.isEmpty ? 'Unknown' : rock.color,
+                          ),
+                        },
+                        {
+                          'icon': Icons.brightness_4,
+                          'text': StringUtils.capitalizeFirstLetter(
+                            rock.luster.isEmpty ? 'Unknown' : rock.luster,
+                          ),
+                        },
                       ], // Replace with actual tags
                       onTap: () => _saveRock(rock),
                     );
@@ -171,7 +247,9 @@ class _SelectRockPageState extends State<SelectRockPage> {
     bool isRemovingFromCollection = false;
     final allRocks = await DatabaseHelper().findAllRocks();
     if (allRocks
-        .where((rockFromAll) => rockFromAll.rockName == rock.rockName)
+        .where((rockFromAll) =>
+            rockFromAll.rockName == rock.rockName &&
+            rockFromAll.isAddedToCollection)
         .isNotEmpty) {
       isRemovingFromCollection = true;
     }
@@ -179,7 +257,7 @@ class _SelectRockPageState extends State<SelectRockPage> {
     Navigator.push(
       context,
       PageTransition(
-        child: RockDetailPage(
+        child: RockViewPage(
           rock: rock,
           isFavoritingRock: widget.isFavoritingRock,
           isRemovingFromCollection: isRemovingFromCollection,
@@ -187,14 +265,24 @@ class _SelectRockPageState extends State<SelectRockPage> {
         ),
         type: PageTransitionType.bottomToTop,
       ),
-    );
+    ).then((_) {
+      _initializeList();
+      CollectionsTabService.instance
+          .loadCollectionRocks()
+          .then((_) => setState(() {}));
+      SnapHistoryTabService.instance
+          .loadSnapHistory()
+          .then((_) => setState(() {}));
+      LovedTabService.instance.loadLovedRocks().then((_) => setState(() {}));
+    });
   }
 
   void _filterRocks(String query) {
     setState(() {
       _filteredRockList = _rockList
-          .where((rock) =>
-              rock.rockName.toLowerCase().contains(query.toLowerCase()))
+          .where((rock) => rock.rockCustomName.isNotEmpty
+              ? rock.rockCustomName.toLowerCase().contains(query.toLowerCase())
+              : rock.rockName.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
   }

@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class TermsScreen extends StatefulWidget {
+class TermsPage extends StatefulWidget {
   final String url;
   final String title;
 
-  const TermsScreen({Key? key, required this.url, required this.title})
+  const TermsPage({Key? key, required this.url, required this.title})
       : super(key: key);
 
   @override
-  State<TermsScreen> createState() => _TermsScreenState();
+  State<TermsPage> createState() => _TermsPageState();
 }
 
-class _TermsScreenState extends State<TermsScreen> {
+class _TermsPageState extends State<TermsPage> {
+  bool isLoading = true;
   late final WebViewController _controller;
 
   @override
   void initState() {
-    super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -39,7 +40,12 @@ class _TermsScreenState extends State<TermsScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(Uri.parse(widget.url)).then((_) {
+        setState(() {
+          isLoading = false;
+        });
+      });
+    super.initState();
   }
 
   @override
@@ -48,7 +54,9 @@ class _TermsScreenState extends State<TermsScreen> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: WebViewWidget(controller: _controller),
+      body: isLoading
+          ? const LoadingComponent()
+          : WebViewWidget(controller: _controller),
     );
   }
 }

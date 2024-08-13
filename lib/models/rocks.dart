@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/models/rock_image.dart';
 
 class Rock {
@@ -10,10 +11,11 @@ class Rock {
   final String temperature;
   final String category;
   final String rockName;
+  final String rockCustomName;
   final String imageURL;
-  bool isFavorited;
+  final bool isFavorited;
   final String description;
-  bool isSelected;
+  final bool isSelected;
   final String formula;
   final double hardness;
   final String color;
@@ -21,7 +23,6 @@ class Rock {
 
   //add fields
   final String healthRisks;
-  final List<Map<String, String>> askedQuestions;
   final String crystalSystem;
   final String colors;
   final String luster;
@@ -45,12 +46,15 @@ class Rock {
   final String notes;
   final String unitOfMeasurement;
   final List<RockImage> rockImages;
+  final bool isAddedToCollection;
+  final String createdAt;
 
   Rock({
     required this.rockId,
     required this.price,
     required this.category,
     required this.rockName,
+    this.rockCustomName = '',
     required this.size,
     required this.rating,
     required this.humidity,
@@ -64,7 +68,6 @@ class Rock {
     required this.color,
     required this.isMagnetic,
     required this.healthRisks,
-    required this.askedQuestions,
     required this.crystalSystem,
     required this.colors,
     required this.luster,
@@ -86,6 +89,8 @@ class Rock {
     this.unitOfMeasurement = '',
     this.width = 0.0,
     this.rockImages = const [],
+    this.isAddedToCollection = false,
+    this.createdAt = '',
   });
 
   factory Rock.empty() => Rock(
@@ -106,7 +111,6 @@ class Rock {
         color: '',
         isMagnetic: false,
         healthRisks: '',
-        askedQuestions: [],
         crystalSystem: '',
         colors: '',
         luster: '',
@@ -127,6 +131,7 @@ class Rock {
       'price': price,
       'category': category,
       'rockName': rockName,
+      'rockCustomName': rockCustomName,
       'size': size,
       'rating': rating,
       'humidity': humidity,
@@ -139,6 +144,19 @@ class Rock {
       'hardness': hardness,
       'color': color,
       'isMagnetic': isMagnetic ? 1 : 0,
+      'healthRisks': healthRisks,
+      'crystalSystem': crystalSystem,
+      'colors': colors,
+      'luster': luster,
+      'diaphaneity': diaphaneity,
+      'quimicalClassification': quimicalClassification,
+      'elementsListed': elementsListed,
+      'healingPropeties': healingPropeties,
+      'formulation': formulation,
+      'meaning': meaning,
+      'howToSelect': howToSelect,
+      'types': types,
+      'uses': uses,
       'cost': cost,
       'dateAcquired': dateAcquired,
       'height': height,
@@ -147,6 +165,7 @@ class Rock {
       'notes': notes,
       'unitOfMeasurement': unitOfMeasurement,
       'width': width,
+      'isAddedToCollection': isAddedToCollection ? 1 : 0,
     };
   }
 
@@ -157,6 +176,7 @@ class Rock {
       price: map['price'] ?? 0,
       category: map['category'] ?? '',
       rockName: map['rockName'] ?? '',
+      rockCustomName: map['rockCustomName'] ?? '',
       size: map['size'] ?? '',
       rating: map['rating'] ?? 0,
       humidity: map['humidity'] ?? 0,
@@ -170,7 +190,6 @@ class Rock {
       color: map['color'] ?? '',
       isMagnetic: (map['isMagnetic'] ?? 0) == 1,
       healthRisks: map['healthRisks'] ?? '',
-      askedQuestions: map['askedQuestions'] ?? [],
       crystalSystem: map['crystalSystem'] ?? '',
       colors: map['colors'] ?? '',
       luster: map['luster'] ?? '',
@@ -191,12 +210,17 @@ class Rock {
       notes: map['notes'] ?? '',
       unitOfMeasurement: map['unitOfMeasurement'] ?? '',
       width: map['width'] ?? 0.0,
+      isAddedToCollection: (map['isAddedToCollection'] ?? 0) == 1,
+      createdAt: map['createdAt'] ?? DateTime.now().toLocal().toString(),
     );
   }
 
-  static Rock? rockListFirstWhere(int id) {
+  static Future<Rock?> rockListFirstWhere(int id) async {
+    final rockListCompleted =
+        await DatabaseHelper().incrementDefaultRockList(rockList);
+
     try {
-      return rockList.firstWhere((element) => element.rockId == id);
+      return rockListCompleted.firstWhere((element) => element.rockId == id);
     } catch (e) {
       return null;
     }
@@ -1475,7 +1499,7 @@ class Rock {
       "rockId": 107
     },
     {
-      "img1": "https://rocks.comparenature.com/PImg/Kenyte132Normal_200.jpgg",
+      "img1": "https://rocks.comparenature.com/PImg/Kenyte132Normal_200.jpg",
       "img2": "https://www.turnstone.ca/kent1.jpg",
       "cmi1": "https://turnstone.ca/appin4.jpg",
       "cmi2":
@@ -1778,7 +1802,3198 @@ class Rock {
       "cmi3":
           "https://www.mindat.org/imagecache/1c/05/09516470017055894325076.jpg",
       "rockId": 132
-    }
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Columnas_bas\u00e1lticas.jpg/1024px-Columnas_bas\u00e1lticas.jpg",
+      "img2":
+          "https://www.nhm.ac.uk/content/dam/nhmwww/our-science/our-work/origins-evolution-futures/adakite-minerals-two-column.jpg.thumb.768.768.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/e/ed/Andesite.jpg",
+      "cmi2":
+          "https://rockinrocks1.weebly.com/uploads/4/7/8/8/47885443/s157693222380266259_p2_i1_w600.jpeg",
+      "cmi3": "https://rocks.comparenature.com/PImg/Adakite68Med_300.jpg",
+      "rockId": 133
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/3/39/Sacsayhuam\u00e1n-21.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/8/89/Andesite_pillar.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/1/1f/Amygdaloidal_andesite.jpg",
+      "cmi2":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/lxk1d6xhqmifmqkg.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Block_lava_in_Lassen_Volcanic_National_Park.jpg/1024px-Block_lava_in_Lassen_Volcanic_National_Park.jpg",
+      "rockId": 134
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Labradoryt_1.JPG/800px-Labradoryt_1.JPG",
+      "img2":
+          "https://www.alsical.eu/wp-content/uploads/2022/10/Anorthosite-website.png",
+      "cmi1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Anorthosite-4-jpg.webp?fit=800%2C631&ssl=1",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Anorthosit_of_Salem_Tamil_Nadu.jpg/320px-Anorthosit_of_Salem_Tamil_Nadu.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/6/66/Blue_Eyes_Granite_%28anorthosite%29_Labrador.jpg",
+      "rockId": 135
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/3/32/Aplite_dikes_in_Sierra_Nevada_Batholith_host_rock_%28Cretaceous%3B_Twin_Lakes_overlook%2C_Sierra_Nevada_Mountains%2C_Mono_County%2C_California%2C_USA%29_%288358766587%29.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Sentinel_granodiorite_aplite.jpg/800px-Sentinel_granodiorite_aplite.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/e/e7/Aplite_Sample.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/6/66/Aplite_\u0161vihov.jpg",
+      "cmi3":
+          "https://www.sandatlas.org/wp-content/uploads/00316-4384-12-cm-granite-aplite.jpg",
+      "rockId": 136
+    },
+    {
+      "img1":
+          "https://4.bp.blogspot.com/-ZeJhczc90Kc/WIDb_gtyjqI/AAAAAAAAEcE/Dcfpb9kdLRAK3Oj6HoGD0FYVHUDoB8QKgCLcB/s1600/basalt_columns_by_blueorph-d6l7sbb.jpg",
+      "img2":
+          "https://www.dedalostone.com/wp-content/uploads/2023/08/types-of-basalt-800x448.png",
+      "cmi1":
+          "https://cdn.zmescience.com/wp-content/uploads/2024/01/basalt23.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/7/7b/20011005-0039_DAS_large.jpg",
+      "cmi3":
+          "https://3.bp.blogspot.com/-s4uYkReGI10/VgrzrJKOx0I/AAAAAAAAEvE/43QFg-wQYQY/s1600/02-Basalto.jpg",
+      "rockId": 137
+    },
+    {
+      "img1":
+          "https://i.pinimg.com/originals/13/3e/bf/133ebf34b19e01cb925a150d2e3e42a1.jpg",
+      "img2":
+          "https://live.staticflickr.com/65535/47834677832_b93e66613d_b.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Trachyandesite_at_Clermont-Ferrand_in_France.jpg/800px-Trachyandesite_at_Clermont-Ferrand_in_France.jpg",
+      "cmi2":
+          "https://i.pinimg.com/originals/ad/0a/e3/ad0ae3df5cb715a738b8b8dca102e950.jpg",
+      "cmi3": "https://rocks.comparenature.com/PImg/Pyrolite153Normal_200.jpg",
+      "rockId": 138
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/9/9d/Lava_Flow_-_geograph.org.uk_-_405678.jpg",
+      "img2":
+          "https://www.yonature.com/wp-content/uploads/2018/08/rock-yonature.jpg",
+      "cmi1":
+          "https://www.virtualmicroscope.org/sites/default/files/s339_06b-Rock6BCombined.jpg",
+      "cmi2":
+          "https://collections.st-andrews.ac.uk/iiif/2/1021640~1021640/full/1024,/0/default.jpg",
+      "cmi3":
+          "https://www.virtualmicroscope.org/sites/default/files/hero-s339-06.jpg",
+      "rockId": 139
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Porphyritic_shoshonite_%28Denver_Formation%2C_63-64_Ma%2C_Lower_Paleocene%3B_Table_Mountain%2C_Golden%2C_Colorado%2C_USA%29_3.jpg/800px-Porphyritic_shoshonite_%28Denver_Formation%2C_63-64_Ma%2C_Lower_Paleocene%3B_Table_Mountain%2C_Golden%2C_Colorado%2C_USA%29_3.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Shoshonite_lava_flows_capping_South_Table_Mountain_%28Denver_Formation%2C_Upper_Cretaceous%3B_Golden%2C_Colorado%2C_USA%29_13.jpg/1280px-Shoshonite_lava_flows_capping_South_Table_Mountain_%28Denver_Formation%2C_Upper_Cretaceous%3B_Golden%2C_Colorado%2C_USA%29_13.jpg",
+      "cmi1":
+          "https://www.researchgate.net/profile/Barb-Dutrow/publication/296063772/figure/fig8/AS:520036655656966@1500997808393/Shoshonite-A-Large-clast-displaying-porphyritic-texture-with-phenocrysts-of.png",
+      "cmi2": "https://live.staticflickr.com/3372/3497726325_60c006bd0a_b.jpg",
+      "cmi3": "https://rocks.comparenature.com/PImg/Shoshonite107Med_300.jpg",
+      "rockId": 140
+    },
+    {
+      "img1": "https://myweb.uiowa.edu/mreagan/images/GuamPillow.jpg",
+      "img2":
+          "https://www.researchgate.net/profile/Shuguang-Song-songshuguang/publication/257517879/figure/fig13/AS:392792116350982@1470660346546/Photographs-showing-the-boninite-complex-a-and-b-boninitic-pillow-lava-c-and-d.png",
+      "cmi1": "https://rocks.comparenature.com/PImg/Boninite75Med_300.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/d/d6/Pillow_Lava_in_Bonin_Islands.jpg",
+      "cmi3":
+          "https://ars.els-cdn.com/content/image/1-s2.0-S1367912020303874-gr2.jpg",
+      "rockId": 141
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Thin_section_scan_crossed_polarizers_Siilinj\u00e4rvi_R301-61.70.jpg/1024px-Thin_section_scan_crossed_polarizers_Siilinj\u00e4rvi_R301-61.70.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Okaite%2C_Oka_Niobium_Mine%2C_Quebec.jpg/1024px-Okaite%2C_Oka_Niobium_Mine%2C_Quebec.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Carbonatite.jpg/800px-Carbonatite.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/6/6f/Magnesiocarbonatite_from_British_Columbia_in_Canada.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/5b/a7/09253120017100649639105.jpg",
+      "rockId": 142
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Charnockite_dykes_Jibbeheia.JPG/800px-Charnockite_dykes_Jibbeheia.JPG",
+      "img2": "https://turnstone.ca/koda3.jpg",
+      "cmi1":
+          "https://www.sandatlas.org/wp-content/uploads/00207-charnockite-brazil.jpg",
+      "cmi2":
+          "https://www.sandatlas.org/wp-content/uploads/Charnockite-01619.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Nara_Brown_Granite_%28charnockite%29_Quebec.jpg/800px-Nara_Brown_Granite_%28charnockite%29_Quebec.jpg",
+      "rockId": 143
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/c/cb/Different_types_of_dacite-1200px.JPG",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/b/bf/Mineraly.sk_-_dacit.jpg",
+      "cmi1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/dacite2020(2).jpg",
+      "cmi2":
+          "https://volcanoes.usgs.gov/vsc/images/image_mngr/3200-3299/img3207_400w_250h.jpg",
+      "cmi3": "https://live.staticflickr.com/4455/36865367864_e9f94b3626_b.jpg",
+      "rockId": 144
+    },
+    {
+      "img1":
+          "https://www.waketech.edu/sites/default/files/curriculum/geology/concord_diabaseFig5b.jpg",
+      "img2":
+          "https://lh3.googleusercontent.com/-YBT977uUdyo/UFA-fktktqI/AAAAAAAAIa4/xZ-x6HuarGY/s512/00108%252520IMG_5396%252520diabase.jpg",
+      "cmi1":
+          "https://www.waketech.edu/sites/default/files/curriculum/geology/concord_diabaseFig4.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/4/49/Polished_Diabase.jpg",
+      "cmi3":
+          "https://facts.net/wp-content/uploads/2024/02/20-diabase-rock-facts-1708182071.jpg",
+      "rockId": 145
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Diorite2.tif/lossy-page1-1200px-Diorite2.tif.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Diorite_orbiculaire-5729~2016_11_03.jpg/1024px-Diorite_orbiculaire-5729~2016_11_03.jpg",
+      "cmi1":
+          "https://geology.com/rocks/pictures/diorite-polished-countertop.jpg",
+      "cmi2":
+          "https://images-cdn.ubuy.co.in/634e1efbc6cdcc4822108cba-diorite-igneous-rock-2-unpolished-rock.jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/diorite2019(2).jpg",
+      "rockId": 146
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/2/24/Craigleith_-_geograph.org.uk_-_181324.jpg",
+      "img2":
+          "https://www.le-comptoir-geologique.com/_media/img/medium/er0190-essexite-4-800x600-2.jpg",
+      "cmi1":
+          "https://hypocentre.wordpress.com/wp-content/uploads/2010/12/20101129-scaled-1000.jpg",
+      "cmi2":
+          "https://www.geologysuperstore.com/wp-content/uploads/2023/03/Essexite-removebg-preview.png",
+      "cmi3":
+          "https://www.virtualmicroscope.org/sites/default/files/hero-jrs005.png",
+      "rockId": 147
+    },
+    {
+      "img1":
+          "https://www.geologysuperstore.com/wp-content/uploads/2022/10/gabbro_by_weight.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Main_ridge_of_the_cuillin_in_skye_arp.jpg/1024px-Main_ridge_of_the_cuillin_in_skye_arp.jpg",
+      "cmi1":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhyWEXAj4G_DKMPTn1UJ_2Zx4i16KM9_zvWljWoRZOc-uBTj5iqT5Mcig1UoCED3WweLAKwEJGca9h8Ea6gQZE4yuLh1a7PQSrjkZ4ocxGKL-3RV06F20fkezx28AOA2PIF1nxBZuhjSVyUwez6WqnE-RpYx5elq7gSY5m7-M87yzsGFf1vUBKdjLHE-dk/w1200-h630-p-k-no-nu/gabbro-.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/GabbroRockCreek1.jpg/800px-GabbroRockCreek1.jpg",
+      "cmi3": "https://upload.wikimedia.org/wikipedia/commons/9/90/1gabbro.jpg",
+      "rockId": 148
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Granodiorite_fine-grained.jpg/800px-Granodiorite_fine-grained.jpg",
+      "img2":
+          "https://www.geologistwriter.com/wp-content/uploads/2016/11/Rough-and-Smooth.jpg",
+      "cmi1":
+          "https://geologyistheway.com/wp-content/uploads/2021/04/16592281297_a8473c8c71_o-1024x768.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/8/84/Mineraly.sk_-_granodiorit.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/1/1b/Granodiorite_pmg_ss_2006.jpg",
+      "rockId": 149
+    },
+    {
+      "img1":
+          "https://ars.els-cdn.com/content/image/3-s2.0-B9780128179789000056-f04-026-9780128179789.jpg",
+      "img2":
+          "https://www.researchgate.net/profile/Ciro-Avila-2/publication/238114753/figure/fig11/AS:650040309739576@1531993095487/Granofiro-exibindo-ampla-distribuicao-de-intercrescimento-granofirico-e-baixa-proporcao.png",
+      "cmi1":
+          "https://www.virtualmicroscope.org/sites/default/files/du9904b-Img17761.jpg",
+      "cmi2":
+          "https://www.virtualmicroscope.org/sites/default/files/hero-du13843a-Img24696.jpg",
+      "cmi3":
+          'https://ars.els-cdn.com/content/image/3-s2.0-B9780128179789000056-f04-026-9780128179789.jpg',
+      "rockId": 150
+    },
+    {
+      "img1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/peridotite2019(6).jpg",
+      "img2":
+          "https://gotbooks.miracosta.edu/rocks/metamorphic%20rocks/images/Harzburgite.jpg",
+      "cmi1": "https://www.maden.itu.edu.tr/muze/images/Dolap5/p04.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Harzburgite_Madagascar.JPG/800px-Harzburgite_Madagascar.JPG",
+      "cmi3":
+          "https://www.mindat.org/imagecache/21/b0/07988210017098347523447.jpg",
+      "rockId": 151
+    },
+    {
+      "img1":
+          "https://rockidentifier.com/image-handle/image/1080/153731637073412104.jpeg?x-oss-process=image/format,webp",
+      "img2":
+          "https://plug.plugon.us/img/1/132/1322bb4336354c5abbce9c1813af2b95/img1.jpg",
+      "cmi1":
+          "https://media.sciencephoto.com/c0/50/38/28/c0503828-800px-wm.jpg",
+      "cmi2":
+          "https://www.researchgate.net/profile/Guang-Ming-Ren/publication/343292788/figure/fig3/AS:960325193052167@1605970776417/Hand-specimen-of-hornblendite-consisting-of-black-coarse-grained-1-3mm-likely.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/5/52/Horblnendyt_apatytowy_1.jpg",
+      "rockId": 152
+    },
+    {
+      "img1":
+          "https://rocks.comparenature.com/PImg/Icelandite1108Normal_200.jpg",
+      "img2": "https://www.why.is/myndir/icelandite_060305.jpg",
+      "cmi1": "https://rocks.comparenature.com/PImg/Icelandite108Med_300.jpg",
+      "cmi2":
+          "https://plug.plugon.us/img/4/4ba/4ba50824e94d4a4cb08bd3b940722cde/img1.jpg",
+      "cmi3":
+          "https://s2.best-wallpaper.net/wallpaper/1280x1024/2101/Laguna-Iceland-rocks-water-dusk_1280x1024.jpg",
+      "rockId": 153
+    },
+    {
+      "img1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/09/Ignimbrite-4-jpg.webp?resize=720%2C460&ssl=1",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/6/69/BishopTuff.jpg",
+      "cmi1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/ignimbrites(3).jpg",
+      "cmi2":
+          "https://www.sandatlas.org/wp-content/uploads/00422-IMG_7493-ignimbrite.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/f/f3/Ignimbrite.jpg",
+      "rockId": 154
+    },
+    {
+      "img1":
+          "https://www.mindat.org/imagecache/a9/49/00396260016019687947683.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Ijolite_%28Oka_Carbonatite_Complex%2C_Early_Cretaceous%2C_124-125_Ma%3B_Oka_Niobium_Mine%2C_Quebec%2C_Canada%29_%2814822252052%29.jpg/800px-Ijolite_%28Oka_Carbonatite_Complex%2C_Early_Cretaceous%2C_124-125_Ma%3B_Oka_Niobium_Mine%2C_Quebec%2C_Canada%29_%2814822252052%29.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/55/a6/09160780015900986126716.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/03/e5/08220830015722786855746.jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/ijolite2019.jpg",
+      "rockId": 155
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Komatiite_Lava_in_South_Africa_-_CSIRO_ScienceImage_11033.jpg/800px-Komatiite_Lava_in_South_Africa_-_CSIRO_ScienceImage_11033.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/f/fd/KomatiiteCanada_682By512.jpg",
+      "cmi1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/spinifex2020(1).jpg",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/spinifex2020(7).jpg",
+      "cmi3":
+          "https://lh6.googleusercontent.com/proxy/VaigLKptW7hLsyPh1X4CmiaPbMuIj8krG-646L7QYvFqsbWpnroT4TVtDlcc7J9SA8hjfRQR1s2QGNHlJvX9yB0Sb1fQFn2HwXJVt5S8feoeK6SN3Uj8bl1sz1_rphsuHhGk1K6hX-LCqtjiLW5eYwD0C5weLbaWbXQ8fX_JP9b2TDXzZavD-EyZ9wq_fbHMc-Ygpw",
+      "rockId": 156
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Minette_Dyke_in_New_Mexico_USA_01.jpg/1024px-Minette_Dyke_in_New_Mexico_USA_01.jpg",
+      "img2":
+          "https://www.researchgate.net/profile/Aaron-Palke/publication/327089833/figure/fig4/AS:661970512510977@1534837477674/This-sample-of-lamprophyre-from-Yogo-Gulch-contains-a-small-sapphire-crystal-about-4-mm.png",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/2278_minette.jpg/800px-2278_minette.jpg",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/lamprophyre2020(9).jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/alno2019(6).jpg",
+      "rockId": 157
+    },
+    {
+      "img1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/latite2020(2).jpg",
+      "img2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/latite2020(1).jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/59/e9/00310940017056209339654.jpg",
+      "cmi2":
+          "https://www.science.smith.edu/~jbrady/petrology/rock-library/igv-rocks/latite/UND-latiteHS-LRes.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Latit_-_Boxberg%2C_Hocheifel.jpg/1200px-Latit_-_Boxberg%2C_Hocheifel.jpg",
+      "rockId": 158
+    },
+    {
+      "img1":
+          "https://etc.usf.edu/clippix/pix/monzogranite-with-dikes_medium.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Monzogranite_col_Croix.JPG/800px-Monzogranite_col_Croix.JPG",
+      "cmi1":
+          "https://www.researchgate.net/profile/Ilmari-Haapala/publication/41484872/figure/fig1/AS:394320587837440@1471024762065/Porphyritic-biotite-hornblende-monzogranite-in-the-first-outermost-zone-of-the-Shahewan.png",
+      "cmi2":
+          "https://www.researchgate.net/profile/Mi-Kuifeng/publication/333678076/figure/fig3/AS:768384253833216@1560208490736/Photomicrographs-of-monzogranite-and-granodiorite-from-the-southern-Manzhouli-region.png",
+      "cmi3": "https://rocks.comparenature.com/PImg/Monzogranite119Med_300.jpg",
+      "rockId": 159
+    },
+    {
+      "img1":
+          "https://cdn.britannica.com/48/148048-050-424E0466/Monzonite-Notch-Peak-Delta-Utah.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/c/ca/Monzonite.jpg",
+      "cmi1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/monzonite2019.jpg",
+      "cmi2":
+          "https://geologyistheway.com/wp-content/uploads/2021/12/3832801501_193d123d35_k.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/d/da/Quartz_monzonite_36mw1037.jpg",
+      "rockId": 160
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/01A_NephelineSyenite_Tangua.jpg/800px-01A_NephelineSyenite_Tangua.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/01B_PseudoleuciteSyenite_MorroSaoJoao.jpg/800px-01B_PseudoleuciteSyenite_MorroSaoJoao.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Nepheline_syenite_NJ.jpg/1024px-Nepheline_syenite_NJ.jpg",
+      "cmi2":
+          "https://modminerals.com/wp-content/uploads/2020/12/Nephline-Syenite-MDM.png",
+      "cmi3": "https://geodil.dperkins.org/i/31.jpg",
+      "rockId": 161
+    },
+    {
+      "img1":
+          "https://www.mindat.org/imagecache/82/91/08738040017069829308452.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/a7/ef/00551770016014838666806.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/1/12/Phonolite_Porphyry_of_Devils_Tower_in_Wyoming_in_USA.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/6/61/Porphyritic_phonolite_%28Cripple_Creek_Diatreme%2C_Early_Oligocene%2C_32_Ma%3B_Ironclad_area%2C_Cripple_Creek_Mining_District%2C_Colorado%2C_USA%29_3.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Phonolite-6.jpg?ssl=1",
+      "rockId": 162
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/e/e5/Peridotite_mantle_xenoliths_in_vesicular_phonotephrite_%28Peridot_Mesa_Flow%2C_Middle_Pleistocene%2C_580_ka%3B_Peridot_Mesa%2C_San_Carlos_Volcanic_Field%2C_Arizona%29_10_%2831101103172%29.jpg",
+      "img2": "https://live.staticflickr.com/4914/30864265347_925006a590_b.jpg",
+      "cmi1": "https://live.staticflickr.com/5611/15611001141_807148e183_b.jpg",
+      "cmi2": "https://live.staticflickr.com/3932/14992925714_aaf4bb5edb_b.jpg",
+      "cmi3": "https://live.staticflickr.com/4903/45079495024_f472ef8a41_b.jpg",
+      "rockId": 163
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/\"Imperial_Porphyry\"_-_porphyritic_metadacite_to_porphyritic_meta-andesite_%28Dokhan_Volcanics%2C_Neoproterozoic%2C_~593-602_Ma%3B_Mons_Porphyrites%2C_Red_Sea_Mountains%2C_Egypt%29_2_%2830040632451%29.jpg/1024px-thumbnail.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/S\u00e4rna-Porphyr_P1000115.JPG/800px-S\u00e4rna-Porphyr_P1000115.JPG",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Rhyolite_porphyry.jpg/1024px-Rhyolite_porphyry.jpg",
+      "cmi2":
+          "https://www.sandatlas.org/wp-content/uploads/00312-7-cm-porphyry.jpg",
+      "cmi3":
+          "https://www.sandatlas.org/wp-content/uploads/00302-IMG_6160-8-cm-rhyolite.jpg",
+      "rockId": 164
+    },
+    {
+      "img1":
+          "https://www.collinsdictionary.com/images/full/pumice_173476151.jpg",
+      "img2":
+          "https://4.imimg.com/data4/CY/SL/ANDROID-28952191/product-500x500.jpeg",
+      "cmi1":
+          "https://s26162.pcdn.co/wp-content/uploads/2023/03/Lanzarote_-_stones_of_a_wall_-_pumice_stone.jpeg",
+      "cmi2":
+          "https://rockidentifier.com/image-handle/image/1080/154066524263415836.jpeg?x-oss-process=image/format,webp",
+      "cmi3": "https://cdn.britannica.com/55/122555-050-4BA34822/Pumice.jpg",
+      "rockId": 165
+    },
+    {
+      "img1":
+          "https://collections.rom.on.ca/internal/media/dispatcher/581196/preview;jsessionid=68B86E577A063C2C25B639E2B353724C",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/5/52/Kuartzo_diorita.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/8/8e/Mineraly.sk_-_kremdiorit.jpg",
+      "cmi2":
+          "https://www.researchgate.net/publication/352701970/figure/fig1/AS:1038173106880513@1624531165324/Sample-AK-621-335-quartz-diorite-a-Taken-from-core-621-at-the-depth-interval-of-335.png",
+      "cmi3":
+          "https://lh3.googleusercontent.com/-xyKaBmKx8BQ/Vf0RMrxXdqI/AAAAAAAALfs/4tgRIVlwebM/s512/1760%25252013.08.15_6%252520diorite%2525208%252520cm.jpg",
+      "rockId": 166
+    },
+    {
+      "img1": "https://live.staticflickr.com/8695/16168713613_9875a5567e_b.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Quartz_monzonite_36mw1037.jpg/800px-Quartz_monzonite_36mw1037.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/97/7c/05473150017101311713126.jpg",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/monzonite2019.jpg",
+      "cmi3":
+          "https://www.researchgate.net/profile/Boguslaw-Baginski/publication/273770445/figure/fig9/AS:668303777353737@1536347445561/left-Quartz-monzonite-from-Bartoszyce-borehole-the-rock-is-coarse-grained-with-large.jpg",
+      "rockId": 167
+    },
+    {
+      "img1":
+          "https://media.sciencephoto.com/c0/50/31/22/c0503122-800px-wm.jpg",
+      "img2":
+          "https://geologyistheway.com/wp-content/uploads/2021/05/IMG_0070-scaled.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Les_Monts-Verts_-_G\u00e9oscope_20200813-16_Silexite.jpg/1200px-Les_Monts-Verts_-_G\u00e9oscope_20200813-16_Silexite.jpg",
+      "cmi2":
+          "https://gotbooks.miracosta.edu/rocks/igneous%20rocks/images/Quartzolite.jpg",
+      "cmi3":
+          "https://www.esteticanochi.ru/upload/iblock/1f7/1f70a53cb571612f661a666488182f9f.jpg",
+      "rockId": 168
+    },
+    {
+      "img1": "https://live.staticflickr.com/4463/36907353764_6bd274ca28_b.jpg",
+      "img2": "https://live.staticflickr.com/868/41738289701_4f34b085f4_b.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/a/a6/Mineraly.sk_-_ryodacit.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Rhyodacite_pumice_%28late_August_1883_eruption_of_Krakatoa_Volcano%2C_Indonesia%3B_collected_at_Takwa_Beach%2C_coastal_Kenya%2C_eastern_Africa%29_1.jpg/220px-Rhyodacite_pumice_%28late_August_1883_eruption_of_Krakatoa_Volcano%2C_Indonesia%3B_collected_at_Takwa_Beach%2C_coastal_Kenya%2C_eastern_Africa%29_1.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/7/75/Rhyodacite_pumice_%28late_August_1883_eruption_of_Krakatoa_Volcano%2C_Indonesia%3B_collected_floating_in_the_ocean%29.jpg",
+      "rockId": 169
+    },
+    {
+      "img1":
+          "https://source.boomplaymusic.com/group10/M00/05/18/c5fc6b8b016d4e80add7488376c0e41b_464_464.jpg",
+      "img2": "https://rocks.comparenature.com/PImg/Comendite91Normal_200.jpg",
+      "cmi1":
+          "https://rocks.comparenature.com/PImg/Hornblendite101Normal_200.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Comendite_rjw.jpg/800px-Comendite_rjw.jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/vulc/comendite0265(7).jpg",
+      "rockId": 170
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Shonkinite_from_Mountain_Pass_in_California.jpg/800px-Shonkinite_from_Mountain_Pass_in_California.jpg",
+      "img2": "https://formontana.net/roc.JPG",
+      "cmi1": "https://i.ytimg.com/vi/ypF820m3_AA/maxresdefault.jpg",
+      "cmi2": "https://geodil.dperkins.org/i/418.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/66/26/04915680017062152997573.jpg",
+      "rockId": 171
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Sovite_-_Magnet_Cove_Carbonatite_2.jpg/800px-Sovite_-_Magnet_Cove_Carbonatite_2.jpg",
+      "img2": "https://live.staticflickr.com/5555/14842433453_c47b13e11b_c.jpg",
+      "cmi1": "https://rocks.comparenature.com/PImg/Sovite129Med_300.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/9/93/Calciocarbonatite_%28s\u00f6vite%29_%28Magnet_Cove_Carbonatite%2C_mid-Cretaceous%3B_Cove_Creek%2C_Hot_Spring_County%2C_Arkansas%2C_USA%29_6.jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/pluto/sovite(alno)(1).jpg",
+      "rockId": 172
+    },
+    {
+      "img1": "https://live.staticflickr.com/5583/14848953810_8d49600032_h.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/30/1c/00184290017097250268951.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Tachylite_from_Lava_Tube_of_Kilauea_volcano_in_Hawaii.jpg/1024px-Tachylite_from_Lava_Tube_of_Kilauea_volcano_in_Hawaii.jpg",
+      "cmi2": "https://rocks.comparenature.com/PImg/Tachylyte120Normal_200.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/83/c6/07481260017056076636174.jpg",
+      "rockId": 173
+    },
+    {
+      "img1":
+          "https://www.researchgate.net/profile/Alan-Cooper-9/publication/223684641/figure/fig6/AS:649299553705984@1531816485002/Lherzolite-extreme-right-granulite-extreme-left-and-middle-anorthoclase-middle.png",
+      "img2":
+          "https://live.staticflickr.com/65535/53548876474_2e575ab7d6_h.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/38/d6/03873760016100930006202.jpg",
+      "cmi2":
+          "https://www.researchgate.net/profile/Alan-Cooper-9/publication/223684641/figure/fig8/AS:649299553693697@1531816485262/Tephriphonolite-OU-74848-containing-phenocrysts-of-a-brown-kaersutitic-amphibole.png",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/vulc/tefritefonoliticavulsini(14).jpg",
+      "rockId": 174
+    },
+    {
+      "img1": "https://live.staticflickr.com/5054/5415365243_7e30b59cc7_c.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Mayener_Basaltlava.jpg/640px-Mayener_Basaltlava.jpg",
+      "cmi1":
+          "https://i.pinimg.com/originals/b7/01/63/b70163e72311139b9fb58b58fb548de0.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/e5/96/00812860017061803679527.jpg",
+      "cmi3": 'https://live.staticflickr.com/5054/5415365243_7e30b59cc7_c.jpg',
+      "rockId": 175
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Tonalite.png/800px-Tonalite.png",
+      "img2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/tonalite2019(1).jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/ac/cc/05089100014947956541756.jpg",
+      "cmi2":
+          "https://gotbooks.miracosta.edu/rocks/igneous%20rocks/images/Tonalite.jpeg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Tonalite-jpeg.webp?fit=800%2C602&ssl=1",
+      "rockId": 176
+    },
+    {
+      "img1":
+          "https://www.le-comptoir-geologique.com/_media/img/large/trachyandesite.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/14/f9/00473090016152703941937.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Trachyandesite_at_Clermont-Ferrand_in_France.jpg/640px-Trachyandesite_at_Clermont-Ferrand_in_France.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/17/91/04193240016891151358618.jpg",
+      "cmi3":
+          "https://rockidentifier.com/image-handle/image/1080/153873044576665625.jpeg?x-oss-process=image/format,webp",
+      "rockId": 177
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/7/7a/Dragon%27s_Teeth_%2815516917296%29.jpg",
+      "img2": "https://rocks.comparenature.com/PImg/Schist11Normal_200.jpg",
+      "cmi1": "https://rocks.comparenature.com/PImg/Benmoreite114Med_300.jpg",
+      "cmi2": "https://www.alexstrekeisen.it/immagini/vulc/benmoreite(7).jpg",
+      "cmi3": "https://www.alexstrekeisen.it/immagini/vulc/benmoreite(2).jpg",
+      "rockId": 178
+    },
+    {
+      "img1":
+          "https://www.researchgate.net/profile/Sung-Hyo-Yun/publication/263650314/figure/fig2/AS:671524977639449@1537115439764/Photograph-of-the-Sioreum-trachybasalt-having-plenty-plagioclase-phenoncryst.png",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Bayuda_Vulkanfeld.jpg/800px-Bayuda_Vulkanfeld.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Vesicular_lava_%28July-August_2001_eruption_of_Mt._Etna%2C_eastern_Sicily%29_4.jpg/800px-Vesicular_lava_%28July-August_2001_eruption_of_Mt._Etna%2C_eastern_Sicily%29_4.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/5a/25/09212030015243301172755.jpg",
+      "cmi3":
+          "https://www.mineralienatlas.de/VIEWmaxFULL.php/param/1543150905-Trachybasalt-von-Playa-de-la-Enramada-Teneriffa-Albite-Anorthite-Series-Augite-Plagioclase-trachybasalt.jpg",
+      "rockId": 179
+    },
+    {
+      "img1":
+          "https://lh3.googleusercontent.com/-MkGLRcio5e4/UXVrt21if4I/AAAAAAAAHBk/mAngBQB1yfc/s512/IMG_9366.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/9/9f/Reunion_geologie_hawaiite_Mare_a_Vieille_Place_dsc09326.jpg",
+      "cmi1":
+          "https://www.virtualmicroscope.org/sites/default/files/du9873d-Img24655.jpg",
+      "cmi2":
+          "https://lh3.googleusercontent.com/-bDvBdNJIstk/UXVmTZi36xI/AAAAAAAAHBc/nCCdErswEfU/s512/00724%252520IMG_0795%25252012%252520cm%252520hawaiite.jpg",
+      "cmi3": "https://rocks.comparenature.com/PImg/Hawaiite70Med_300.jpg",
+      "rockId": 180
+    },
+    {
+      "img1":
+          "https://tooheyforesteec.eq.edu.au/SiteCollectionImages/minerals%20ID/trachyte-rollup.jpg",
+      "img2":
+          "https://www.sandatlas.org/wp-content/uploads/Trachyte-Drachenfels.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Trachyt_Herz_Jesu_Kirche_Aachen.jpg/800px-Trachyt_Herz_Jesu_Kirche_Aachen.jpg",
+      "cmi2":
+          "https://www.minimegeology.com/shop/images/p.69.1-trachyte_igneous_rock.jpg",
+      "cmi3":
+          "https://www.geologysuperstore.com/wp-content/uploads/2023/03/Trachyte-removebg-preview.png",
+      "rockId": 181
+    },
+    {
+      "img1":
+          "https://www.virtualmicroscope.org/sites/default/files/GLAHM111273a-Img9182_hero_rc.jpg",
+      "img2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/troctolite2017(2).jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Troctolite76535.jpg/800px-Troctolite76535.jpg",
+      "cmi2":
+          "https://www.virtualmicroscope.org/sites/default/files/hero-76535_0.png",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/troctolite2017(1).jpg",
+      "rockId": 182
+    },
+    {
+      "img1":
+          "https://www.researchgate.net/profile/Antonio-Mascarenhas/publication/274391057/figure/fig1/AS:654407683284992@1533034358004/Trondhjemite-gneiss-the-oldest-rocks-in-India-exposed-at-Palolem-Canacona.png",
+      "img2": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Ttg_scc.jpg",
+      "cmi1": "https://rocks.comparenature.com/PImg/Trondhjemite100Med_300.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/f/ff/HKU_\u9999\u6e2f\u5927\u5b78_Stephen_Hui_Geological_Museum_\u8a31\u58eb\u82ac\u5730\u8cea\u535a\u7269\u9928_the_oldest_rocks_from_China_TTG_Migmatite_Taishan_complex_n_old_trondhjemitic_gneiss_Baijiafen_Anshan_Oct_2016_Lnv.jpg",
+      "cmi3":
+          "https://www.enggbook.com/wp-content/uploads/2018/08/acasta-2.jpg",
+      "rockId": 183
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/6/64/Bandelier-Pockmarked_Cliff.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/d9/ef/01405710017056475804398.jpg",
+      "cmi1":
+          "https://lh3.googleusercontent.com/-bobiPC7qRcU/URJ3PZqw9FI/AAAAAAAAIgE/m74XZPeKrnA/s512/00501%252520IMG_8099%2525205%252520cm%252520crystal%252520tuff.jpg",
+      "cmi2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Geological-Characteristics-of-Tuff-Rock-1024x670.webp?resize=1024%2C670&ssl=1",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Basaltic-tuff-jpg.webp?resize=900%2C759&ssl=1",
+      "rockId": 184
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Layered_Websterite_in_Basement_Sill_in_McMurdo_Dry_Valleys_in_Antarctica.jpg/800px-Layered_Websterite_in_Basement_Sill_in_McMurdo_Dry_Valleys_in_Antarctica.jpg",
+      "img2":
+          "https://www.researchgate.net/profile/Ricardo-Valls/publication/285234603/figure/fig70/AS:593593618165773@1518535155496/Olivine-websterite-field-name-Pyroxenite-with-no-presence-of-weathering.png",
+      "cmi1":
+          "https://media.sciencephoto.com/c0/50/37/64/c0503764-800px-wm.jpg",
+      "cmi2":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROnM394CerIIY5vdW-GUmzGDDDMVvGygNtpQ&s",
+      "cmi3": "https://rocks.comparenature.com/PImg/Essexite92Normal_200.jpg",
+      "rockId": 185
+    },
+    {
+      "img1":
+          "https://t3.ftcdn.net/jpg/08/39/96/66/240_F_839966625_eMirJz98IyKwi4p6k7mJJFTxJcJROveu.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Argillite.JPG/800px-Argillite.JPG",
+      "cmi1":
+          "https://www.researchgate.net/profile/Chris-Jennings-3/publication/275213606/figure/fig3/AS:669506745667592@1536634255589/Riverton-pale-green-argillite.png",
+      "cmi2":
+          "https://www.mindat.org/imagecache/7f/75/09088820015410373874336.jpg",
+      "cmi3":
+          "https://t4.ftcdn.net/jpg/02/38/40/97/360_F_238409709_qeALRrraAyfVKDspvPZaIPycohFZ31sk.jpg",
+      "rockId": 186
+    },
+    {
+      "img1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Arkose-2.jpg?resize=640%2C522&ssl=1",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Arkose-jpeg.webp?fit=2016%2C1512&ssl=1",
+      "cmi1":
+          "https://www.mindat.org/imagecache/06/51/04861010017102056681511.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/d/d8/Arkose_with_K-feldspar_%28pinkish-orangish%29_and_quartz_%28gray%29_grains.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Arkose-4.jpg?resize=800%2C476&ssl=1",
+      "rockId": 187
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/2/25/Banded_iron_formation_Dales_Gorge.jpg",
+      "img2":
+          "https://media.australian.museum/media/dd/images/Banded_iron_formation_BIF_May_2022-29.d5794d0.width-1200.d555520.jpg",
+      "cmi1":
+          "https://museum.wa.gov.au/sites/default/files/imagecache/wam_v2_article_full/collections/BIF-EPS.jpg",
+      "cmi2":
+          "https://cdn.britannica.com/84/131184-050-C17F6040/rock-banded-iron-formation-National-Museum-of.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/37/9c/00425210016056560011133.jpg",
+      "rockId": 188
+    },
+    {
+      "img1":
+          "https://www.thoughtco.com/thmb/X_8A_zYLfdx9mLx7nej6mjuFzMo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Breccia_mcr1-86fc5931758c4bc299c91e0c723bca2c.jpg",
+      "img2": "https://www.alexstrekeisen.it/immagini/diagrammi/25.jpg",
+      "cmi1":
+          "https://www.thoughtco.com/thmb/_vbQp2qGK0sRD_vZxuAJpiemozY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/sample-of-breccia-152543399-5b0aeefca474be003708160e.jpg",
+      "cmi2":
+          "https://rocksminerals.flexiblelearning.auckland.ac.nz/rocks/images/breccia3.jpg",
+      "cmi3":
+          "https://img.irroba.com.br/filters:fill(fff):quality(80)/ouromilp/catalog/duragres/71x71/breccia-71-polido.jpg",
+      "rockId": 189
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Pietra_di_bismantova_parete.jpg/800px-Pietra_di_bismantova_parete.jpg",
+      "img2":
+          "https://www.baieducap.mu/wp-content/uploads/2019/03/Granule-Beige-10-16mm.jpg",
+      "cmi1":
+          "https://media.istockphoto.com/id/179006926/pt/foto/textura-calcarenite-rock.jpg?s=612x612&w=0&k=20&c=Gz1Sl_ONr-hMbSshzNAd3lh8ABmPTg_TDzOlnZePxAo=",
+      "cmi2":
+          "https://i.etsystatic.com/15066439/r/il/6e9ed8/2178229416/il_680x540.2178229416_etiy.jpg",
+      "cmi3":
+          "https://media.sketchfab.com/models/2a18166b62e44900991d0da7661da7a4/thumbnails/a27e7bb02d9b4b1aaaf7317878b3d275/dd5e0abad1b54c428a05028cdf884bb6.jpeg",
+      "rockId": 190
+    },
+    {
+      "img1":
+          "https://geologyistheway.com/wp-content/uploads/2021/03/38473096014_17b77f99e0_o-1024x768.jpg",
+      "img2": "https://geology.com/rocks/pictures/chalk-lg.jpg",
+      "cmi1":
+          "https://www.geologysuperstore.com/wp-content/uploads/2022/10/chalk_by_weight.jpg",
+      "cmi2":
+          "https://www.geologysuperstore.com/wp-content/uploads/2023/03/chalk.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/05/chalk.jpg?fit=1024%2C844&ssl=1",
+      "rockId": 191
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/1/1c/ChertUSGOV.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/Chert.jpg?fit=1024%2C806&ssl=1",
+      "cmi1":
+          "https://geokansas.ku.edu/sites/default/files/inline-images/CS-Flint-Hills-chert%20copy.jpeg",
+      "cmi2":
+          "https://www.shutterstock.com/image-photo/multicolored-chert-flint-iron-magnesium-600nw-2140894183.jpg",
+      "cmi3":
+          "https://www.jxscmachine.com/wp-content/uploads/2019/08/Chert.jpg",
+      "rockId": 192
+    },
+    {
+      "img1":
+          "https://t3.ftcdn.net/jpg/03/97/84/76/360_F_397847650_vmfFnp3THndaHpU2SG7NmdoMdmvNem2P.jpg",
+      "img2":
+          "https://www.amnh.org/var/ezflow_site/storage/images/media/amnh/images/exhibitions/permanent-exhibitions/rose-center-for-earth-and-space/hall-of-planet-earth2/hope-hero-images/claystone_hero/1039305-1-eng-US/claystone_hero_wideexact_1230.jpg",
+      "cmi1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Claystone-2-jpeg.webp?fit=1100%2C733&ssl=1",
+      "cmi2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Claystone-jpg.webp?resize=500%2C359&ssl=1",
+      "cmi3":
+          "https://www.mindat.org/imagecache/85/21/01273530014946584915238.jpg",
+      "rockId": 193
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Washington_Oaks_Gardens_coquina01.jpg/1200px-Washington_Oaks_Gardens_coquina01.jpg",
+      "img2":
+          "https://geology.ecu.edu/geol1501/wp-content/pv-uploads/sites/351/2020/07/coquina.gif",
+      "cmi1":
+          "https://i0.wp.com/geologyhub.com/wp-content/uploads/2019/02/FloridaCoquina.jpg?fit=504%2C360&ssl=1",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Coquina_2.jpg/2560px-Coquina_2.jpg",
+      "cmi3":
+          "https://www.nps.gov/casa/learn/historyculture/images/coquina_2.jpg",
+      "rockId": 194
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/b/b8/Diamictite_Mineral_Fork.JPG",
+      "img2":
+          "https://lh3.googleusercontent.com/-1D_vBu4ViU0/Vf0Qup9u3wI/AAAAAAAALpQ/YHlvdS1mgA0/s512/1700%25252009.08.15_1%252520tillite%252520Varanger%25252016%252520cm%252520sun%2525202.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Geschiebemergel.JPG/1200px-Geschiebemergel.JPG",
+      "cmi2":
+          "https://www.sandatlas.org/wp-content/uploads/01446-09.08.15-Varanger-tillite.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Elatina_Fm_diamictite.JPG/800px-Elatina_Fm_diamictite.JPG",
+      "rockId": 195
+    },
+    {
+      "img1":
+          "https://www.mindat.org/imagecache/6c/f4/04001080015851027824432.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Diatomite-2-jpg.webp?fit=1200%2C866&ssl=1",
+      "cmi1":
+          "https://lh5.googleusercontent.com/proxy/EIIiWuYdSw_IUIk4Z_Tuj7PK7oL6poX8UwfqrIqMrOokjyMsHmMAmuj8sMYAUZwtPcD-0xWXwog2Mx-qTFCeKH4z6z3jlx19bJ3TlklHdc6jMQ",
+      "cmi2":
+          "https://rockidentifier.com/image-handle/image/1080/154074508607619099.jpeg?x-oss-process=image/format,webp",
+      "cmi3":
+          "https://s1.static.brasilescola.uol.com.br/be/conteudo/images/87ebe7e627cab03c2bb4d047c3505d8c.jpg",
+      "rockId": 196
+    },
+    {
+      "img1":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHGhfFvWw63MjHnaOjYAsuslPN5VU43nLdGbUiGNmioCxczqmp3ay3JQrffRqCND-aK-CA6UPveGjKq5kxQIhT_C1IMh0aEFj9oXdgxgghNxUyA0d5_Ry2rB55hXqedFOXmMMB_aNq4SaVHZ8qqwykTG_WbHXcI-tJvPco8j-qon5iBi31j8q5UR3bumA/w1400-h1351-rw/evaporites.webp",
+      "img2":
+          "https://www.thoughtco.com/thmb/0g0OUhTxNaU8MLqLB7kdbr6oavo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/rocpicrocksalt-56a368023df78cf7727d3582.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/HaliteEncrustedCobbleDeadSea.JPG/800px-HaliteEncrustedCobbleDeadSea.JPG",
+      "cmi2":
+          "https://www.mindat.org/imagecache/27/98/02980820014946324653319.jpg",
+      "cmi3":
+          "https://static.wikia.nocookie.net/riddick/images/d/db/Evaporite.png/revision/latest?cb=20161118181946",
+      "rockId": 197
+    },
+    {
+      "img1":
+          "https://kamino.fra1.cdn.digitaloceanspaces.com/allbrick/app/uploads/2024/01/NDH-Knapped-Chalk-1.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/d/d2/Flintstone.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Miorcani_flint.jpg/800px-Miorcani_flint.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/d/db/Feuerstein-bruch.jpg",
+      "cmi3":
+          "https://www.minerals-kingdom.com/wp-content/uploads/2015/06/flint-stone.jpg",
+      "rockId": 198
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Chinese_Spring_upper_geyser_basin_yellowstone.jpg/1280px-Chinese_Spring_upper_geyser_basin_yellowstone.jpg",
+      "img2":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/28377/Geyserite.jpg",
+      "cmi1":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/28380/conversions/Geyserite-1-watermark.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Geyserite.jpg/800px-Geyserite.jpg",
+      "cmi3":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/28378/conversions/Geyserite-2-watermark.jpg",
+      "rockId": 199
+    },
+    {
+      "img1":
+          "https://www.geologysuperstore.com/wp-content/uploads/2022/10/greywhacke_by_weight.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/05/greywacke-powys-mid-wales-2-8055-p.jpg?fit=500%2C500&ssl=1",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Grauwacke_AC_Rathaus.jpg/800px-Grauwacke_AC_Rathaus.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Greywacke-f-and-l.jpg/800px-Greywacke-f-and-l.jpg",
+      "cmi3":
+          "https://rocksminerals.flexiblelearning.auckland.ac.nz/rocks/images/greywacke1.jpg",
+      "rockId": 200
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Salt_cellar_2_%282%29.jpg/800px-Salt_cellar_2_%282%29.jpg",
+      "img2":
+          "https://www.mediastorehouse.com.au/p/466/gritstone-rock-formation-curbar-edge-6573923.jpg.webp",
+      "cmi1":
+          "https://a1sandandgravel.com/images/Product-Details/PD-10mm-Gritstone.jpg",
+      "cmi2":
+          "https://www.highfield-group.co.uk/wp-content/uploads/2022/02/gritstone-gabion.jpg",
+      "cmi3":
+          "https://media.sciencephoto.com/c0/24/16/81/c0241681-800px-wm.jpg",
+      "rockId": 201
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Laterite_quarry%2C_Angadipuram%2C_India._C_004.jpg/800px-Laterite_quarry%2C_Angadipuram%2C_India._C_004.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Lateritic-Deposits-and-Agriculture-jpg.webp?fit=800%2C420&ssl=1",
+      "cmi1":
+          "https://www.new-territories.com/blog/india1/wp-content/uploads/2012/03/Picture_Laterite_Stones_Goa.jpg",
+      "cmi2": "https://zillionsawaminerals.com/images/laterite-img1.jpg",
+      "cmi3":
+          "https://lh3.googleusercontent.com/-YWtikDywj0E/UCKsQN85K2I/AAAAAAAAIIk/84wzBQoLw6k/s512/00016%2525201947%2525209%252520cm%252520lateriit%252520India.jpg",
+      "rockId": 202
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Lignite-coal.jpg/1280px-Lignite-coal.jpg",
+      "img2":
+          "https://t3.ftcdn.net/jpg/04/73/93/60/360_F_473936098_jr9qxcvUqazfVQnc3ZrDDOos5sd2Zrna.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/8f/17/07061130017141593405909.jpg",
+      "cmi2":
+          "https://www.collinsdictionary.com/images/full/lignite_28183639.jpg",
+      "cmi3": "https://bariteworld.com/wp-content/uploads/2015/11/Lignite.jpg",
+      "rockId": 203
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Scala_dei_Turchi_panorama.jpg/800px-Scala_dei_Turchi_panorama.jpg",
+      "img2":
+          "https://cdn.britannica.com/43/148043-050-302D34D4/Marl-Matmor-Formation-Israel-Negev-Desert.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Piece_of_marl.JPG/800px-Piece_of_marl.JPG",
+      "cmi2":
+          "https://www.geologysuperstore.com/wp-content/uploads/2022/10/tea_green_marl.jpg",
+      "cmi3":
+          "https://img.freepik.com/fotos-premium/pedra-marl-marlstone-isolada-em-branco_696657-38274.jpg",
+      "rockId": 204
+    },
+    {
+      "img1":
+          "https://www.geologysuperstore.com/wp-content/uploads/2023/03/Mudstone-removebg-preview.png",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Mudstone-3.jpg?resize=450%2C423&ssl=1",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/East_Beach_1_2006.JPG/800px-East_Beach_1_2006.JPG",
+      "cmi2":
+          "https://www.geologysuperstore.com/wp-content/uploads/2022/10/mudstone_by_weight.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/Mudstone.jpg?fit=1024%2C768&ssl=1",
+      "rockId": 205
+    },
+    {
+      "img1":
+          "https://static.timesofisrael.com/www/uploads/2020/05/oil-shale-e1588861461601.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/a/a3/Oilshale.jpg",
+      "cmi1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/05/Colorado-Oil-Shale.jpg?fit=1024%2C618&ssl=1",
+      "cmi2":
+          "https://images.nationalgeographic.org/image/upload/t_edhub_resource_key_image/v1638887951/EducationHub/photos/oil-shale.jpg",
+      "cmi3":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgtxNwqeIAuGFxxx4Xjn-5CA2O2PpsBZDhtw&s",
+      "rockId": 206
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Ooids%2C_Joulter_Cays%2C_Bahamas.jpg/800px-Ooids%2C_Joulter_Cays%2C_Bahamas.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/OoidSurface01.jpg/800px-OoidSurface01.jpg",
+      "cmi1": "https://www.alexstrekeisen.it/immagini/diagrammi/oolite.jpg",
+      "cmi2":
+          "https://lh3.googleusercontent.com/-w_uCcqa5_2I/UFyV6VGma-I/AAAAAAAAIaM/KsNUm5Y7mO4/s512/319%252520oolith%252520sand%252520Antelope.jpg",
+      "cmi3": "https://live.staticflickr.com/7636/16176170154_143baf616c_c.jpg",
+      "rockId": 207
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Phosphorite_Mine_Oron_Israel_070313.jpg/1280px-Phosphorite_Mine_Oron_Israel_070313.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/66/57/04836270014948120879341.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Peloidal_phosphorite_Phosphoria_Formation_Simplot_Mine_Idaho.jpg/1024px-Peloidal_phosphorite_Phosphoria_Formation_Simplot_Mine_Idaho.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Fossiliferous_peloidal_phosphorite%2C_Yunnan_Province_China.jpg/800px-Fossiliferous_peloidal_phosphorite%2C_Yunnan_Province_China.jpg",
+      "cmi3":
+          "https://mineralseducationcoalition.org/wp-content/uploads/Phosphorite_136389572.jpg",
+      "rockId": 208
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/a/af/USDA_Mineral_Sandstone_93c3955.jpg",
+      "img2":
+          "https://www.dedalostone.com/wp-content/uploads/2023/08/sandstone-800x448.png",
+      "cmi1":
+          "https://www.minimegeology.com/shop/images/th2_p.84.1-banded_sandstone_sedimentary_rock.jpg",
+      "cmi2":
+          "https://mineralseducationcoalition.org/wp-content/uploads/Sandstone2_56061193.jpg",
+      "cmi3":
+          "https://www.sandatlas.org/wp-content/uploads/00105-IMG_5703-sandstone.jpg",
+      "rockId": 209
+    },
+    {
+      "img1":
+          "https://www.thoughtco.com/thmb/xPxhwNvDsJZ1nA6igWjbona6d8o=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/layers---estratos-471646939-ae4efa4b677d44d4a9b26d52b43ea9aa.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Chattanooga_Shale_%28Upper_Devonian%3B_Burkesville_West_Rt._90_roadcut%2C_Kentucky%2C_USA%29_25_%2840541681100%29.jpg/800px-Chattanooga_Shale_%28Upper_Devonian%3B_Burkesville_West_Rt._90_roadcut%2C_Kentucky%2C_USA%29_25_%2840541681100%29.jpg",
+      "cmi1":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgxjEjUb9hyNXMRRXVh7lRY48sU_rTocXjJXY-EfDiN-k4zsGs7RTxndn-C40qofN80ZAC9wPRlujsNFK89b1tdL2Tf_1S0IfrZ_7k9CtgoSqatIFvtwQVO8H86ENCzs3kV_CI1RP32I_PQ153GVBIBYK6gOZViyZAYlYrmmr0YSKuzXzSK-Kz614g-vn8/s1200/oil-shale.jpeg",
+      "cmi2":
+          "https://www.thoughtco.com/thmb/3ha7gBD7TZ4hsOEM1-A-Gh1VhAo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/shale--close-up--72194984-5b0d4eb043a1030036e161e3.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Drill_cuttings_-_Annotated_-_2004.jpg/800px-Drill_cuttings_-_Annotated_-_2004.jpg",
+      "rockId": 210
+    },
+    {
+      "img1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/05/Siltstone.jpg?fit=1024%2C534&ssl=1",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/4/42/SiltstoneUSGOV.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/59/0b/04696660017057533916776.jpg",
+      "cmi2":
+          "https://gotbooks.miracosta.edu/rocks/sedimentary%20rocks/images/Siltstone.jpeg",
+      "cmi3":
+          "https://t4.ftcdn.net/jpg/04/69/74/89/360_F_469748978_8c9oX7bEeHJsXkCLsSr881Fb0uxaPOa4.jpg",
+      "rockId": 211
+    },
+    {
+      "img1":
+          "https://live.staticflickr.com/65535/50872217776_5115200399_b.jpg",
+      "img2":
+          "https://media.istockphoto.com/id/533987526/photo/sylvinite-ore-background.jpg?s=612x612&w=0&k=20&c=T0KtOwyIt6zJD0fBqMxZBxVecBMiO3AvlilD5L_rPB4=",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Sylvinite_detail.jpg/640px-Sylvinite_detail.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Sylvinite.jpg/1200px-Sylvinite.jpg",
+      "cmi3":
+          "https://images.assetsdelivery.com/compings_v2/maxsol7/maxsol71511/maxsol7151100057.jpg",
+      "rockId": 212
+    },
+    {
+      "img1":
+          "https://www.researchgate.net/profile/Simon-Cox-7/publication/301546120/figure/fig11/AS:669559560355842@1536646847067/Metschel-Tillite-at-the-type-locality-Mount-Metschel-in-the-Skelton-Neve-The-diamictite.png",
+      "img2":
+          "https://live.staticflickr.com/65535/50813222587_4ae7f3e8f2_b.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/96/17/05405890017096775063919.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/b0/3e/05470700015057378576873.jpg",
+      "cmi3":
+          "https://blogs.agu.org/mountainbeltway/files/2013/06/2013-06-17-10.44.41.jpg",
+      "rockId": 213
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Mammoth_Terraces.jpg/1024px-Mammoth_Terraces.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/a2/1f/04504780015349318589806.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/d3/eb/07768880014949145545285.jpg",
+      "cmi2":
+          "https://www.kidzrocks.com/cdn/shop/products/il_fullxfull.1244665749_tjhi_800x.jpg?v=1532077531",
+      "cmi3":
+          "https://unblast.com/wp-content/uploads/2023/08/travertine-rock-texture-2.jpg",
+      "rockId": 214
+    },
+    {
+      "img1":
+          "https://i.etsystatic.com/21784287/r/il/04e06b/3928149581/il_fullxfull.3928149581_sbxv.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/65/4d/06182250016064985101387.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/5b/06/05666200016015346472491.jpg",
+      "cmi2":
+          "https://i.etsystatic.com/21784287/r/il/5cc7d6/3880663286/il_340x270.3880663286_3f6a.jpg",
+      "cmi3":
+          "https://i.etsystatic.com/21784287/r/il/0bd83e/3876922516/il_fullxfull.3876922516_d43c.jpg",
+      "rockId": 215
+    },
+    {
+      "img1":
+          "https://rocks.comparenature.com/PImg/Wackestone173Normal_200.jpg",
+      "img2": "https://rocks.comparenature.com/PImg/Wackestone73Normal_200.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Wackestone_PPL.jpg/800px-Wackestone_PPL.jpg",
+      "cmi2":
+          "https://www.researchgate.net/profile/Martin-Nose/publication/327467136/figure/fig3/AS:667779749408773@1536222507449/Weathered-surface-of-algal-bioclastic-wackestone-floatstone-from-Rumerlo-Note-the.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/BMR_Mml_23-2m_slab_of_partially_recrystallized_wackestone.jpg/2560px-BMR_Mml_23-2m_slab_of_partially_recrystallized_wackestone.jpg",
+      "rockId": 216
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Coal_waste_pile_west_of_Trevorton%2C_Pennsylvania_far_shot_2.JPG/1024px-Coal_waste_pile_west_of_Trevorton%2C_Pennsylvania_far_shot_2.JPG",
+      "img2":
+          "https://lh3.googleusercontent.com/-HGNvuOp5JKs/USEMzgfeZ0I/AAAAAAAAIVo/hiLzKUcL38I/s512/IMG_8327%2525208%252520cm%252520anthracite.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Ibbenbueren_Anthracite.JPG/800px-Ibbenbueren_Anthracite.JPG",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Anthracite_coal_%28Photo_by_John_Mortimore%29.jpg/800px-Anthracite_coal_%28Photo_by_John_Mortimore%29.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Anthracite_chunk.JPG/800px-Anthracite_chunk.JPG",
+      "rockId": 217
+    },
+    {
+      "img1":
+          "https://www.mindat.org/imagecache/ec/bb/00572880017057140213563.jpg",
+      "img2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/cataclasite2020(1).jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Cataclasite_Engelberg_b.jpg/800px-Cataclasite_Engelberg_b.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/c8/44/02960190016084888923368.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/d6/a2/08446740015897983131496.jpg",
+      "rockId": 218
+    },
+    {
+      "img1":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/381/Eclogite.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/b3/0f/07606710017056060179797.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/c/c3/Eclogite_Norway.jpg",
+      "cmi2":
+          "https://rockidentifier.com/image-handle/image/1080/154120589311737858.jpeg?x-oss-process=image/format,webp",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/12/Eclogite-jpeg.webp?fit=1300%2C783&ssl=1",
+      "rockId": 219
+    },
+    {
+      "img1":
+          "https://gotbooks.miracosta.edu/rocks/metamorphic%20rocks/images/Granulite.jpeg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Granulites.jpeg?resize=474%2C315&ssl=1",
+      "cmi1":
+          "https://www.mindat.org/imagecache/8b/01/04175040017056439175137.jpg",
+      "cmi2":
+          "https://rockidentifier.com/image-handle/image/1080/153436461151027221.jpeg?x-oss-process=image/format,webp",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/3/36/Mineraly.sk_-_granulit.jpg",
+      "rockId": 220
+    },
+    {
+      "img1":
+          "https://www.thoughtco.com/thmb/zBD0WLwvk1yfEQxfYTM5NUzn_D8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/hornfels-great-fault--636456868-5b041a3f1d640400361033d7.jpg",
+      "img2":
+          "https://geologyscience.com/wp-content/uploads/2018/04/Eisco-Hornfels.jpg",
+      "cmi1":
+          "https://didatico.igc.usp.br/wp-content/uploads/2020/07/349-Rocha-C\u00e1lcio-Silic\u00e1tica.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Hornfels.jpg/800px-Hornfels.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Corneenne_dielette_manche.jpg/800px-Corneenne_dielette_manche.jpg",
+      "rockId": 221
+    },
+    {
+      "img1": "https://live.staticflickr.com/7153/6789987969_a5853f8a77_z.jpg",
+      "img2":
+          "https://plug.plugon.us/img/f/fdc/fdc6278972b64d33a955bf9b7492ecc7/img1.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Litchfieldite2.jpg/800px-Litchfieldite2.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/31/aa/00064490014953129128708.jpg",
+      "cmi3":
+          "https://rocks.comparenature.com/PImg/Litchfieldite144Med_300.jpg",
+      "rockId": 222
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/0/05/Marmo_z17.JPG",
+      "img2":
+          "https://cdn.britannica.com/15/93115-050-01BB3FCA/Marble-quarry-Tuscany-Italy.jpg",
+      "cmi1":
+          "https://t4.ftcdn.net/jpg/01/22/81/53/360_F_122815337_vhyrfj8jSfl6fjgzUVVkfA0sNSeec3jO.jpg",
+      "cmi2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/White-Marble-Metamorphic-Rock.jpg?fit=600%2C482&ssl=1",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/MarbleUSGOV.jpg/220px-MarbleUSGOV.jpg",
+      "rockId": 223
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Teelin_ptygmatic_migmatites.jpg/800px-Teelin_ptygmatic_migmatites.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/8/88/Migmatite_2005.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/6/6a/Migma_ss_2006.jpg",
+      "cmi2":
+          "https://rockidentifier.com/image-handle/image/1080/153988415988170787.jpeg?x-oss-process=image/format,webp",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/3/30/Ptigmatite.jpg",
+      "rockId": 224
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Peridotitic_Mylonite.JPG/1024px-Peridotitic_Mylonite.JPG",
+      "img2":
+          "https://lh3.googleusercontent.com/-4dxg2gAuqgk/VeqttO0BqSI/AAAAAAAAKq0/j_G5leYIfIg/s512/01465%252520IMG_20150809_104742%252520mylonite.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Garnet_porphyroblast.JPG/800px-Garnet_porphyroblast.JPG",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Ska\u0142a_zmyllonityzowana.jpg/800px-Ska\u0142a_zmyllonityzowana.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/6d/84/00834380017088727817366.jpg",
+      "rockId": 225
+    },
+    {
+      "img1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/pseudotachylite2017.jpg",
+      "img2": "https://live.staticflickr.com/5795/21799002465_7636e1f8b8_b.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Pseudotachylite_Breccia_of_Vredefort_in_South_Africa.jpg/1024px-Pseudotachylite_Breccia_of_Vredefort_in_South_Africa.jpg",
+      "cmi2": "https://live.staticflickr.com/7899/47222329892_6077932d68_b.jpg",
+      "cmi3": "https://live.staticflickr.com/731/21584843059_4933a74dd5_b.jpg",
+      "rockId": 226
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Sample_of_Quartzite.JPG/800px-Sample_of_Quartzite.JPG",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Quartzite_Solli\u00e8res.jpg/1024px-Quartzite_Solli\u00e8res.jpg",
+      "cmi1":
+          "https://zh.mindat.org/imagecache/70/98/00096180014947910921026.jpg",
+      "cmi2":
+          "https://www.dedalostone.com/wp-content/uploads/2023/07/quartzite-800x449.jpg",
+      "cmi3": "https://cdn.britannica.com/47/127747-004-CC7F17F4/Quartzite.jpg",
+      "rockId": 227
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Dalupirip_schist_02.jpg/1024px-Dalupirip_schist_02.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Normal_View_of_Garnet-Mica-Schist.JPG/800px-Normal_View_of_Garnet-Mica-Schist.JPG",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Schist_detail.jpg/800px-Schist_detail.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Schist.jpg/800px-Schist.jpg",
+      "cmi3":
+          "https://geologyscience.com/wp-content/uploads/2018/04/schist-mica-10-cm-2.jpg",
+      "rockId": 228
+    },
+    {
+      "img1":
+          "https://www.stonewarehouse.co.uk/clientfiles/images/products-full/blue-slate-chippings-40mm/Blue-Slate-40mm-Wet-Swatch-NEW-2024.jpg?v65b3a667",
+      "img2":
+          "https://www.mindat.org/imagecache/2f/60/08685400017058638714213.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/f/f4/Slate_%28Knife_Lake_Formation%2C_metamorphism_at_2.7_Ga%2C_Neoarchean%3B_Rt._135_roadcut%2C_Gilbert%2C_Minnesota%2C_USA%29_3_%2823140002749%29.jpg",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/slate2020(1).jpg",
+      "cmi3":
+          "https://images-cdn.ubuy.com.sa/633b3b96a595c143386a1fa3-natural-slate-stone-1-to-3-inch-rocks.jpg",
+      "rockId": 229
+    },
+    {
+      "img1":
+          "https://www.researchgate.net/profile/Martin-Schmieder/publication/261671885/figure/fig3/AS:296734287777793@1447758375719/Suevite-grey-in-contact-with-the-underlying-mainly-sediment-derived-Bunte-Breccia.png",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/9/9d/Suevit_Manicouagan.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Suevit_Aufhausen.JPG/1024px-Suevit_Aufhausen.JPG",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Suevit_Rochechouart.jpg/800px-Suevit_Rochechouart.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/b/bf/Suevit_Logoisk.jpg",
+      "rockId": 230
+    },
+    {
+      "img1":
+          "https://dsuj2mkiosyd2.cloudfront.net/unified-gallery/160913/1873/82f9b026/dxjuomfkc2sub2jqzwn0czpvcy5vymply3q6z2rzlwj1y2tldc1wcmqvbwvtzw50by0xnja1mjmtnje3ny00yjvkzdbins10ywxj.png?t=1473758126",
+      "img2": "https://rocks.comparenature.com/PImg/Skarn97Small_100.jpg",
+      "cmi1":
+          "https://rocks.comparenature.com/PImg/Talc-carbonate88Normal_200.jpg",
+      "cmi2": "https://live.staticflickr.com/7424/9890704384_de7dc5688e_b.jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/talc2020(3).jpg",
+      "rockId": 231
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Soapstone_%28Speckstein%29_-_several_colored_samples.jpg/800px-Soapstone_%28Speckstein%29_-_several_colored_samples.jpg",
+      "img2":
+          "https://www.geologysuperstore.com/wp-content/uploads/2023/03/soapstone.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/f/fd/Talc_block.jpg",
+      "cmi2":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSTBWW2t2fplrxiddmOiOVNhkhdKzobNpyNvlLvOaLvB43GHZvKXD1RKkGGkCDVNvSOtOzU91Jj5JFJxiyg3ow6evQMt1eZAeypLjakn2Z_-7jsFoaeaOLgyE7-JaPSzLPpVFJ1cbTsVDSA6zAPh612KTfPF4q0Ur8Zwz3DqMSXbKbxPmy0YIq6hb7MvI/s1600/Soapstone.jpg",
+      "cmi3":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgNWqBNOnfnQD_nhA8OVOz5WaYHXSseFLUnLvotj3ruMUjQZq5RxnTjIB4zbMEAI4dVSc5gHChlrJ1ndgiJ2PsKOxdnpv5QPj9vUHXX9Kt_wCR4j3GSk5aEJz895imtCc2SkUx8f7es44_Oki7VU8ZfBA7rm-JblpkOk39m_IHtdFEp8qssarGJT0XCOfE/s2048/soapstone-colors.webp",
+      "rockId": 232
+    },
+    {
+      "img1":
+          "https://lh4.googleusercontent.com/proxy/-RqQY5ZJI5GHqw8l4yEkEafwIA3gzievTq_gQwP5LRcJtg-ugBChJsnSSIAbUpt0iUbXyljpfirDXcqbK8k4_AVL-3gW8BeNGQ",
+      "img2": "https://live.staticflickr.com/8736/16941432045_efefc45c6b_b.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/2/20/LS-tectonite_1.jpg",
+      "cmi2":
+          "https://live.staticflickr.com/65535/51700723081_cef9e9598b_b.jpg",
+      "cmi3":
+          "https://lh6.googleusercontent.com/proxy/virz5QITOiNVb1USjd9HQEFCeh9BHLbVilpgAZuYwvn_KsRh6sB38z2UYVpog7u_n3n7gsHzRLKQ-PSk7YpMYSCXUiwLSAseBw",
+      "rockId": 233
+    },
+    {
+      "img1":
+          "https://rocks.comparenature.com/PImg/Whiteschist184Normal_200.jpg",
+      "img2":
+          "https://static.vecteezy.com/ti/fotos-gratis/p1/14170837-pedra-de-xisto-quartzo-biotita-crua-em-branco-foto.jpg",
+      "cmi1": "https://rocks.comparenature.com/PImg/Whiteschist84Med_300.jpg",
+      "cmi2":
+          "https://www.science.smith.edu/~jbrady/petrology/rock-library/eds-rocks/016/handSample.jpg",
+      "cmi3":
+          "https://static.vecteezy.com/ti/fotos-gratis/p1/13931826-pedra-de-xisto-quartzo-mica-aspera-em-branco-foto.jpg",
+      "rockId": 234
+    },
+    {
+      "img1":
+          "https://i0.wp.com/earthlines.com/wp-content/uploads/2023/12/654eb040a564455e0ae076f8.jpg?fit=1200%2C1200&ssl=1",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Quartz_monzonite_36mw1037.jpg/640px-Quartz_monzonite_36mw1037.jpg",
+      "cmi1": "https://live.staticflickr.com/5017/5415347573_bce23c9811_c.jpg",
+      "cmi2":
+          "https://i.pinimg.com/474x/9f/fb/c4/9ffbc4be14d65c3750878e16e06b5368.jpg",
+      "cmi3": "https://pbs.twimg.com/media/FQt_1qcXEAUAZrp.jpg",
+      "rockId": 235
+    },
+    {
+      "img1": "https://rocks.comparenature.com/PImg/Kenyte132Normal_200.jpg",
+      "img2": "https://www.turnstone.ca/kent1.jpg",
+      "cmi1": "https://turnstone.ca/appin4.jpg",
+      "cmi2":
+          "https://lh3.googleusercontent.com/proxy/7VmtqBDoWWWwO0ofwTdQG_fqiXuMy4xTCrl2XuLFFquVZlb4sh75C31fbkOfHG1L7H8akKe3eyqntFFoyZNZk9u6PLk9XuWoGidD5125v6D0A8YqphELM0wg5W_a",
+      "cmi3": "https://live.staticflickr.com/803/40770024104_f6125fa57e_b.jpg",
+      "rockId": 236
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/8/88/VolcanicBombMojaveDesert.JPG",
+      "img2": "https://swisseduc.ch/stromboli/glossary/icons/bomb.jpg",
+      "cmi1": "https://www.museocavriana.it/media/1476108327.jpg",
+      "cmi2":
+          "https://www.researchgate.net/profile/Caio-Tavares-2/publication/371159594/figure/fig1/AS:11431281163071957@1685479528507/Figura-7-Textura-afanitica-microcristalina-em-basalto-coletado-nos-Andes-Argentinos.png",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/LvMS-Lvv.jpg/250px-LvMS-Lvv.jpg",
+      "rockId": 237
+    },
+    {
+      "img1":
+          "https://rockswithsass.com/cdn/shop/products/CFAE63D9-3BCB-45E1-91CC-5636630B2543_2048x.JPG?v=1650477849",
+      "img2":
+          "https://www.hehishelo.co.uk/photos/1.121517IMG_20220813_124225.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Blue_Pearl_Granite_%28larvikite%29_Larvik_Batholith_Norway.jpg/800px-Blue_Pearl_Granite_%28larvikite%29_Larvik_Batholith_Norway.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/8/8a/Larvikite.jpg",
+      "cmi3":
+          "https://cdn.shopify.com/s/files/1/0112/6200/1218/files/larvikite.jpg?v=1578196407",
+      "rockId": 238
+    },
+    {
+      "img1":
+          "https://www.arrowheads.com/media/kunena/attachments/78/IMG_1257.JPG",
+      "img2":
+          "https://didwblovvwmoz.cloudfront.net/product_images/3946921/1671207/live/17149bda8be187e9aaa2d398712d_1620_1080.jpeg?format=webp",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Pyrolusite_dendritic_on_felsite.jpg/800px-Pyrolusite_dendritic_on_felsite.jpg",
+      "cmi2":
+          "https://www.virtualmicroscope.org/sites/default/files/du9907a-Img24658.jpg",
+      "cmi3":
+          "https://d22m1spra4yltf.cloudfront.net/wordpress/uploads/sites/2821/2023/08/09071522/Untitled-4-1.jpg",
+      "rockId": 239
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/d/d2/Flintstone.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Miorcani_flint.jpg/800px-Miorcani_flint.jpg",
+      "cmi1":
+          "https://www.samsonhistorical.com/cdn/shop/products/flint-rocks-for-firestarting-and-muzzle-loading_600x.jpg?v=1664976043",
+      "cmi2": "https://i.ebayimg.com/images/g/dxoAAOSwJA1hhcaC/s-l1600.jpg",
+      "cmi3":
+          "https://www.flint-and-steel.com/wp-content/uploads/2016/01/Flint-rock-for-sale-770x513.jpg",
+      "rockId": 240
+    },
+    {
+      "img1":
+          "https://www.geologysuperstore.com/wp-content/uploads/2022/10/old_red_sandstone_by_weight.jpg",
+      "img2":
+          "https://www.geologysuperstore.com/wp-content/uploads/2022/10/old_red_sandstone.jpg",
+      "cmi1":
+          "https://www.geologysuperstore.com/wp-content/uploads/2022/10/ganister.jpg",
+      "cmi2":
+          "https://www.geologysuperstore.com/wp-content/uploads/2023/03/cretaceous_sandstone.jpg",
+      "cmi3": "https://rocks.comparenature.com/PImg/Ganister158Med_300.jpg",
+      "rockId": 241
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/7/7f/Azurite-malachite_on_gossan_%28Morenci_Mine%2C_Arizona%2C_USA%29_%2827890565095%29.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/ff/89/06183600015013250797408.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/ff/89/06183600015013250797408.jpg",
+      "cmi2": "https://geologo.com.br/GossPy-small.jpg",
+      "cmi3":
+          "https://lh3.googleusercontent.com/proxy/4nP1iUhZQmf63s1MeI_QxedVcstNvtmyP1bwe01OCGjsQUEaPUsNHL5w1vErFFz56j-wsArdjxJd0yTrnaEAh-blUrTnzzzTVAURpqmY72ks-lje_mISMrix9g",
+      "rockId": 242
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/f/ff/Laki_hyaloclastite_07.JPG",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/b/be/Hyaloclastite00004.jpg",
+      "cmi1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/hyaloclastite2020(1).jpg",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/hyaloclastite2020(3).jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/hyaloclastite2020(2).jpg",
+      "rockId": 243
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Ijolite_%28Oka_Carbonatite_Complex%2C_Early_Cretaceous%2C_124-125_Ma%3B_Oka_Niobium_Mine%2C_Quebec%2C_Canada%29_%2814822252052%29.jpg/800px-Ijolite_%28Oka_Carbonatite_Complex%2C_Early_Cretaceous%2C_124-125_Ma%3B_Oka_Niobium_Mine%2C_Quebec%2C_Canada%29_%2814822252052%29.jpg",
+      "img2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/ijolite2019.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/03/e5/08220830015722786855746.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/a9/49/00396260016019687947683.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/70/d2/04650230014977210134904.jpg",
+      "rockId": 244
+    },
+    {
+      "img1":
+          "https://rockswithsass.com/cdn/shop/products/CFAE63D9-3BCB-45E1-91CC-5636630B2543_2048x.JPG?v=1650477849",
+      "img2":
+          "https://www.hehishelo.co.uk/photos/1.121517IMG_20220813_124225.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Blue_Pearl_Granite_%28larvikite%29_Larvik_Batholith_Norway.jpg/800px-Blue_Pearl_Granite_%28larvikite%29_Larvik_Batholith_Norway.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/8/8a/Larvikite.jpg",
+      "cmi3":
+          "https://cdn.shopify.com/s/files/1/0112/6200/1218/files/larvikite.jpg?v=1578196407",
+      "rockId": 245
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Litchfieldite2.jpg/800px-Litchfieldite2.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/31/aa/00064490014953129128708.jpg",
+      "cmi1":
+          "https://rocks.comparenature.com/PImg/Litchfieldite144Med_300.jpg",
+      "cmi2": "https://live.staticflickr.com/7153/6789987969_a5853f8a77_z.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/55/ba/04397240015479960333573.jpg",
+      "rockId": 246
+    },
+    {
+      "img1":
+          "https://www.le-comptoir-geologique.com/_media/img/large/d67-02-022019-2-2.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/10/Llanite-2-702x1024.webp?resize=702%2C1024&ssl=1",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/f/f3/Llanite2.jpg",
+      "cmi2":
+          "https://rockidentifier.com/image-handle/image/1080/154131807766315013.jpeg?x-oss-process=image/format,webp",
+      "cmi3": "https://upload.wikimedia.org/wikipedia/en/e/e4/Llanite.jpg",
+      "rockId": 247
+    },
+    {
+      "img1":
+          "https://www.hehishelo.co.uk/photos/1.225048IMG_20220629_194734.jpg",
+      "img2":
+          "https://tkemporium.co.uk/cdn/shop/products/luxullianite-crystal-polished-tumblestones-from-cornwall-uk-872272.jpg?v=1649708206",
+      "cmi1":
+          "https://www.virtualmicroscope.org/sites/default/files/11AGT02d-Img11877_pd.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Luxullianite.jpg/640px-Luxullianite.jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/luxulyanite.jpg",
+      "rockId": 248
+    },
+    {
+      "img1": "https://rocks.comparenature.com/PImg/Mangerite133Med_300.jpg",
+      "img2": "https://live.staticflickr.com/717/31588427745_de15db6223_b.jpg",
+      "cmi1":
+          "https://i.pinimg.com/736x/7b/07/b8/7b07b8558f4e6132384e8da2bbcebe8c.jpg",
+      "cmi2": "https://live.staticflickr.com/3842/14811421284_0b7499fccc_b.jpg",
+      "cmi3":
+          "https://gq.mines.gouv.qc.ca/documents/photos/00604/0000006182_en.jpg",
+      "rockId": 249
+    },
+    {
+      "img1":
+          "https://blog.shopdoscristais.com.br/wp-content/uploads/2019/12/blog-1_1.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Pyrite_-_Huanzala_mine%2C_Huallanca%2C_Bolognesi%2C_Ancash%2C_Peru.jpg/800px-Pyrite_-_Huanzala_mine%2C_Huallanca%2C_Bolognesi%2C_Ancash%2C_Peru.jpg",
+      "cmi1":
+          "https://images.ecycle.com.br/wp-content/uploads/2021/08/23154254/pyrite-626549_1920.jpg.webp",
+      "cmi2":
+          "https://d2r9epyceweg5n.cloudfront.net/stores/002/764/861/rte/pirita.gif",
+      "cmi3":
+          "https://img.elo7.com.br/product/600x380/3A686CC/pirita-qualidade-extra-190-g-cristalpirita.jpg",
+      "rockId": 250
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Moro_Narvij\u00e4rvi_3.jpg/1024px-Moro_Narvij\u00e4rvi_3.jpg",
+      "img2":
+          "https://www.geologysuperstore.com/wp-content/uploads/2023/03/Ademallite-Granite-1-1.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Rapakivi_brown.jpg/1024px-Rapakivi_brown.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/a/af/Rapakiwi-Geschiebe.jpg",
+      "cmi3":
+          "https://www.geologysuperstore.com/wp-content/uploads/2023/07/20230720_150629-removebg-preview.png",
+      "rockId": 251
+    },
+    {
+      "img1": "https://www.alexstrekeisen.it/immagini/diagrammi/rodingite.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/f3/3f/00883510017084861893999.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rodingite_from_Maryland_USA_-_Smithsonian_Rock_Sample_1.jpg/1024px-Rodingite_from_Maryland_USA_-_Smithsonian_Rock_Sample_1.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Metasomatized_dyke_in_serpentinite_Nelson_New_Zealand.jpg/800px-Metasomatized_dyke_in_serpentinite_Nelson_New_Zealand.jpg",
+      "cmi3": "https://www.alexstrekeisen.it/immagini/diagrammi/rodingite4.jpg",
+      "rockId": 252
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Shonkinite_from_Mountain_Pass_in_California.jpg/800px-Shonkinite_from_Mountain_Pass_in_California.jpg",
+      "img2": "https://formontana.net/roc.JPG",
+      "cmi1": "https://i.ytimg.com/vi/ypF820m3_AA/maxresdefault.jpg",
+      "cmi2": "https://geodil.dperkins.org/i/418.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/66/26/04915680017062152997573.jpg",
+      "rockId": 253
+    },
+    {
+      "img1":
+          "https://www.picclickimg.com/1W4AAOSwStFglW95/Teschenite-Analcimiqe-Pyrenees.webp",
+      "img2":
+          "https://www.polandmet.com/wp-content/uploads/2020/10/P1100647.jpg",
+      "cmi1":
+          "https://www.polandmet.com/wp-content/uploads/2020/07/P1090596.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/37/34/04118910017056249456795.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/b/b7/Cieszynit-skala.jpg",
+      "rockId": 254
+    },
+    {
+      "img1":
+          "https://www.crystalis.com/wp-content/uploads/2020/04/unakite-tumb.jpg",
+      "img2":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMAk26wK9XuDnKkdz4oDnWV1T3-p05aJXXrpMr5aAz1B_U-SzXmMzK93DO-Fj-t6afafrbmfNInBL9x4YJmw5EaZD83S5orAfJYGYnl6Sneifdl8VYQm_2lye8lCymdz3eyFfoG3pKAmk1dH9tQ3cEsiRLs3KDT-jhkCJJng2Btr41GFT80WNNw9J25Jw/s1400/Unakite-%20(1).jpg",
+      "cmi1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Unakite-5-1024x683.webp?resize=1024%2C683&ssl=1",
+      "cmi2":
+          "https://www.stonemania.co.uk/images/stories/articles-photos/unakite-stone.webp",
+      "cmi3":
+          "https://www.mindat.org/imagecache/66/01/05657220017086426134700.jpg",
+      "rockId": 255
+    },
+    {
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Minette_Dyke_in_New_Mexico_USA_01.jpg/1024px-Minette_Dyke_in_New_Mexico_USA_01.jpg",
+      "img2":
+          "https://www.researchgate.net/profile/Aaron-Palke/publication/327089833/figure/fig4/AS:661970512510977@1534837477674/This-sample-of-lamprophyre-from-Yogo-Gulch-contains-a-small-sapphire-crystal-about-4-mm.png",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/2278_minette.jpg/800px-2278_minette.jpg",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/lamprophyre2020(9).jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/alno2019(6).jpg",
+      "rockId": 256
+    },
+    {
+      "rockId": 736,
+      "img1": "https://upload.wikimedia.org/wikipedia/commons/6/60/Gneiss.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/03/corundum-gneiss-with-sapphire.jpg",
+      "cmi1":
+          "https://oaklandgeology.com/wp-content/uploads/2016/12/gneiss-pet.jpg",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/gneiss2020(5).jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/gneiss2020(3).jpg"
+    },
+    {
+      "rockId": 737,
+      "img1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/borolanite(1).jpg",
+      "img2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/borolanite(2).jpg",
+      "cmi1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/borolanite(3).jpg",
+      "cmi2": "https://www.alexstrekeisen.it/immagini/pluto/borolanite(1).jpg",
+      "cmi3":
+          "https://www.virtualmicroscope.org/sites/default/files/hero-SMG137-borolanite-Img25262.jpg"
+    },
+    {
+      "rockId": 738,
+      "img1": "https://rocks.comparenature.com/PImg/Wehrlite93Normal_200.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/c/cc/Wherlite.JPG",
+      "cmi1":
+          "http://www.newtonsdisciple.com/publishImages/Wehrlite~~element4.JPG",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/peridotite2019(3).jpg",
+      "cmi3":
+          "http://www.newtonsdisciple.com/Poikilitic_Wehrlite_Troodos_Ophiolite_Complex_Troodos_Cyprus_5.jpg"
+    },
+    {
+      "rockId": 744,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Kenyte_from_Mount_Kenya.jpg/800px-Kenyte_from_Mount_Kenya.jpg",
+      "img2": "https://rocks.comparenature.com/PImg/Kenyte132Normal_200.jpg",
+      "cmi1":
+          "https://media.sciencephoto.com/image/c0166204/800wm/C0166204-Kenyte_lava.jpg",
+      "cmi2": "http://www.jsjgeology.net/Erebus_files/image002.jpg",
+      "cmi3": "http://www.jsjgeology.net/Mt.-Kenya_files/image004.jpg"
+    },
+    {
+      "rockId": 745,
+      "img1": "https://rocks.comparenature.com/PImg/Jasperoid156Normal_200.jpg",
+      "img2": "https://turnstone.ca/jaspero2.jpg",
+      "cmi1":
+          "https://www.researchgate.net/profile/David-Freedman-4/publication/333657569/figure/fig19/AS:767192995999750@1559924472527/Mineralized-breccias-from-carbonate-breccia-replacement-deposits-along-the-TiCup-horizon.jpg",
+      "cmi2":
+          "https://plug.plugon.us/img/a/aec/aec656f20778496782e9b6e329e6f6b9/img1.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/7/7e/Jasperoid.jpg"
+    },
+    {
+      "rockId": 749,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/a/a9/Sub-bituminus.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Bituminous_Coal.JPG/1280px-Bituminous_Coal.JPG",
+      "cmi1":
+          "https://energyeducation.ca/wiki/images/e/e9/640px-Bituminous_Coal.jpg",
+      "cmi2":
+          "https://assets.fishersci.com/TFS-Assets/CCG/product-images/ESNG0030.jpg-650.jpg",
+      "cmi3":
+          "https://5.imimg.com/data5/UG/MR/NW/SELLER-55849917/bituminous-coal-500x500.jpg"
+    },
+    {
+      "rockId": 751,
+      "img1":
+          "https://www.researchgate.net/profile/Daniel-Munoz-Lopez/publication/346311996/figure/fig5/AS:961758491590664@1606312501999/Devonian-protolith-a-Field-image-showing-the-relationship-between-bedding-S-0-and.jpg",
+      "img2": "https://m.media-amazon.com/images/I/71+Pw-Q7zKL._AC_SX679_.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Peridotite_5773.jpg/480px-Peridotite_5773.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/0/08/BasaltUSGOV.jpg",
+      "cmi3":
+          "https://media.cheggcdn.com/media/0c9/0c9695d8-9a26-41fa-85d3-92be31781a7c/phpboJGSC.png"
+    },
+    {
+      "rockId": 754,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/BIF_%28jaspilite_meta-BIF%2C_Paleoproterozoic_Minas_Gerais.jpg/800px-BIF_%28jaspilite_meta-BIF%2C_Paleoproterozoic_Minas_Gerais.jpg",
+      "img2":
+          "https://t4.ftcdn.net/jpg/00/53/31/07/240_F_53310726_9RTUJ6pIayadSOUIAjE0M40hvf5AEuKE.jpg",
+      "cmi1":
+          "https://www.allcrystal.com/wp-content/uploads/2024/02/rough-jaspilite-rock-on-white-background-x-no-credit-needed-300x200.jpg",
+      "cmi2":
+          "http://www.jsjgeology.net/Banded-iron-formations_files/image004.jpg",
+      "cmi3":
+          "http://www.jsjgeology.net/Banded-iron-formations_files/image006.jpg"
+    },
+    {
+      "rockId": 762,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Basanite%26Dunite_bomb.JPG/1280px-Basanite%26Dunite_bomb.JPG",
+      "img2":
+          "https://www.mindat.org/imagecache/03/cf/02034850017098418581739.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/04/eb/03610300016094139857215.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/42/c8/02709930017088107948205.jpg",
+      "cmi3":
+          "http://www.newtonsdisciple.com/publishImages/Basanite~~element3.jpg"
+    },
+    {
+      "rockId": 763,
+      "img1": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Syenite.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/4/45/Sy%C3%A9nite_Tretorre.jpg",
+      "cmi1":
+          "https://www.virtualmicroscope.org/sites/default/files/at616-Syenite1_Rob.jpg",
+      "cmi2": "https://m.media-amazon.com/images/I/71nxCkvAzLL._SX522_.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Kakortokite_%28eudialytic_nepheline_syenite%29_Kangerdluarssaq_Fjord%2CGreenland.jpg/255px-Kakortokite_%28eudialytic_nepheline_syenite%29_Kangerdluarssaq_Fjord%2CGreenland.jpg"
+    },
+    {
+      "rockId": 765,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Diorite_orbiculaire-5729~2016_11_03.jpg/1280px-Diorite_orbiculaire-5729~2016_11_03.jpg",
+      "img2":
+          "https://phaidra.cab.unipd.it/api/imageserver?IIIF=o:436079.tif/full/,480/0/default.jpg",
+      "cmi1":
+          "https://auctions.afimg.jp/h1061126094/ya/image/h1061126094.2.jpg",
+      "cmi2":
+          "https://auctions.afimg.jp/h1061126094/ya/image/h1061126094.10.jpg",
+      "cmi3": "https://auctions.afimg.jp/h1061126094/ya/image/h1061126094.4.jpg"
+    },
+    {
+      "rockId": 766,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Estonian_Museum_of_Natural_History_Specimen_No_177565_photo_%28g220_g220-15_1_jpg%29.jpg/1024px-Estonian_Museum_of_Natural_History_Specimen_No_177565_photo_%28g220_g220-15_1_jpg%29.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Lherzolite_Lers.jpg/1024px-Lherzolite_Lers.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Garnet_lherzolite_-_xenolith_from_a_kimberlite_pipe%2C_Kimberley_SA.jpg/1024px-Garnet_lherzolite_-_xenolith_from_a_kimberlite_pipe%2C_Kimberley_SA.jpg",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/peridotite2019(7).jpg",
+      "cmi3":
+          "https://geologybase.com/wp-content/uploads/2023/12/Lherzolite-rock.jpg"
+    },
+    {
+      "rockId": 770,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Basanite%26Dunite_bomb.JPG/390px-Basanite%26Dunite_bomb.JPG",
+      "img2":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxDz-s06Lpney9N5MaJBjF1cJ2Ng6dxRD9RAtbuUl-U0ltr5N6nsesc02b8y__BiivLtIU1eEjW2J2rXyme8qTMqqTa-IdIL7-TudonVtQETpaxXvf94iRXYHlzQ5COX6p9VVnJILLkvxrtZ-BIAYrWdJtoLSlN4jZzWXjx2tFQ5oIe88weeTznOaejPs/w640-h478-rw/Dunite--.jpg",
+      "cmi1":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjEybMhCoR6x_UVJkwXLFUzUI7aMJaUzm42ZPwmxw3d5VxEPzSnnk5bpR-sYSY_bnH0Nxea1I0Bozbdq0iJ-fQT4BDeBje3fLhXlyL0ZTa7JjFE9tjj_shuFdSHIr29-aoIufGxIkFKZieT2KvRVWawwpVQvEcVmpbGIbDeZaCC5dTS1wM3Mqn0j4Xn_5E/w640-h582-rw/dunite-xenoliths.jpg",
+      "cmi2": "http://www.newtonsdisciple.com/Olivine.jpg",
+      "cmi3":
+          "https://www.geologysuperstore.com/wp-content/uploads/2023/03/Dunite_Peridotite-removebg-preview.png"
+    },
+    {
+      "rockId": 773,
+      "img1": "https://i.ebayimg.com/images/g/qFMAAOSwEmNl8zcf/s-l960.jpg",
+      "img2": "https://www.jsg.utexas.edu/vargas/img_catalog_mid/MS_VP3102.jpg",
+      "cmi1":
+          "https://rocks.comparenature.com/PImg/Itacolumite74Normal_200.jpg",
+      "cmi2": "https://m.media-amazon.com/images/I/61tOHCVpl+L._SY879_.jpg",
+      "cmi3":
+          "https://www.researchgate.net/profile/Tomas-Derka/publication/235753026/figure/fig45/AS:669520234565640@1536637471451/A-B-Plates-of-flexible-sandstone-itacolumite-scaled-from-the-cave-ceilings-A-Cueva.jpg"
+    },
+    {
+      "rockId": 776,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/8/86/Chlorite_schist.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Piece_of_greenschist_from_Dalupirip%2C_Itogon%2C_Benguet%2C_Philippines_02.jpg/1280px-Piece_of_greenschist_from_Dalupirip%2C_Itogon%2C_Benguet%2C_Philippines_02.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/ff/50/08191900015556020158733.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/16/f5/06817560017058609941026.jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/greenschist2020.jpg"
+    },
+    {
+      "rockId": 777,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Lapis_lazuli_block.jpg/300px-Lapis_lazuli_block.jpg",
+      "img2":
+          "https://imageswscdn.wslojas.com.br/files/20504/MED_pedra-lapis-lazuli-verdadeira-com-excelente-qualidade-a-unidade-gemas-puras-com-padrao-de-colecao-6474511.png",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Lazurite.jpg/330px-Lazurite.jpg",
+      "cmi2":
+          "https://www.anahana.com/hs-fs/hubfs/raw-blue-lazurite-lapis-lazuli-banner.jpg?amp;amp;&width=420&name=raw-blue-lazurite-lapis-lazuli-banner.jpg",
+      "cmi3":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh-LpT2-QT0b8GiHaBOgSSv1T6sKGCVkj_cFPqcFJzLdZnj4jr2le9eWFakYzgxyLiAWkfRvtphvxh1U-hIpPpMjIJ-tZvorx1F0MRVz6yavoen1F9SR7FLM2pJwUGV5pWX-77sTTS47x3w/s400/l%C3%A1pis+lazili.jpg"
+    },
+    {
+      "rockId": 780,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/0/05/Moissanite-USGS-20-1001d-14x-.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/e/ef/Moissanite-USGS-20-1001c-14x-.jpg",
+      "cmi1":
+          "https://t3.ftcdn.net/jpg/01/41/59/24/240_F_141592487_kgV5byV9o2nMHOI67KSlatPtHxEEAzsl.jpg",
+      "cmi2": "https://i.ebayimg.com/images/g/cZ4AAOSwk-Rj-SPE/s-l960.jpg",
+      "cmi3": "https://i.ebayimg.com/images/g/Z2EAAOSwftRjOJBi/s-l1600.jpg"
+    },
+    {
+      "rockId": 781,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Grandidierite-169886.jpg/375px-Grandidierite-169886.jpg",
+      "img2": "https://i.ebayimg.com/images/g/j2wAAOSwQj9ij18r/s-l1600.jpg",
+      "cmi1":
+          "https://www.weinrichmineralsinc.com/userfiles/products/large/9/5/9539566.jpg",
+      "cmi2":
+          "https://www.weinrichmineralsinc.com/userfiles/products/large/9/5/9539554.jpg",
+      "cmi3":
+          "https://www.weinrichmineralsinc.com/userfiles/products/large/9/5/9539564.jpg"
+    },
+    {
+      "rockId": 782,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Emerald_Obsidianite_Jewelry_600px.jpg/330px-Emerald_Obsidianite_Jewelry_600px.jpg",
+      "img2":
+          "https://www.silverrushstyle.com/media/mod_structure/235/th_250x232x100_w0logo-5.jpg",
+      "cmi1":
+          "https://thumbs.worthpoint.com/zoom/images1/1/0218/19/rough-helenite-gaia-green-glass-mount_1_535abd5d65f2d1e76ce4118a679638e3.jpg",
+      "cmi2":
+          "https://thumbs.worthpoint.com/zoom/images1/1/0118/12/rough-helenite-gaia-stone-glass_1_3d28376aaddec843d5e10124b43c4bd3.jpg",
+      "cmi3": "https://gemsnewdirections.com/images/Hellenite/7590.JPG"
+    },
+    {
+      "rockId": 783,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/c/c7/Danburite-162634.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Danburite_2581.jpg/800px-Danburite_2581.jpg",
+      "cmi1":
+          "https://assets1.fossilera.com/sp/611475/danburite/708x500%3E/danburite.jpg",
+      "cmi2":
+          "https://earthlygems.com/image/cache/catalog/natural/danburite/danburite-cluster-1b-DSC04591-150x150.jpg",
+      "cmi3":
+          "https://earthlygems.com/image/cache/catalog/natural/danburite/danburite-1b-DSC02473-150x150.jpg"
+    },
+    {
+      "rockId": 784,
+      "img1":
+          "https://www.coppercanyonlapidary.com/wp-content/uploads/2021/06/GG.jpg",
+      "img2": "https://i.ebayimg.com/images/g/O0MAAOSw3QVgwHSa/s-l140.jpg",
+      "cmi1":
+          "https://www.coppercanyonlapidary.com/wp-content/uploads/2021/06/DD.jpg",
+      "cmi2":
+          "https://en.newpiezo.com/_src/Knowledge.Item/31_img2/%D0%B3%D0%B3%D0%B0%D0%B3%D0%BC.jpg",
+      "cmi3":
+          "https://www.coppercanyonlapidary.com/wp-content/uploads/2021/06/FF-300x300.jpg"
+    },
+    {
+      "rockId": 785,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Algodonit_-_Houghton_County%2C_Michigan%2C_USA.jpg/1024px-Algodonit_-_Houghton_County%2C_Michigan%2C_USA.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/69/33/02823510014947021929341.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/09/c7/01236760014955097772641.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/dc/54/01170240014946718857012.jpg",
+      "cmi3":
+          "https://cdn.irocks.com/storage/media/22869/conversions/MD-113363a-small.jpg"
+    },
+    {
+      "rockId": 786,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/QuartzPrase.jpg/390px-QuartzPrase.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/QuartzPrase.jpg/1200px-QuartzPrase.jpg",
+      "cmi1": "https://m.media-amazon.com/images/I/81hI7rpjclL._AC_SX679_.jpg",
+      "cmi2": "https://m.media-amazon.com/images/I/81-JUFIleLL._AC_SX679_.jpg",
+      "cmi3": "https://angeltimes.ie/wp-content/uploads/2023/05/Prasiolite.jpg"
+    },
+    {
+      "rockId": 787,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Anhydrite_HMNH1.jpg/390px-Anhydrite_HMNH1.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/d6/11/01476800014950775667367.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/cd/52/00034860014956799374837.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/c8/e8/01044070015823651841973.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Chickenwire_Gypsum_anhydrite.jpg/1024px-Chickenwire_Gypsum_anhydrite.jpg"
+    },
+    {
+      "rockId": 788,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/2/26/Brazilianite-4jg60a.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/cd/3a/01946590014948702845994.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/a2/d6/01878980014977269622868.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/5b/c7/08165740015083375254315.jpg",
+      "cmi3":
+          "https://www.mcdougallminerals.com/wp-content/uploads/2021/01/1005241.jpg"
+    },
+    {
+      "rockId": 789,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Andalusite_-_Malacheta%2C_Minas_Gerais%2C_Brazil.jpg/390px-Andalusite_-_Malacheta%2C_Minas_Gerais%2C_Brazil.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/c7/92/04544790014948297835817.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/9d/02/06933530015047045231838.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/40/7f/01544440017056231462975.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/a5/03/08949360015059090689230.jpg"
+    },
+    {
+      "rockId": 790,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Goldfluss_%28Aventuringlas%29.jpg/330px-Goldfluss_%28Aventuringlas%29.jpg",
+      "img2": "https://www.tuffnellglass.com/contents/media/DSCN6358a.jpg",
+      "cmi1":
+          "https://d17anp2eo56k6j.cloudfront.net/media/catalog/product/cache/9f1c959b611825c9ec248454b7fd061b/v/i/vintage-goldstone-glass-ring_1_30-3-3623.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Goldstone_glass_under_magnification.jpg/330px-Goldstone_glass_under_magnification.jpg",
+      "cmi3":
+          "https://www.coppercanyonlapidary.com/wp-content/uploads/2020/03/goldstone-mass-BLOG.jpg"
+    },
+    {
+      "rockId": 791,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Nephrite_jordanow_slaski.jpg/330px-Nephrite_jordanow_slaski.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Amphibole_2_-_Nephrite_Jade_Basic_calcium_magnesium_iron_silicate_Lander_County_Wyoming_2075.jpg/255px-Amphibole_2_-_Nephrite_Jade_Basic_calcium_magnesium_iron_silicate_Lander_County_Wyoming_2075.jpg",
+      "cmi1":
+          "https://www.gemrockinternational.com/de/wp-content/uploads/2020/10/NEPHRITE.jpg",
+      "cmi2":
+          "https://modminerals.com/wp-content/uploads/2020/12/Nephrite-Gem-Stones-MDM.jpg",
+      "cmi3":
+          "https://minerals-stones.com/56324-large_default/nephrite-natural-polished-748g-pakistan.jpg"
+    },
+    {
+      "rockId": 792,
+      "img1":
+          "https://dreaminggoddess.com/wp-content/uploads/2021/03/SPE-MOL-02-5.jpg",
+      "img2":
+          "https://dreaminggoddess.com/wp-content/uploads/2021/03/SPE-MOL-02-3.jpg",
+      "cmi1":
+          "https://dreaminggoddess.com/wp-content/uploads/2019/09/Moldavite-3.jpg",
+      "cmi2":
+          "https://dreaminggoddess.com/wp-content/uploads/2019/09/Moldavite-closeup.jpg",
+      "cmi3":
+          "https://static.wixstatic.com/media/6f2b58_cd3cf50d9b1847b391764e52451c7c73~mv2.jpg/v1/fill/w_495,h_750,al_c,q_85,enc_auto/6f2b58_cd3cf50d9b1847b391764e52451c7c73~mv2.jpg"
+    },
+    {
+      "rockId": 793,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Pezzotta%C3%AFte%2C_amazonite%2C_zircon_1.jpeg/390px-Pezzotta%C3%AFte%2C_amazonite%2C_zircon_1.jpeg",
+      "img2":
+          "https://www.mindat.org/imagecache/cb/fe/05596420014946297563249.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Pezzottaite-256889.jpg/330px-Pezzottaite-256889.jpg",
+      "cmi2":
+          "https://www.gemselect.com/other-info/graphics/pezzottaite-madagascar.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/7a/8e/04286210017058574045807.jpg"
+    },
+    {
+      "rockId": 794,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Ulexite-39574.jpg/300px-Ulexite-39574.jpg",
+      "img2":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/t6lvzdndtlofzc1t.jpg",
+      "cmi1":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/bhgpknxghwpzuoey.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/b/bc/Ulexite-237267.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/b/b6/Ulexite-Calcite-40061.jpg"
+    },
+    {
+      "rockId": 795,
+      "img1":
+          "https://www.mindat.org/imagecache/cf/bb/06746230017067290989765.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/88/aa/08058030014977577914472.jpg",
+      "cmi1":
+          "https://cdn.irocks.com/storage/media/80328/conversions/JWL16-40a-Tinzenite-South%20Africa-fine-mineral-specimen-large.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/c1/95/02046130017112103414522.jpg",
+      "cmi3":
+          "https://cdn.irocks.com/storage/media/80331/conversions/JWL16-40d-Tinzenite-South%20Africa-fine-mineral-specimen-large.jpg"
+    },
+    {
+      "rockId": 796,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Tiger%27s_eye.jpg/390px-Tiger%27s_eye.jpg",
+      "img2":
+          "https://www.himalayansaltfactory.com.au/wp-content/uploads/2019/11/5kg-Tiger-Eye-Rough-Parcel-768x768.jpg",
+      "cmi1":
+          "https://5.imimg.com/data5/SELLER/Default/2020/12/UI/AS/ZU/14338679/tiger-eye-rough-raw-1000x1000.JPG",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Quartz_-_Tigers-Eye_-_raw_stone_from_Southafrica.jpg/330px-Quartz_-_Tigers-Eye_-_raw_stone_from_Southafrica.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Blue_tiger_eye_-_falcon_eye.jpg/330px-Blue_tiger_eye_-_falcon_eye.jpg"
+    },
+    {
+      "rockId": 797,
+      "img1":
+          "https://www.mindat.org/imagecache/8b/39/01749610016013712543685.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/ca/78/01646260014977515423562.jpg",
+      "cmi1":
+          "https://orecart.com/wp-content/uploads/2023/01/IMG_9500-scaled.jpg",
+      "cmi2":
+          "https://cdn.irocks.com/storage/media/62447/conversions/HECK123a-large.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Gypse-s%C3%A9l%C3%A9nite_3.jpeg/390px-Gypse-s%C3%A9l%C3%A9nite_3.jpeg"
+    },
+    {
+      "rockId": 798,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/f/fc/Sunstone1.jpg",
+      "img2":
+          "https://i.etsystatic.com/14414326/r/il/8c7d4b/2374600030/il_1588xN.2374600030_3ekx.jpg",
+      "cmi1":
+          "https://as1.ftcdn.net/v2/jpg/02/38/40/76/1000_F_238407636_Lr9U8FHDPp6NXVsyb1RRCuGH540IdLxo.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/8/81/Sunstone2.jpg",
+      "cmi3":
+          "https://as2.ftcdn.net/v2/jpg/01/16/14/01/1000_F_116140162_Y7W3iQ50lY9I3D9l9XmIGJYRE3RtK7ai.jpg"
+    },
+    {
+      "rockId": 799,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Apatite-Scheelite-Cubanite-204051.jpg/345px-Apatite-Scheelite-Cubanite-204051.jpg",
+      "img2": "https://m.media-amazon.com/images/I/71AfP8zFDiL._SL1181_.jpg",
+      "cmi1":
+          "https://www.geologysuperstore.com/wp-content/uploads/2022/10/apatite_2.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Apatite_Canada.jpg/330px-Apatite_Canada.jpg",
+      "cmi3":
+          "https://didatico.igc.usp.br/wp-content/uploads/2017/04/apatita-4-1536x1024.jpg"
+    },
+    {
+      "rockId": 800,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Aqua_aura.jpg/330px-Aqua_aura.jpg",
+      "img2":
+          "https://i.etsystatic.com/36892464/r/il/5a799d/5077022916/il_300x300.5077022916_fg55.jpg",
+      "cmi1":
+          "https://i.pinimg.com/originals/ed/79/76/ed79764fe3053db733720ca251389af8.jpg",
+      "cmi2":
+          "https://a0.anyrgb.com/pngimg/1090/844/crystal-cluster-druse-metalcoated-crystal-smoky-quartz-rose-quartz-quartz-mineral-stone-crystal-rock.png",
+      "cmi3":
+          "https://i.pinimg.com/736x/f3/17/3c/f3173ce044ad100e225e50943d6f0c46.jpg"
+    },
+    {
+      "rockId": 802,
+      "img1":
+          "https://www.mindat.org/imagecache/31/6c/00427640014946267215533.jpg",
+      "img2":
+          "https://www.rockngem.com/wp-content/uploads/2023/05/zircon.5.jpg",
+      "cmi1":
+          "https://cdn.britannica.com/89/8689-004-513BF70C/Zircon-quartz-Cheyenne-Canyon-Colorado.jpg?w=400&h=300&c=crop",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/f/fa/Zircon-dtn1a.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Jacinth-Zircon4-edited.webp?fit=977%2C977&ssl=1"
+    },
+    {
+      "rockId": 803,
+      "img1":
+          "https://www.mindat.org/imagecache/f3/cf/04229170017071596716562.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/88/de/09646110015199252837192.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/9/96/Austinite-177832.jpg",
+      "cmi2":
+          "https://www.dakotamatrix.com/images/database/austinite22498a.jpg",
+      "cmi3":
+          "https://cdn.irocks.com/storage/media/8136/conversions/tcp05a-large.jpg"
+    },
+    {
+      "rockId": 804,
+      "img1":
+          "https://www.mindat.org/imagecache/41/bc/08436470017087116743796.jpg",
+      "img2":
+          "https://media.gemstones.com/image/upload/t_gemstones_ratio_4x3_m/d_gemstones-site:default-noimage.png/v1643204166/gemstones-site/gemopedia/bastnaesite/bastnaesite-specimen.jpg",
+      "cmi1":
+          "https://i.pinimg.com/564x/d8/dc/52/d8dc52a93333ff78d41302605a171e85.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Bastnaesit_Burundi.jpg/1024px-Bastnaesit_Burundi.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/b/bb/Bastnasite-155010.jpg"
+    },
+    {
+      "rockId": 805,
+      "img1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/12/Kornerupine-2-jpg.webp?resize=1000%2C1000&ssl=1",
+      "img2":
+          "https://www.csgemstones.com/uploadPim/190/300_Kornerupine-thumbnail-520-520.jpg",
+      "cmi1":
+          "https://heritagegemsandjewels.com/cdn/shop/products/image_e50ac59f-8b35-4df1-94fe-4215121e638d_550x.jpg?v=1592322337",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Kornerupine-162065.jpg/450px-Kornerupine-162065.jpg",
+      "cmi3":
+          "https://www.gemsociety.org/wp-content/uploads/2013/12/KORNERUPINE.jpg"
+    },
+    {
+      "rockId": 806,
+      "img1":
+          "https://nationalgemlab.in/wp-content/uploads/2017/03/Boletie-300x262.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/2b/63/01598450014946610827095.jpg",
+      "cmi1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Boleite-edited.webp?resize=640%2C426&ssl=1",
+      "cmi2":
+          "https://www.gemsociety.org/wp-content/uploads/2013/12/Boleite.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/0/0e/Boleite-rom51c.jpg"
+    },
+    {
+      "rockId": 807,
+      "img1":
+          "https://t4.ftcdn.net/jpg/06/29/16/93/360_F_629169390_iM1GF9pWfpAyHQ6viUQyedHNPLsYCJEI.jpg",
+      "img2":
+          "https://www.tanzaniteexperience.com/wp-content/uploads/2021/05/rough-tanzanite.png",
+      "cmi1":
+          "https://i.etsystatic.com/23489191/r/il/2d2a5d/4126828203/il_fullxfull.4126828203_5zbg.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Zo\u00efsite_%28Tanzanite%29.jpg/800px-Zo\u00efsite_%28Tanzanite%29.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Trichroic_Tanzanite_Crystal_-_violet_%26_burgundy.jpg/320px-Trichroic_Tanzanite_Crystal_-_violet_%26_burgundy.jpg"
+    },
+    {
+      "rockId": 808,
+      "img1":
+          "https://i.etsystatic.com/12906588/r/il/de0207/4163302105/il_570xN.4163302105_2svg.jpg",
+      "img2": "https://wearecolor.us/resources/ruby-article-new2-195480.png",
+      "cmi1":
+          "https://www.lotuswei.com/cdn/shop/articles/Ruby_Gemstone_Raw_2000x1111_24309712-95e2-4c14-b982-b9593b7f51c3_1600x.jpg?v=1640501290",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/1/17/Corundum-215330.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/0/0d/Ruby_cristal.jpg"
+    },
+    {
+      "rockId": 809,
+      "img1":
+          "https://www.le-comptoir-geologique.com/_media/img/large/pic2fa1.tmp.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/07/Rutile-1024x913.webp?resize=1024%2C913&ssl=1",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/8/88/Hematite-Rutile-57088.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/b0/a6/08272120014951844188992.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/3/36/Rutile-ww7a.jpg"
+    },
+    {
+      "rockId": 811,
+      "img1":
+          "https://alchemistandmagpie.com/wp-content/uploads/2020/10/smoky-quartz-sm.jpg",
+      "img2":
+          "https://cdn11.bigcommerce.com/s-74zp6w28re/images/stencil/original/products/1816/60358/new-moon-beginnings-raw-smoky-quartz-crystal-point-crr-aa635__06743.1635742488.jpg?c=1",
+      "cmi1":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/m79fp27cecv9yqkb.jpg",
+      "cmi2":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/277/conversions/IMG_3344-watermark.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/3/32/Smoky-quartz-TUCQTZ09-03-arkenstone-irocks.png"
+    },
+    {
+      "rockId": 812,
+      "img1":
+          "https://7cad390533514c32acc8-75d23ce06fcfaf780446d85d50c33f7b.ssl.cf6.rackcdn.com/sc/1691740403-normal-yttrium%20iron%20garnet.png",
+      "img2":
+          "https://7cad390533514c32acc8-75d23ce06fcfaf780446d85d50c33f7b.ssl.cf6.rackcdn.com/sc/1691741507-normal-yttrium%20iron%20garnet-2.png",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Wiki-YIG.jpg/800px-Wiki-YIG.jpg",
+      "cmi2":
+          "https://www.sputtertargets.net/wp-content/uploads/2024/03/yttrium-iron-garnet-crystal-substrate.png",
+      "cmi3":
+          "https://thebeautyintherocks.com/10848-thickbox_default/eudialyte-229-ct.jpg"
+    },
+    {
+      "rockId": 813,
+      "img1":
+          "https://gandharagems.com/cdn/shop/articles/Amber-Gemstone-Value-Price-History-Jewelry.jpg?v=1653316087",
+      "img2":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/images/1145000-1149999/1147443/5e67056a6a693.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Amber2.jpg/1200px-Amber2.jpg",
+      "cmi2":
+          "https://media.thejewellershop.com/shops/1/landingpages/lexikon/gems/lexikon-gems_bernstein.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/63/35/08262830017055470748979.jpg"
+    },
+    {
+      "rockId": 814,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Aegirine_-_Mt_Malosa%2C_Zomba%2C_Malawi_%28alt%29.jpg/800px-Aegirine_-_Mt_Malosa%2C_Zomba%2C_Malawi_%28alt%29.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/8/83/Aegirine_-_Acmite_in_syenite_Sodium_iron_silicate_Magnet_Cove_Hot_Springs_County_Arkansas_2000.jpg",
+      "cmi1":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/14314/Aegirine.jpg",
+      "cmi2":
+          "https://cdn.irocks.com/storage/media/22805/conversions/MD-238900a-large.jpg",
+      "cmi3":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/qyzijlhd0ieq8q6p.jpg"
+    },
+    {
+      "rockId": 815,
+      "img1":
+          "https://lh6.googleusercontent.com/proxy/LxzfLDdw8Ijh7gpW_qZAHkpoI4NWNAyCgx_zyRmaI0izUVVQHvs4n_jcQDPTwyKaLSNcUXSTJvI3Vyem5cVop10s8hIPRsw",
+      "img2":
+          "https://www.mindat.org/imagecache/64/69/03560040017119228579981.jpg",
+      "cmi1":
+          "https://t4.ftcdn.net/jpg/04/76/03/31/360_F_476033149_W5fLe5b2imCSFh0z7QhOib5dvfkJHZfu.jpg",
+      "cmi2": "https://live.staticflickr.com/3941/15645114352_ef42db6416_b.jpg",
+      "cmi3":
+          "https://img.freepik.com/premium-photo/piece-raw-skarn-stone-white_696657-33761.jpg?size=626&ext=jpg&ga=GA1.1.1141335507.1717891200&semt=sph"
+    },
+    {
+      "rockId": 816,
+      "img1":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjPjSX7hGcbxUEDqVfmFoVK9zEqvt7wJQptG2iP98CzdYva8nERL6iwsk3AVsyC6zLQWde8o_dbGso2Uuhc34Cy5AeypnpvwrqAqEuMwLjva3U7Uxzh2asiME3JCH-TGBZcSz-D1Miz8RE/s1600/Hawk's+Eye2.jpg",
+      "img2":
+          "https://invokeproducts.com/cdn/shop/products/PXL_20211009_184806358.PORTRAIT_1024x1024@2x.jpg?v=1633976298",
+      "cmi1":
+          "https://cdn.shopify.com/s/files/1/1547/3947/files/hawks-eye-stone_4_1024x1024.jpg?v=1595288214",
+      "cmi2":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/59f7e12cab847.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/09/HAWKS-EYE-STONE-5-768x1024.webp?resize=768%2C1024&ssl=1"
+    },
+    {
+      "rockId": 817,
+      "img1":
+          "https://store.kenkengems.com/cdn/shop/articles/Prehnite.jpg?v=1658111980",
+      "img2":
+          "https://miamiminingco.com/wp-content/uploads/2023/01/prehnite-tumbles.jpg",
+      "cmi1":
+          "https://mineraemporium.com/wp-content/uploads/2023/06/prehnite-palmstone-scaled.jpeg",
+      "cmi2":
+          "https://rockidentifier.com/image-handle/image/1080/153753846349299716.jpeg?x-oss-process=image/format,webp",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Prehnite_-_Southbury%2C_Connecticut%2C_USA.jpg/1200px-Prehnite_-_Southbury%2C_Connecticut%2C_USA.jpg"
+    },
+    {
+      "rockId": 818,
+      "img1":
+          "https://media.gemstones.com/image/upload/gemstones-site/gemopedia/yag-yttrium-aluminum-garnet/colors/yag-pink.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/4/45/Yttrium-aluminum_garnet_%28synthetic_gemstone%29_1.jpg",
+      "cmi1": "https://www.gemstones-guide.com/images/YGM-pink.jpg",
+      "cmi2":
+          "https://cdn11.bigcommerce.com/s-qyo98s7z1r/images/stencil/500x659/products/3570/934/G-2378__63843.1564952773.jpg?c\\u003d2",
+      "cmi3":
+          "https://v.etsystatic.com/video/upload/q_auto/trim.389C947C-FD94-43EA-BE36-CC0CEFE07603_huvjhs.jpg"
+    },
+    {
+      "rockId": 819,
+      "img1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Chemical-composition-of-Corundum-2-jpeg.webp?resize=800%2C719&ssl=1",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/03/Corundum-from-Jagdalik-Kabul-Prov.-Afghanistan.jpg?fit=369%2C415&ssl=1",
+      "cmi1":
+          "https://www.le-comptoir-geologique.com/_media/img/large/pic1df0.tmp.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Several_corundum_crystals.jpg/1200px-Several_corundum_crystals.jpg",
+      "cmi3": "https://geology.com/minerals/photos/corundum-crystals.jpg"
+    },
+    {
+      "rockId": 820,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Vaqueros_Sandstone_Sanborn_County_Park.jpg/800px-Vaqueros_Sandstone_Sanborn_County_Park.jpg",
+      "img2":
+          "https://www.thoughtco.com/thmb/Ul_i3om-PldomDhvuaUW8VG5Z0E=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/concoakhills-58b5abc33df78cdcd897b323.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Konkrece_Geologick\u00e1_zahrada_DP_Praha_2017_2.jpg/800px-Konkrece_Geologick\u00e1_zahrada_DP_Praha_2017_2.jpg",
+      "cmi2":
+          "https://images.squarespace-cdn.com/content/v1/5c9f919e94d71a2bab6d18d8/1585938821691-CZ84S1ZM7KQQHJNS2LV2/LargeConcretion.jpg",
+      "cmi3":
+          "https://images.squarespace-cdn.com/content/v1/5c9f919e94d71a2bab6d18d8/1585940199509-W6B2MM1YPVH1FEJKE3BA/Reeves-Concretion1.jpg?format=1000w"
+    },
+    {
+      "rockId": 821,
+      "img1":
+          "https://static.wikia.nocookie.net/encyclopedia-gemstonia/images/b/b9/Hypersthene.jpg/revision/latest/scale-to-width-down/800?cb=20220115004604",
+      "img2":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/images/1335000-1339999/1337724/5fa4dea87d251.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/b/b8/Hypersthene_-_USGS_Mineral_Specimens_657.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/7c/c8/07114720015704149169485.jpg",
+      "cmi3":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/7096/Hypersthene.jpg"
+    },
+    {
+      "rockId": 822,
+      "img1":
+          "https://www.minfind.com/mfthumbs/800_600_FFFFFF_17427074611af7094f048.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/5e/c0/06920820014946281902903.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/c/c2/Serpentine-bowenite.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Antigorite_%28Var._Bowenite%29.jpg/800px-Antigorite_%28Var._Bowenite%29.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/35/5e/09428660016014903407963.jpg"
+    },
+    {
+      "rockId": 823,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Horn_Louvre_OA4069.jpg/1024px-Horn_Louvre_OA4069.jpg",
+      "img2":
+          "https://super.abril.com.br/wp-content/uploads/2017/08/de-que-c3a9-feito-e-como-se-forma-o-marfim-dos-elefantes.png?w=720&h=440&crop=1",
+      "cmi1":
+          "https://pensamentoverde.com.br/wp-content/uploads/2017/01/china-proibe-comercializacao-de-marfim.jpg",
+      "cmi2":
+          "https://static.dicionariodesimbolos.com.br/upload/fe/9f/marfim-2_xl.jpeg",
+      "cmi3":
+          "https://dinamicambiental.com.br/wp-content/uploads/2021/09/marfim-3D-salva-obras-de-arte-antigas-e-elefantes.jpg"
+    },
+    {
+      "rockId": 824,
+      "img1":
+          "https://gemstoneguru.com/wp-content/uploads/2012/04/Topaz-1024x827.png",
+      "img2":
+          "https://ehqrd9ou2vi.exactdn.com/wp-content/uploads/2022/11/topaz-scorio-stone.jpg?strip=all&lossy=1&fit=875%2C490&ssl=1",
+      "cmi1":
+          "https://www.allcrystal.com/wp-content/uploads/2023/02/Topaz-crystals-x-no-credit-needed.webp",
+      "cmi2":
+          "https://cdn.shoplightspeed.com/shops/636706/files/59772013/700x700x3/novembers-traditional-birthstone-the-topaz-stone.jpg",
+      "cmi3":
+          "https://media.istockphoto.com/id/535427664/pt/foto/\u00e9pingl\u00e9s-imperial-top\u00e1zio.jpg?s=612x612&w=0&k=20&c=LPlx13hRxOFrkJf4bJ1QzMmALaoAfb_06_YJHXo3u3M="
+    },
+    {
+      "rockId": 825,
+      "img1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/09/enstatite-4-jpeg.webp?fit=1198%2C1048&ssl=1",
+      "img2":
+          "https://www.mindat.org/imagecache/56/b2/05176760014976503236375.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/8/82/Enstatite-pas-146b.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/0/0c/Enstatite-83152.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/e/e3/Enstatite-202036.jpg"
+    },
+    {
+      "rockId": 826,
+      "img1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Libyan-Desert-Glass-5.webp?fit=1024%2C1024&ssl=1",
+      "img2":
+          "https://www.fossilera.com/sp/512475/libyan-desert-glass/lechatelierite.jpg",
+      "cmi1":
+          "https://images.theconversation.com/files/275324/original/file-20190520-69169-1pwuxu4.jpg?ixlib=rb-4.1.0&rect=0%2C216%2C2945%2C1819&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip",
+      "cmi2":
+          "https://cdn11.bigcommerce.com/s-69uljzvjbu/images/stencil/1280x1280/products/551/9072/Libyanglass13B__96906.1669076078.jpg?c=2",
+      "cmi3":
+          "https://www.mindat.org/imagecache/0a/d8/09430200017188212449377.jpg"
+    },
+    {
+      "rockId": 827,
+      "img1": "https://euroclean.org/wp-content/uploads/2014/02/beryllium.jpg",
+      "img2":
+          "https://mineralsmakelife.org/wp-content/uploads/2017/03/beryllium_1_-_Copy_2.png",
+      "cmi1": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Be-140g.jpg",
+      "cmi2":
+          "https://images.newscientist.com/wp-content/uploads/2023/06/14213843/SEI_160227394.jpg",
+      "cmi3": "https://www.kha.com/wp-content/uploads/2018/08/s13.jpg"
+    },
+    {
+      "rockId": 828,
+      "img1":
+          "https://gem-a.com/wp-content/uploads/2019/05/Breaking-down-the-Misunderstandings-about-Precious-Coral.jpeg",
+      "img2":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD7O-fxJdSJIW25qIAnu3TJduLYtfKnJzbmA&s",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Red_coral_gemstone.jpg/1024px-Red_coral_gemstone.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/6/66/Corallo_vivo.jpg",
+      "cmi3":
+          "https://www.gemselect.com/other-info/graphics/natural-red-coral.jpg"
+    },
+    {
+      "rockId": 829,
+      "img1":
+          "https://diamondrensu.com/cdn/shop/articles/c2a0b04860d31458c82408d04dc50065.jpg?v=1702852021",
+      "img2":
+          "https://www.doamore.com/wp-content/uploads/2022/06/oval-lab-alexandrite.jpg",
+      "cmi1":
+          "https://cdn-cmjll.nitrocdn.com/IxGMUPMdTVYKuCVzxLRZFzaCFVRJqXfA/assets/images/optimized/rev-f85974e/www.crystalsandstones.com/wp-content/uploads/2019/10/c8eb812929594f2ba9e4bfc345452870-color-change-a-color.jpg",
+      "cmi2":
+          "https://cdn.shopify.com/s/files/1/1357/7369/t/45/assets/pf-12491023--countries-3-Edited?v=1625865215",
+      "cmi3": "https://i.ebayimg.com/images/g/m1cAAOSwPjVjr~E9/s-l1200.webp"
+    },
+    {
+      "rockId": 830,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/7/7d/Turquoise-40031.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Big_turquoise_from_Cananea.jpg/800px-Big_turquoise_from_Cananea.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/d/d9/Turquoise_with_quartz.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Turquoise_of_Nishapur_-_village_of_Ma%27dan_14.JPG/800px-Turquoise_of_Nishapur_-_village_of_Ma%27dan_14.JPG",
+      "cmi3":
+          "https://i.natgeofe.com/k/a5fcda78-f668-4973-9927-4ca25f3c613f/turquiose-polished_square.jpg"
+    },
+    {
+      "rockId": 831,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/7/72/Bayldonite-Malachite-160206.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/9c/87/03669260014948220135309.jpg",
+      "cmi1":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjWc_JUfVEgA6i34u8l4G8msoOA_fgg9q1pyDb4te7FgXD_pF-MYY5fTTkmL-tZENgP6yp2Tu_ikbEkQGSLyfV3GvXV6KTbti0L5_JxNesUapCPzhsqrEAmT2eHkluN6qI1DNutHW8ey9hZ/s1600/Bayldonite-173845.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/12/72/05179580014946385149947.jpg",
+      "cmi3": "https://cdn.irocks.com/storage/media/25164/MD-36986a.jpg"
+    },
+    {
+      "rockId": 832,
+      "img1":
+          "https://differentseasonsjewelry.com/wp-content/uploads/2020/03/14640202115_2498c058fc_o.jpg",
+      "img2":
+          "https://i.pinimg.com/736x/58/88/a3/5888a3c81d14db36340f62153b102495.jpg",
+      "cmi1":
+          "https://assets3.fossilera.com/sp/106956/polished-dinosaur-bone/unknown.jpg",
+      "cmi2": "https://i.ebayimg.com/images/g/HwkAAOSwbY1kuW6z/s-l1200.jpg",
+      "cmi3": "https://live.staticflickr.com/2103/2155744987_9660dba6bf_b.jpg"
+    },
+    {
+      "rockId": 833,
+      "img1":
+          "https://files.meiobit.com/wp-content/uploads/2016/03/20160331fordite_3.jpg",
+      "img2":
+          "https://www.rockngem.com/wp-content/uploads/2014/11/web_Hamby-DSCN0003.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Fordite_%28Dearborn%2C_Michigan%29_1.jpg/291px-Fordite_%28Dearborn%2C_Michigan%29_1.jpg",
+      "cmi2":
+          "https://www.rockngem.com/wp-content/uploads/2011/12/web_Photo-1.jpg",
+      "cmi3":
+          "https://i.pinimg.com/736x/5b/da/32/5bda329cd40eb8bdfbddac2e1e45ae8e.jpg"
+    },
+    {
+      "rockId": 834,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Mawsitsit_%28chromian_jade%29_%28Namshamaw_Deposit%2C_Hpakan-Tawmaw_Jade_Tract%2C_Late_Jurassic%2C_147_Ma%3B_Maw_Sit_Sit%2C_near_Kansi%2C_western_Kachin_State%2C_Indo-Burma_Range%2C_northern_Burma%29_5_%2817062584510%29.jpg/1920px-thumbnail.jpg",
+      "img2":
+          "https://media.gemstones.com/image/upload/v1637676337/gemstones-site/gemopedia/maw-sit-sit/maw-sit-sit-polished.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/77/79/01870790015304615013393.jpg",
+      "cmi2":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgBlDDgeVJ-_wwYe7AdfYJfiDLv4DE1qHVdHgnkReDRstzsU_j1PQcSRzM9PoSqq-SE_ZyUoe_HgqSDn06KDVkywMXbM0n6P_W2CV2sm469hOPuj48D9thQqOEHLLoj9K84sLs14t7JMr8/w640-h512/Maw+Sit+Sit+Chromium+Jadeite+Rough+%25281%2529.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/11/Maw-Sit-Sit-5-jpg.webp?fit=1402%2C1087&ssl=1"
+    },
+    {
+      "rockId": 835,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/7/77/Trinitite_from_Trinity_Site.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/96/9b/02347520014977320168190.jpg",
+      "cmi1":
+          "https://physicsopenlab.org/wp-content/uploads/2018/12/IMG_20181220_173301.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Trinitite-pieces3.jpg/800px-Trinitite-pieces3.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Trinitite-detail2.jpg/800px-Trinitite-detail2.jpg"
+    },
+    {
+      "rockId": 836,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Esquel.jpg/800px-Esquel.jpg",
+      "img2":
+          "https://www.fossilera.com/sp/668755/sericho-pallasites/pallasite.jpg",
+      "cmi1": "https://www.fossilera.com/p/1162/brahin.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/a/ad/Pallasite-Esquel-RoyalOntarioMuseum-Jan18-09.jpg",
+      "cmi3":
+          "https://i.pinimg.com/736x/53/3d/d3/533dd3ea05cc17c125f02c896212fcff.jpg"
+    },
+    {
+      "rockId": 838,
+      "img1":
+          "https://www.fireandicediamonds.com/wp-content/uploads/2023/11/fireandicediamonds-85770-diamond-carat-everything-blogbanner1.jpg",
+      "img2":
+          "https://lh3.googleusercontent.com/Zd_medVOHHcor6IM63-6fACeqzVXabUNB_s4xLKnGaA45c20Tp_O4cSnKeFpZJA624EfF1sJtu1e78z-RDbltUgsMYzBQM0=s750",
+      "cmi1": "https://docs.growndiamondcorp.com/blog/types-of-diamonds.png",
+      "cmi2":
+          "https://bsmedia.business-standard.com/_media/bs/img/article/2022-05/20/full/1653032824-7331.jpg?im=FeatureCrop,size=(382,233)",
+      "cmi3":
+          "https://i.natgeofe.com/k/905d83a3-45ed-46d1-8717-833d30b8c964/diamond-polished_4x3.jpg"
+    },
+    {
+      "rockId": 839,
+      "img1":
+          "https://i.etsystatic.com/15882813/r/il/1a37fc/4989548768/il_fullxfull.4989548768_fdfs.jpg",
+      "img2": "https://i.ebayimg.com/images/g/VVwAAOSwQ95i2k~Q/s-l1200.webp",
+      "cmi1":
+          "https://img.directindustry.com/images_di/photo-mg/33187-2470839.jpg",
+      "cmi2":
+          "https://image.made-in-china.com/2f0j00uMwiFIpzfdgl/Tgg-Crystal-Terbium-Gallium-Garnet-Magneto-Optical-Faraday-Polarizer.webp",
+      "cmi3":
+          "https://ncelements.com/wp-content/uploads/2021/10/Terbium-Gallium-Garnet-Crystal_10x8.png"
+    },
+    {
+      "rockId": 840,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/b/bd/CZ_brilliant.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Baguette_Double_Side_Checkerboard_Cut_CZ.JPG/800px-Baguette_Double_Side_Checkerboard_Cut_CZ.JPG",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Multicolor_Cubic_zirconia.JPG/800px-Multicolor_Cubic_zirconia.JPG",
+      "cmi2":
+          "https://icecartel.com/cdn/shop/articles/moissanite-vs-diamond-vs-cubic-zirconia.jpg?v=1679121400",
+      "cmi3":
+          "https://m.media-amazon.com/images/I/51nE9hGfUVL._AC_UF894,1000_QL80_.jpg"
+    },
+    {
+      "rockId": 841,
+      "img1":
+          "https://media.gemstones.com/image/upload/v1632240151/gemstones-site/gemopedia/bytownite/bytownite-polished.jpg",
+      "img2":
+          "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/7duxze5j4zwfzjmc.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/b/be/Bytownite-mrz296a.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/64/7f/09431780014947110195737.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/90/e1/05813930014961122159001.jpg"
+    },
+    {
+      "rockId": 842,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Museo_di_mineralogia%2C_pietre_fluorescenti%2C_agrellite_3.JPG/800px-Museo_di_mineralogia%2C_pietre_fluorescenti%2C_agrellite_3.JPG",
+      "img2":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAWJcBp3xcNID_a0FRdUsYRavPg9X1g4xW9A&s",
+      "cmi1":
+          "https://www.mindat.org/imagecache/85/53/01327260016014842791962.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/60/b2/06394750014947103028434.jpg",
+      "cmi3":
+          "https://www.healingwithcrystals.net.au/uploads/1/5/5/7/15572098/agrellite-luster_orig.jpg"
+    },
+    {
+      "rockId": 843,
+      "img1":
+          "https://media.australian.museum/media/dd/images/D024859_0003.3c33929.0e9cf2d.width-800.29f4ca4.jpg",
+      "img2":
+          "https://consciousitems.com/cdn/shop/articles/clear-calcite-01.jpg?v=1668413470",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/a/a6/Calcite_Variation.png",
+      "cmi2":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/8139/conversions/White-Calcite-header.webp",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Calcite-2-1024x868.webp?resize=640%2C543&ssl=1"
+    },
+    {
+      "rockId": 844,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/NautilusCutawayLogarithmicSpiral.jpg/800px-NautilusCutawayLogarithmicSpiral.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Nacre_sticks.JPG/1024px-Nacre_sticks.JPG",
+      "cmi1":
+          "https://www.minerals-kingdom.com/wp-content/uploads/2015/04/nacre-stone.jpg",
+      "cmi2":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-gC9OMr6NePvmJaQXxWDvW8cLZW26VSSaPcybYy5DpU3JI1ieE9X6DaY8tB3RWOeNmbHco90KbKmmG7JhB0wnEZED4pFBCq6l1NypHSYjb1C9eKEW5ak5r3C7EB0fLwqXAHZZD8vngE7AeO5u3WyjF_JUU_TTuLSbQG43fDT8_7nlPcr0cWBK5ljOxtQ/s1600/nacre-shall.webp",
+      "cmi3":
+          "https://i.shgcdn.com/e8098c38-19e9-4b6b-b279-fdeab0fe0e93/-/format/auto/-/preview/3000x3000/-/quality/lighter/"
+    },
+    {
+      "rockId": 845,
+      "img1":
+          "https://media.gemstones.com/image/upload/v1637157495/gemstones-site/gemopedia/ferroaxinite/ferroaxinite-specimen.jpg",
+      "img2":
+          "https://www.geologypage.com/wp-content/uploads/2014/03/Axinite-Fe.jpg",
+      "cmi1":
+          "https://www.geologypage.com/wp-content/uploads/2014/03/Ferroaxinite2.jpg",
+      "cmi2":
+          "https://nationalgemlab.in/wp-content/uploads/2017/04/ferroaxinite-1-300x300.jpg",
+      "cmi3": "https://live.staticflickr.com/5304/5639420142_9773053940_b.jpg"
+    },
+    {
+      "rockId": 846,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Siilinj\u00e4rvi_S\u00e4rkij\u00e4rvi_pit.jpg/1024px-Siilinj\u00e4rvi_S\u00e4rkij\u00e4rvi_pit.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Thin_section_scan_crossed_polarizers_Siilinj\u00e4rvi_R301-61.70.jpg/1024px-Thin_section_scan_crossed_polarizers_Siilinj\u00e4rvi_R301-61.70.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Siilinj\u00e4rvi_mine_Saarinen_pit.jpg/1024px-Siilinj\u00e4rvi_mine_Saarinen_pit.jpg",
+      "cmi2":
+          "https://ars.els-cdn.com/content/image/3-s2.0-B9780124104389000133-f13-03-9780124104389.jpg",
+      "cmi3":
+          "https://ars.els-cdn.com/content/image/3-s2.0-B9780124104389000133-f13-02-9780124104389.jpg"
+    },
+    {
+      "rockId": 847,
+      "img1":
+          "https://www.terrasoleil.com/cdn/shop/products/AfterlightImage10_1000x.jpg?v=1661991494",
+      "img2":
+          "https://sparklerockpop.com/cdn/shop/articles/Astrophyllite_Raw_Crystal_Metaphysical_Blog_-Natural_Healing_Gemstone_-_Stone_of_Motivation_Self_Growth_Positivity_Marriage_3930x.jpg?v=1550601772",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/2/22/Astrophyllite-168179.jpg",
+      "cmi2":
+          "https://mineraemporium.com/wp-content/uploads/2023/05/astrophyllite-tumbled-stone-scaled.jpeg",
+      "cmi3":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/5424/conversions/Astrophyllite-header.webp"
+    },
+    {
+      "rockId": 848,
+      "img1":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/awlxatcob9wij3kd.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/03/Extra-large-chalcopyrite-bornite-peacock-ore-chunk-from-Mexico.jpg?fit=570%2C427&ssl=1",
+      "cmi1": "https://cdn.britannica.com/45/128545-050-68A51EE7/Bornite.jpg",
+      "cmi2":
+          "https://cdn.shopify.com/s/files/1/2152/9153/files/Bornite_8_600x600.jpg?v=1681750966",
+      "cmi3":
+          "https://cff2.earth.com/uploads/2018/11/13060600/what-is-bornite.jpg"
+    },
+    {
+      "rockId": 849,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Atacamite_on_malachite_-_Mt_Gunson_mines%2C_South_Australia.jpg/800px-Atacamite_on_malachite_-_Mt_Gunson_mines%2C_South_Australia.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/db/89/06710710014950186386045.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/13/22/09113920014966920115274.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/4/4e/Atacamite-235102.jpg",
+      "cmi3": "https://cdn.britannica.com/82/123782-004-0AC8A5D8/Atacamite.jpg"
+    },
+    {
+      "rockId": 850,
+      "img1":
+          "https://www.shutterstock.com/image-photo/blue-sapphire-gemstone-gen-closeup-600nw-2220102655.jpg",
+      "img2":
+          "https://www.burtonsgemsandopals.com/cdn/shop/files/4.80ctBlueSapphire.jpg?v=1689299417",
+      "cmi1": "https://m.media-amazon.com/images/I/61tyMXyNnUL._AC_SL1200_.jpg",
+      "cmi2": "https://m.media-amazon.com/images/I/71ML+VrDFWL._SL1500_.jpg",
+      "cmi3":
+          "https://www.shutterstock.com/image-photo/precious-blue-sapphire-gemstone-close-600nw-2288707005.jpg"
+    },
+    {
+      "rockId": 851,
+      "img1":
+          "https://www.calderagem.com/cdn/shop/articles/where_is_the_gemstone_spinel_from.png?v=1702756028&width=2048",
+      "img2": "https://www.gia.edu/images/polished-spinel.png",
+      "cmi1":
+          "https://www.americangemsociety.org/wp-content/uploads/2018/08/bigstock-three-spinel-crystals-54512156-e1533849623908.jpg",
+      "cmi2":
+          "https://elliethompsonco.com/templates/yootheme/cache/37/Ruby_and_Red_Spinel-37c0b984.jpeg",
+      "cmi3":
+          "https://cdn.prod.website-files.com/5f89ba7d4b6f3712fa4761f1/61041d53d073277a3284bd4b_spinel-gemstone.jpg"
+    },
+    {
+      "rockId": 852,
+      "img1":
+          "https://www.mindat.org/imagecache/60/f8/09182130015048064078981.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/9e/0d/09626870016014900429779.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Adamitemexique1.jpg/800px-Adamitemexique1.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/8/89/Adamite-179841.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Adamite_-_Gild_Hill%2C_Deep_Creek_Mountains%2C_Tooele_County%2C_Utah%2C_USA.jpg/800px-Adamite_-_Gild_Hill%2C_Deep_Creek_Mountains%2C_Tooele_County%2C_Utah%2C_USA.jpg"
+    },
+    {
+      "rockId": 853,
+      "img1":
+          "https://www.mindat.org/imagecache/97/65/02030190014964867107701.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/ff/91/08696810015636517604678.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/e/ef/Beudantite-ea12a.jpg",
+      "cmi2": "https://cdn.irocks.com/storage/media/26381/MD-131118a.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/f/fc/Beudantite-ea12b.jpg"
+    },
+    {
+      "rockId": 854,
+      "img1":
+          "https://www.mindat.org/imagecache/a6/3c/05277810015564751703917.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/4/4b/Anorthite-rare08-38b.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/f/fa/Anorthite-221029.jpg",
+      "cmi2": "https://cdn.britannica.com/78/123778-004-E89BFB17/Anorthite.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/43/b7/03309130017055941001549.jpg"
+    },
+    {
+      "rockId": 855,
+      "img1":
+          "https://www.lillypadvillage.com/wp-content/uploads/2017/01/Crystal-Quartz.jpg",
+      "img2":
+          "https://cdn.britannica.com/48/100748-050-FFD5027B/Quartz-one-silica-varieties.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Quartz_Br\u00e9sil.jpg/800px-Quartz_Br\u00e9sil.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/f/f5/Quartz-Hematite-151637.jpg",
+      "cmi3":
+          "https://media.australian.museum/media/dd/images/Some_image.width-800.44b7ba4.jpg"
+    },
+    {
+      "rockId": 856,
+      "img1":
+          "https://t4.ftcdn.net/jpg/05/41/13/83/360_F_541138390_paKecrOAR6jh88TlBX9BZ4qZxInLKQTH.jpg",
+      "img2":
+          "https://www.moonomens.com/wp-content/uploads/2023/06/moonstone-3.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/AdulaireSuisse2.jpg/1024px-AdulaireSuisse2.jpg",
+      "cmi2":
+          "https://media.gemstones.com/image/upload/gemstones-site/gemopedia/moonstone-orthoclase/colors/moonstone-white.jpg",
+      "cmi3": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Moonston.jpg"
+    },
+    {
+      "rockId": 857,
+      "img1":
+          "https://psacunion.ca/sites/psac/files/styles/content_image_banner/public/gettyimages-1319162451_0.jpg?itok=D1NbqKS2",
+      "img2":
+          "https://www.airsafe.net.au/wp-content/uploads/2023/05/1684086213604.jpg",
+      "cmi1":
+          "https://www.mesothelioma.com/wp-content/uploads/Mesothelioma-What-Is-Asbestos.jpg",
+      "cmi2":
+          "https://media.post.rvohealth.io/wp-content/uploads/sites/3/2023/08/asbestos-chunks-732x549-thumbnail-732x549.jpg",
+      "cmi3":
+          "https://www.infoescola.com/wp-content/uploads/2014/03/amianto.jpg"
+    },
+    {
+      "rockId": 858,
+      "img1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/10/The-Eilat-Stone-King-Solomon-Stone-2-scaled.webp?fit=2560%2C1708&ssl=1",
+      "img2":
+          "https://www.allcrystal.com/wp-content/uploads/2023/07/Eilat-Stone-x-Etsy-claSEAca.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Eilat_Stone_Jewel.jpg/800px-Eilat_Stone_Jewel.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/88/b2/09348530017084469464359.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/10/The-Eilat-Stone-King-Solomon-Stone-5-1024x680.webp?resize=1024%2C680&ssl=1"
+    },
+    {
+      "rockId": 870,
+      "img1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/05/Pyroxenite-Stillwater-Complex-Neoarchean.jpg?fit=967%2C846&ssl=1",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/05/Microcline-bearing-pyroxenite.jpg?resize=1024%2C566&ssl=1",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/9/9e/Orthopyroxenite_%28ALH84001%29.gif",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/7/75/Metapyroxenite_from_the_Ophiolite_on_Unst_in_Shetland_Islands_in_Scotland.jpg",
+      "cmi3":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/pyroxenite2020(4).jpg"
+    },
+    {
+      "rockId": 881,
+      "img1":
+          "https://cdn.luxe.digital/media/20220617132203/benitoite-meaning-properties-value-definition-luxe-digital-780x520.jpg",
+      "img2":
+          "https://gemanativa.com/wp-content/uploads/2024/02/Benitoita-1.png",
+      "cmi1":
+          "https://savemountdiablo.org/wp-content/uploads/2023/10/Benitoite_UVL-928x522.jpg",
+      "cmi2":
+          "https://gemanativa.com/wp-content/uploads/2024/02/Benitoite-SS-1024x1024.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Benitoite_HD.jpg/1024px-Benitoite_HD.jpg"
+    },
+    {
+      "rockId": 889,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Diopside_Aoste.jpg/800px-Diopside_Aoste.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/06/Diopside-2.jpg?fit=491%2C800&ssl=1",
+      "cmi1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2019/06/Diopside.jpg?resize=640%2C771&ssl=1",
+      "cmi2":
+          "https://www.mindat.org/imagecache/49/68/02549840016014866199254.jpg",
+      "cmi3":
+          "https://www.allcrystal.com/wp-content/uploads/2023/05/Diopside-x-no-credit-needed-1.jpg"
+    },
+    {
+      "rockId": 890,
+      "img1": "https://www.gia.edu/images/polished-iolite-gem.png",
+      "img2":
+          "https://thingsthatrocksd.com/cdn/shop/products/IMG_6825_2000x2000.jpg?v=1677437065",
+      "cmi1": "https://www.gia.edu/images/151543_iolite_rough_hero_v2.png",
+      "cmi2":
+          "https://www.le-comptoir-geologique.com/_media/img/large/d16-01-092019-2.jpg",
+      "cmi3":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFola3-2TciJ5K6kB9-bLP3rsr6eNmuevk6Q&s"
+    },
+    {
+      "rockId": 892,
+      "img1":
+          "https://images.tcdn.com.br/img/img_prod/672876/turmalina_verde_bruta_na_matriz_5_5_cm_121g_4179_1_0d7d35ffd72d6d80c2b54f5e1627fe95.jpg",
+      "img2":
+          "https://cristaisaquarius.com.br/media/mf_webp/jpg/media/catalog/product/2/0/20230103_122349_1.webp?width=675&height=520&store=default&image-type=image",
+      "cmi1":
+          "https://images.tcdn.com.br/img/img_prod/672876/turmalina_verde_bruta_na_matriz_5_5_cm_121g_4179_2_1bca470fc265be9d3b50061b120a46e7.jpg",
+      "cmi2":
+          "https://images.tcdn.com.br/img/img_prod/768811/turmalina_verde_no_quartzo_tangerina_ou_ferruginoso_elbaita_verdelita_8_2_cm_cod_1l2_151187_1_45d4f387bdbb4a418c768edd4eb8a43d.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/38/b3/05094600016042412451833.jpg"
+    },
+    {
+      "rockId": 900,
+      "img1":
+          "https://www.treehugger.com/thmb/_IOLkNTvry_28WfhpOgJY2KTA28=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__mnn__images__2016__07__wave-arizona-78d6b09c1ec341789128425be6f9042f.jpg",
+      "img2":
+          "https://cdn.shopify.com/s/files/1/0717/5271/2479/files/Utah_1024x1024.jpg?v=1679892580",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Monument_Valley_Navajo_Tribal_Park._The_Three_Sisters_%282%29.jpg/800px-Monument_Valley_Navajo_Tribal_Park._The_Three_Sisters_%282%29.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Monument_Valley_%2815%29.jpg/800px-Monument_Valley_%2815%29.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Organ_Rock_Towers.jpg/800px-Organ_Rock_Towers.jpg"
+    },
+    {
+      "rockId": 903,
+      "img1":
+          "https://files.secure.website/wscfus/7885803/32224162/norms-yellow-oval-6ct-1jpg-w1000-o.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/bc/8d/01530400014982255038406.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/d/d2/Manganaxinite-d05-32b.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/4/46/Manganaxinite-pas-119b.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/5/5b/Manganaxinite-pas-119a.jpg"
+    },
+    {
+      "rockId": 905,
+      "img1":
+          "https://www.le-comptoir-geologique.com/_media/img/medium/breithauptite2-2.png",
+      "img2":
+          "https://www.mindat.org/imagecache/2d/fa/06236520017067898019993.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/3c/d3/01572230015870446543280.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Breithauptite.jpg/800px-Breithauptite.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Breithauptite-229669.jpg/800px-Breithauptite-229669.jpg"
+    },
+    {
+      "rockId": 906,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Pleuroceras_solare%2C_Little_Switzerland%2C_Bavaria%2C_Germany.jpg/800px-Pleuroceras_solare%2C_Little_Switzerland%2C_Bavaria%2C_Germany.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/9/9e/Ammonite-fossil-25-45mm.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/7/7d/Ammonite_Asteroceras.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Amonite-portugal.JPG/800px-Amonite-portugal.JPG",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Ammonite_Jeletzkytes.jpg/800px-Ammonite_Jeletzkytes.jpg"
+    },
+    {
+      "rockId": 907,
+      "img1":
+          "https://brokenbaypearlfarm.com.au/wp-content/uploads/2023/06/Pearls-harvested-from-4-5-year-old-pearl-shell-2_-Broken-Bay-Pearl-Farm-NSW.jpg",
+      "img2":
+          "https://www.williecreekpearls.com.au/cdn/shop/files/Pearls_Banner.jpg?v=1698373510&width=2800",
+      "cmi1":
+          "https://i.natgeofe.com/k/c46608ab-61ed-4b2e-9e32-4dd5980ebd6a/pearl-polished_4x3.jpg",
+      "cmi2":
+          "https://c02.purpledshub.com/uploads/sites/62/2022/04/Pearl.-Image-BROKER.-Alamy.-HF98DB-949a94a.jpg?w=1029&webp=1",
+      "cmi3":
+          "https://hips.hearstapps.com/hmg-prod/images/close-up-image-of-organic-pearl-in-a-shell-royalty-free-image-1698874106.jpg?crop=0.66667xw:1xh;center,top&resize=980:*"
+    },
+    {
+      "rockId": 908,
+      "img1":
+          "https://media.gemstones.com/image/upload/v1631027626/gemstones-site/gemopedia/actinolite/actinolite-polished.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/cd/76/03892500014962069266794.jpg",
+      "cmi1":
+          "https://cdn.britannica.com/89/123289-004-30990A0A/Actinolite-crystals.jpg",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/actinolite2020(2).jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Actinolite_Portugal.jpg/800px-Actinolite_Portugal.jpg"
+    },
+    {
+      "rockId": 911,
+      "img1":
+          "https://static.wikia.nocookie.net/geology/images/8/8a/Azurite.jpg/revision/latest?cb=20090324011953",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Azurite_-_New_Nevada_Lode%2C_La_Sal%2C_Utah%2C_USA.jpg/800px-Azurite_-_New_Nevada_Lode%2C_La_Sal%2C_Utah%2C_USA.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/f/f2/Azurite-22332.jpg",
+      "cmi2": "https://i.ebayimg.com/images/g/LGEAAOSwwqhiggTM/s-l1200.webp",
+      "cmi3":
+          "https://elevatedcalm.com/cdn/shop/products/elevated-calm-azurite-chrysocolla-c-12.jpg?v=1677115506"
+    },
+    {
+      "rockId": 912,
+      "img1":
+          "https://www.mindat.org/imagecache/a2/d2/09448920014946324523092.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Boracite-3-jpg.webp?resize=995%2C746&ssl=1",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/5/5e/Boracite-169813.jpg",
+      "cmi2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/08/Boracite-5-jpg.webp?fit=521%2C640&ssl=1",
+      "cmi3":
+          "https://www.weinrichmineralsinc.com/userfiles/products/2/0/2051962.jpg"
+    },
+    {
+      "rockId": 915,
+      "img1":
+          "https://media.gemstones.com/image/private/s--J6a3fCcc--/v1677180383/gemstones-site/articles/kunzite-GSL830011_iafbfn.jpg",
+      "img2":
+          "https://i0.wp.com/i.etsystatic.com/7390884/r/il/e8982b/4390749816/il_fullxfull.4390749816_a4pq.jpg?w=640&ssl=1",
+      "cmi1":
+          "https://www.burtonsgemsandopals.com/cdn/shop/products/bigkunzitecrystal.jpg?v=1656107123",
+      "cmi2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/05/081-kunzite-08517-x.jpg?fit=730%2C600&ssl=1",
+      "cmi3":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgcIdqDmaJakP2CktCSwc7LaqBLs-DGupZ1TTC0PCIUBnMYBfUU-XxtumY0c1jQQlClEBVQIJ-83sOplx3hrujPjFPmD2Ik0lu1NVW7WsP0_PZwivopBNC7yNphe_4S8KqZ8GRm4y2CxRuLPx7bmW9ir8UTEAsfPng6xp260PrjMi58XqOhsa_9TdlYaE0/s1350/4-kunzite.jpeg"
+    },
+    {
+      "rockId": 918,
+      "img1":
+          "https://www.researchgate.net/profile/Pekka-Tuisku-2/publication/41506234/figure/fig3/AS:670042169565198@1536761910819/A-schlieren-type-diatexite-from-Kaamanen-area-The-leucosomes-consist-of-garnet-and_Q320.jpg",
+      "img2":
+          "https://www.researchgate.net/profile/Pekka-Tuisku-2/publication/41506234/figure/fig4/AS:670042173759488@1536761911003/A-Stromatic-metatexite-from-Kaamanen-area-The-leucosomes-consist-of-granite-containing_Q320.jpg",
+      "cmi1":
+          "https://mineralcollectionblog.wordpress.com/wp-content/uploads/2016/12/enderbite-khlebodarivka.jpg",
+      "cmi2":
+          "https://mineralcollectionblog.wordpress.com/wp-content/uploads/2016/12/enderbite-khlebodarivka-2.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/0/0c/Anderbit.Vinitisia.jpg"
+    },
+    {
+      "rockId": 921,
+      "img1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/amphibolite2020(1).jpg",
+      "img2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/amphibolite2017(3).jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Schollenamphibolit_glacial_erratic_1.jpg/1024px-Schollenamphibolit_glacial_erratic_1.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Amphibolite_Geopark_Prague_2014_1.jpg/800px-Amphibolite_Geopark_Prague_2014_1.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Nordic_Sunset_Granite_%28garnet_amphibolite%29_Murmansk.jpg/800px-Nordic_Sunset_Granite_%28garnet_amphibolite%29_Murmansk.jpg"
+    },
+    {
+      "rockId": 923,
+      "img1":
+          "https://energyinbalance.com.au/wp-content/uploads/2021/01/antigorite-258-grams-3.jpg",
+      "img2":
+          "https://rockidentifier.com/image-handle/image/1080/154125189221711885.jpeg?x-oss-process=image/format,webp",
+      "cmi1":
+          "https://www.mindat.org/imagecache/66/14/08123080016014827672368.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/24/f1/03453970014948795242561.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Antigorite_from_Poland.jpg/1200px-Antigorite_from_Poland.jpg"
+    },
+    {
+      "rockId": 925,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Abandoned_baryte_mine_shaft_at_Ben_Eagach_near_Aberfeldy%2C_Perthshire%2C_Scotland.JPG/1024px-Abandoned_baryte_mine_shaft_at_Ben_Eagach_near_Aberfeldy%2C_Perthshire%2C_Scotland.JPG",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/c/cd/Baryte_Morocco.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Barite_FRIZINGTON.jpg/800px-Barite_FRIZINGTON.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Barite_-_Cerro_Warihuyn%2C_Miraflores%2C_Huamalies%2C_Huanuco%2C_Peru.jpg/800px-Barite_-_Cerro_Warihuyn%2C_Miraflores%2C_Huamalies%2C_Huanuco%2C_Peru.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/37/1b/04516240017055883792388.jpg"
+    },
+    {
+      "rockId": 926,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gachala_Emerald_3526711557_849c4c7367.jpg/800px-Gachala_Emerald_3526711557_849c4c7367.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/2/27/Beryl-130023.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Emerald_in_a_quartz_and_pegmatite_matrix.JPG/800px-Emerald_in_a_quartz_and_pegmatite_matrix.JPG",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/B\u00e9ryl_var._\u00e9meraude_sur_gangue_%28Muzo_Mine_Boyaca_-_Colombie%29_2.jpg/800px-B\u00e9ryl_var._\u00e9meraude_sur_gangue_%28Muzo_Mine_Boyaca_-_Colombie%29_2.jpg",
+      "cmi3": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Emerald.png"
+    },
+    {
+      "rockId": 928,
+      "img1":
+          "https://www.gemsociety.org/wp-content/uploads/2013/12/BEN002B.jpg",
+      "img2":
+          "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/c5gn64flr3jjufva.jpg?auto_optimize=medium",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Beryllonite.jpg/800px-Beryllonite.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/a4/65/00069740015976859476748.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/64/b0/00037060014977352064219.jpg"
+    },
+    {
+      "rockId": 931,
+      "img1":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/anyolie2020(4).jpg",
+      "img2":
+          "https://gem.agency/wp-content/uploads/2015/04/anyolite-ruby-in-zoisite.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Anyolite_%28corundum-amphibole_zoisitite%29_%28Neoproterozoic%3B_Mundarara_Mine%2C_about_27_km_west_of_Longido%2C_Tanzania%29_2_%2849144140952%29.jpg/1024px-Anyolite_%28corundum-amphibole_zoisitite%29_%28Neoproterozoic%3B_Mundarara_Mine%2C_about_27_km_west_of_Longido%2C_Tanzania%29_2_%2849144140952%29.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/92/b7/04498140014947245486978.jpg",
+      "cmi3":
+          "https://www.allcrystal.com/wp-content/uploads/2023/09/ruby-zoiste-on-dark-background-x-no-credit-needed.jpg"
+    },
+    {
+      "rockId": 932,
+      "img1":
+          "https://www.le-comptoir-geologique.com/_media/img/xlarge/pic15a1.tmp.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/0/05/Olivine-Dunit.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/23/ac/03503530016014694206580.jpg",
+      "cmi2":
+          "https://geologybase.com/wp-content/uploads/2023/07/Coarse-grained-peridotite-rock-image.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/Dunite-a-peridotite-here-composed-exclusively-of-olivine.jpg?resize=616%2C538&ssl=1"
+    },
+    {
+      "rockId": 934,
+      "img1":
+          "https://cdn.awsli.com.br/800x800/1689/1689418/produto/152980699/90db329d-880e-4264-bdea-2473589483b7--1--krtaer203u.png",
+      "img2":
+          "https://d5gag3xtge2og.cloudfront.net/producao/33630454/G/image00012.jpeg",
+      "cmi1":
+          "https://d5gag3xtge2og.cloudfront.net/producao/33305944/G/73eab03b_b380_4807_b36d_5bbe71b63410.jpeg",
+      "cmi2":
+          "https://www.alemdesalem.com.br/wp-content/uploads/2019/03/20211112_110934.jpg",
+      "cmi3":
+          "https://images.tcdn.com.br/img/img_prod/672876/90_calcita_mel_bruta_5_5_cm_198g_7453_1_a8173b82771869b204bf993a8caef37b.jpg"
+    },
+    {
+      "rockId": 935,
+      "img1":
+          "https://media.gemstones.com/image/upload/v1631726147/gemstones-site/gemopedia/azurmalachite/azurmalachite-polished.jpg",
+      "img2":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/10/Azurmalachite.jpeg?resize=600%2C577&ssl=1",
+      "cmi1": "https://geology.com/gemstones/azurmalachite/azurmalachite.jpg",
+      "cmi2":
+          "https://www.langantiques.com/university/wp-content/uploads/elementor/thumbs/Azurite-on-Malachite-SS-q9r86twkzfljqigwa1yn71yi5qtvjovyn9bndidj7s.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/10/Azurmalachite-1.webp?resize=1024%2C819&ssl=1"
+    },
+    {
+      "rockId": 936,
+      "img1":
+          "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/c5gn64flr3jjufva.jpg?auto_optimize=medium",
+      "img2":
+          "https://www.gemsociety.org/wp-content/uploads/2013/12/BEN002B.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/a4/65/00069740015976859476748.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/64/b0/00037060014977352064219.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Beryllonite.jpg/800px-Beryllonite.jpg"
+    },
+    {
+      "rockId": 938,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Biotite_aggregate_-_Ochtendung%2C_Eifel%2C_Germany.jpg/800px-Biotite_aggregate_-_Ochtendung%2C_Eifel%2C_Germany.jpg",
+      "img2":
+          "https://rockidentifier.com/image-handle/image/1080/154035579024048136.jpeg?x-oss-process=image/format,webp",
+      "cmi1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/biotite-mineralbiotite-mineral.jpg?ssl=1",
+      "cmi2":
+          "https://www.alexstrekeisen.it/immagini/diagrammi/biotite2020.png",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/biotite-mineral-3.jpg?resize=259%2C194&ssl=1"
+    },
+    {
+      "rockId": 939,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/a/a2/Brookite-gem7-07a.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/e6/7e/02625600016014911809047.jpg",
+      "cmi1":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/sbgibg5pucjjyljh.jpg",
+      "cmi2":
+          "https://www.gemsociety.org/wp-content/uploads/2013/12/1024px-Brookite_quartz_8-1024x680.jpg",
+      "cmi3":
+          "https://www.mardanifineminerals.com/wp-content/uploads/2020/10/066-brookite-07351-x.jpg"
+    },
+    {
+      "rockId": 940,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Bustamite.jpg/800px-Bustamite.jpg",
+      "img2":
+          "https://media.gemstones.com/image/upload/v1632240097/gemstones-site/gemopedia/bustamite/colors/bustamite-polished.jpg",
+      "cmi1":
+          "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/mevtklcdpnhslywq.jpg",
+      "cmi2":
+          "https://liveplatforms-production.b-cdn.net/tenants/gr/uploads/content/n3gbv8ayulnwcyyg.jpg",
+      "cmi3":
+          "https://www.bluegems.com.au/wp-content/uploads/2021/03/BUSTAMITE-BROKEN-HILL-6-1.jpeg"
+    },
+    {
+      "rockId": 941,
+      "img1":
+          "https://www.eusemfronteiras.com.br/wp-content/uploads/2023/07/Design-sem-nome-3.png",
+      "img2":
+          "https://www.withclarity.com/cdn/shop/articles/Garnet_Color_345x345@2x.jpg?v=1698056314",
+      "cmi1":
+          "https://media.gettyimages.com/id/522198182/pt/foto/grossula-grossularite.jpg?s=612x612&w=gi&k=20&c=yKsTJdAFxSukYZcAwCeuKEDIEGrswsgyWrRO_S8BMbc=",
+      "cmi2":
+          "https://help.thediamondstore.co.uk/wp-content/uploads/garnet-legend.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/5/5e/Garnet_Andradite20.jpg"
+    },
+    {
+      "rockId": 942,
+      "img1":
+          "https://australianopaldirect.com/content/blog/blog-1/image13.jpg",
+      "img2": "https://i.ebayimg.com/images/g/dC0AAOSwMdFj6n~E/s-l400.jpg",
+      "cmi1": "https://m.media-amazon.com/images/I/317avJfIwWS._AC_UY1100_.jpg",
+      "cmi2":
+          "https://media.istockphoto.com/id/465357582/pt/foto/australian-opal.jpg?s=612x612&w=0&k=20&c=CVafytXOCoHdZDLeV0aif9pru55AVuOw6W47-9eV2uE=",
+      "cmi3":
+          "https://opalgalaxy.com/wp-content/uploads/2023/03/DSC7926o-1000x1000.jpg"
+    },
+    {
+      "rockId": 943,
+      "img1":
+          "https://www.kaimirratutan.com/wp-content/uploads/2023/04/origins-of-ammolite-featured.jpg",
+      "img2":
+          "https://uploads.nationaljeweler.com/uploads/a707aa459c7f1d49ee080e2a0e053649.jpg",
+      "cmi1":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZ5-cckfZFAWWfMszzIuvOhL5AfpbwltUbXrXqatxESEb7ik830NhqaWMapQOW9-_-pCSTwKYYFUX5JKO4ZKzaxtVgncRuGbSnxX7BKitVd6Edm2pCXdFIGM7w5Rr3lbgLVD8Vyyx7_Ioha0GG1yCGchc20rx89-Q1-PdGEtEV3dyiNSkMs7P6YZN013w/s1200/ammolite.jpg",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/2/2a/Ammolite.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/IridescentAmmonite.jpg/800px-IridescentAmmonite.jpg"
+    },
+    {
+      "rockId": 944,
+      "img1":
+          "https://cdn11.bigcommerce.com/s-58d8d/images/stencil/1280x1280/products/103/289/indian_ocean_mix_medium_1__37331.1676419919.jpg?c=2",
+      "img2": "https://m.media-amazon.com/images/I/71fwVdI-odL.jpg",
+      "cmi1":
+          "https://i.etsystatic.com/10523765/r/il/639b07/1853238916/il_570xN.1853238916_he75.jpg",
+      "cmi2":
+          "https://ae01.alicdn.com/kf/H731f57d8340d4d0e865068f7ce17b19b7.jpg_640x640Q90.jpg_.webp",
+      "cmi3":
+          "https://cdn11.bigcommerce.com/s-58d8d/images/stencil/1280x1280/products/165/3907/4a75434c-8a27-4b2c-802a-a9007906fbca__08696.1697493909.jpg?c=2"
+    },
+    {
+      "rockId": 945,
+      "img1":
+          "https://www.hydro.com/globalassets/061022_bauxita-hydro-paragominas.jpg?quality=85&width=1036&rmode=crop&rsampler=bicubic&rxy=0.5,0.5&compand=true",
+      "img2": "https://gem.agency/wp-content/uploads/2020/05/Bauxite-1.jpg",
+      "cmi1":
+          "https://upload.wikimedia.org/wikipedia/commons/1/11/Bauxite_h\u00e9rault.JPG",
+      "cmi2":
+          "https://upload.wikimedia.org/wikipedia/commons/0/04/BauxiteUSGOV.jpg",
+      "cmi3":
+          "https://www.sandatlas.org/wp-content/uploads/00592-IMG_8257-8-cm-bauxite.jpg"
+    },
+    {
+      "rockId": 948,
+      "img1":
+          "https://www.gemsociety.org/wp-content/uploads/2013/11/Heliodor-TN.jpg",
+      "img2":
+          "https://www.mardanifineminerals.com/wp-content/uploads/2020/10/012-Heliodor-07195-x.jpg",
+      "cmi1":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2023/07/Heliodor-2-1015x1024.webp?resize=640%2C659&ssl=1",
+      "cmi2":
+          "https://media.gemstones.com/image/upload/v1622814850/gemstones-site/gemopedia/heliodor/colors/heliodor-canary-yellow.jpg",
+      "cmi3":
+          "https://www.mindat.org/imagecache/ed/0d/00132510014977339787390.jpg"
+    },
+    {
+      "rockId": 949,
+      "img1":
+          "https://media.gemstones.com/image/upload/v1629426135/gemstones-site/gemopedia/morganite/colors/morganite-pink-1.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/d/d5/Morganit-G-EmpireTheWorldOfGems.jpg",
+      "cmi1":
+          "https://www.sagegoddess.com/wp-content/uploads/2021/04/Natural_Morganite_2of3_4_20.jpg.optimal.jpg",
+      "cmi2":
+          "https://the-crystal-council.sfo2.digitaloceanspaces.com/prod/228/Morganite.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/5/50/Beryl-178682.jpg"
+    },
+    {
+      "rockId": 950,
+      "img1":
+          "https://www.mindat.org/imagecache/07/a8/00103080014946326984947.jpg",
+      "img2":
+          "https://www.minerals.net/MineralImages/diaspore-v-twin-mugla-turkey.jpg",
+      "cmi1":
+          "https://www.allcrystal.com/wp-content/uploads/2023/05/Diaspore-x-Wikimedia-Robert-M.-Lavinsky-1.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/75/1d/02051050017056211167096.jpg",
+      "cmi3":
+          "https://upload.wikimedia.org/wikipedia/commons/0/0a/Diaspore-Margarite-rare-09-05b.jpg"
+    },
+    {
+      "rockId": 952,
+      "img1":
+          "https://t4.ftcdn.net/jpg/06/33/39/51/360_F_633395182_UW32fE7GLcp1U767zQqeITMY5UFhUJUn.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/0/00/Kyanite_crystals.jpg",
+      "cmi1":
+          "https://www.mindat.org/imagecache/4b/57/05313640014946251682728.jpg",
+      "cmi2":
+          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhq4tfOTG6HYwW1_rAXzNgD-HLwrg6Sg3KSzaZ2mqxR0s6hZXAbOY-Bb2948ggstpWFwb0QjWQZnweMCr7MOs8GJw1DBNLYfWLzfAYQzTdtBAgklRaNRnHF3ho_Pnn6NE5M2vdLM5tb-DhpM7ZYLrYFGotmZ0bKV35kryPfxdEMyG6RZ1yxtlEh4BjzaXQ/w1200-h630-p-k-no-nu/kyanite-.webp",
+      "cmi3":
+          "https://www.rubysminerals.com/cdn/shop/products/image_a4123058-ce08-46d3-83ce-93a77f1b150a.jpg?v=1659523481"
+    },
+    {
+      "rockId": 954,
+      "img1":
+          "https://www.le-comptoir-geologique.com/_media/img/xlarge/pic15a1.tmp.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/0/05/Olivine-Dunit.jpg",
+      "cmi1":
+          "https://geologybase.com/wp-content/uploads/2023/07/Coarse-grained-peridotite-rock-image.jpg",
+      "cmi2":
+          "https://www.mindat.org/imagecache/23/ac/03503530016014694206580.jpg",
+      "cmi3":
+          "https://i0.wp.com/geologyscience.com/wp-content/uploads/2018/04/Dunite-a-peridotite-here-composed-exclusively-of-olivine.jpg?resize=616%2C538&ssl=1"
+    },
+    {
+      "rockId": 955,
+      "img1":
+          "https://upload.wikimedia.org/wikipedia/commons/2/27/Fenacitas.jpg",
+      "img2":
+          "https://www.mindat.org/imagecache/8b/2c/05004190014946258831025.jpg",
+      "cmi1":
+          "https://www.gemsociety.org/wp-content/uploads/2017/03/Rough-and-Finished-Phenakite.png",
+      "cmi2":
+          "https://www.mindat.org/imagecache/31/f3/06703880016014823035991.jpg",
+      "cmi3":
+          "https://cdn.britannica.com/53/9653-004-28F703B3/Phenakite-feldspar-Minas-Gerais-state-Brazil.jpg"
+    },
+    {
+      "rockId": 956,
+      "img1":
+          "https://www.mindat.org/imagecache/ff/74/04284420014947393115446.jpg",
+      "img2":
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/8224M-rhodonite3.jpg/800px-8224M-rhodonite3.jpg",
+      "cmi1": "https://m.media-amazon.com/images/I/91TJFh+00UL.jpg",
+      "cmi2": "https://cdn.hswstatic.com/gif/rhodonite.jpg",
+      "cmi3":
+          "https://df2sm3urulav.cloudfront.net/tenants/gr/uploads/content/eeobugizm9vfwek8.jpg"
+    },
   ];
 
   //List of Rocks data
@@ -1804,7 +5019,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of granite dust can cause health issues, use appropriate protection during cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic/Triclinic',
       colors: 'Grey, Pink, White',
       luster: 'Vitreous, sometimes glossy',
@@ -1841,7 +5055,6 @@ class Rock {
       color: 'White, Light Grey',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem:
           'No specific crystal system as Aplite is a rock, not a mineral',
       colors: 'White, Light Grey',
@@ -1879,7 +5092,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling basalt dust may cause discomfort in the chest, shortness of breath, and coughing.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to its glassy nature',
       colors: 'Grey, Black',
       luster: 'Vitreous to Dull',
@@ -1916,7 +5128,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Breathing in volcanic ash and gases can be hazardous to health, particularly for people with breathing difficulties',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'dark gray, black',
       luster: 'Vitreous to dull',
@@ -1956,7 +5167,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to rock dusts, including those from Basaltic Trachyandesite, can lead to silicosis or other lung diseases. However, this is primarily of concern for people working with the rock on a frequent basis, such as miners or stone cutters.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'dark grey, black',
       luster: 'Vitreous',
@@ -1992,7 +5202,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While typically not dangerous, always wash hands after handling. Avoid inhaling dust when breaking or grinding the rock.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as Mugearite is a rock, not a mineral',
       colors: 'Grayish, Dark gray',
       luster: 'Vitreous to dull',
@@ -2030,7 +5239,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks associated with general handling and exposure. As with all rocks, dust created from chiseling or crushing should not be inhaled due to silica content.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable (Volcanic rock is not crystalline)',
       colors: 'Dark with common hues of brownish, greenish, or gray',
       luster: 'Typically dull to vitreous',
@@ -2070,7 +5278,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, but caution should be taken when handling any rock or mineral to avoid accidental ingestion or inhalation of dust.',
-      askedQuestions: [],
       crystalSystem: 'Isometric and Monoclinic',
       colors: 'blue, grey, white',
       luster: 'Vitreous to greasy',
@@ -2107,7 +5314,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with this rock, though fine particulates could irritate the eyes or respiratory system.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable; Boninite is an igneous rock not a mineral',
       colors: 'Dark green, light green',
@@ -2147,7 +5353,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dacite dust can potentially cause silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the minerals within',
       colors: 'Light grey, black',
       luster: 'Vitreous',
@@ -2184,7 +5389,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risk, However, Always wash your hands after handling. Do not ingest or inhale dust.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'Dark Grey to Black',
       luster: 'Subvitreous to Dull',
@@ -2222,7 +5426,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks unless ground into dust and inhaled which can potentially trigger silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it is a rock',
       colors: 'Grey, dark-grey, black-greenish',
       luster: 'Dull to grainy with sporadic parts pearly or vitreous',
@@ -2260,7 +5463,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are generally no health risks associated with Essexite unless it is ground into dust and inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'dark grey-black',
       luster: 'Vitreous to dull',
@@ -2300,7 +5502,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks, however, inhaling dust from any rock or mineral could potentially lead to respiratory problems.',
-      askedQuestions: [],
       crystalSystem:
           'Variable based on mineral composition, usually Triclinic or Hexagonal',
       colors: 'Grey, brown, black, cream',
@@ -2339,7 +5540,6 @@ class Rock {
       color: 'Dark green, black',
       isMagnetic: false,
       healthRisks: 'No known health risks associated directly with Gabbro.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable as gabbro is a rock, not a mineral ( Hence not having a specific crystal structure).',
       colors: 'Dark green, black',
@@ -2379,7 +5579,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Workplace hazard for those inhaling dusts, especially during quarrying and processing due to crystalline silica content.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'White, Pink, Gray',
       luster: 'Vitreous to grainy',
@@ -2416,7 +5615,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, but cause irritation when dust is inhaled',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it is a rock, not a mineral',
       colors: 'Dark Gray, Flesh Red, Light Gray, Red, White',
       luster: 'Vitreous to dull',
@@ -2453,7 +5651,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated, but like all rocks, should not be inhaled as dust',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable to rocks. true for individual mineral crystals',
       colors: 'grey, pink, white',
@@ -2493,7 +5690,6 @@ class Rock {
       color: 'Dark green to black',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark green, black',
       luster: 'Vitreous to dull',
@@ -2532,7 +5728,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, though long-term exposure to rock dust could lead to lung problems.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Grey',
       luster: 'Vitreous',
@@ -2571,7 +5766,6 @@ class Rock {
       color: 'Grey, pink, yellow, light green',
       isMagnetic: false,
       healthRisks: 'Long-term exposure to the dust can cause lung problems',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it is an igneous rock',
       colors: 'Grey, pink, yellow, light green',
       luster: 'Matte to vitreous',
@@ -2608,7 +5802,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks noted, but as with any rock dust, should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Does not form in crystals',
       colors: 'White, Gray',
       luster: 'Vitreous to Dull',
@@ -2646,7 +5839,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known specific health risks associated with this mineral, but handling it should be done with care.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as Kimberlite is made up of a variety of minerals rather than a single crystal structure.',
       colors: 'Gray, Green, Blue',
@@ -2685,7 +5877,6 @@ class Rock {
           'Light Green, dark green, yellowish-green, brownish green, or black',
       isMagnetic: false,
       healthRisks: 'No notable health risks',
-      askedQuestions: [],
       crystalSystem:
           'No crystal structure as Komatiite is a rock, not a mineral',
       colors:
@@ -2726,7 +5917,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, but long-term exposure to rock dust can cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, brown, green-brown',
       luster: 'Vitreous to dull',
@@ -2764,7 +5954,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally safe, but respirable dust can pose a health risk if consistently inhaled over a long period of time',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks such as Latite',
       colors: '',
       luster: '',
@@ -2800,7 +5989,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to granite dust can lead to silicosis, a lung disease caused by inhalation of crystalline silica dust.',
-      askedQuestions: [],
       crystalSystem:
           'N/A - Monzogranite is a rock, not a mineral, so it does not have a crystal system',
       colors: 'Pink, White, Grey',
@@ -2840,7 +6028,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, although dust from cutting or breaking the rock could cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, pink, greenish, often speckled',
       luster: 'Dull to vitreous',
@@ -2880,7 +6067,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Crystalline silica (a component in some igneous rocks) can cause silicosis upon inhalation over a prolonged period. However, under normal handling conditions, Nephelinite does not present significant health risks.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'gray, dark gray, greenish gray',
       luster: 'Vitreous to greasy',
@@ -2919,7 +6105,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, unless powdered norite is inhaled in significant amounts which might lead to respiratory issues.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'dark gray to black',
       luster: 'Sub-vitreous to metallic',
@@ -2955,7 +6140,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Care must be taken while handling Obsidian due to its sharp edges which can cause physical injuries',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, sometimes with white flecks',
       luster: 'Vitreous',
@@ -2995,7 +6179,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, pegmatite is not associated with specific health risks. However, certain types of pegmatite may contain minerals such as uranium or thorium that could potentially be hazardous.',
-      askedQuestions: [],
       crystalSystem: 'Varies based on mineral constituents',
       colors: 'Various',
       luster: 'Varies based on mineral constituents',
@@ -3034,7 +6217,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks associated with handling phonolite. However, as with all rocks and dusts, inhaling fine-grained dust could lead to respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, Green, White',
       luster: 'Vitreous to Dull',
@@ -3072,7 +6254,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of rock dust can cause respiratory problems. Prolonged exposure can lead to lung disorders such as silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Prismatic',
       colors: 'Gray, brown, green',
       luster: 'Vitreous to dull',
@@ -3110,7 +6291,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known general health risks associated with this rock. However, always wash hands after handling',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic (olivine)',
       colors: 'dark green, black',
       luster: 'Vitreous',
@@ -3149,7 +6329,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks. However, dust from cutting or grinding can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as it pertains to individual mineral crystals within the rock',
       colors: 'Pink, red, or purple',
@@ -3191,7 +6370,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of fine pumice dust can be harmful to lungs and eyes. It is recommended to handle it with care.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'White, gray, cream, light blue',
       luster: 'Vitreous to dull',
@@ -3231,7 +6409,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Regular exposure may cause lung issues due to inhalation of mineral dust. Always use safety measures when handling in a powdered form.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Light Grey, Dark Grey, Black',
       luster: 'Vitreous to Dull',
@@ -3270,7 +6447,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continuous inhalation of dust may cause health issues like silicosis, but it is not a significant concern unless the rock is being cut or ground.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Light grey, pinkish',
       luster: 'Vitreous to dull',
@@ -3308,7 +6484,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure and inhaling fine particles can cause silicosis, a life-threatening disease',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal or Trigonal',
       colors: 'Clear, Pink, Purple, Grey, White, Black, Green',
       luster: 'Vitreous to greasy',
@@ -3347,11 +6522,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'In general, airborne dust and particles could pose respiratory issues if consistently inhaled.',
-      askedQuestions: [
-        {'What is the mineral composition of Rhyodacite?': ''},
-        {'Where can Rhyodacite be found?': ''},
-        {'Can Rhyodacite be used for construction?': ''}
-      ],
       crystalSystem: 'Varies based on mineral components',
       colors: 'Gray, pale pink, red, brown',
       luster: 'Glassy to pearly',
@@ -3392,7 +6562,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended exposure to finely crushed rhyolite in the form of dust may cause health risks due to the silica content.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable for rocks',
       colors: 'White, Pink, Brown',
       luster: 'Typically dull or earthy, some varieties can be semi-vitreous',
@@ -3432,7 +6601,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks known, but inhaling dust from any rock or mineral can be harmful to the lungs.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'light gray, pink',
       luster: 'Vitreous',
@@ -3472,7 +6640,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with general handling. However, inhalation of rock dust may be harmful and it is advisable to use safety measures.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable because it is an aggregate of numerous minerals with their crystal systems',
       colors: 'Light gray, pink, brown',
@@ -3511,7 +6678,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust can be potentially harmful if inhaled in large quantities over time.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'dark brown, black, purplish red',
       luster: 'Vitreous',
@@ -3549,7 +6715,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks when handled safely. However, respirable dust may pose a health risk through inhalation.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'dark black, brown',
       luster: 'Vitreous',
@@ -3589,7 +6754,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally considered safe, though inhaling dust may lead to health complications similar to inhalation of other rock dust. Always wear personal protective equipment when handling large quantities of rock.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as it is a volcanic rock',
       colors: 'light to dark gray, black',
       luster: 'Matte to vitreous',
@@ -3628,7 +6792,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to rock dust may lead to silicosis, but this is extremely rare and generally associated with prolonged, occupational exposure in quarrying or mining for rocks.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable (Igneous rock)',
       colors: 'white, grey',
       luster: 'Dull to grainy',
@@ -3668,7 +6831,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with handling this rock, though inhaling rock dust can be hazardous to health.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal and Monoclinic',
       colors: 'gray, black, dark brown',
       luster: 'Vitreous to Dull',
@@ -3707,7 +6869,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, but as with any rock, inhalation of dust can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'N/A for igneous rocks',
       colors: 'Light grey to dark grey',
       luster: 'Dull to vitreous',
@@ -3745,7 +6906,6 @@ class Rock {
       color: 'Dark grey to black',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as it pertains to individual minerals within the rock',
       colors: 'Dark grey to black',
@@ -3785,7 +6945,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks in handled or kept appropriately. Chronic and/or substantial inhalation of rock dust may lead to health complications.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, dark gray, brown, black',
       luster: 'Matte to slightly vitreous',
@@ -3824,7 +6983,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks associated except for the dust, like any rock dust, which may cause health issues if continuously inhaled over a long period.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic and Monoclinic',
       colors: 'whitish, grayish',
       luster: 'Vitreous to Dull',
@@ -3863,7 +7021,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like other types of rock dust, prolonged inhalation of tuff dust may pose health risks.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'gray, brown',
       luster: 'Dull',
@@ -3901,7 +7058,6 @@ class Rock {
       color: 'green, gray, brown',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'green, gray, brown',
       luster: 'greasy',
@@ -3938,7 +7094,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continuous inhalation of dust may cause health issues related to the respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Red, Yellow, Light Grey',
       luster: 'Matte',
@@ -3976,7 +7131,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation or ingestion of dust may cause respiratory or digestive issues. Always use proper safety equipment when handling dense mineral rocks.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous, no crystal structure',
       colors: 'Red, black, gray, silver',
       luster: 'Metallic to dull',
@@ -4015,7 +7169,6 @@ class Rock {
           'Most often red, but varies depending on the nature of the sediments',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Most often red, but varies',
       luster: 'Dull to Vitreous',
@@ -4056,7 +7209,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can cause respiratory irritation if inhaled in the form of dust',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, light gray',
       luster: 'Vitreous to dull',
@@ -4093,7 +7245,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure or ingestion can cause irritation in eyes, skin and respiratory tract and could lead to more serious conditions like pneumonia.',
-      askedQuestions: [],
       crystalSystem: 'Rhombohedral',
       colors: 'White',
       luster: 'Earthly or dull',
@@ -4132,7 +7283,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chert dust can be harmful if inhaled. It can cause silicosis, a serious lung disease.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, gray, black, brown, green, red',
       luster: 'Waxy, dull, semi-vitreous',
@@ -4170,7 +7320,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust from claystone can be a health hazard if inhaled in large amounts and over long periods. Prolonged exposure can lead to silicosis.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable as claystone is sedimentary and does not have a crystal structure',
       colors: 'grey, black, red, green, blue, yellow',
@@ -4210,7 +7359,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, although dust can cause irritation to eyes and respiratory system.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as it is a sedimentary rock formed from organic material, not a mineral with a crystal structure.',
       colors: 'pale orange, yellow',
@@ -4251,7 +7399,6 @@ class Rock {
           'Variable- because diamictite can contain various types of rock, it can be many different colors',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem:
           'None- as a sedimentary rock, diamictite does not have a crystal system',
       colors: 'Variable',
@@ -4292,7 +7439,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks known, but some types (e.g., asbestos) can form in evaporite deposits and are hazardous when inhaled',
-      askedQuestions: [],
       crystalSystem: 'Depends on the specific mineral',
       colors: 'White, colorless, red, yellow, blue',
       luster: 'Generally Vitreous to pearly',
@@ -4331,7 +7477,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Working with flint may produce small, sharp fragments that can cause injury. Also, inhaling dust from flint can lead to silicosis, a lung disease.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Grey, black, white, brown, and a rusty red shade',
       luster: 'Waxy',
@@ -4370,7 +7515,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While not known to pose any significant health risks, geyserite can be abrasive to the touch due to its microcrystalline structure.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, light grey, rust',
       luster: 'Dull, earthy to pearly, sometimes vitreous',
@@ -4407,7 +7551,6 @@ class Rock {
       color: 'Grey, green-grey, blue-grey, and occasionally black',
       isMagnetic: false,
       healthRisks: 'No known significant health risks',
-      askedQuestions: [],
       crystalSystem: 'N/A for sedimentary rocks',
       colors: 'Grey, green-grey, blue-grey, black',
       luster: 'Matte to slightly shiny',
@@ -4444,7 +7587,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Protracted inhalation in large quantities can lead to Silicosis',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Brown, beige, grey, white',
       luster: 'Dull to earthy',
@@ -4482,7 +7624,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'If not properly handled, burning lignite can release pollutants in the air which can cause health issues like respiratory problems and also contribute to climate change.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'brown to black',
       luster: 'Earthy',
@@ -4519,7 +7660,6 @@ class Rock {
       color: 'grey, white, brown, yellow, black',
       isMagnetic: false,
       healthRisks: 'Inhalation of limestone dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, white, brown, yellow, black',
       luster: 'Vitreous to pearly',
@@ -4558,7 +7698,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Exposure to dust from mudstone can potentially cause respiratory problems if inhaled over a long period.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'Grey, brown, red, green',
       luster: 'Dull to earthy',
@@ -4595,7 +7734,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Potential health risks associated with oil shale include the release of harmful gases and liquids during oil shale processing, which can harm the respiratory system if inhaled and the circulatory system if ingested.',
-      askedQuestions: [],
       crystalSystem: 'None',
       colors: 'brown, black, green, red',
       luster: 'Dull, Earthy',
@@ -4633,7 +7771,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Respirable dust could pose health issues upon prolonged exposure but normal handling does not pose significant health risks.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'White, pinkish, gray',
       luster: 'Dull to earthy',
@@ -4672,7 +7809,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks, but inhaling sandstone dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Rhombic',
       colors: 'grey, yellow, red, white, pink, black',
       luster: 'Matte, earthy',
@@ -4711,7 +7847,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust may cause health risks, particularly silicosis or other lung conditions. Naturally occurring radioactive materials are common in shale gas formations and may pose a risk with prolonged exposure.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'black, blue, gray, green, red, purple, brown',
       luster: 'Dull, Earthy',
@@ -4751,7 +7886,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extremely fine-grained siltstone can become a respirable dust and impact lung health when disrupted.',
-      askedQuestions: [],
       crystalSystem: 'None',
       colors: 'brown, red, greenish, grey',
       luster: 'Matte',
@@ -4788,7 +7922,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure can cause skin and eye irritation. Inhalation can lead to respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'colorless, white, yellow, red, blue',
       luster: 'Vitreous',
@@ -4828,7 +7961,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'None specifically related to Tillite but inhaling rock dust can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'gray, brown, black, green-brown',
       luster: 'Dull to earthy',
@@ -4867,7 +7999,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust may cause respiratory irritation. Long-term exposure to high dust concentrations may cause pneumoconiosis.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'white, tan, cream-colored, rusty',
       luster: 'Shiny to dull depending on finish',
@@ -4905,7 +8036,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally no health risks, with the exception of those caused by inhalation of dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Grey, Brown, Black, Green, Red',
       luster: 'Earthy',
@@ -4943,7 +8073,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally safe to handle, although dust and small particles may irritate the eyes and respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'Rhombohedral',
       colors: 'grey, greenish, brown, black',
       luster: 'Dull to earthy',
@@ -4982,7 +8111,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of coal dust can cause black lung disease among coal miners. Anthracite dust can be harmful if inhaled and can also cause eyes and skin irritation.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'black, blueish',
       luster: 'Vitreous to sub-metallic',
@@ -5020,7 +8148,6 @@ class Rock {
       color: 'blue to blue-green',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'blue, blue-green',
       luster: 'Vitreous',
@@ -5058,7 +8185,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust can cause irritation to the respiratory system if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, gray, white, green',
       luster: 'Dull to Earthy',
@@ -5094,7 +8220,6 @@ class Rock {
       color: 'Pink, gray, green, blue, brown, black',
       isMagnetic: false,
       healthRisks: 'No major health risks known',
-      askedQuestions: [],
       crystalSystem: 'Isothermal-Isochemical',
       colors: 'Pink, gray, green, blue, brown, black',
       luster: 'Vitreous to sub-adamantine',
@@ -5133,7 +8258,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'May contain asbestos fibers which can cause health problems',
-      askedQuestions: [],
       crystalSystem: 'Crystals rarely occur in hornfels',
       colors: '',
       luster: '',
@@ -5170,7 +8294,6 @@ class Rock {
       color: 'White, pink, green, grey, yellow',
       isMagnetic: false,
       healthRisks: 'No known health risks.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, pink, green, grey, yellow',
       luster: 'Vitreous',
@@ -5207,7 +8330,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling marble dust can cause breathing issues, thus respirators are recommended when working with marble in a dusty environment.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, pink, green, grey, black, brown',
       luster: 'Pearly to vitreous to dull',
@@ -5245,7 +8367,6 @@ class Rock {
       color: 'Gray, pink, white, black, brown',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'Gray, pink, white, black, brown',
       luster: 'Vitreous to dull',
@@ -5283,7 +8404,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally no significant health risks unless pulverized and inhaled as it may contain minerals like quartz and mica which may cause lung issues.',
-      askedQuestions: [],
       crystalSystem: 'Depends on its mineral composition, often monoclinic',
       colors: 'gray, dark gray',
       luster: 'Vitreous to Silky',
@@ -5319,7 +8439,6 @@ class Rock {
       color: 'dark, often black or dark brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated directly with this rock.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Dark Brown',
       luster: 'Vitreous to Dull',
@@ -5359,7 +8478,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can create respirable dust that can cause diseases like silicosis if inhaled over a long period of time in large amounts',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Grey, Pink, Red',
       luster: 'Vitreous and sometimes waxy',
@@ -5396,7 +8514,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Undusturbed schist rocks pose no health risks. However, if the rock is crushed, crystalline silica dust can be produced which can lead to silicosis if inhaled over long periods.',
-      askedQuestions: [],
       crystalSystem: 'Anisotropic (properties vary in different directions)',
       colors: 'brown, green, grey, silver, white',
       luster: 'shiny or dull',
@@ -5435,7 +8552,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Serpentinite may contain chrysotile, a type of asbestos which can cause lung diseases when inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'green, yellow, black, white',
       luster: 'Waxy, greasy, silky',
@@ -5473,7 +8589,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks are associated with handling skarn rocks, though breathing in rock dust should be avoided. Always wash hands after handling rocks.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the specific minerals present',
       colors: 'Red, yellow, dark green, black and more',
       luster:
@@ -5512,7 +8627,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to dust created by cutting or breaking slate can lead to a lung condition called Silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as slate is a metamorphic rock',
       colors: 'gray, blue-gray, green, red, black',
       luster: 'Matte to slightly shiny',
@@ -5549,7 +8663,6 @@ class Rock {
       color: 'Black, gray, brown, sometimes greenish or reddish',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, gray, brown, greenish, reddish',
       luster:
@@ -5588,7 +8701,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chronic inhalation of talc may cause lung damage, and it has been linked to an increased risk of ovarian cancer in some studies.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'White, Gray, Green',
       luster: 'Pearly',
@@ -5625,7 +8737,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust and fibers from soapstone can irritate the lungs and eyes. Although soapstone is composed primarily of talc, it is not associated with the same health risks as talc powder.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, Green, Brown',
       luster: 'Greasy, Dull',
@@ -5663,7 +8774,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Not known to carry any health risks if handled carefully. However, inhaling rock dust may cause health issues, always wear protective gear when handling and crushing rocks.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'White to light grey',
       luster: 'Usually dull to vitreous',
@@ -5702,7 +8812,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Adamellite, like many rocks, may pose health risks due to inhaling dust caused by breaking the rock. It is important to handle with care and use appropriate safety measures.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'white, pink',
       luster: 'Vitreous to dull',
@@ -5740,7 +8849,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risk associated with handled and/or in a normal state. Inhalation of dust may pose health risks.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Greenish-grey, grey',
       luster: 'Vitreous to dull',
@@ -5778,7 +8886,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No notable health risks unless ground into a fine powder to potentially cause silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'Greenish, black, brown',
       luster: 'Vitreous to dull',
@@ -5818,7 +8925,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, epidosite is not considered to be hazardous. However, like with all rocks and minerals, precautions should be taken when handling raw specimens or inhaling dust.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Green, grey-green',
       luster: 'Vitreous to pearly',
@@ -5856,7 +8962,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to dust can lead to silicosis, a serious lung disease. Always use personal protective equipment when handling',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as felsite is amorphous (lacks a crystal structure)',
       colors: '',
@@ -5896,7 +9001,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can cause silicosis if inhaled. The sharp edges of broken flint can also pose a risk of physical injury.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Dark grey, black, dark brown, yellow, white',
       luster: 'Waxy to glassy',
@@ -5934,7 +9038,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term inhalation may cause silicosis, a severe respiratory disease. Use appropriate personal protective equipment to avoid dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'whitish-grey',
       luster: 'Dull, earthy',
@@ -5971,7 +9074,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks associated with this rock, although sharp edges could cause injury.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: '',
       luster: '',
@@ -6011,7 +9113,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock, long-term exposure to dust may damage the respiratory system',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as Ijolite is a rock not a mineral',
       colors: 'grey, pink, white',
       luster: 'Vitreous to dull',
@@ -6050,7 +9151,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks if handled properly. Dust from rocks and minerals can be harmful if inhaled excessively.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'white, gray, pink',
       luster: 'Vitreous',
@@ -6087,7 +9187,6 @@ class Rock {
       color: 'Blue, Pink, Grey to Dark Brown',
       isMagnetic: false,
       healthRisks: 'No known significant health risks associated with Llanite.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Blue, Pink, Grey to Dark Brown',
       luster: 'Vitreous',
@@ -6126,7 +9225,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Granite rocks can contain naturally occurring radioactive elements like radon gas which can emanate to the surroundings. Long-term exposure in tight spaces can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic (Tourmaline Crystals)',
       colors: 'Black, white, green, red, grey',
       luster: 'Vitreous to Greasy',
@@ -6166,7 +9264,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Risk from inhalation of dust during rock breaking or cutting. Can lead to lung problems if not properly handled.',
-      askedQuestions: [],
       crystalSystem: 'Not Applicable',
       colors: 'White, gray, pink',
       luster: 'Vitreous to dull',
@@ -6203,7 +9300,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dust generated by the cutting or grinding of novaculite can cause silicosis.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as novaculite is not a mineral but a sedimentary rock',
       colors: 'white, gray, black, banded',
@@ -6242,7 +9338,6 @@ class Rock {
       color: 'Brown, blue, gold',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Brown, blue, gold',
       luster: 'Silky',
@@ -6279,7 +9374,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks known as it is mostly theoretical and not typically handled directly.',
-      askedQuestions: [],
       crystalSystem: 'Isometric - Hexoctahedral',
       colors: 'Greenish',
       luster: 'Vitreous',
@@ -6317,7 +9411,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to granite dust can lead to silicosis. However, typical handling doesn’t expose people to such risk',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, pink, red, brown',
       luster: 'Vitreous to dull',
@@ -6354,7 +9447,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, there are no health risks associated with Rhomb porphyry. However, breathing rock dust can be harmful. Therefore, care should be taken when cutting or grinding this rock.',
-      askedQuestions: [],
       crystalSystem: 'Varies based on constituent minerals',
       colors: '',
       luster: '',
@@ -6391,7 +9483,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Rodingite itself is generally not harmful, but any dust produced during cutting or shaping should not be inhaled due to potential respiratory hazard.',
-      askedQuestions: [],
       crystalSystem: 'Isometric and Monoclinic',
       colors: 'green, grey, white',
       luster: 'Vitreous',
@@ -6429,7 +9520,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this rock.',
-      askedQuestions: [],
       crystalSystem: 'Undefined due to variable composition',
       colors: 'dark gray to black',
       luster: 'dull or earthy luster',
@@ -6467,7 +9557,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Care should be taken when handling Tachylite. Long-term exposure to the dust can be harmful when inhaled over a long period of time.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'black, dark brown',
       luster: 'Vitreous',
@@ -6505,7 +9594,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'As with any rock, improper handling or inhalation of dust can pose health risks. However, there are no unique health risks associated with Teschenite.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Dark gray, black',
       luster: 'Vitreous to dull',
@@ -6543,7 +9631,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, Theralite is not associated with significant health risks. However, prolonged and unprotected exposure to dust from any type of rock may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Dark gray to black, often with a greenish hue',
       luster: 'Vitreous to greasy',
@@ -6582,7 +9669,6 @@ class Rock {
           'Mixture of colours due to varying composition, predominantly green, grey, depepends on nodules',
       isMagnetic: false,
       healthRisks: 'Low unless ground to dust (silicosis risk)',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it is not a mineral but a rock',
       colors: 'Depends on nodules which may vary in composition',
       luster: 'Typically dull to earthy',
@@ -6621,7 +9707,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known standard health risks, but inhaling rock dust can cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark greenish-black, brown',
       luster: 'Silky to vitreous',
@@ -6660,7 +9745,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Wad can include species with pyrolusite, which has been associated with manganism, a neurodegenerative disorder following excessive manganese exposure.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, brown, green',
       luster: 'Dull, earthy',
@@ -6702,7 +9786,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, general rules of handling rocks and minerals should be followed',
-      askedQuestions: [],
       crystalSystem: 'N/A for rocks',
       colors: 'gray, green, brown',
       luster: 'Vitreous',
@@ -6740,7 +9823,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Minimal; however, consistent inhalation of rock dust could lead to respiratory problems.',
-      askedQuestions: [],
       crystalSystem:
           'Variable, but often includes pyroxene and plagioclase crystals',
       colors: 'Dark to light gray, often with a greenish hue',
@@ -6780,7 +9862,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, prolonged exposure to rock dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, green, blue, white',
       luster: 'Vitreous to dull',
@@ -6818,7 +9899,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Aplite does not pose any immediate health risks. Prolonged exposure to dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'light gray, white',
       luster: 'Vitreous to Silky',
@@ -6855,7 +9935,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to finely ground basalt dust may cause lung issues due to crystalline silica content.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it consists of small minerals',
       colors: 'Black, Grey',
       luster: 'Vitreous to Dull',
@@ -6892,7 +9971,6 @@ class Rock {
       color: 'Grey to black',
       isMagnetic: false,
       healthRisks: 'Long term exposure to rock dust may cause lung problems.',
-      askedQuestions: [],
       crystalSystem: 'No distinct crystals visible',
       colors: 'Gray, Black',
       luster: 'Vitreous',
@@ -6930,7 +10008,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with most rocks, the primary health risk involves inhalation of dust during collection or sample preparation which can cause lung damage.',
-      askedQuestions: [],
       crystalSystem: 'Unavailable',
       colors: 'Dark, black, brown',
       luster: 'Vitreous to Dull',
@@ -6969,7 +10046,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with proper handling of shoshonite.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Black, grey',
       luster: 'Dull to vitreous',
@@ -7007,7 +10083,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks when handled properly, however, dust produced from boninite can be harmful if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Grey, Brown',
       luster: 'Vitreous',
@@ -7047,7 +10122,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock, dust inhalation during crushing and grinding carries health risks, particularly if the rock contains potentially harmful minerals. Prolonged exposure can lead to lung conditions such as silicosis or other respiratory conditions.',
-      askedQuestions: [],
       crystalSystem:
           'Trigonal and/or Rhombohedral, depending on the primary carbonate mineral present (typically calcite or dolomite)',
       colors: '',
@@ -7087,7 +10161,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, Charnockite is safe to handle but inhaling dust from any type of rock could cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isomorphic',
       colors: 'Dark grey, green, blue',
       luster: 'Vitreous',
@@ -7125,7 +10198,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhabitation with respirable crystalline silica (dust) may lead to silicosis or other lung diseases. Always use appropriate safety measures when handling.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as dacite is a rock composed of a variety of minerals',
       colors: 'Grey, Black',
@@ -7164,7 +10236,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No known specific health risks associated with diabase.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable since it is a rock, a composition of multiple minerals.',
       colors: 'dark gray, black',
@@ -7202,7 +10273,6 @@ class Rock {
       color: 'grey to dark-grey, occasionally black',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as diorite is not lead to a single crystal system',
       colors: 'grey, dark-grey, black',
@@ -7241,7 +10311,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No specific health risks known.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black',
       luster: 'Vitreous to dull',
@@ -7279,7 +10348,6 @@ class Rock {
       color: 'Dark green, black',
       isMagnetic: false,
       healthRisks: 'Can generate radon gas, a health hazard when inhaled',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Dark green, black',
       luster: 'Dull to slightly metallic',
@@ -7316,7 +10384,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of dust could cause lung issues, although this is not a common concern.',
-      askedQuestions: [],
       crystalSystem: 'Tetragonal',
       colors: 'light to dark gray',
       luster: 'Vitreous to dull',
@@ -7352,7 +10419,6 @@ class Rock {
       color: 'Often light in color, but can vary',
       isMagnetic: false,
       healthRisks: 'No notable health risks associated with granophyre',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable - Granophyre lacks a specific crystal structure due to its micrographic intergrowths.',
       colors: '',
@@ -7392,7 +10458,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with normal contact with Harzburgite.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Greenish, yellowish, brownish-black',
       luster: 'Dull or greasy',
@@ -7431,7 +10496,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with hornblendite. However, as with any rock or mineral, dust generated from cutting or breaking should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'black, dark brown, green',
       luster: 'Vitreous to dull',
@@ -7470,7 +10534,6 @@ class Rock {
       color: 'Black to dark gray',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'Isothermic',
       colors: '',
       luster: '',
@@ -7509,7 +10572,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended exposure to or inhalation of volcanic ash can be harmful',
-      askedQuestions: [],
       crystalSystem:
           'No specific crystal system – non-crystalline rock due to rapid cooling',
       colors: 'White, Grey, Pink, Yellow, Dark-Coloured',
@@ -7547,7 +10609,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks identified. Typical risks associated with rock dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Gray, yellow, green, pink',
       luster: 'Vitreous',
@@ -7583,7 +10644,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no particular health risks associated with komatiite, but like any rock or dust particle, prolonged inhalation of fine particles can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'N/A for rocks, applies to minerals',
       colors: 'green, yellow-green, mottled green and yellow',
       luster: 'Glossy to dull',
@@ -7622,7 +10682,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risk is associated with lamprophyres. However, like any rock, dust produced from crushing or cutting should not be inhaled.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as lamprophyre is a rock not a single mineral',
       colors: 'Dark, black, brown, occasionally greenish',
@@ -7660,7 +10719,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks associated with this rock',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, dark grey, greenish, reddish',
       luster: 'Matte',
@@ -7698,7 +10756,6 @@ class Rock {
           'greyish to white, with a possible tint of pink due to potassium feldspar',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'greyish, white, pink',
       luster: 'Vitreous to dull',
@@ -7736,7 +10793,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock or mineral, dust can be harmful if inhaled and prolonged exposure could potentially lead to silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'gray, brown, green, pink, black',
       luster: 'Dull to Vitreous',
@@ -7774,7 +10830,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As it is low in free silica compared to feldspathic rock, it has a significantly reduced respiratory health risk.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, light grey, greenish, reddish',
       luster: 'Vitreous to greasy',
@@ -7813,7 +10868,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'This rock does not inherently present health risks. However, inhalation of rock dust can be harmful and proper precautions should be taken while handling.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, greenish gray, light brown',
       luster: 'Vitreous to dull',
@@ -7851,7 +10905,6 @@ class Rock {
       color: 'Gray, yellow, greenish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Gray, yellow, greenish',
       luster: 'Vitreous',
@@ -7887,7 +10940,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of dust may pose health risks, including silicosis',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks',
       colors: 'Green, Black, White, Pink',
       luster: 'Varies from Vitreous, dull to metallic',
@@ -7925,7 +10977,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended inhalation of pumice dust may cause lung irritation.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, pale yellow, pink, pale-blue, grey',
       luster: 'Vitreous to dull',
@@ -7962,7 +11013,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated unless grinding or breaking it down to dust, which can have bad respiratory effects.',
-      askedQuestions: [],
       crystalSystem: 'Mostly Monoclinic from Amphibole and Biotite components',
       colors: 'grey, dark grey',
       luster: 'Vitreous to dull',
@@ -8000,7 +11050,6 @@ class Rock {
           'gray, pink or red due to a high concentration of feldspar mineral crystals',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'gray, pink, red',
       luster: 'Subvitreous to vitreous',
@@ -8039,7 +11088,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with quartzolite, unless in powdered form which can damage lung tissue if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Clear, white, and a variety depending on inclusions',
       luster: 'Vitreous',
@@ -8077,7 +11125,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, though always take precautions when handling and breaking rock specimens.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'gray, white, pink',
       luster: 'Vitreous',
@@ -8116,7 +11163,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to rock dust can lead to silicosis. However, under normal handling conditions, comendite is not dangerous.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Grey, Light Pink',
       luster: 'Vitreous',
@@ -8155,7 +11201,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No evident health risks associated with handling the rock. As with all rocks, dust can be harmful if inhaled. The rock should be used responsibly in its intended manner.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark gray, black',
       luster: 'Subvitreous to Resinous',
@@ -8194,7 +11239,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks are associated with sovite. However, as with any rock, undue exposure to dust during handling or processing should be prevented.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'White, grey, beige, colorless, pale yellow',
       luster: 'Vitreous',
@@ -8232,7 +11276,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Tachylyte, similar to other volcanic glasses, pose health risks when inhaled, or handled improperly may cause cuts or injury due to its sharp edges.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, dark brown',
       luster: 'Vitreous',
@@ -8272,7 +11315,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with the handling of tephriphonolite, however, inhalation of rock dust can pose health hazards.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, brown, black',
       luster: 'Matte',
@@ -8307,7 +11349,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks identified when handled responsibly. However, constant exposure to dust may cause health issues.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to being a volcanic rock',
       colors: 'Dark gray to black',
       luster: 'Vitreous',
@@ -8345,7 +11386,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, like with any rock or mineral, exposure to dust should be limited.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'grey, dark-grey',
       luster: 'Vitreous to Dull',
@@ -8382,7 +11422,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks associated with this type of rock when used in normal circumstances',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to this category of rock',
       colors: 'gray, brownish-gray',
       luster: 'Vitreous to dull',
@@ -8419,7 +11458,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks. However, prolonged inhalation of any rock dust can potentially cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Dependent on mineral content, often triclinic',
       colors: 'Light colors, pale green, white',
       luster: 'Vitreous to dull',
@@ -8457,7 +11495,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, but fine dust or particles, if inhaled or ingested, may cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark Grey, Black',
       luster: 'Vitreous to Dull',
@@ -8494,7 +11531,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated specifically with Hawaiite. However, like many rocks and minerals, substantial exposure to dust can be harmful when inhaled.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'grey, greenish-grey',
       luster: 'Vitreous to dull',
@@ -8532,7 +11568,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure to dust may lead to Silicosis. Always use a dust mask when handling or cutting rocks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, pink',
       luster: 'Vitreous to dull',
@@ -8568,7 +11603,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with hand specimens. However, dust produced from cutting or crushing may pose risks if inhaled excessively over time.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic/Cubic - Plagioclase (Triclinic)',
       colors: 'Light green, gray',
       luster: 'Vitreous to silky',
@@ -8606,7 +11640,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Trondhjemite. However, inhalation of rock dust can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Creamy white to gray',
       luster: 'Vitreous',
@@ -8644,7 +11677,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of volcanic ash (solidified or not) can lead to health issues such as lung disease or cancer. Always handle with care and use appropriate protection.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'White, Grey, Brown, Yellow',
       luster: 'Dull to Earthy',
@@ -8681,7 +11713,6 @@ class Rock {
       color: 'Grey, dark green, brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and orthorhombic',
       colors: '',
       luster: '',
@@ -8718,7 +11749,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like most rocks and dusts, prolonged inhalation of dust can lead to health problems. But overall, it is not considered particularly toxic',
-      askedQuestions: [],
       crystalSystem:
           'Amorphous lack a crystalline structure, instead being composed of microscopic clay minerals',
       colors: 'gray to black',
@@ -8755,7 +11785,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, but inhalation of rock dust can be detrimental to health',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks',
       colors: 'Red, grey, yellow, orange',
       luster: 'Matte',
@@ -8793,7 +11822,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'No significant health risks are associated with naturally occurring banded iron formations. However, ingestion or inhalation of dust can cause health issues.',
-      askedQuestions: [],
       crystalSystem: 'None, as it is a rock, not a mineral',
       colors: 'Red, reddish brown, grey, black',
       luster: 'Metallic to dull',
@@ -8831,7 +11859,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated but it is important to avoid inhaling dust while handling rocks and minerals, as it could irritate lungs',
-      askedQuestions: [],
       crystalSystem: 'not applicable',
       colors: 'multicolored',
       luster: 'varies from dull to vitreous',
@@ -8870,7 +11897,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to calcarenite dust can potentially cause lung problems due to the inhalation of small particles. Always use dust masks and proper ventilation when handling or working with calcarenite in a confined space or for a prolonged period.',
-      askedQuestions: [],
       crystalSystem: 'Rhombohedral',
       colors: 'white, gray, pink, black',
       luster: 'Dull to earthy',
@@ -8907,7 +11933,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Excessive inhalation can cause lung problems due to the small particulates.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Light Grey',
       luster: 'Dull, Earthy',
@@ -8944,7 +11969,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Risk of silicosis due to inhalation of dust produced when chert is broken, cut, drilled or polished. Always use safety precautions when working with chert.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline or cryptocrystalline',
       colors: 'White, tan, red, green, brown, black, and gray',
       luster: 'Waxy, dull or glossy',
@@ -8981,7 +12005,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Excessive inhalation of clay dust can cause lung disease over a prolonged period. It is advised to avoid inhaling clay dust and use proper respiratory protection while handling.',
-      askedQuestions: [],
       crystalSystem: 'None',
       colors: 'grey, green, brown, red',
       luster: 'Dull',
@@ -9020,7 +12043,6 @@ class Rock {
       color: 'light-coloured, usually tan or yellow',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'light-coloured, usually tan or yellow',
       luster: 'Dull to earthy',
@@ -9058,7 +12080,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'General dust inhalation while handling can cause respiratory discomfort. Therefore, it is advisable to wear a dust mask while handling the rock to mitigate this risk.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as this is not a crystalline material',
       colors: 'Typically grey, but varies based on composition',
       luster: 'Earthy to dull, depends on the types of fragments included',
@@ -9096,7 +12117,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of diatomite can lead to long term lung problems, such as silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, off-white, light grey',
       luster: 'Dull to Earthy',
@@ -9133,7 +12153,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Breathing or handling some types of evaporites can be harmful if they contain harmful substances, always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on the type of mineral',
       colors: 'White, colorless, blue, red, yellow, pink',
       luster: 'Vitreous to dull',
@@ -9170,7 +12189,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust from flint is harmful if inhaled. It can affect the lungs and cause silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark grey, black, brown',
       luster: 'Waxy to dull',
@@ -9207,7 +12225,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks although inhaling silica dust can lead to silicosis. Always handle mineral specimens responsibly.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'White, grey, brown',
       luster: 'Dull to earthy',
@@ -9246,7 +12263,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks, but prolonged inhalation of rock dust can potentially cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black, brown',
       luster: 'Matte or Dull',
@@ -9285,7 +12301,6 @@ class Rock {
       color: 'gray, brown',
       isMagnetic: false,
       healthRisks: 'Inhalation of dust may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'gray, brown',
       luster: 'Matte',
@@ -9322,7 +12337,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with laterite itself, but caution should always be taken when handling any form of rock or soil due to the possibility of inhaling dust particles.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Red, brown',
       luster: 'Earthy',
@@ -9362,7 +12376,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure can cause black lung disease, due to the inhalation of coal dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'brown, black',
       luster: 'Vitreous to Resinous',
@@ -9398,7 +12411,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust could lead to respiratory problems. Prolonged contact could result in skin irritation.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, green, blue, buff',
       luster: 'Dull to earthy',
@@ -9437,7 +12449,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continuous inhalation of dust may cause health issues related to the respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to lack of a crystal structure',
       colors: 'gray, white, pink, brown',
       luster: 'Dull or earthy',
@@ -9476,7 +12487,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Oil shale dust may poses health risks when inhaled, such as lung problems. The extraction process can contaminate water and air posing risks to both animals and humans.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Dark-brown, black',
       luster: 'Dull to slightly shiny',
@@ -9514,7 +12524,6 @@ class Rock {
       color: 'white, gray, brown, yellow',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'white, gray, brown, yellow',
       luster: 'Dull to earthy',
@@ -9552,7 +12561,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Phosphorite dust can irritate the respiratory system when inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal system',
       colors: 'Gray, Brown, Yellow, Red',
       luster: 'Sub-Vitreous, Resinous, Earthy',
@@ -9590,7 +12598,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chronic inhalation of dust can lead to diseases like silicosis, tuberculosis, bronchitis, or lung cancer.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, yellow, red, white, brown, tan',
       luster: 'Matte',
@@ -9629,7 +12636,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Crystalline silica often found in shale dust can pose health risks such as silicosis upon prolonged exposure.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as Shale is not a crystalline mineral',
       colors: 'Grey, brown, black, yellow, green',
       luster: 'Dull',
@@ -9667,7 +12673,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks. However, like many rocks, it should not be ingested or inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'gray, brown, red, green, purple, black, white',
       luster: 'Dull to earthy',
@@ -9704,7 +12709,6 @@ class Rock {
       color: 'Colorless, white, blue or red due to impurities',
       isMagnetic: false,
       healthRisks: 'No significant health risks reported',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless, white, blue, red',
       luster: 'Vitreous',
@@ -9741,7 +12745,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No particularly adverse health risks associated with Tillite, though inhaling rock dust can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'Varies',
       luster: 'Dull to earthy',
@@ -9779,7 +12782,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Potential risk of radon exposure similar to that of other rocks or stones. However, levels are typically low and not a significant concern.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'white, tan, cream, rusty',
       luster: 'Vitreous to glossy',
@@ -9817,7 +12819,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks identified, but dust may cause irritation to eyes or skin.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal-Rhombohedral',
       colors: 'White, grey, brown, black, greenish',
       luster: 'Vitreous to Pearly',
@@ -9856,7 +12857,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to sedimentary dust can potentially cause respiratory issues, but overall, Wackestone is not known to pose significant health risks.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, white, yellow, brownish',
       luster: 'Vitreous to dull',
@@ -9894,7 +12894,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Anthracite dust can be harmful if inhaled, leading to occupational lung diseases such as anthracosis.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black',
       luster: 'Vitreous, Metallic',
@@ -9931,7 +12930,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with many rocks, prolonged inhalation of dust may pose health risks.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous due to the nature of its formation',
       colors: 'Varies greatly depending on the mineral content',
       luster: 'Typically dull',
@@ -9969,7 +12967,6 @@ class Rock {
       color: 'Green, red',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with normal handling',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on composition',
       colors: '',
       luster: '',
@@ -10005,7 +13002,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No intrinsic health risks associated with weathered and handled correctly',
-      askedQuestions: [],
       crystalSystem: 'Highly crystalline',
       colors: 'Grey, Pink',
       luster: 'Vitreous to Submetallic',
@@ -10044,7 +13040,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Due to its hard nature, inhaling hornfels dust generated by drilling or mining may cause lung damage.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as Hornfels is not a mineral but a metamorphic rock with no specific crystal structure.',
       colors: 'Black, brown, green, red, blue, gray',
@@ -10084,7 +13079,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like most rocks, litchfieldite poses no significant health risks unless ground into dust and inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, Pink, Green, Black',
       luster: 'Vitreous to Dull',
@@ -10122,7 +13116,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can cause lung disease and cancer when inhaling its dust during drilling, cutting and grinding.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Pink, Green, Grey, Black, Yellow, Red, Blue',
       luster: 'Vitreous to dull',
@@ -10161,7 +13154,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks from handling the rock itself, but dust created from cutting or breaking can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as this is a rock and not a mineral',
       colors: 'Can range widely in color, depending upon the minerals present',
       luster: 'Subvitrous to dull',
@@ -10200,7 +13192,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally considered safe unless disturbed. If powdered or crushed, it can cause mild lung irritation if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the minerals present',
       colors: 'Varies based on mineral composition',
       luster: 'Often dull to slightly shiny',
@@ -10239,7 +13230,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks are associated with pseudotachylite, but any rock dust can be harmful if inhaled in large amounts.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous, does not possess a crystalline structure',
       colors: 'Dark brown, black',
       luster: 'Vitreous, resembling glass',
@@ -10278,7 +13268,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term over-exposure to dust can potentially lead to Silicosis, a lung disease. It’s crucial to handle quartzite with proper safety gear especially while cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, Pink, Red, Brown, etc. depending on mineral content.',
       luster: 'Vitreous to Dull',
@@ -10316,7 +13305,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with all rocks, prolonged exposure to dust may lead to lung issues if personal protective equipment is not used.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Brown, black, grey, white',
       luster: 'Vitreous to Pearly',
@@ -10354,7 +13342,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When cut or broken, can contain silica which is harmful if inhaled',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'grey, green, red, brown, black',
       luster: 'Dull to slightly metallic',
@@ -10395,7 +13382,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'General rock dust inhalation risks; however, suevite is not specifically associated with any unique health hazards ',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'green, black, gray',
       luster: 'Earthy to Vitreous depending on the components',
@@ -10432,7 +13418,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of talc carbonate dust could lead to serious lung conditions, including cancer. Always handle it with care and avoid dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'White, grey, green, brown',
       luster: 'Pearly',
@@ -10470,7 +13455,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When cut or polished, soapstone can release talc, a substance which can cause respiratory issues when inhaled. Therefore, suitable protective measures should be taken when working with soapstone.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, green, brown.',
       luster: 'Greasy or waxy',
@@ -10509,7 +13493,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks unless ground to dust; dust inhalation may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the specific minerals present',
       colors: 'Varies, depending upon mineral composition',
       luster: 'Depends on the specific minerals present',
@@ -10547,7 +13530,6 @@ class Rock {
       color: 'White and light brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with normal handling',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'White and light brown',
       luster: 'Pearly to vitreous',
@@ -10586,7 +13568,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with Adamellite, although inhaling stone dust during cutting can be hazardous.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Light colored, pink, grey',
       luster: 'Vitreous to Pearly',
@@ -10622,7 +13603,6 @@ class Rock {
       color: 'Greenish, grayish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'Greenish, grayish',
       luster: 'Vitreous to sub-vitreous',
@@ -10660,7 +13640,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated, but dust inhalation should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'green, black, gray',
       luster: 'Vitreous',
@@ -10696,7 +13675,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally safe to handle but dust from cutting or carving can be hazardous to breathe.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Blue, Silver-blue',
       luster: 'Vitreous to pearly on cleavage surfaces',
@@ -10733,7 +13711,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling dust from crushed felsite may lead to silicosis, a serious pulmonary disease. Always wear protective equipment when working with rocks and minerals.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline',
       colors: 'gray, white, pink',
       luster: 'Vitreous',
@@ -10772,7 +13749,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dust during flint knapping can potentially cause silicosis, but is not a risk under normal handling.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark grey, black, brown',
       luster: 'Waxy to glassy',
@@ -10811,7 +13787,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged or intense inhalation of dust may lead to Silicosis, a lung disease caused by inhaling silica dust.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'grey, white',
       luster: 'Dull to earthy',
@@ -10850,7 +13825,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No general health risks associated, but specific risks may depend on the mineral contents.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the particular minerals in the Gossan',
       colors: 'Red, orange, yellow, brown',
       luster: 'Earthy',
@@ -10888,7 +13862,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust could lead to silicosis, a lung disease. Always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Brown, Green, Red',
       luster: 'Vitreous',
@@ -10925,7 +13898,6 @@ class Rock {
       color: 'Grey, Pale Pink',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Not Applicable - This is a rock, not a mineral',
       colors: 'Grey, Pale Pink',
       luster: 'Vitreous to Dull',
@@ -10962,7 +13934,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Larvikite, but dust created from cutting or carving should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'dark grey, blue, silver',
       luster: 'Vitreous',
@@ -10998,7 +13969,6 @@ class Rock {
       color: 'light to dark grey',
       isMagnetic: false,
       healthRisks: 'No known significant health risks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'light to dark grey',
       luster: 'Vitreous to dull',
@@ -11035,7 +14005,6 @@ class Rock {
       color: 'greyish-blue quartz, pink feldspar, dark crystals',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Trigonal and Monoclinic',
       colors: 'greyish-blue, pink, dark',
       luster: 'Vitreous',
@@ -11074,7 +14043,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with this rock, although respirable dust can be produced when cutting or breaking rock and may cause health problems if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'White, Pale pink, Grey, Black',
       luster: 'Vitreous to dull',
@@ -11113,7 +14081,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific risks, but as with all rocks, inhaling dust from crushing or breaking can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'gray, pink, white',
       luster: 'Vitreous',
@@ -11150,7 +14117,6 @@ class Rock {
       color: 'Green to Greenish-Brown',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic - Dipyramidal',
       colors: 'Green, Greenish-Brown',
       luster: 'Vitreous - Dull',
@@ -11188,7 +14154,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No notable health risks for casual exposure. Prolonged inhalation of dust from crushing or cutting granite could potentially lead to more significant health issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: '',
       luster: '',
@@ -11225,7 +14190,6 @@ class Rock {
       color: 'Mostly grey, greenish, or reddish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Grey, greenish, reddish',
       luster: 'Vitreous to dull',
@@ -11264,7 +14228,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with regular handling of Shonkinite. However, overexposure to dust may cause irritation to skin, eyes, and respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Dark color',
       luster: 'Vitreous to dull',
@@ -11302,7 +14265,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks known, but fine disintegrated particles may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'dark grey, black',
       luster: 'Sub-vitreous to dull',
@@ -11341,7 +14303,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'In general, Unakite is a safe mineral to handle and use. However, the dust from cutting or carving can be harmful if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic and Monoclinic',
       colors: '',
       luster: 'Vitreous to pearly',
@@ -11381,7 +14342,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks associated with lamprophyre, standard precautions for handling and airborne dust.',
-      askedQuestions: [],
       crystalSystem: 'Varies',
       colors: 'Dark, Green, Black, Brown',
       luster: 'Vitreous',
@@ -11422,7 +14382,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, general rules of handling rocks and minerals should be followed',
-      askedQuestions: [],
       crystalSystem: 'N/A for rocks',
       colors: 'gray, green, brown',
       luster: 'Vitreous',
@@ -11460,7 +14419,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Minimal; however, consistent inhalation of rock dust could lead to respiratory problems.',
-      askedQuestions: [],
       crystalSystem:
           'Variable, but often includes pyroxene and plagioclase crystals',
       colors: 'Dark to light gray, often with a greenish hue',
@@ -11500,7 +14458,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, prolonged exposure to rock dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, green, blue, white',
       luster: 'Vitreous to dull',
@@ -11538,7 +14495,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Aplite does not pose any immediate health risks. Prolonged exposure to dust may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'light gray, white',
       luster: 'Vitreous to Silky',
@@ -11575,7 +14531,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to finely ground basalt dust may cause lung issues due to crystalline silica content.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as it consists of small minerals',
       colors: 'Black, Grey',
       luster: 'Vitreous to Dull',
@@ -11612,7 +14567,6 @@ class Rock {
       color: 'Grey to black',
       isMagnetic: false,
       healthRisks: 'Long term exposure to rock dust may cause lung problems.',
-      askedQuestions: [],
       crystalSystem: 'No distinct crystals visible',
       colors: 'Gray, Black',
       luster: 'Vitreous',
@@ -11650,7 +14604,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with most rocks, the primary health risk involves inhalation of dust during collection or sample preparation which can cause lung damage.',
-      askedQuestions: [],
       crystalSystem: 'Unavailable',
       colors: 'Dark, black, brown',
       luster: 'Vitreous to Dull',
@@ -11689,7 +14642,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with proper handling of shoshonite.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Black, grey',
       luster: 'Dull to vitreous',
@@ -11727,7 +14679,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks when handled properly, however, dust produced from boninite can be harmful if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Grey, Brown',
       luster: 'Vitreous',
@@ -11767,7 +14718,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock, dust inhalation during crushing and grinding carries health risks, particularly if the rock contains potentially harmful minerals. Prolonged exposure can lead to lung conditions such as silicosis or other respiratory conditions.',
-      askedQuestions: [],
       crystalSystem:
           'Trigonal and/or Rhombohedral, depending on the primary carbonate mineral present (typically calcite or dolomite)',
       colors: '',
@@ -11807,7 +14757,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, Charnockite is safe to handle but inhaling dust from any type of rock could cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isomorphic',
       colors: 'Dark grey, green, blue',
       luster: 'Vitreous',
@@ -11845,7 +14794,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhabitation with respirable crystalline silica (dust) may lead to silicosis or other lung diseases. Always use appropriate safety measures when handling.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as dacite is a rock composed of a variety of minerals',
       colors: 'Grey, Black',
@@ -11884,7 +14832,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No known specific health risks associated with diabase.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable since it is a rock, a composition of multiple minerals.',
       colors: 'dark gray, black',
@@ -11922,7 +14869,6 @@ class Rock {
       color: 'grey to dark-grey, occasionally black',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as diorite is not lead to a single crystal system',
       colors: 'grey, dark-grey, black',
@@ -11961,7 +14907,6 @@ class Rock {
       color: 'dark gray to black',
       isMagnetic: false,
       healthRisks: 'No specific health risks known.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black',
       luster: 'Vitreous to dull',
@@ -11999,7 +14944,6 @@ class Rock {
       color: 'Dark green, black',
       isMagnetic: false,
       healthRisks: 'Can generate radon gas, a health hazard when inhaled',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Dark green, black',
       luster: 'Dull to slightly metallic',
@@ -12036,7 +14980,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of dust could cause lung issues, although this is not a common concern.',
-      askedQuestions: [],
       crystalSystem: 'Tetragonal',
       colors: 'light to dark gray',
       luster: 'Vitreous to dull',
@@ -12072,7 +15015,6 @@ class Rock {
       color: 'Often light in color, but can vary',
       isMagnetic: false,
       healthRisks: 'No notable health risks associated with granophyre',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable - Granophyre lacks a specific crystal structure due to its micrographic intergrowths.',
       colors: '',
@@ -12112,7 +15054,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with normal contact with Harzburgite.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Greenish, yellowish, brownish-black',
       luster: 'Dull or greasy',
@@ -12151,7 +15092,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with hornblendite. However, as with any rock or mineral, dust generated from cutting or breaking should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'black, dark brown, green',
       luster: 'Vitreous to dull',
@@ -12190,7 +15130,6 @@ class Rock {
       color: 'Black to dark gray',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'Isothermic',
       colors: '',
       luster: '',
@@ -12229,7 +15168,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended exposure to or inhalation of volcanic ash can be harmful',
-      askedQuestions: [],
       crystalSystem:
           'No specific crystal system – non-crystalline rock due to rapid cooling',
       colors: 'White, Grey, Pink, Yellow, Dark-Coloured',
@@ -12267,7 +15205,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks identified. Typical risks associated with rock dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Gray, yellow, green, pink',
       luster: 'Vitreous',
@@ -12303,7 +15240,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no particular health risks associated with komatiite, but like any rock or dust particle, prolonged inhalation of fine particles can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'N/A for rocks, applies to minerals',
       colors: 'green, yellow-green, mottled green and yellow',
       luster: 'Glossy to dull',
@@ -12342,7 +15278,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risk is associated with lamprophyres. However, like any rock, dust produced from crushing or cutting should not be inhaled.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as lamprophyre is a rock not a single mineral',
       colors: 'Dark, black, brown, occasionally greenish',
@@ -12380,7 +15315,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks associated with this rock',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, dark grey, greenish, reddish',
       luster: 'Matte',
@@ -12418,7 +15352,6 @@ class Rock {
           'greyish to white, with a possible tint of pink due to potassium feldspar',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'greyish, white, pink',
       luster: 'Vitreous to dull',
@@ -12456,7 +15389,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with any rock or mineral, dust can be harmful if inhaled and prolonged exposure could potentially lead to silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'gray, brown, green, pink, black',
       luster: 'Dull to Vitreous',
@@ -12494,7 +15426,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As it is low in free silica compared to feldspathic rock, it has a significantly reduced respiratory health risk.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, light grey, greenish, reddish',
       luster: 'Vitreous to greasy',
@@ -12533,7 +15464,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'This rock does not inherently present health risks. However, inhalation of rock dust can be harmful and proper precautions should be taken while handling.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Gray, greenish gray, light brown',
       luster: 'Vitreous to dull',
@@ -12571,7 +15501,6 @@ class Rock {
       color: 'Gray, yellow, greenish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Gray, yellow, greenish',
       luster: 'Vitreous',
@@ -12607,7 +15536,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of dust may pose health risks, including silicosis',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks',
       colors: 'Green, Black, White, Pink',
       luster: 'Varies from Vitreous, dull to metallic',
@@ -12645,7 +15573,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Extended inhalation of pumice dust may cause lung irritation.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, pale yellow, pink, pale-blue, grey',
       luster: 'Vitreous to dull',
@@ -12682,7 +15609,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated unless grinding or breaking it down to dust, which can have bad respiratory effects.',
-      askedQuestions: [],
       crystalSystem: 'Mostly Monoclinic from Amphibole and Biotite components',
       colors: 'grey, dark grey',
       luster: 'Vitreous to dull',
@@ -12720,7 +15646,6 @@ class Rock {
           'gray, pink or red due to a high concentration of feldspar mineral crystals',
       isMagnetic: false,
       healthRisks: 'N/A',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'gray, pink, red',
       luster: 'Subvitreous to vitreous',
@@ -12759,7 +15684,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with quartzolite, unless in powdered form which can damage lung tissue if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Clear, white, and a variety depending on inclusions',
       luster: 'Vitreous',
@@ -12797,7 +15721,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, though always take precautions when handling and breaking rock specimens.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'gray, white, pink',
       luster: 'Vitreous',
@@ -12836,7 +15759,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to rock dust can lead to silicosis. However, under normal handling conditions, comendite is not dangerous.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Grey, Light Pink',
       luster: 'Vitreous',
@@ -12875,7 +15797,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No evident health risks associated with handling the rock. As with all rocks, dust can be harmful if inhaled. The rock should be used responsibly in its intended manner.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark gray, black',
       luster: 'Subvitreous to Resinous',
@@ -12914,7 +15835,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks are associated with sovite. However, as with any rock, undue exposure to dust during handling or processing should be prevented.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'White, grey, beige, colorless, pale yellow',
       luster: 'Vitreous',
@@ -12952,7 +15872,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Tachylyte, similar to other volcanic glasses, pose health risks when inhaled, or handled improperly may cause cuts or injury due to its sharp edges.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, dark brown',
       luster: 'Vitreous',
@@ -12992,7 +15911,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with the handling of tephriphonolite, however, inhalation of rock dust can pose health hazards.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, brown, black',
       luster: 'Matte',
@@ -13027,7 +15945,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks identified when handled responsibly. However, constant exposure to dust may cause health issues.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to being a volcanic rock',
       colors: 'Dark gray to black',
       luster: 'Vitreous',
@@ -13065,7 +15982,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, like with any rock or mineral, exposure to dust should be limited.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'grey, dark-grey',
       luster: 'Vitreous to Dull',
@@ -13102,7 +16018,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks associated with this type of rock when used in normal circumstances',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to this category of rock',
       colors: 'gray, brownish-gray',
       luster: 'Vitreous to dull',
@@ -13139,7 +16054,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks. However, prolonged inhalation of any rock dust can potentially cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Dependent on mineral content, often triclinic',
       colors: 'Light colors, pale green, white',
       luster: 'Vitreous to dull',
@@ -13177,7 +16091,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks, but fine dust or particles, if inhaled or ingested, may cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark Grey, Black',
       luster: 'Vitreous to Dull',
@@ -13214,7 +16127,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated specifically with Hawaiite. However, like many rocks and minerals, substantial exposure to dust can be harmful when inhaled.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'grey, greenish-grey',
       luster: 'Vitreous to dull',
@@ -13252,7 +16164,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure to dust may lead to Silicosis. Always use a dust mask when handling or cutting rocks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, pink',
       luster: 'Vitreous to dull',
@@ -13288,7 +16199,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with hand specimens. However, dust produced from cutting or crushing may pose risks if inhaled excessively over time.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic/Cubic - Plagioclase (Triclinic)',
       colors: 'Light green, gray',
       luster: 'Vitreous to silky',
@@ -13326,7 +16236,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Trondhjemite. However, inhalation of rock dust can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Creamy white to gray',
       luster: 'Vitreous',
@@ -13364,7 +16273,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of volcanic ash (solidified or not) can lead to health issues such as lung disease or cancer. Always handle with care and use appropriate protection.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'White, Grey, Brown, Yellow',
       luster: 'Dull to Earthy',
@@ -13401,7 +16309,6 @@ class Rock {
       color: 'Grey, dark green, brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and orthorhombic',
       colors: '',
       luster: '',
@@ -13438,7 +16345,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like most rocks and dusts, prolonged inhalation of dust can lead to health problems. But overall, it is not considered particularly toxic',
-      askedQuestions: [],
       crystalSystem:
           'Amorphous lack a crystalline structure, instead being composed of microscopic clay minerals',
       colors: 'gray to black',
@@ -13475,7 +16381,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks, but inhalation of rock dust can be detrimental to health',
-      askedQuestions: [],
       crystalSystem: 'Not applicable to rocks',
       colors: 'Red, grey, yellow, orange',
       luster: 'Matte',
@@ -13513,7 +16418,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'No significant health risks are associated with naturally occurring banded iron formations. However, ingestion or inhalation of dust can cause health issues.',
-      askedQuestions: [],
       crystalSystem: 'None, as it is a rock, not a mineral',
       colors: 'Red, reddish brown, grey, black',
       luster: 'Metallic to dull',
@@ -13551,7 +16455,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated but it is important to avoid inhaling dust while handling rocks and minerals, as it could irritate lungs',
-      askedQuestions: [],
       crystalSystem: 'not applicable',
       colors: 'multicolored',
       luster: 'varies from dull to vitreous',
@@ -13590,7 +16493,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to calcarenite dust can potentially cause lung problems due to the inhalation of small particles. Always use dust masks and proper ventilation when handling or working with calcarenite in a confined space or for a prolonged period.',
-      askedQuestions: [],
       crystalSystem: 'Rhombohedral',
       colors: 'white, gray, pink, black',
       luster: 'Dull to earthy',
@@ -13627,7 +16529,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Excessive inhalation can cause lung problems due to the small particulates.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Light Grey',
       luster: 'Dull, Earthy',
@@ -13664,7 +16565,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Risk of silicosis due to inhalation of dust produced when chert is broken, cut, drilled or polished. Always use safety precautions when working with chert.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline or cryptocrystalline',
       colors: 'White, tan, red, green, brown, black, and gray',
       luster: 'Waxy, dull or glossy',
@@ -13701,7 +16601,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Excessive inhalation of clay dust can cause lung disease over a prolonged period. It is advised to avoid inhaling clay dust and use proper respiratory protection while handling.',
-      askedQuestions: [],
       crystalSystem: 'None',
       colors: 'grey, green, brown, red',
       luster: 'Dull',
@@ -13740,7 +16639,6 @@ class Rock {
       color: 'light-coloured, usually tan or yellow',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'light-coloured, usually tan or yellow',
       luster: 'Dull to earthy',
@@ -13778,7 +16676,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'General dust inhalation while handling can cause respiratory discomfort. Therefore, it is advisable to wear a dust mask while handling the rock to mitigate this risk.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as this is not a crystalline material',
       colors: 'Typically grey, but varies based on composition',
       luster: 'Earthy to dull, depends on the types of fragments included',
@@ -13816,7 +16713,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of diatomite can lead to long term lung problems, such as silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, off-white, light grey',
       luster: 'Dull to Earthy',
@@ -13853,7 +16749,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Breathing or handling some types of evaporites can be harmful if they contain harmful substances, always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on the type of mineral',
       colors: 'White, colorless, blue, red, yellow, pink',
       luster: 'Vitreous to dull',
@@ -13890,7 +16785,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust from flint is harmful if inhaled. It can affect the lungs and cause silicosis.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark grey, black, brown',
       luster: 'Waxy to dull',
@@ -13927,7 +16821,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks although inhaling silica dust can lead to silicosis. Always handle mineral specimens responsibly.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'White, grey, brown',
       luster: 'Dull to earthy',
@@ -13966,7 +16859,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks, but prolonged inhalation of rock dust can potentially cause health problems.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black, brown',
       luster: 'Matte or Dull',
@@ -14005,7 +16897,6 @@ class Rock {
       color: 'gray, brown',
       isMagnetic: false,
       healthRisks: 'Inhalation of dust may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'gray, brown',
       luster: 'Matte',
@@ -14042,7 +16933,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with laterite itself, but caution should always be taken when handling any form of rock or soil due to the possibility of inhaling dust particles.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Red, brown',
       luster: 'Earthy',
@@ -14082,7 +16972,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged exposure can cause black lung disease, due to the inhalation of coal dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'brown, black',
       luster: 'Vitreous to Resinous',
@@ -14118,7 +17007,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust could lead to respiratory problems. Prolonged contact could result in skin irritation.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, green, blue, buff',
       luster: 'Dull to earthy',
@@ -14157,7 +17045,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continuous inhalation of dust may cause health issues related to the respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to lack of a crystal structure',
       colors: 'gray, white, pink, brown',
       luster: 'Dull or earthy',
@@ -14196,7 +17083,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Oil shale dust may poses health risks when inhaled, such as lung problems. The extraction process can contaminate water and air posing risks to both animals and humans.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Dark-brown, black',
       luster: 'Dull to slightly shiny',
@@ -14234,7 +17120,6 @@ class Rock {
       color: 'white, gray, brown, yellow',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'white, gray, brown, yellow',
       luster: 'Dull to earthy',
@@ -14272,7 +17157,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Phosphorite dust can irritate the respiratory system when inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal system',
       colors: 'Gray, Brown, Yellow, Red',
       luster: 'Sub-Vitreous, Resinous, Earthy',
@@ -14310,7 +17194,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chronic inhalation of dust can lead to diseases like silicosis, tuberculosis, bronchitis, or lung cancer.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'grey, yellow, red, white, brown, tan',
       luster: 'Matte',
@@ -14349,7 +17232,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Crystalline silica often found in shale dust can pose health risks such as silicosis upon prolonged exposure.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as Shale is not a crystalline mineral',
       colors: 'Grey, brown, black, yellow, green',
       luster: 'Dull',
@@ -14387,7 +17269,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks. However, like many rocks, it should not be ingested or inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'gray, brown, red, green, purple, black, white',
       luster: 'Dull to earthy',
@@ -14424,7 +17305,6 @@ class Rock {
       color: 'Colorless, white, blue or red due to impurities',
       isMagnetic: false,
       healthRisks: 'No significant health risks reported',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless, white, blue, red',
       luster: 'Vitreous',
@@ -14461,7 +17341,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No particularly adverse health risks associated with Tillite, though inhaling rock dust can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'Varies',
       luster: 'Dull to earthy',
@@ -14499,7 +17378,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Potential risk of radon exposure similar to that of other rocks or stones. However, levels are typically low and not a significant concern.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'white, tan, cream, rusty',
       luster: 'Vitreous to glossy',
@@ -14537,7 +17415,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks identified, but dust may cause irritation to eyes or skin.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal-Rhombohedral',
       colors: 'White, grey, brown, black, greenish',
       luster: 'Vitreous to Pearly',
@@ -14576,7 +17453,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to sedimentary dust can potentially cause respiratory issues, but overall, Wackestone is not known to pose significant health risks.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'grey, white, yellow, brownish',
       luster: 'Vitreous to dull',
@@ -14614,7 +17490,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Anthracite dust can be harmful if inhaled, leading to occupational lung diseases such as anthracosis.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black',
       luster: 'Vitreous, Metallic',
@@ -14651,7 +17526,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with many rocks, prolonged inhalation of dust may pose health risks.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous due to the nature of its formation',
       colors: 'Varies greatly depending on the mineral content',
       luster: 'Typically dull',
@@ -14689,7 +17563,6 @@ class Rock {
       color: 'Green, red',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with normal handling',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on composition',
       colors: '',
       luster: '',
@@ -14725,7 +17598,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No intrinsic health risks associated with weathered and handled correctly',
-      askedQuestions: [],
       crystalSystem: 'Highly crystalline',
       colors: 'Grey, Pink',
       luster: 'Vitreous to Submetallic',
@@ -14764,7 +17636,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Due to its hard nature, inhaling hornfels dust generated by drilling or mining may cause lung damage.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable, as Hornfels is not a mineral but a metamorphic rock with no specific crystal structure.',
       colors: 'Black, brown, green, red, blue, gray',
@@ -14804,7 +17675,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like most rocks, litchfieldite poses no significant health risks unless ground into dust and inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, Pink, Green, Black',
       luster: 'Vitreous to Dull',
@@ -14842,7 +17712,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Can cause lung disease and cancer when inhaling its dust during drilling, cutting and grinding.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'White, Pink, Green, Grey, Black, Yellow, Red, Blue',
       luster: 'Vitreous to dull',
@@ -14881,7 +17750,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks from handling the rock itself, but dust created from cutting or breaking can cause respiratory irritation.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable, as this is a rock and not a mineral',
       colors: 'Can range widely in color, depending upon the minerals present',
       luster: 'Subvitrous to dull',
@@ -14920,7 +17788,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally considered safe unless disturbed. If powdered or crushed, it can cause mild lung irritation if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the minerals present',
       colors: 'Varies based on mineral composition',
       luster: 'Often dull to slightly shiny',
@@ -14959,7 +17826,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks are associated with pseudotachylite, but any rock dust can be harmful if inhaled in large amounts.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous, does not possess a crystalline structure',
       colors: 'Dark brown, black',
       luster: 'Vitreous, resembling glass',
@@ -14998,7 +17864,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term over-exposure to dust can potentially lead to Silicosis, a lung disease. It’s crucial to handle quartzite with proper safety gear especially while cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, Pink, Red, Brown, etc. depending on mineral content.',
       luster: 'Vitreous to Dull',
@@ -15036,7 +17901,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with all rocks, prolonged exposure to dust may lead to lung issues if personal protective equipment is not used.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Brown, black, grey, white',
       luster: 'Vitreous to Pearly',
@@ -15074,7 +17938,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When cut or broken, can contain silica which is harmful if inhaled',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'grey, green, red, brown, black',
       luster: 'Dull to slightly metallic',
@@ -15115,7 +17978,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'General rock dust inhalation risks; however, suevite is not specifically associated with any unique health hazards ',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'green, black, gray',
       luster: 'Earthy to Vitreous depending on the components',
@@ -15152,7 +18014,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged inhalation of talc carbonate dust could lead to serious lung conditions, including cancer. Always handle it with care and avoid dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'White, grey, green, brown',
       luster: 'Pearly',
@@ -15190,7 +18051,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When cut or polished, soapstone can release talc, a substance which can cause respiratory issues when inhaled. Therefore, suitable protective measures should be taken when working with soapstone.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Gray, green, brown.',
       luster: 'Greasy or waxy',
@@ -15229,7 +18089,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks unless ground to dust; dust inhalation may cause respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the specific minerals present',
       colors: 'Varies, depending upon mineral composition',
       luster: 'Depends on the specific minerals present',
@@ -15267,7 +18126,6 @@ class Rock {
       color: 'White and light brown',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with normal handling',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'White and light brown',
       luster: 'Pearly to vitreous',
@@ -15306,7 +18164,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with Adamellite, although inhaling stone dust during cutting can be hazardous.',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'Light colored, pink, grey',
       luster: 'Vitreous to Pearly',
@@ -15342,7 +18199,6 @@ class Rock {
       color: 'Greenish, grayish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'Greenish, grayish',
       luster: 'Vitreous to sub-vitreous',
@@ -15380,7 +18236,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated, but dust inhalation should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable',
       colors: 'green, black, gray',
       luster: 'Vitreous',
@@ -15416,7 +18271,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally safe to handle but dust from cutting or carving can be hazardous to breathe.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Blue, Silver-blue',
       luster: 'Vitreous to pearly on cleavage surfaces',
@@ -15453,7 +18307,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling dust from crushed felsite may lead to silicosis, a serious pulmonary disease. Always wear protective equipment when working with rocks and minerals.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline',
       colors: 'gray, white, pink',
       luster: 'Vitreous',
@@ -15492,7 +18345,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dust during flint knapping can potentially cause silicosis, but is not a risk under normal handling.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Dark grey, black, brown',
       luster: 'Waxy to glassy',
@@ -15531,7 +18383,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Prolonged or intense inhalation of dust may lead to Silicosis, a lung disease caused by inhaling silica dust.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'grey, white',
       luster: 'Dull to earthy',
@@ -15570,7 +18421,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No general health risks associated, but specific risks may depend on the mineral contents.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the particular minerals in the Gossan',
       colors: 'Red, orange, yellow, brown',
       luster: 'Earthy',
@@ -15608,7 +18458,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust could lead to silicosis, a lung disease. Always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Brown, Green, Red',
       luster: 'Vitreous',
@@ -15645,7 +18494,6 @@ class Rock {
       color: 'Grey, Pale Pink',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Not Applicable - This is a rock, not a mineral',
       colors: 'Grey, Pale Pink',
       luster: 'Vitreous to Dull',
@@ -15682,7 +18530,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Larvikite, but dust created from cutting or carving should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'dark grey, blue, silver',
       luster: 'Vitreous',
@@ -15718,7 +18565,6 @@ class Rock {
       color: 'light to dark grey',
       isMagnetic: false,
       healthRisks: 'No known significant health risks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'light to dark grey',
       luster: 'Vitreous to dull',
@@ -15755,7 +18601,6 @@ class Rock {
       color: 'greyish-blue quartz, pink feldspar, dark crystals',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Trigonal and Monoclinic',
       colors: 'greyish-blue, pink, dark',
       luster: 'Vitreous',
@@ -15794,7 +18639,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with this rock, although respirable dust can be produced when cutting or breaking rock and may cause health problems if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic and Triclinic',
       colors: 'White, Pale pink, Grey, Black',
       luster: 'Vitreous to dull',
@@ -15833,7 +18677,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific risks, but as with all rocks, inhaling dust from crushing or breaking can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'gray, pink, white',
       luster: 'Vitreous',
@@ -15870,7 +18713,6 @@ class Rock {
       color: 'Green to Greenish-Brown',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic - Dipyramidal',
       colors: 'Green, Greenish-Brown',
       luster: 'Vitreous - Dull',
@@ -15908,7 +18750,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No notable health risks for casual exposure. Prolonged inhalation of dust from crushing or cutting granite could potentially lead to more significant health issues.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: '',
       luster: '',
@@ -15945,7 +18786,6 @@ class Rock {
       color: 'Mostly grey, greenish, or reddish',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Grey, greenish, reddish',
       luster: 'Vitreous to dull',
@@ -15984,7 +18824,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with regular handling of Shonkinite. However, overexposure to dust may cause irritation to skin, eyes, and respiratory tract.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Dark color',
       luster: 'Vitreous to dull',
@@ -16022,7 +18861,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks known, but fine disintegrated particles may cause respiratory problems.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'dark grey, black',
       luster: 'Sub-vitreous to dull',
@@ -16061,7 +18899,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'In general, Unakite is a safe mineral to handle and use. However, the dust from cutting or carving can be harmful if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic and Monoclinic',
       colors: '',
       luster: 'Vitreous to pearly',
@@ -16101,7 +18938,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks associated with lamprophyre, standard precautions for handling and airborne dust.',
-      askedQuestions: [],
       crystalSystem: 'Varies',
       colors: 'Dark, Green, Black, Brown',
       luster: 'Vitreous',
@@ -16143,7 +18979,6 @@ class Rock {
           'dark blue, grey, light gray, or black with blue or silver flashes',
       isMagnetic: false,
       healthRisks: 'No significant health risks associated with it.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Dark blue, grey, light gray, black',
       luster: 'Sub-vitreous to shiny',
@@ -16181,7 +19016,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Grinding or cutting marble could generate dust that can cause allergic reactions, skin, and eye irritation. There may also be potential risks of silicosis from long-term exposure.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'white, pink, green, gray, black, yellow',
       luster: 'Pearly to Vitreous',
@@ -16220,7 +19054,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with gneiss, although breathing dust from any rock can potentially be harmful over time.',
-      askedQuestions: [],
       crystalSystem: 'Does not apply to rocks',
       colors: 'Varies',
       luster: 'Dull to pearly or vitreous',
@@ -16258,7 +19091,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with this rock. However, as a general rule, dust inhalation should be avoided while handling.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'gray, white, pink',
       luster: 'Vitreous to greasy',
@@ -16295,7 +19127,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks known. As with all rocks, however, dust from grinding or breaking Wehrlite should not be inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Greenish black, brownish black',
       luster: 'Greasy to vitreous',
@@ -16334,7 +19165,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with the Aphanite, aside from typical dust inhalation when cutting or breaking the rock.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to fine-grained nature',
       colors: 'Dark grey, black',
       luster: 'Glossy',
@@ -16375,7 +19205,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No inherent health risks. However, inhalation of fine-grained dust during rock cutting or grinding could be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Microcrystalline/Amorphous',
       colors: 'Grey, brown, green, blue',
       luster: 'Often dull or earthy, but can vary',
@@ -16413,7 +19242,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated with handling. However, inhalation of dust may pose respiratory hazard.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'grey, greyish-green, occasionally brown or black',
       luster: 'Vitreous to dull',
@@ -16451,7 +19279,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks are associated with cataclasite. However, as with any type of rock, caution should be exercised when handling sharp or fragmented samples to prevent injury.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'black, green, reddish',
       luster: 'Dull to Earthy',
@@ -16491,7 +19318,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Despite its usage in food, Sylvinite dust and particles can cause skin and eye irritation on continuous exposure.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'white, grey, yellow, red',
       luster: 'Vitreous',
@@ -16529,7 +19355,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No specific health risks associated with handling Kenyte rock, but rock dust can cause respiratory issues if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Grey, Black',
       luster: 'Vitreous to dull',
@@ -16568,7 +19393,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Due to its hematite content, long-term exposure to dust can lead to silicosis, but this is typically only a concern in mining or industrial settings.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'red, grayish, yellow',
       luster: 'earthy to waxy',
@@ -16606,7 +19430,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust may harm the lungs, and direct contact can cause skin irritation.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, light grey',
       luster: 'Waxy to dull',
@@ -16644,7 +19467,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure to dust from crushed trachybasalt may cause respiratory problems. However, in its natural, unprocessed form, trachybasalt is safe.',
-      askedQuestions: [],
       crystalSystem: 'Not Available',
       colors: 'Dark greenish to black',
       luster: 'Vitreous',
@@ -16683,7 +19505,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks when handled. However, inhaling dust during the cutting or crushing process can pose potential respiratory issues.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark grey to black',
       luster: 'Vitreous to slightly metallic',
@@ -16722,7 +19543,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long-term exposure can lead to coal workers pneumoconiosis, also known as black lung disease, caused by inhaling coal dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'black, brown-black',
       luster: 'Matte to vitreous',
@@ -16760,7 +19580,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While gossan itself is not a health risk, it can sometimes bear traces of harmful substances like arsenic, due to its connection with sulfide deposits.',
-      askedQuestions: [],
       crystalSystem: 'Depends on the composition',
       colors: 'Reddish-brown',
       luster: 'Earthy to metallic',
@@ -16796,7 +19615,6 @@ class Rock {
       color: 'Varies',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Varies',
       colors: 'Varies',
       luster: 'Varies',
@@ -16835,7 +19653,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no specific health risks associated with Harzburgite; however, dust generated by handling rocks should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'greenish, brownish, gray',
       luster: 'Greasy, Dull to Vitreous',
@@ -16873,7 +19690,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks, but inhalation of rock dust can harm respiratory system',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Gray, dark gray',
       luster: 'Matte',
@@ -16911,7 +19727,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with most rocks, prolonged inhalation of dust may be harmful. Silica can cause silicosis if inhale over an extended period time, always handle with care. ',
-      askedQuestions: [],
       crystalSystem: 'Trigonal for Hematite and Quartz',
       colors: 'red, black',
       luster: 'Metallic, Waxy',
@@ -16949,7 +19764,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Exposure to dust may harm respiratory system. Prolonged or repeated exposure may cause lung diseases.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable as marl is a sedimentary rock',
       colors: 'white, grey, pink, blue, green, brown, black',
       luster: 'Earthly',
@@ -16987,7 +19801,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with natural untreated eclogite.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic and Orthorhombic',
       colors: 'Green, Blue, Red',
       luster: 'Vitreous',
@@ -17023,7 +19836,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known significant health risks, though inhaling dust generated by handling or breaking the rock can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'dark gray, black',
       luster: 'Vitreous to dull',
@@ -17061,7 +19873,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of dust may cause lung problems if protective measures are not taken.',
-      askedQuestions: [],
       crystalSystem: 'Not applicable due to the lack of large visible crystals',
       colors: 'dark grey, black',
       luster: 'Vitreous to dull',
@@ -17098,7 +19909,6 @@ class Rock {
       color: 'Variable, dependent on mineral composition',
       isMagnetic: false,
       healthRisks: 'No known health risks associated',
-      askedQuestions: [],
       crystalSystem: 'Dependent on mineral composition',
       colors: 'Variable, dependent on mineral composition',
       luster: 'Variable, dependent on mineral composition',
@@ -17134,7 +19944,6 @@ class Rock {
       color: 'Varies, typically featuring shades of gray, pink, and white',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem:
           'Amorphous, due to the mixture of metamorphic and igneous material',
       colors: 'Gray, pink, white',
@@ -17174,7 +19983,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhalation of diatomite may lead to respiratory problems. It is also abrasive and can irritate the skin and eyes on contact.',
-      askedQuestions: [],
       crystalSystem: 'Non-crystalline',
       colors: 'White to off-white',
       luster: 'Earthy',
@@ -17212,7 +20020,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'When broken or crushed, basanite can produce sharp fragments, so it is important to handle carefully to avoid physical harm. Long term exposure to rock dust can lead to lung issues.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Black, Dark Grey',
       luster: 'Vitreous to Dull',
@@ -17250,7 +20057,6 @@ class Rock {
       color: 'grey, beige, white, black',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this stone',
-      askedQuestions: [],
       crystalSystem: 'NA',
       colors: 'grey, beige, white, black',
       luster: 'Vitreous to dull',
@@ -17287,7 +20093,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'In its natural state, talc carbonate is safe. However, talc dust can harm the lungs if inhaled. Some talc may contain asbestos, a substance known to cause cancers in and around the lungs when inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'white, grey, green, brown',
       luster: 'Pearly',
@@ -17322,7 +20127,6 @@ class Rock {
       color: 'Greenish and brownish',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Unavailable',
       colors: 'Greenish and brownish',
       luster: 'Matte',
@@ -17360,7 +20164,6 @@ class Rock {
       color: 'Greenish, greyish, or brownish',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated with Lherzolite.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Greenish, greyish, or brownish',
       luster: 'Greasy, Dull, or Metallic',
@@ -17398,7 +20201,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'This is a natural rock and poses no inherent health risks, though inhaling rock dust can be harmful to respiratory health.',
-      askedQuestions: [],
       crystalSystem: 'n/a',
       colors: 'White, light gray',
       luster: 'Greasy or vitreous',
@@ -17437,7 +20239,6 @@ class Rock {
       color: 'Black, sometimes with white or red streaks (Snowflake Obsidian)',
       isMagnetic: false,
       healthRisks: 'No known health risks, but sharp edges can cause injury',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Primarily black, can have white or red streaks',
       luster: 'Vitreous to Silky',
@@ -17477,7 +20278,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Long term exposure to fine dust can lead to silicosis. Minimal exposure presents minor health risks.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Grey, white, reddish',
       luster: 'Vitreous',
@@ -17516,7 +20316,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, Dunite does not pose a health risk unless inhaled in its dust form, where it can cause lung problems.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Greenish yellow',
       luster: 'Greasy to Dull',
@@ -17554,7 +20353,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Although generally not harmful, inhaling dust from crushed Sovite can cause respiratory irritation. Always use appropriate safety measures when handling rock dust.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, grey, pink, brown',
       luster: 'Vitreous to earthy',
@@ -17592,7 +20390,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated to direct and indirect exposure to Troctolite.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Light to dark green, white',
       luster: 'Vitreous to dull',
@@ -17629,7 +20426,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no significant health risks associated with Itacolumite, unless the rock is breathed in as dust over a long period.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'Yellow, Yellowish-Brown',
       luster: 'Earthy',
@@ -17667,7 +20463,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As a natural mineral, argillite is generally safe to handle. However, inhaling dust from any rock can potentially cause lung problems over long-term exposure.',
-      askedQuestions: [],
       crystalSystem: '',
       colors: 'Grey, Black, Red, Purple',
       luster: 'Dull to earthy',
@@ -17704,7 +20499,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are generally no health risks associated with anorthosite, but any rock dust can be harmful if inhaled over long periods of time.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'light gray, medium gray, sometimes bluish, greenish, or reddish',
       luster: 'Sub-vitreous to dull',
@@ -17742,7 +20536,6 @@ class Rock {
       color: 'Green',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated with this rock',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic (for chlorite), Orthorhombic (for epidote)',
       colors: 'Green',
       luster: 'Silky to shiny',
@@ -17779,7 +20572,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Ground Lapis Lazuli can be hazardous to inhale, always use caution when working with the raw material.',
-      askedQuestions: [],
       crystalSystem: 'Cubic',
       colors: 'Deep Blue, Violetish Blue, Greenish Blue',
       luster: 'Vitreous to greasy',
@@ -17815,7 +20607,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As a type of limestone, excessive inhalation of dust during processing can lead to lung disease.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'White, Tan, Cream-Colored, Rusty',
       luster: 'Vitreous to pearly',
@@ -17854,7 +20645,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Continual exposure may cause silicosis due to the silica content in the dust.',
-      askedQuestions: [],
       crystalSystem: 'N/A, as gritstone is a rock, not a mineral',
       colors: 'Brown, Gray',
       luster: 'Matte',
@@ -17894,7 +20684,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Inhaling dust can be harmful, however, cut and set moissanite poses no known health risks.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Colorless, green, yellow, and blue',
       luster: 'Adamantine to metallic',
@@ -17933,7 +20722,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Grandidierite is not known to carry any specific health risks.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Blue, blue-green',
       luster: 'Vitreous',
@@ -17970,7 +20758,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Breathing helenite dust during grinding and polishing can cause silicosis, but finished helenite is not hazardous to wear.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Green, blue, red, and other colors',
       luster: 'Vitreous',
@@ -18008,7 +20795,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks have been associated with Danburite.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'colorless, yellow, brown, pink',
       luster: 'Vitreous',
@@ -18047,7 +20833,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'Containment of radioactive elements need to be handled carefully',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless',
       luster: 'Vitreous',
@@ -18083,7 +20868,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Algodonite can be harmful if inhaled or swallowed. It contains arsenic, which can cause serious health problems. Always wash hands after handling. Do not inhale dust, and avoid all contact with mouth.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'grey, tin-white',
       luster: 'Metallic',
@@ -18122,7 +20906,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with prasiolite. However,  always wash hands after handling, and do not ingest.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Green',
       luster: 'Vitreous',
@@ -18160,7 +20943,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Low but prolonged exposure can cause irritation and has been linked to negative effects on health.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'white, blue, gray, pink, and pale brown',
       luster: 'Vitreous to pearly on cleavages',
@@ -18198,7 +20980,6 @@ class Rock {
       color: 'Yellow, yellow-green, colorless',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Yellow, yellow-green, colorless',
       luster: 'Vitreous',
@@ -18236,7 +21017,6 @@ class Rock {
       color: 'Pink, green, brown, violet, gray, yellow, white',
       isMagnetic: false,
       healthRisks: 'No specific health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Pink, green, brown, violet, gray, yellow, white',
       luster: 'Vitreous to pearly',
@@ -18273,7 +21053,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Goldstone is generally safe to handle, but care should be taken not to breathe its dust.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'gold, blue, purple, green',
       luster: 'Vitreous',
@@ -18310,7 +21089,6 @@ class Rock {
       color: 'Creamy white to green and black',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Creamy white, green, black',
       luster: 'Waxy to greasy',
@@ -18346,7 +21124,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks, but physical discomfort (like heat flashes) are occasionally reported when initially wearing or using. Always consult a doctor or professional for medical advice.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Dark green, green/brown, blackish',
       luster: 'Vitreous',
@@ -18384,7 +21161,6 @@ class Rock {
       color: 'Raspberry pink to pinkish purple',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Raspberry pink to pinkish purple',
       luster: 'Vitreous',
@@ -18421,7 +21197,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Ulexite is not considered dangerous, but care should be taken not to inhale its dust.',
-      askedQuestions: [],
       crystalSystem: 'triclinic',
       colors: 'pure ulexite is white, but it can also be colorless',
       luster: 'silky',
@@ -18460,7 +21235,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No major health risks associated with handling tinzenite, but as with all minerals, it should not be inhaled or ingested.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Pink, Pale Yellow',
       luster: 'Vitreous',
@@ -18498,7 +21272,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'It is generally safe, with no known specific health risks, though it should not be ingested or inhaled as a dust.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Golden, brown, red, green',
       luster: 'Silky',
@@ -18535,7 +21308,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant risks, but fine dust may cause irritation if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Colorless, white, grey, green, peach, blue',
       luster: 'Vitreous to silky',
@@ -18572,7 +21344,6 @@ class Rock {
       color: 'Colorless, Yellow, Red, Green, Blue, Gray',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with sunstone.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Colorless, Yellow, Red, Green, Blue, Gray',
       luster: 'Vitreous (Glassy) to Pearly',
@@ -18612,7 +21383,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Apatite, when ground to a powder (as in fertilizer), can be harmful if inhaled or swallowed, causing respiratory and digestive issues. Always handle with care.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Green, Blue, Red, Purple, Yellow, Clear',
       luster: 'Vitreous to Subresinous',
@@ -18651,7 +21421,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'None if handled properly. However, ingestion or inhalation can be harmful.',
-      askedQuestions: [],
       crystalSystem: 'Varies depending on the type of crystal used',
       colors: 'Varies depending on the type of metal and crystal used',
       luster: 'Metallic',
@@ -18690,7 +21459,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known specific health risks associated, always adhere to general rock handling guidelines.',
-      askedQuestions: [],
       crystalSystem:
           'Not applicable as it is an igneous rock type rather than a specific mineral',
       colors: 'Gray, green, brown or yellowish',
@@ -18730,7 +21498,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Zircon dust can cause lung cancer if inhaled in large amounts over a long time. Zircon in its raw form is harmless.',
-      askedQuestions: [],
       crystalSystem: 'Tetragonal',
       colors: 'Colorless, yellow-golden, red, brown, blue, green',
       luster: 'Vitreous to brilliant',
@@ -18767,7 +21534,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Austinite is an arsenate mineral which means it contains arsenic. Prolonged exposure and ingestion should absolutely be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Apple-green to dark green',
       luster: 'Vitreous to pearly',
@@ -18804,7 +21570,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Bastnaesite often contains small amounts of radioactive elements, so it should be handled with care. Prolonged exposure or ingestion could result in health risks.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Yellow, brown, reddish-brown',
       luster: 'Vitreous to resinous',
@@ -18842,7 +21607,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with many minerals, prolonged exposure to dust may pose a risk. Always handle with care and consider wearing a mask if handling large quantities of kornerupine dust.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'light brown, light green, green, yellowish green, white, pink',
       luster: 'Vitreous to resinous',
@@ -18878,7 +21642,6 @@ class Rock {
       color: 'Indigo, blue',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Indigo, blue',
       luster: 'Adamantine, Pearly',
@@ -18916,7 +21679,6 @@ class Rock {
       color: 'Blue, Violet',
       isMagnetic: false,
       healthRisks: 'No known health risks associated with handling Tanzanite.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Blue, Violet',
       luster: 'Vitreous',
@@ -18953,7 +21715,6 @@ class Rock {
       color: 'Pink to blood-red',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Pink to blood-red',
       luster: 'Vitreous to adamantine',
@@ -18992,7 +21753,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Dust from rutile can be mildly harmful if inhaled or ingested in large quantities.',
-      askedQuestions: [],
       crystalSystem: 'Tetragonal',
       colors: 'Brown, red-brown, red, pale yellow, pale blue, violet, black',
       luster: 'Adamantine to slightly resinous',
@@ -19029,7 +21789,6 @@ class Rock {
       color: 'Green',
       isMagnetic: false,
       healthRisks: 'No known health risks associated.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Green',
       luster: 'Vitreous',
@@ -19067,7 +21826,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There is no known health risk associated with this stone as long as it is used properly. It may, however, present a choking hazard to small children.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'light gray, brown, black',
       luster: 'Vitreous',
@@ -19104,7 +21862,6 @@ class Rock {
       color: 'brown to black',
       isMagnetic: true,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Cubic',
       colors: 'brown to black',
       luster: 'Vitreous to sub-adamantine',
@@ -19142,7 +21899,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with Amber. However, consuming or inhaling ground Amber is not recommended.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'yellow-orange-brown, and others',
       luster: 'Resinous',
@@ -19180,7 +21936,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'Dark green, Brownish green, Black',
       luster: 'Vitreous',
@@ -19218,7 +21973,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As with many minerals, inhaling dust may pose health risks. Always handle rocks and minerals responsibly.',
-      askedQuestions: [],
       crystalSystem: 'Varies',
       colors: 'brown, green, black',
       luster: 'Varies',
@@ -19255,7 +22009,6 @@ class Rock {
       color: 'blue-grey to blue-green; yellow-brown',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'blue-grey, blue-green, yellow-brown',
       luster: 'Silky',
@@ -19291,7 +22044,6 @@ class Rock {
       color: 'colorless, gray, white, green, blue-green, yellow, brown, pink',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'colorless, gray, white, green, blue-green, yellow, brown, pink',
       luster: 'vitreous to pearly',
@@ -19329,7 +22081,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known significant health risks associated with exposure to this material.',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless',
       luster: 'Vitreous',
@@ -19368,7 +22119,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While normally safe, dust created during processing can irritate the eyes, skin, and respiratory system.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Colorless, pink, blue, yellow, green, purple, black',
       luster: 'Adamantine to vitreous',
@@ -19404,7 +22154,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Generally, there are no major health risks associated with direct contact and handling. However, cutting or crushing concretions might generate dust, which could pose inhalation risks.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: '',
       luster: '',
@@ -19444,7 +22193,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'It is generally safe, but as with all rocks and minerals, ingestion and inhalation should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'greenish bronze, brownish green, grayish white',
       luster: 'Vitreous to pearly',
@@ -19482,7 +22230,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Like other types of serpentine, it could contain asbestos in its raw form. Hence, use with caution and avoid inhaling dust during cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic prismatic',
       colors: 'Blue-green, light olive green',
       luster: 'Waxy to pearly',
@@ -19519,7 +22266,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No inherent health risks, but illegal ivory trade threatens animal species, particularly elephants.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'white, cream',
       luster: 'Glossy',
@@ -19557,7 +22303,6 @@ class Rock {
       color: 'colorless, yellow, orange, red-brown, light to dark-blue, pink',
       isMagnetic: false,
       healthRisks: 'No known health risks.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'colorless, blue, yellow, orange, pink, brown',
       luster: 'Vitreous',
@@ -19595,7 +22340,6 @@ class Rock {
       color: 'gray, green, brown, yellow',
       isMagnetic: false,
       healthRisks: 'No major health risks associated with proper handling',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'gray, green, brown, yellow',
       luster: 'Vitreous, Greasy',
@@ -19632,7 +22376,6 @@ class Rock {
       color: 'yellowish-green',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'yellowish-green',
       luster: 'Vitreous',
@@ -19668,7 +22411,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Chronic beryllium disease or berylliosis is caused by inhalation of beryllium dust or fumes. It can cause cough, shortness of breath, fatigue, weight loss, and chest pain.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'steel gray',
       luster: 'Metallic',
@@ -19705,7 +22447,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No recorded health risks associated with the handling or wearing of precious coral. However, the extraction of coral poses significant risks to marine ecosystems',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Red, pink, white',
       luster: 'Vitreous to waxy',
@@ -19741,7 +22482,6 @@ class Rock {
       color: 'Green in daylight, Red in incandescent light',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Green, Red',
       luster: 'Vitreous',
@@ -19779,7 +22519,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Turquoise is considered safe for handling. However, since it is a phosphate of copper and aluminium, excessive ingestion or prolonged skin contact should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Turquoise, green, blue',
       luster: 'Waxy to sub-vitreous',
@@ -19818,7 +22557,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Bayldonite, like most lead containing minerals, may pose health hazards if inhaled or ingested.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'dark green, greenish-black',
       luster: 'Adamantine, Resinous',
@@ -19856,7 +22594,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks associated directly with the bone; however, fossil extraction should be done carefully to avoid dust inhalation.',
-      askedQuestions: [],
       crystalSystem: 'N/A',
       colors: 'White, off-white, yellowish',
       luster: 'Dull to resinous',
@@ -19894,7 +22631,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'As it is made from hardened industrial paint, there can be health risks with raw fordite due to potential traces of lead and other toxins. However, polished and finished fordite pieces used in jewelry are usually safe to handle.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'Multi-colored - any color that automotive paint may come in',
       luster: 'Varies, generally vitreous after being polished',
@@ -19931,7 +22667,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Standard precautions should be taken while handling Maw-sit-sit as with other minerals. Inhalation and ingestion should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Usually found in massive form',
       colors: 'emerald green, dark green',
       luster: 'Vitreous to dull',
@@ -19971,7 +22706,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Although Trinitite is mildly radioactive, it is generally considered to pose little health risk unless ingested or inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Amorphous',
       colors: 'light green, black, dark green',
       luster: 'Vitreous',
@@ -20009,7 +22743,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'There are no specific health risks associated with handled Pallasites under normal circumstances. However, like all meteorites, they should be handled with care to prevent damage or rust.',
-      askedQuestions: [],
       crystalSystem: 'Isometric, Orthorhombic',
       colors: '',
       luster: '',
@@ -20048,7 +22781,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no universal health risks associated with Tigers Eye when used properly. Ingestion is ill-advised due to the silicon dioxide content.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Golden, red-brown',
       luster: 'Silky',
@@ -20085,7 +22817,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Diamond dust used for polishing can cause respiratory problems if inhaled.',
-      askedQuestions: [],
       crystalSystem: 'Cubic',
       colors: 'clear, yellow, brown, green, blue, black',
       luster: 'Adamantine',
@@ -20123,7 +22854,6 @@ class Rock {
       isMagnetic: true,
       healthRisks:
           'In general, handling Terbium gallium garnet does not pose significant health risks. However, inhalation, ingestion or contact with eyes should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Cubic',
       colors: 'colorless',
       luster: 'Vitreous',
@@ -20158,7 +22888,6 @@ class Rock {
       color: 'Usually colorless, but can be made in a variety of colors',
       isMagnetic: false,
       healthRisks: 'None, as it is a benign and stable material',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Colorless, can be made in a variety of colors',
       luster: 'Vitreous',
@@ -20195,7 +22924,6 @@ class Rock {
       color: 'grey, white',
       isMagnetic: false,
       healthRisks: 'No known health risks',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'grey, white',
       luster: 'Vitreous to dull',
@@ -20234,7 +22962,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While Agrellite is not known for any health risks, it is always wise to wash hands after handling and avoid inhaling dust when breaking or grinding.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'White, Pink',
       luster: 'Vitreous to pearly',
@@ -20273,7 +23000,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Calcite dust can be harmful if inhaled, causing respiratory issues. Also, direct skin contact can cause irritation. Always handle with care and wash hands after use.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: '',
       luster: '',
@@ -20312,7 +23038,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks directly linked with exposure to Nacre. However, handling shells in general may induce allergies in some people.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'white, cream, silver, black, green, blue, pink, gold',
       luster: 'Pearly',
@@ -20349,7 +23074,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with proper handling of Ferroaxinite.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'purple, brown, green, blue',
       luster: 'Vitreous, pearly on cleavage surfaces',
@@ -20389,7 +23113,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Over-exposure via dust inhalation can lead to risk of lung diseases due to its phosphate content',
-      askedQuestions: [],
       crystalSystem: 'Dependent on the mineral composition',
       colors: 'Light gray to brown',
       luster: 'Vitreous to resinous',
@@ -20428,7 +23151,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with this mineral.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'golden yellow, brown, white, or pale grey',
       luster: 'Resinous, Pearly',
@@ -20467,7 +23189,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Contains copper and sulfur, which can be hazardous in large amounts. Always wash hands after handling. Do not inhale dust or ingest.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Copper-red, purplish-blue',
       luster: 'Metallic',
@@ -20505,7 +23226,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While not toxic in its unaltered mineral form, it can be harmful if ingested or inhaled in dust form. Care should be taken when handling to prevent skin and eye irritation.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Dark green, light green, blue-green',
       luster: 'Vitreous to adamantine',
@@ -20542,7 +23262,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No known health risks when handled. Cutting and polishing can produce harmful dust. Always use a mask and proper ventilation.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'Blue, yellow, green, black, purple, pink',
       luster: 'Vitreous',
@@ -20578,7 +23297,6 @@ class Rock {
       color: 'Red, blue, green, yellow, brown, black, purple and colorless',
       isMagnetic: false,
       healthRisks: '',
-      askedQuestions: [],
       crystalSystem: 'Isometric',
       colors: 'Red, blue, green, yellow, brown, black, purple and colorless',
       luster: 'Vitreous',
@@ -20616,7 +23334,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Adamite contains arsenic. Therefore, it is recommended not to ingest, inhale, or touch the mouth or eyes after handling. Always wash your hands after handling.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'Green, yellow, blue, pink, white, brown',
       luster: 'Vitreous',
@@ -20653,7 +23370,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While Beudantite is not toxic itself, it should not be ingested due to the lead content, and frequent handling should be avoided.',
-      askedQuestions: [],
       crystalSystem: 'Hexagonal',
       colors: 'Green, brown, black',
       luster: 'Resinous, Sub-Metallic',
@@ -20691,7 +23407,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'No significant health risks are associated with Anorthite. However, rock dust can irritate the eyes and respiratory system.',
-      askedQuestions: [],
       crystalSystem: 'Triclinic',
       colors: 'Colorless, gray',
       luster: 'Vitreous',
@@ -20731,7 +23446,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Crystalline silica (quartz) can be harmful when inhaled in large amounts, often in industrial settings where it can cause health issues like silicosis, chronic bronchitis, and lung cancer.',
-      askedQuestions: [],
       crystalSystem: 'Trigonal',
       colors: 'clear, pink, purple, brown/black, yellow, white',
       luster: 'Vitreous',
@@ -20769,7 +23483,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'There are no known health risks associated with moonstone, but it is always advised to wash hands after handling.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'colorless, white, grey, peach, blue, green',
       luster: 'Pearly to vitreous',
@@ -20808,7 +23521,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'Exposure to asbestos fibers can lead to serious health ailments such as asbestosis, mesothelioma and other types of lung cancer. It is considered extremely hazardous and its use is restricted in many countries.',
-      askedQuestions: [],
       crystalSystem: 'Orthorhombic',
       colors: 'White, Blue, Brown/Gray, Green',
       luster: 'Silky, Earthy',
@@ -20847,7 +23559,6 @@ class Rock {
       isMagnetic: false,
       healthRisks:
           'While usually not hazardous, inhaling dust from these stones can be harmful. Always wear a protective mask when cutting or polishing.',
-      askedQuestions: [],
       crystalSystem: 'Monoclinic',
       colors: 'green, blue, turquoise',
       luster: 'Vitreous to dull',
@@ -20865,212 +23576,2719 @@ class Rock {
       rockImages: [],
     ),
 
-    
-    
-
     //end of new rocks and gems
     //start of new aditions
-    Rock(rockId: 859, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'gemstone', rockName: 'Sapphire', imageURL: '', isFavorited: false, description: 'Sapphire is a precious gemstone, a variety of the mineral corundum, which is typically blue but natural fancy sapphires also occur in yellow, purple, orange, and green colors.', isSelected: false, formula: 'Al2O3', hardness: 9.0, color: 'Blue, yellow, purple, orange, green, colorless, pink, multicolored', isMagnetic: false, healthRisks: 'No known health risks', askedQuestions: [], crystalSystem: 'Trigonal', colors: 'Blue, Colorless, Pink, Yellow, Green, Multicolored', luster: 'Vitreous', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Aluminium, Oxygen', healingPropeties: '', formulation: 'Al2O3', meaning: 'Wisdom, truth, protection, spiritual insight, good fortune', howToSelect: 'When selecting a sapphire, consider its color, clarity, carat weight, and cut. A sapphire value is based on its size, color, and quality of cut.', types: 'Blue sapphire, Pink sapphire, Yellow sapphire, White sapphire, Purple sapphire', uses: 'Highly valued as a gemstone for jewelry, also used industrially for its hardness in applications such as scratch-resistant screens.'),
-    Rock(rockId: 860, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous', rockName: 'Blairmorite', imageURL: '', isFavorited: false, description: 'Blairmorite, also known as Biotite-Nepheline-Albite-Phlogopite, is an uncommon variety of igneous rock, found most commonly in Blairmore, Alberta, Canada.', isSelected: false, formula: '', hardness: 0, color: 'white to light grey, with brown to greenish-black minerals', isMagnetic: false, healthRisks: 'Generally, Blairmorite poses no health risks unless ground into a fine dust and inhaled. Long term inhalation of such dust can lead to lung problems.', askedQuestions: [], crystalSystem: 'Trigonal', colors: 'White, light grey, brown, greenish-black', luster: 'Vitreous to pearly', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Potassium, Oxygen, Sodium, Silicon, Aluminium, Iron, Magnesium, Hydrogen, Fluorine, Chlorine', healingPropeties: '', formulation: '', meaning: 'Due to its uncommon nature and unique composition, Blairmorite often symbolizes uniqueness and individual unity among different elements.', howToSelect: 'Select Blairmorite based on the quality of the specimen, its color, and the proportion of minerals present. It is also important to source this rock responsibly given its rarity.', types: 'Blairmorite is unique in its composition, with only one recognized type.', uses: 'Blairmorite is appreciated as a collector piece among mineral enthusiasts. It is also studied in the academic and scientific communities due to its unique composition.'),
-Rock(rockId: 861, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous', rockName: 'Boninite', imageURL: '', isFavorited: false, description: 'Boninite is a high-magnesium and low-titanium type of andesite. It is characterized by its high levels of silicon, magnesium, and nickel, and its low levels of titanium and iron. it is typically found in subduction zones and is rare in occurrence.', isSelected: false, formula: 'SiO2, MgO, CaO, Al2O3', hardness: 5.5, color: 'greenish, gray', isMagnetic: false, healthRisks: '', askedQuestions: [], crystalSystem: 'Orthorhombic', colors: 'greenish, gray', luster: 'Vitreous', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Silicon, Oxygen, Magnesium, Calcium, Aluminum', healingPropeties: '', formulation: 'SiO2, MgO, CaO, Al2O3', meaning: 'A significant rock that indicated subduction zones, this rock does not have any known metaphysical meaning', howToSelect: 'Boninite is not commonly used for jewelry or decorative purposes, so selection is typically rooted in geological research purposes', types: 'High-silica boninite, low-silica boninite', uses: 'Scientific study, geological indicators'),
-Rock(rockId: 862, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous', rockName: 'Essexite', imageURL: '', isFavorited: false, description: 'Essexite is an intrusive igneous rock, often dark in colour, that is similar in its mineralogical composition to gabbro but differs in having more alkali feldspar than plagioclase feldspar.', isSelected: false, formula: '(Ca,Na)[Al(Al,Si)Si2O8]', hardness: 6.0, color: 'dark grey to black', isMagnetic: false, healthRisks: 'Not known to have any health risks associated with it, but care should be taken when handling sharp or broken pieces.', askedQuestions: [], crystalSystem: 'Triclinic', colors: 'Dark grey, black', luster: 'Vitreous to dull', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Calcium, Sodium, Aluminum, Silicon, Oxygen', healingPropeties: '', formulation: '(Ca,Na)[Al(Al,Si)Si2O8]', meaning: '', howToSelect: 'Essexite is an unusual rock and not typically used in craft or decor. If selecting for study or collection, look for specimens with visible crystal formations.', types: 'Essexite is a specific type of rock rather than a category, so it does not have further types.', uses: 'Primarily in geological study and as a collector stone.'),
-Rock(rockId: 863, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous rock', rockName: 'Foidolite', imageURL: '', isFavorited: false, description: 'Foidolite is a rare type of intrusive igneous rock that predominantly consists of feldspathoid minerals and has less than 10% of feldspar by volume.', isSelected: false, formula: '', hardness: 6.0, color: 'grey to dark grey', isMagnetic: false, healthRisks: 'No known health risks', askedQuestions: [], crystalSystem: 'Isotropic', colors: 'Grey, Dark Grey', luster: 'Glassy to Dull', diaphaneity: 'Translucent', quimicalClassification: '', elementsListed: 'Silicon, Aluminum, Sodium, Potassium, Calcium', healingPropeties: '', formulation: '', meaning: 'Symbolizes unique individuality, as this rock type is quite rare', howToSelect: 'Foidolite selection is based on personal preference as the stone is not typically used for jewelry or decoration.', types: 'Leucocratic foidolite, Melanocratic foidolite', uses: 'Principally studied in geology, but also used in architecture for paving stones and ornamental stone'),
-Rock(rockId: 864, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous rock', rockName: 'Granophyre', imageURL: '', isFavorited: false, description: 'Granophyre is an igneous rock that closely related to granite. it is distinguished by micrographic texture which gives it a granular appearance.', isSelected: false, formula: '', hardness: 5.5, color: 'typically gray or pink', isMagnetic: false, healthRisks: 'No specific health risks associated with the rock, although dust generated by handling or cutting granophyre may cause respiratory discomfort.', askedQuestions: [], crystalSystem: 'Not applicable', colors: 'Gray, Pink', luster: 'Vitreous to Glassy', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Potassium, Sodium, Silica, Aluminum, Iron, Calcium, and Magnesium', healingPropeties: '', formulation: '', meaning: 'Not stated as it does not typically have symbolic or metaphysical meanings, being an igneous rock.', howToSelect: 'Not applicable for spiritual or healing selection. For construction or decorative purposes, choose based on physical appearance and fit with design scheme.', types: 'Based on minor variations in mineral content, there can be slight variations or subtypes', uses: 'Primarily used as a decorative stone in building construction and for monuments'),
-Rock(rockId: 865, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Hornblendite', imageURL: '', isFavorited: false, description: 'Hornblendite is a dark-colored, coarse-grained intrusive rock. Its principal minerals are hornblende and plagioclase.', isSelected: false, formula: '', hardness: 5-6, color: 'dark, usually black to dark greenish black', isMagnetic: false, healthRisks: 'No specific health risks associated, but excessive intake of dust may cause lung issues', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'dark, black, dark greenish black', luster: 'Vitreous', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Iron, Magnesium, Calcium, Sodium', healingPropeties: '', formulation: '', meaning: '', howToSelect: 'Hornblendite is usually selected based on its color, quality, and size depending on its usage', types: 'Hornblendite is a type in itself', uses: 'Used in the building industry, particularly for dimension stone and decorative aggregates'),
-Rock(rockId: 866, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'volcanic rock', rockName: 'Icelandite', imageURL: '', isFavorited: false, description: 'Icelandite is a rare volcanic rock, found in certain parts of Iceland. it is comprised predominantly of alkali feldspar and is often grayish-black or black in color.', isSelected: false, formula: '(K,Na)AlSi3O8', hardness: 5.5, color: 'Grayish-black, black', isMagnetic: false, healthRisks: 'No major health risks known, but as with any rock, dust inhalation and/or skin or eye contact with dust particles should be avoided.', askedQuestions: [], crystalSystem: 'Triclinic', colors: 'Grayish-black, black', luster: 'Vitreous', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Potassium, Sodium, Aluminum, Silicon, Oxygen', healingPropeties: '', formulation: '(K,Na)AlSi3O8', meaning: 'Typically associated with the strength and beauty of the Icelandic landscape', howToSelect: 'Icelandite is quite rare and not typically used for personal or commercial purposes, but collectors might value examples with a particularly smooth surface or accurately represent the color and texture.', types: 'Typically no subtypes as the rock is relatively homogeneous', uses: 'Primarily for geological study or rock collecting, although some artisans might incorporate it into jewelry or decorative items.'),
-Rock(rockId: 867, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous', rockName: 'Lamprophyre', imageURL: '', isFavorited: false, description: 'Lamprophyres are uncommon, small volume ultrapotassic igneous rocks primarily occurring as dikes and small intrusions. They are alkaline silica-undersaturated rocks and have peculiar mineralogy which includes a wide variety of uncommon minerals.', isSelected: false, formula: 'varies', hardness: 6.0, color: 'dark gray to black', isMagnetic: false, healthRisks: 'No recognized health risks associated with this rock.', askedQuestions: [], crystalSystem: 'Information Not Available', colors: 'Dark gray, Black', luster: 'Subvitreous to dull', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Phosphorus, Sodium, Potassium, Iron, Magnesium, Aluminum, Silicon, Oxygen', healingPropeties: '', formulation: 'Varies depending on the specific minerals present', meaning: 'Associated with deep Earth energies and can ground and protect', howToSelect: 'Choose by physical and aesthetic characteristics, as there are no common gemological or healing applications to guide selection.', types: 'Minette, Kersantite, Vogesite, Spessartite', uses: 'Lamprophyres are often used for research purpose to understand the deep earth processes. They are not typically used for commercial or industrial purposes due to their rare occurrence and small deposits.'),
-Rock(rockId: 868, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous rock', rockName: 'Norite', imageURL: '', isFavorited: false, description: 'Norite is an intrusive igneous rock that is predominantly composed of the mineral plagioclase feldspar and orthopyroxene. Its name originates from Norge, which is Norway in Norwegian, as the rock was first identified on the Scandinavian Peninsula.', isSelected: false, formula: 'CaAl2Si2O8 - (Mg,Fe)2Si2O6', hardness: 6.0, color: 'Black, Dark Grey, Blackish Grey', isMagnetic: false, healthRisks: 'No significant health risks have been reported, however, like many rocks and minerals, dust from norite should not be inhaled.', askedQuestions: [], crystalSystem: 'Not applicable as norite is a rock and not a mineral; its component minerals, plagioclase feldspar and orthopyroxene, have a triclinic and orthorhombic system respectively.', colors: 'Black, Dark Grey, Blackish Grey', luster: 'Vitreous to dull', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Calcium, Aluminum, Silicon, Oxygen, Magnesium, Iron', healingPropeties: '', formulation: 'CaAl2Si2O8 - (Mg,Fe)2Si2O6', meaning: 'Not typically ascribed specific meanings as it is not commonly used in gemological or metaphysical practices', howToSelect: 'Norite can typically be selected based on personal preference for color, size or shape if being used for decorative purposes.', types: 'There is only one type - Norite, but it is a member of the gabbro family of rocks', uses: 'Used as a dimension stone in construction, particularly where strength and resistance to weathering is required'),
-Rock(rockId: 869, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'volcanic', rockName: 'Phonotephrite', imageURL: '', isFavorited: false, description: 'Phonotephrite is a tephrite that contains phonolite. it is a type of igneous rock which is predominantly composed of alkali feldspar and one or more mafic minerals.', isSelected: false, formula: '', hardness: 0, color: 'grey to light brown', isMagnetic: false, healthRisks: 'N/A', askedQuestions: [], crystalSystem: 'Triclinic', colors: 'grey, light brown', luster: 'Dull or earthy', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Aluminum, Silicon, Oxygen', healingPropeties: '', formulation: '', meaning: 'Phonotephrite is believed by some to promote grounding and comfort, due to its earthly origin and nature', howToSelect: 'Choose phonotephrite based on its quality and your personal connection with the rock', types: 'Aphonotephrite, Bphonotephrite, Cphonotephrite', uses: 'Primarily as a scientific sample in geological studies'),
-Rock(rockId: 870, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'rock', rockName: 'Pyroxenite', imageURL: '', isFavorited: false, description: 'Pyroxenite is an ultra-mafic igneous rock that consists largely of minerals that form in magma. It is dense, dark in color, and contains a high percentage of iron and magnesium.', isSelected: false, formula: 'N/A', hardness: 5-7, color: 'Green-Brown, Green-Black, Green', isMagnetic: false, healthRisks: 'There are no specific health risks associated with direct contact. However, dust or small particles might irritate eyes or respiratory system.', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'Green-Brown, Green-Black, Green', luster: 'Greasy, dull, vitreous', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Iron, Magnesium, Silicon, Oxygen', healingPropeties: '', formulation: 'The exact formulation may vary widely because pyroxenite is not a mineral, but a rock containing many different minerals.', meaning: 'The rock is often linked with strength and durability due to its composition and formation under intense pressure and heat.', howToSelect: 'Select based on personal preference, with consideration to color, size, and overall appearance.', types: 'Orthopyroxenite, Clinopyroxenite, Webstrite', uses: 'Used in the manufacture of certain ferrous alloys and as a decorative stone.'),
-Rock(rockId: 871, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Quartzolite', imageURL: '', isFavorited: false, description: 'Quartzolite is a rock largely composed of quartz. It is known for its hardness and is often colorless, white, or gray. It can also appear in a variety of colors due to impurities.', isSelected: false, formula: 'SiO2', hardness: 7.0, color: 'Colorless, white, or varies depending on impurities', isMagnetic: false, healthRisks: 'While Quartzolite itself is not harmful, the dust produced by cutting or breaking it can be harmful if inhaled.', askedQuestions: [], crystalSystem: 'Trigonal', colors: 'Colorless, white or varies depending on impurities', luster: 'Vitreous to waxy', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Silicon, Oxygen', healingPropeties: '', formulation: 'SiO2', meaning: 'Dependent on the belief system, it can symbolize many things such as clarity of thought or overall calmness and peace.', howToSelect: 'When selecting Quartzolite, it is important to pay attention to its clarity and color. Choose a piece that you are drawn to.', types: 'There are no specific categories of Quartzolite, it mostly varies depending on impurities that change its color.', uses: 'Used in jewellery, ornaments and commonly used for ornamental stone in building construction'),
-Rock(rockId: 872, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'volcanic rock', rockName: 'Scoria', imageURL: '', isFavorited: false, description: 'Scoria is a type of igneous rock formed during explosive volcanic eruptions.', isSelected: false, formula: 'Primarily SiO2 and Al2O3, but composition varies', hardness: 5.0, color: 'Black, dark brown, red-brown', isMagnetic: false, healthRisks: 'Handling scoria does not have many health risks, but inhaling rock dust could pose risks. Masks should be worn during gardening or landscaping.', askedQuestions: [], crystalSystem: 'N/A; scoria is an amorphous solid without a fixed crystal structure', colors: 'Black, dark brown, red-brown', luster: 'Dull to vitreous', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Silicon, Aluminum, Oxygen, Potassium, Sodium, Iron, Magnesium', healingPropeties: '', formulation: 'Primarily SiO2 and Al2O3, but composition varies.', meaning: 'Scoria is associated with grounding and protection, offering spiritual and emotional strength.', howToSelect: 'Choose scoria based on the warmth and energy you feel from the stone. The one that suits your needs will often speak to you.', types: 'N/A; Scoria typically varies by its mineralogical and chemical compositions', uses: 'Great for landscaping, gardening, ballast along railway lines, ground cover in plant pots and rooftop gardens, gas barbeques, and horticultural drainage.'),
-Rock(rockId: 873, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'sedimentary rock', rockName: 'Arkose', imageURL: '', isFavorited: false, description: 'Arkose is a coarse grained sandstone that contains a substantial amount of feldspar, giving it a distinctive pink hue. it is often formed in arid regions where weathering of feldspar occurs without much transport or weathering.', isSelected: false, formula: '', hardness: 6.0, color: 'Pink, Red, White', isMagnetic: false, healthRisks: 'No significant health risks are directly associated with exposure to arkose.', askedQuestions: [], crystalSystem: 'Not applicable, as it is a rock, not a mineral', colors: 'Pink, Red, White', luster: 'Matte', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Silicon, Oxygen, Aluminum, Potassium, Sodium, Calcium', healingPropeties: '', formulation: '', meaning: 'Arkose represents strength and durability due to its high feldspar content', howToSelect: 'Choose arkose based on the uniformity and purity of its color, as well as the size and arrangement of grains - these are the primary factors in determining its quality.', types: 'There are no distinct types, but the proportion and arrangement of sand and feldspar grains can vary.', uses: 'As a sandstone, arkose is particularly useful in construction and building work as it is durable and resistant to weathering. It is also used in the creation of glass and ceramics.'),
-Rock(rockId: 874, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'sedimentary rock', rockName: 'Phosphorite', imageURL: '', isFavorited: false, description: 'Phosphorite, also known as Phosphate rock, is a non-detrital sedimentary rock which contains high amounts of phosphate minerals. The phosphate content of phosphorite varies greatly, from 4% to 20% phosphorus pentoxide (P2O5).', isSelected: false, formula: 'Ca3(PO4)2', hardness: 5.0, color: 'White, grey, brown, black', isMagnetic: false, healthRisks: 'If managed improperly it could lead to water pollution as it contains heavy metals and radioactive elements.', askedQuestions: [], crystalSystem: 'N/A', colors: 'White, grey, brown, black', luster: 'Earthy to dull, some can be shiny', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Calcium, Phosphorus, Oxygen', healingPropeties: '', formulation: 'Ca3(PO4)2', meaning: 'Phosphorite is primarily used for the manufacture of fertilizers due to its high concentration of phosphate minerals.', howToSelect: 'Quality phosphorite rock should be high in phosphate minerals and should not contain too many impurities.', types: 'There are no distinct types of Phosphorite', uses: 'Useful in the manufacture of phosphate fertilizers and for a range of phosphorus compounds.'),
-Rock(rockId: 875, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'sedimentary', rockName: 'Sandstone', imageURL: '', isFavorited: false, description: 'Sandstone is a commonly found sedimentary rock. it is known for its characteristic granular texture and its wide variety of colors.', isSelected: false, formula: 'Variable, primarily SiO2', hardness: 6.0, color: 'White, brown, yellow, red, gray, pink, black', isMagnetic: false, healthRisks: 'Long-term exposure to sandstone dust can cause health issues such as silicosis.', askedQuestions: [], crystalSystem: 'Rhombohedral', colors: 'White, brown, yellow, red, gray, pink, black', luster: 'Dull to semi-glossy', diaphaneity: 'Opaque, can be slightly translucent in thin fragments', quimicalClassification: '', elementsListed: 'Most commonly Silicon and Oxygen, but can contain other elements such as feldspar, mica, and quartz', healingPropeties: '', formulation: 'Variable, primarily SiO2', meaning: 'In various cultures, sandstone symbolizes creativity, balance, and unity', howToSelect: 'Choose based on your preference for color, grain structure, and the presence of other minerals', types: 'Quartz Sandstone, Arkose Sandstone, Lithic Sandstone, Feldspathic Sandstone', uses: 'Building and paving materials, ceramics, glass production, sandpaper, fracking industry'),
-Rock(rockId: 876, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'metamorphic', rockName: 'Blueschist', imageURL: '', isFavorited: false, description: 'Blueschist, also known as glaucophane schist, is a metavolcanic rock that forms by the metamorphism of basalt and rocks with similar composition at high pressures and low temperatures, approximately corresponding to conditions in subduction zones.', isSelected: false, formula: '', hardness: 5.0, color: 'Blue, gray, black', isMagnetic: false, healthRisks: 'No significant health risks associated with this mineral, although long term exposure to rock dust could potentially lead to silicosis.', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'Blue to gray to black', luster: 'Greasy to Vitreous', diaphaneity: 'Translucent', quimicalClassification: '', elementsListed: 'Sodium, Aluminum, Silicon', healingPropeties: '', formulation: 'Na2(Mg,Fe^2+)3Al2Si8O22(OH)2', meaning: 'Symbolizes deep emotional insights and can help to develop empathy', howToSelect: 'Select based on color and vibrational feeling when held. Also, presence of minerals glaucophane and lawsonite can be a factor.', types: 'Glaucophane Schist, Lawsonite Blueschist', uses: 'Typically used for ornamental purposes. Rarely seen in the gem trade due to lack of gem quality deposits.'),
-Rock(rockId: 877, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'metamorphic rock', rockName: 'Granulite', imageURL: '', isFavorited: false, description: 'Granulites are a type of metamorphic rock that forms at high temperatures and pressures. The mineralogy of granulites can involve quartz, feldspar, garnet, and others.', isSelected: false, formula: 'Variable', hardness: 7.0, color: 'Mostly light colored, but can vary', isMagnetic: false, healthRisks: 'No significant health risks identified', askedQuestions: [], crystalSystem: 'Not applicable to rocks', colors: 'Mostly light colored, but can vary', luster: 'Often vitreous to pearly', diaphaneity: 'Translucent to nearly opaque', quimicalClassification: '', elementsListed: 'Dependent on the specific minerals present, but common elements include Si, Al, K, Fe, Mg', healingPropeties: '', formulation: 'Variable depending on the mineralogical composition', meaning: 'Symbolizes transformation and change due to the metamorphosis it undergoes', howToSelect: 'Choose based on desired mineral composition, appearance, and hardness.', types: 'Based on mineralogical composition, examples include mafic granulite, felsic granulite, garnet granulite', uses: 'Used in construction due to its hardness. Some variants may be used as decorative stones, or in certain horticultural applications to promote drainage.'),
-Rock(rockId: 878, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'metamorphic rock', rockName: 'Migmatite', imageURL: '', isFavorited: false, description: 'Migmatite is a rock at the frontier between igneous and metamorphic rocks. They are characterized by streaks of material that has been re-melted, often giving the rock a streaky appearance.', isSelected: false, formula: 'Varies, as Migmatites are complex.', hardness: 7.0, color: 'Varies widely, can be gray, pink, black or white', isMagnetic: false, healthRisks: 'None specifically related to Migmatite', askedQuestions: [], crystalSystem: 'Depends on the individual minerals present', colors: 'Gray, pink, black, white', luster: 'Sub-vitreous to dull', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Varies depending on the specific composition of the rock', healingPropeties: '', formulation: 'Varies, as Migmatites are complex', meaning: 'Symbolizes resilience and transformation', howToSelect: 'Choose Migmatite based on the specific appearance and composition that appeals to you', types: 'Diatexite, Metatexite, Leucosome, Melanosome, Mesosome', uses: 'Building and decorative stone, monuments, interior decorations, generating scientific hypotheses about rock origin and metamorphism'),
-Rock(rockId: 879, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'metamorphic', rockName: 'Mylonite', imageURL: '', isFavorited: false, description: 'Mylonite is a fine-grained, compact metamorphic rock produced by dynamic recrystallization of the constituent minerals resulting in a reduction of the grain size of the rock. It is characterized by a well-developed foliation, and the rock may be divided into bands of different mineral compositions.', isSelected: false, formula: 'Varies depending on protolith', hardness: 0, color: 'Varies widely based on composition, can be gray, white, pink, brown, or black.', isMagnetic: false, healthRisks: 'No specific health risks associated with Mylonite beyond general rock dust inhalation in mining or cutting scenarios', askedQuestions: [], crystalSystem: 'Not applicable as this is a metamorphic rock composed of many minerals, each with its own crystal system', colors: 'gray, white, pink, brown, black', luster: 'Commonly dull to slightly shiny', diaphaneity: 'Opaque to translucent', quimicalClassification: '', elementsListed: 'Varies depending on the protolith and the metamorphic process', healingPropeties: '', formulation: 'Varies depending on the protolith and process of metamorphism', meaning: 'As an uncommon rock, it lacks widespread symbolic or spiritual meaning', howToSelect: 'Mylonite is generally selected for academic or geological study rather than personal or decorative use. Selection is typically based upon the rock mineral composition and signs of metamorphism', types: 'Mylonite can be of multiple types depending on the mineral present, for example, granitic mylonite, ultramafic mylonite, etc.', uses: 'Academic research, geological study, and sometimes processed for use in building or decorative materials'),
-Rock(rockId: 880, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Tinzenite', imageURL: '', isFavorited: false, description: 'Tinzenite is a manganese-borosilicate mineral first discovered in the Tinzen region, Switzerland. It is considered a rare mineral and often found as a secondary mineral in association with other manganese minerals.', isSelected: false, formula: 'Mn2+4B5Si3O21OH', hardness: 6.5, color: 'Mostly brown to pink-brown, sometimes colorless or pale yellow', isMagnetic: false, healthRisks: 'There are no known significant health risks associated with tinzenite, but as with all rocks and minerals, it is advisable not to inhale dust from any crushed or broken specimens.', askedQuestions: [], crystalSystem: 'Monoclinic prismatic', colors: 'Brown, Pink-brown, Colorless, Pale yellow', luster: 'Vitreous to resinous', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Boron, Silicon, Oxygen, Hydrogen, Manganese', healingPropeties: '', formulation: 'Mn2+4B5Si3O21OH', meaning: 'Tinzenite is named after the area it was first discovered, Tinzen, Switzerland.', howToSelect: 'When selecting tinzenite, ensure you are purchasing it from a reputable source. Look for pieces that are intact, with rich colors and a healthy luster.', types: 'There are no specific types of tinzenite as it is a unique mineral species.', uses: 'Tinzenite is often used by mineral collectors and sometimes made into gemstones for jewelry'),
-Rock(rockId: 881, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Benitoite', imageURL: '', isFavorited: false, description: 'Benitoite is a blue barium titanium silicate mineral that is found in hydrothermally altered serpentinite. it is rare and was first discovered at the turn of the 20th century in California, USA.', isSelected: false, formula: 'BaTiSi3O9', hardness: 6.5, color: 'Blue, colorless (clear)', isMagnetic: false, healthRisks: 'While there are no immediate health risks associated with handling Benitoite, it does contain barium, which can be harmful if ingested or if exposure is prolonged or repeated.', askedQuestions: [], crystalSystem: 'Hexagonal', colors: 'Blue, colorless', luster: 'Vitreous', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Barium, Titanium, Silicon, Oxygen', healingPropeties: '', formulation: 'BaTiSi3O9', meaning: 'Benitoite is a crystal of joy, harmony, and light. it is associated with healing, strengthened communication skills, and enhanced intuition.', howToSelect: 'Benitoite is quite rare, so it might be hard to find. When choosing a stone, be attracted to its astonishing blue color and clear energies.', types: 'Blue Benitoite, Colorless Benitoite', uses: 'Gemstones for high-quality jewelry, mineral collecting.'),
-Rock(rockId: 882, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Boleite', imageURL: '', isFavorited: false, description: 'Boleite is a complex rare mineral that is often sought after by collectors due to its intense deep blue color, cube-like shape and unique crystal formations.', isSelected: false, formula: 'KPb26Ag9Cu24(OH)48Cl62', hardness: 3.0, color: 'Deep blue', isMagnetic: false, healthRisks: 'While Boleite contains lead and copper, it is safe to handle with normal care. However, ingestion or inhalation should be avoided.', askedQuestions: [], crystalSystem: 'Isometric', colors: 'Deep blue', luster: 'Adamantine', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Potassium, Lead, Silver, Copper, Oxygen, Hydrogen, Chlorine', healingPropeties: '', formulation: 'KPb26Ag9Cu24(OH)48Cl62', meaning: 'Boleite is a symbol of deep comprehension and is often used metaphorically to represent a depth of understanding and wisdom.', howToSelect: 'Selection of Boleite should focus on the intensity and uniformity of the color, along with the clarity and formation of the crystals.', types: 'There is only one type of Boleite, but it comes in various crystal structures and sizes.', uses: 'Although it could theoretically be used in jewelry, its rarity and fragility make it primarily a collectors and researchers mineral.'),
-Rock(rockId: 883, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Bytownite', imageURL: '', isFavorited: false, description: 'Bytownite is one of the rarer members of the plagioclase series of Feldspar minerals. it is mainly found in igneous rocks and has a unique luster and appearance.', isSelected: false, formula: 'Ca(Al2Si2O8)', hardness: 6.0, color: 'Colorless, White, Grey, Yellowish', isMagnetic: false, healthRisks: 'No major health risks associated, but dust and particles should not be inhaled.', askedQuestions: [], crystalSystem: 'Triclinic', colors: 'Colorless, White, Grey, Yellowish', luster: 'Vitreous to Pearly', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Calcium, Aluminum, Silicon, Oxygen', healingPropeties: '', formulation: 'Ca(Al2Si2O8)', meaning: 'Bytownite symbolises new beginnings, renewals, and courage in confronting new experiences.', howToSelect: 'Choose bytownite based on its clarity and appealing color. Also, ones with clear structures and high luster are typically more valuable.', types: 'Just one type generally', uses: 'It is most commonly used as a minor gemstone for intricate bead and jewelry work, or collected as fine crystal specimens by mineral collectors.'),
-Rock(rockId: 884, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'organic', rockName: 'Amber', imageURL: '', isFavorited: false, description: 'Amber is fossilized tree resin that has been appreciated for its color and natural beauty since Neolithic times. Its warm luster is responsible for its extensive use in jewelry.', isSelected: false, formula: 'C10H16O', hardness: 2.5, color: 'Yellow, golden yellow, or golden orange', isMagnetic: false, healthRisks: 'None if properly processed and used, unless you have a specific allergy.', askedQuestions: [], crystalSystem: 'Amorphous', colors: 'Yellow, Golden Yellow, Orange', luster: 'Resinous', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Carbon, Hydrogen, Oxygen', healingPropeties: '', formulation: 'C10H16O', meaning: 'Amber is often associated with sunlight and warmth, and is believed to promote cheerfulness and trust', howToSelect: 'Look for warm colors and clear pieces. Be wary of imitations made from colored plastics.', types: 'Burmite, Baltic, Dominican, Mexican Amber', uses: 'Jewelry, decoration, amulets and talismans, perfume storage'),
-Rock(rockId: 885, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'sedimentary', rockName: 'Concretion', imageURL: '', isFavorited: false, description: 'Concretions are hard, compact masses of matter formed by the precipitation of mineral cement within the spaces between particles, and is found in sedimentary rock or soil.', isSelected: false, formula: 'Varies - Commonly SiO2 or CaCO3', hardness: 0, color: 'Variable, depending on mineral composition', isMagnetic: false, healthRisks: 'No known health risks', askedQuestions: [], crystalSystem: 'None - Concretions are typically amorphous', colors: 'Variable, from dark brown, grey to white or colorless', luster: 'Dull to Earthy', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Variable, often include Silicon, Oxygen, Carbon, Calcium', healingPropeties: '', formulation: 'Dependent on the composition of the concretion', meaning: 'N/A - Concretions do not traditionally carry a spiritual or symbolic meaning', howToSelect: 'Choose based on the individual specimen appearance and the specific mineral content you are interested in', types: 'Moqui Marbles, Kansas Pop Rocks, Septarian Nodules, etc', uses: 'Interesting natural formations. Occasionally used in jewelry or decorative stone'),
-Rock(rockId: 886, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'metamorphic', rockName: 'Epidosite', imageURL: '', isFavorited: false, description: 'Epidosite is a metamorphosed, silica-undersaturated mafic rock which contains more than 50% of epidote and chlorite combined with Al2O3-bearing minerals.', isSelected: false, formula: '', hardness: 6-7, color: 'Green', isMagnetic: false, healthRisks: 'There are no known health risks associated with this mineral.', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'Green', luster: 'Vitreous to dull', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Calcium, Aluminium, Iron, Silicate, Oxygen, Hydrogen', healingPropeties: '', formulation: '', meaning: 'Derived from its mineral composition mainly containing epidote and Al2O3-bearing minerals.', howToSelect: 'When selecting an epidosite, look for rich green color and consistent texture.', types: 'There are no specific types of epidosite. It highly depends on the mineral content which may vary based on the metamorphism process.', uses: 'This rock is commonly used as a building material and for tile in the home. it is also used for landscaping and as an aggregate.'),
-Rock(rockId: 887, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous', rockName: 'Kimberlite', imageURL: '', isFavorited: false, description: 'Kimberlite is a type of potassic igneous rock that is very rare and occurs in the Earth crust in vertical structures known as kimberlite pipes. These pipes are the most important source of diamonds.', isSelected: false, formula: '(Mg,Fe)3Al2(SiO4)3', hardness: 5.0, color: 'blue, green, black or sometimes white', isMagnetic: false, healthRisks: 'There are no specific health risks associated with this type of rock. However, excessive inhalation of rock dust can potentially cause health issues.', askedQuestions: [], crystalSystem: 'Isometric', colors: 'blue, green, black or sometimes white', luster: 'Sub-Adamantine, Adamantine, Dull', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Carbon, Oxygen', healingPropeties: '', formulation: '(Mg,Fe)3Al2(SiO4)3', meaning: 'As a source for diamonds, it could symbolize seeking inner riches and self-discovery.', howToSelect: 'Kimberlites with visible diamonds or other gemstones are of higher value and sought after by collectors and professionals.', types: 'Group 1 (basaltic) and Group 2 (micaceous)', uses: 'Mining for diamonds and studying deep Earth geology'),
-Rock(rockId: 888, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Danburite', imageURL: '', isFavorited: false, description: 'Danburite is a hard crystalline mineral similar to topaz. Its orthorhombic crystal form, clarity, and hardness make it valuable for use in jewelry and other ornamental uses.', isSelected: false, formula: 'CaB2(SiO4)2', hardness: 7.0, color: 'Colorless, white, pale pink, pale yellow', isMagnetic: false, healthRisks: 'There are no known health risks associated with Danburite.', askedQuestions: [], crystalSystem: 'Orthorhombic', colors: 'Colorless, white, pale pink, pale yellow', luster: 'Vitreous', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Calcium, Boron, Silicon, Oxygen', healingPropeties: '', formulation: 'CaB2(SiO4)2', meaning: 'Danburite is associated with emotional healing and letting go. it is also associated with peace and heart consciousness.', howToSelect: 'When selecting Danburite, look for pieces that are clear, undamaged, and of good color.', types: 'Commonly encountered varieties include clear/white, pink Danburite, and yellow Danburite.', uses: 'Ornamental uses, jewelry, gemstones and in spiritual healing work'),
-Rock(rockId: 889, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Diopside', imageURL: '', isFavorited: false, description: 'Diopside is a common mineral form that occurs in several rock types and is named after the Greek word di for two and opsis for vision. It is also known as a reading stone as it was traditionally used to improve eyesight.', isSelected: false, formula: 'CaMgSi2O6', hardness: 6.0, color: 'Commonly green; colorless, blue or grey', isMagnetic: false, healthRisks: 'No specific health risks, but always wash hands after handling.', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'Colorless, green, blue, grey', luster: 'Vitreous to dull', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Calcium, Magnesium, Silicon, Oxygen', healingPropeties: '', formulation: 'CaMgSi2O6', meaning: 'Diopside is known to stimulate the intellect and enhance academic learning. it is a creative stone that can open the mind to new concepts. it is also used for emotional healing, particularly for these dealing with traumas.', howToSelect: 'When selecting Diopside, you may be drawn to its green color dynamically. Make sure that the rock is well-formed and has a good luster.', types: 'Chrome Diopside, Star Diopside, Cats Eye Diopside', uses: 'Gemstones, carvings, delightful green jewelry, academic and emotional healing'),
-Rock(rockId: 890, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Iolite', imageURL: '', isFavorited: false, description: 'Iolite, also known as the Viking Compass, is a transparent-to-translucent gem quality silicate mineral with a blue-violet hue. It has been admired for centuries due to its unique visual property of displaying different colors when viewed from different angles—a phenomenon known as pleochroism.', isSelected: false, formula: '(Mg,Fe)2Al4Si5O18', hardness: 7.0, color: 'Blue, smoky blue, violet', isMagnetic: false, healthRisks: 'None identified', askedQuestions: [], crystalSystem: 'Orthorhombic', colors: '', luster: '', diaphaneity: '', quimicalClassification: '', elementsListed: 'Magnesium, Iron, Aluminum, Silicon, Oxygen', healingPropeties: '', formulation: '(Mg,Fe)2Al4Si5O18', meaning: 'The name Iolite comes from the Greek word ion, which means violet. It is often used in meditation to stimulate visions and is associated with the Third Eye chakra.', howToSelect: 'When selecting iolite, look for stones with a clear, rich and intense blue color that changes when viewed from different angles. Avoid stones with significant inclusions or fractures.', types: 'Cordierite, Dichroite, Water Sapphire', uses: 'Gemstone jewelry, ornamental stone, mineral specimens'),
-Rock(rockId: 891, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Pezzottaite', imageURL: '', isFavorited: false, description: 'Pezzottaite is a rare mineral, a recent find compared to ancient gemstones. It was first discovered in Madagascar in 2002 and recognized as a new mineral species in 2003. It is often mistaken for other pink gemstones.', isSelected: false, formula: 'Cs(Be2Li)Al2Si6O18', hardness: 8.0, color: 'Color ranges from pale to dark pink and raspberry-red.', isMagnetic: false, healthRisks: 'No associated health risks. However, it might be unsafe to inhale dust from cutting or polishing this stone.', askedQuestions: [], crystalSystem: 'Hexagonal', colors: 'pale pink, dark pink, raspberry-red', luster: 'Vitreous', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Beryllium, Aluminium, Silicon, Oxygen, Cesium, Lithium', healingPropeties: '', formulation: 'Cs(Be2Li)Al2Si6O18', meaning: 'Symbolizes love, understanding, and comfort. it is a stone that is associated with the heart and emotions.', howToSelect: 'Choose a clear, brightly colored specimen for the most energy. As always, choose the stone you are most drawn to.', types: 'There are no known types of Pezzottaite other than the single mineral species.', uses: 'Due to its rarity and beautiful pink color, it is mainly used as a collector jewel or in fine jewelry.'),
-Rock(rockId: 892, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Tourmaline/n', imageURL: '', isFavorited: false, description: 'Tourmaline is a crystalline boron silicate mineral compounded with elements such as aluminium, iron, magnesium, sodium, lithium, or potassium.', isSelected: false, formula: '(NaCa)(LiMgAlFe)9B3Si6(OOH)31', hardness: 7.0, color: 'Most commonly black, but can range from brown, violet, green, pink, or in a dual-colored pink and green', isMagnetic: false, healthRisks: 'No known health risks associated with this mineral.', askedQuestions: [], crystalSystem: 'Trigonal', colors: 'Black, Brown, Violet, Green, Pink, Pink and Green', luster: 'Vitreous', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Aluminium, Iron, Magnesium, Sodium, Lithium, Potassium, Boron, Silicon', healingPropeties: '', formulation: '(NaCa)(LiMgAlFe)9B3Si6(OOH)31', meaning: 'Grounding spiritual energy, improving understanding and self-confidence', howToSelect: 'Choose a color that resonates with you. Black Tourmaline is known for grounding, Pink for love, Green for health and success.', types: 'Schorl Tourmaline, Elbaite Tourmaline, Uvite Tourmaline, Liddicoatite Tourmaline', uses: 'Jewelry, piezoelectric materials, pressure gauges'),
-Rock(rockId: 893, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous', rockName: 'Pāhoehoe', imageURL: '', isFavorited: false, description: 'Pāhoehoe is a type of basaltic lava that has a smooth, billowy, undulating, or ropy surface. These surface features are due to the movement of very fluid lava under a congealing surface crust. The Hawaiian word was introduced as a technical term in geology by Clarence Dutton.', isSelected: false, formula: 'Primarily SiO2 and Al2O3', hardness: 5-6, color: 'Black, brown, grey', isMagnetic: false, healthRisks: 'Inhalation of the dust can lead to silicosis, and caution must be taken near active flows due to harmful gases and radiant heat.', askedQuestions: [], crystalSystem: 'Amorphous', colors: 'Black, brown, grey', luster: 'Greasy to dull', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Silicon, Oxygen, Aluminium, Iron, Magnesium, Calcium, Sodium, Potassium, Titanium, Manganese, Phosphorus', healingPropeties: '', formulation: 'Primarily SiO2 and Al2O3', meaning: 'In Hawaiian Pāhoehoe means mooth, unbroken lava, it signifies the smooth flow and natural formation of the rock', howToSelect: 'Pāhoehoe lava specimens are typically selected for their distinct surface features, and should be of substantial size in order to showcase this', types: 'Basaltic Pāhoehoe', uses: 'Pāhoehoe is primarily of scientific interest, and is used in studies and classification of volcanic eruptions, as well as being a spectacle and tourist attraction during active flows'),
-Rock(rockId: 894, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'rock', rockName: 'Napoleonite', imageURL: '', isFavorited: false, description: 'Napoleonite is a plutonic rock that is similar to basalt. It is named after Napoleon Bonaparte due to its extensive use in the construction of Paris during his reign.', isSelected: false, formula: 'Primarily Feldspar and Pyroxene', hardness: 6.0, color: 'Grey to black, occasionally greenish', isMagnetic: false, healthRisks: 'No known health risks', askedQuestions: [], crystalSystem: 'Triclinic and Monoclinic', colors: 'Grey to black, occasionally greenish-tinged', luster: 'Dull to Vitreous', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Major elements are Silicon, Oxygen, Aluminum, Iron, Magnesium, Calcium, Potassium, and Sodium', healingPropeties: '', formulation: 'Approximately 50% Plagioclase Feldspar, 25% Pyroxene, and small amounts of Olivine, Ilmenite, and other minerals', meaning: 'Named after Napoleon Bonaparte, this rock symbolizes endurance and historical significance.', howToSelect: 'Ideal Napoleonite samples will be devoid of cracks or other structural faults. Interestingly patterned sections can increase the visual appeal.', types: 'No specific varieties, composition can vary within the range for basaltic rocks', uses: 'Construction, particularly decorative stonework and road-building'),
-Rock(rockId: 895, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous rock', rockName: 'Gabbro', imageURL: '', isFavorited: false, description: 'Gabbro is a dark, coarse-grained, intrusive igneous rock. It contains a substantial amount of plagioclase feldspar, pyroxene and sometimes olivine. Gabbro is very similar to Basalt in its mineral make up to. It is used in the construction industry.', isSelected: false, formula: '', hardness: 7.0, color: 'Dark green to black', isMagnetic: false, healthRisks: 'Mineral dust can pose health risks if inhaled over a prolonged period. Use proper precautions when handling.', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'Dark green, black', luster: 'Vitreous to dull to greasy', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Silicon, Oxygen, Aluminum, Iron, Magnesium, Calcium, Sodium, Potassium', healingPropeties: '', formulation: '', meaning: 'Stability, grounding, connection to earth', howToSelect: 'When selecting Gabbro, look for rocks with a consistent dark color and without visible fractures or other defects.', types: 'Norite, Troctolite, Olivine Gabbro, Eucrite, etc.', uses: 'Construction material, decorative stone, paving, monuments, interior and exterior stone designs'),
-Rock(rockId: 896, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous', rockName: 'Latite', imageURL: '', isFavorited: false, description: 'Latite is an igneous, volcanic rock, with aphanitic-aphyric to aphyric-porphyritic texture. Its mineral assemblage is usually alkali feldspar and plagioclase. Biotite, hornblende, pyroxene and scarce olivine or quartz are common accessory minerals.', isSelected: false, formula: '', hardness: 6.0, color: 'light to dark gray, tan, light brown', isMagnetic: false, healthRisks: 'Inhalation can lead to silicosis or other related pulmonary diseases.', askedQuestions: [], crystalSystem: 'Not Applicable', colors: 'light gray, dark gray, tan, light brown', luster: 'Vitreous to dull', diaphaneity: 'Translucent', quimicalClassification: '', elementsListed: 'Silicon, Oxygen, Alkali Metal', healingPropeties: '', formulation: '', meaning: 'Latite is often associated with strong, solid foundations due to its volcanic origin', howToSelect: 'Select latite based on its appearance and your personal preference, as it is typically used in various construction purposes.', types: 'No specific types', uses: 'Building materials, decorative stone, aggregate'),
-Rock(rockId: 897, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'rock', rockName: 'Phonolite', imageURL: '', isFavorited: false, description: 'Phonolite is an uncommon extrusive rock, of intermediate chemical composition between felsic and mafic, with texture ranging from aphanitic (fine-grain) to porphyritic (mixed fine- and coarse-grain).', isSelected: false, formula: '', hardness: 5.5, color: 'Gray, greenish gray, light brown', isMagnetic: false, healthRisks: 'No significant health risk', askedQuestions: [], crystalSystem: 'Triclinic and Monoclinic', colors: 'Gray, greenish gray, light brown', luster: 'Vitreous to Dull', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Aluminium, Sodium, Potassium, Silica', healingPropeties: '', formulation: 'Na2O•Al2O3•4SiO2', meaning: 'An uncommon extrusive rock representative of volcanic explosivity', howToSelect: 'Phonolite is not commonly used or sold, therefore selection is typically based on its visible qualities and geological interest', types: 'Tinguaites, Klinkerite, Foyaite', uses: 'Used occasionally as a building and ornamental stone'),
-Rock(rockId: 898, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'volcanic', rockName: 'Pumice', imageURL: '', isFavorited: false, description: 'Pumice is a type of extrusive volcanic rock, produced when lava with a very high content of water and gases is discharged from a volcano. As the gas bubbles escape, the lava becomes frothy. When this lava cools and hardens, the result is a very light rock material filled with tiny bubbles of gas.', isSelected: false, formula: 'Primarily SiO2, with minor amounts of Al2O3 and other trace elements', hardness: 6.0, color: 'commonly pale in color, ranging from white, cream, blue or grey, to green-brown or black', isMagnetic: false, healthRisks: 'Prolonged inhalation of pumice dust may cause breathing problems.', askedQuestions: [], crystalSystem: 'Amorphous', colors: 'White, cream, blue, grey, green-brown, black', luster: 'Dull, vitreous, silky', diaphaneity: 'Opaque, may be translucent in thin fragments', quimicalClassification: '', elementsListed: 'Silicon, Oxygen, Aluminum', healingPropeties: '', formulation: 'Primarily SiO2, with minor amounts of Al2O3 and other trace elements', meaning: 'Pumice is often seen as a rock of rejuvenation and can bring about a sense of calmness and tranquility.', howToSelect: 'Select pumice that is light in weight and has a rough texture, indicating a good quality piece with many air pockets.', types: 'Pumice stones vary in density, according to the thickness of the solid material between the bubbles.', uses: 'Primarily used in personal care for exfoliating skin, in construction for lightweight concrete, as abrasives in polishes, and horticulture.'),
-Rock(rockId: 899, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous', rockName: 'Monzonite', imageURL: '', isFavorited: false, description: 'Monzonite is a hard, compact igneous rock, similar to granite. Its name comes from Monzoni, where it was first discovered.', isSelected: false, formula: '(Na,K)AlSi3O8 – CaAl2Si2O8', hardness: 6.0, color: 'Grey, brown, green, pink, and even black', isMagnetic: false, healthRisks: 'No specific health risks identified. However, the mining process can pose health risks due to dust.', askedQuestions: [], crystalSystem: 'Triclinic/monoclinic', colors: 'Grey, brown, green, pink, black', luster: 'Vitreous to dull', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Sodium, Potassium, Aluminum, Silicon, Oxygen, Calcium', healingPropeties: '', formulation: '(Na,K)AlSi3O8 – CaAl2Si2O8', meaning: 'Reflective of strength, endurance, and solidity', howToSelect: 'Choose natural, well-formed specimens for collection and display. The choice for healing purposes is highly personal.', types: 'Latite, Quartz Monzonite', uses: 'Building material, ornamental stone, aggregate. Historically, it has also been used in tool-making.'),
-Rock(rockId: 900, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'sedimentary', rockName: 'Formation', imageURL: '', isFavorited: false, description: 'Formation is not a specific type of rock, but rather a term used to describe the process where rocks are formed. Rocks are typically formed by the processes of weathering and erosion, where raw material is worn down by wind, water, and other natural environments.', isSelected: false, formula: 'Varies', hardness: 0, color: 'Varies', isMagnetic: false, healthRisks: 'Depending on the type of rock, some may contain harmful elements such as asbestos which pose significant health risks when inhaled. Always take proper precautions when handling unknown rock samples.', askedQuestions: [], crystalSystem: 'Varies', colors: 'Varies', luster: 'Varies', diaphaneity: 'Varies', quimicalClassification: '', elementsListed: 'Varies', healingPropeties: '', formulation: 'Varies', meaning: 'Formation in rock terms signifies the process of creation and transformation, much like our life experiences that shape who we are.', howToSelect: 'Choosing rocks requires research on the nature of the rock and its properties. Also, one should feel a connection or be drawn to the rock.', types: 'Igneous, Sedimentary, Metamorphic', uses: 'Different types of rocks are used in different ways, this includes construction, as precious stones in jewelry, for their beneficial metaphysical properties, studying earths history, etc.'),
-Rock(rockId: 901, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'sedimentary', rockName: 'Claystone', imageURL: '', isFavorited: false, description: 'Claystone is a hard, compact variety of clay which is formed from the cementation of clay particles.', isSelected: false, formula: 'Al2Si2O5(OH)4', hardness: 2.0, color: 'gray, white, yellow, red', isMagnetic: false, healthRisks: 'Excessive inhalation of claystone dust may cause lung problems.', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'gray, white, yellow, red', luster: 'Dull', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Aluminum, Silicon, Oxygen', healingPropeties: '', formulation: 'Al2Si2O5(OH)4', meaning: 'Representation of grounding and stability', howToSelect: 'Choose according to your personal preference or the color which fits your requirement. Also, the hardness should be considered before making a selection.', types: 'Mudstone, Shale, Siltstone', uses: 'In the manufacturing of pottery, bricks, ceramic tiles.'),
-Rock(rockId: 902, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'metamorphic rock', rockName: 'Hornfels', imageURL: '', isFavorited: false, description: 'Hornfels is a fine-grained metamorphic rock that was subjected to the heat of contact metamorphism at a shallow depth. It was baked by the heat of a nearby magma chamber and recrystallized into a dense rock composed of equigranular, interlocking crystals.', isSelected: false, formula: '', hardness: 5-7, color: 'various shades of dark brown to black, green or white', isMagnetic: false, healthRisks: 'No known health risks associated; however, inhaling rock dust can be harmful.', askedQuestions: [], crystalSystem: 'Dependent on parent material - can be Triclinic or Monoclinic', colors: 'Green, Brown, Black, White', luster: 'Vitreous to Silky', diaphaneity: 'Opaque, rarely translucent', quimicalClassification: '', elementsListed: 'Variable - depends on parent rock', healingPropeties: '', formulation: 'Variable - depends on parent rock', meaning: 'Hornfels symbolizes transformation due to the intense metamorphic process', howToSelect: 'Choose hornfels that appears smooth, dense and without visible layers. Color due to minerals can be a particular interest.', types: 'Biotite Hornfels, Feldspathic Hornfels, etc. Types depend upon the parent rock', uses: 'Often used as aggregate in construction due to its hardness, in rock gardens or as an ornamental stone'),
-Rock(rockId: 903, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Manganaxinite', imageURL: '', isFavorited: false, description: 'Manganaxinite is a rare variant of the axinite mineral group that is rich in manganese. The stone is typically a beautiful gem quality transparent crystal that is mainly found in Japan, Tajikistan, and Mexico.', isSelected: false, formula: 'Ca2MnAl2BOSi4O15OH', hardness: 6.5, color: 'Yellow, Orange, Brownish', isMagnetic: false, healthRisks: 'No major health risks associated with handling Manganaxinite, but due to its chemical composition, it should not be swallowed or inhaled.', askedQuestions: [], crystalSystem: 'Triclinic', colors: 'Yellow, Orange, Brownish', luster: 'Vitreous, Glassy', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Calcium, Manganese, Aluminum, Boron, Oxygen, Silicon, Hydrogen', healingPropeties: '', formulation: 'Ca2MnAl2BOSi4O15OH', meaning: 'Enhancement of intellectual and emotional comprehension, grounding', howToSelect: 'Choose Manganaxinite that is translucent and has a vitreous luster. Intuition also plays a role as different colors may attract ameaning to different people.', types: 'Axinite-(Mn), Axinite-(Mg), Axinite-(Fe)', uses: 'Gemstone, Healing stone'),
-Rock(rockId: 904, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Bastnaesite', imageURL: '', isFavorited: false, description: 'Bastnaesite is a rare earth mineral and a source of important light rare-earth elements. it is often found in granite and granite pegmatite, as well as certain types of carbonatites.', isSelected: false, formula: '(Ce,La)(CO3)F', hardness: 4.5, color: 'Yellow, brown, brownish-red, or honey-yellow', isMagnetic: false, healthRisks: 'Contact and inhalation should be avoided as it may contain radioactive elements', askedQuestions: [], crystalSystem: 'Hexagonal', colors: 'Yellow, brown, brownish-red, honey-yellow', luster: 'Vitreous to resinous', diaphaneity: 'Translucent to transparent', quimicalClassification: '', elementsListed: 'Cerium, Lanthanum, Carbon, Oxygen, Fluorine', healingPropeties: '', formulation: '(Ce,La)(CO3)F', meaning: 'Named after its discovery location, Bastnas mine, Sweden', howToSelect: 'Due to its rarity, it is mostly selected for collections or research rather than personal use', types: 'Only one type known - Bastnaesite', uses: 'Primarily used as a source of rare earth elements'),
-Rock(rockId: 905, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Breithauptite', imageURL: '', isFavorited: false, description: 'Breithauptite is a rare mineral that typically occurs in hydrothermal veins and pegmatites. It was named after Johann Frederick Ludwig Hausmann who discovered it in 1849.', isSelected: false, formula: 'NiSb', hardness: 3.5, color: 'Tin-white to copper-red', isMagnetic: false, healthRisks: 'Breithauptite contains antimony which can be harmful in large amounts. It is recommended to wash hands after handling and avoid inhaling dust when handling or breaking it.', askedQuestions: [], crystalSystem: 'Hexagonal', colors: 'Tin-white, Copper-red', luster: 'Metallic', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Nickel, Antimony', healingPropeties: '', formulation: 'NiSb', meaning: 'Named for the German mineralogist who discovered it', howToSelect: 'Breithauptite is rare and not typically used in jewelry or healing, it is mainly a collector mineral.', types: 'Breithauptite is usually found in a form which is a mixture with other minerals', uses: 'A collector mineral, it is not typically used commercially due to its rarity and toxicity risk'),
-Rock(rockId: 906, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'fossil', rockName: 'Ammonoidea', imageURL: '', isFavorited: false, description: 'Ammonoidea, commonly known as ammonites, are an extinct group of marine mollusc animals. As fossils, their multi-chambered shells are often well preserved, making them valuable tools for biostratigraphy.', isSelected: false, formula: 'CaCO3', hardness: 3.5, color: 'they vary greatly in color based on mineral deposit present during fossilization. Common tones include tan, brown, and grey.', isMagnetic: false, healthRisks: '', askedQuestions: [], crystalSystem: 'not applicable', colors: 'tan, brown, grey', luster: 'pearly to dull', diaphaneity: 'opaque', quimicalClassification: '', elementsListed: 'Calcium, Carbon, Oxygen', healingPropeties: '', formulation: 'CaCO3', meaning: 'Ammonites are symbols of change, evolution, and continuation of life.', howToSelect: 'When selecting an ammonite fossil, look for well-defined spirals and no visible damage. The size and color is entirely up to the individual preference.', types: 'Hoploscaphites, Placenticeras, Parapuzosia', uses: 'Jewelry, decorative items, collectors’ items, and in Feng Shui'),
-Rock(rockId: 907, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'Organic Gem', rockName: 'Pearl', imageURL: '', isFavorited: false, description: 'Pearls are organic gems that grow inside the tissue of a living saltwater or freshwater mollusk. They are highly prized as gem stones and are often used in jewelry.', isSelected: false, formula: 'CaCO3', hardness: 2.5, color: 'white, off-white, pink, silver, cream, golden, green, blue, black', isMagnetic: false, healthRisks: 'No known health risks, but some people may be allergic to the type of metal used in pearl jewelry.', askedQuestions: [], crystalSystem: 'Orthorhombic', colors: 'White, off-white, pink, silver, cream, golden, green, blue, black', luster: 'Pearly', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Calcium, Carbon, Oxygen', healingPropeties: '', formulation: 'CaCO3', meaning: 'Purity, generosity, integrity, and loyalty', howToSelect: 'When selecting pearls, it is important to consider their color, size, and shape. The most valuable pearls are perfectly round and smooth, but other shapes can also be attractive.', types: 'Natural, Cultured, Freshwater, South Sea, Akoya, Tahitian', uses: 'Used in jewellery such as necklaces, earrings, rings, bracelets. Also used in cosmetics, paint and other products.'),
-Rock(rockId: 908, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Actinolite', imageURL: '', isFavorited: false, description: 'Actinolite is a member of a series that contains varying amounts of iron and magnesium. it is a common mineral that comes in a variety of colors.', isSelected: false, formula: 'Ca2(Mg,Fe)5Si8O22(OH)2', hardness: 5-6, color: 'Dark green to grayish-green, colorless, white, gray, and brown', isMagnetic: false, healthRisks: 'In its fibrous form, actinolite can be a type of asbestos which is harmful when inhaled. it is important to handle this rock carefully and avoid any kind of exposure.', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'Dark green to grayish green, colorless, white, gray, and brown', luster: 'Vitreous to dull', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Calcium, Iron, Magnesium, Silicon, Hydrogen, Oxygen', healingPropeties: '', formulation: 'Ca2(Mg,Fe)5Si8O22(OH)2', meaning: 'Used for achieving a balanced mind and turning negative energies into positive ones', howToSelect: 'When selecting actinolite, look for pieces that resonate with your energy. This may be a particular shape, color or size that calls to you.', types: 'Nephrite, Byssolite, Clino-actinolite', uses: 'Gemstone, mineral specimens, ornamental stone'),
-Rock(rockId: 909, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'Igneous rock', rockName: 'Shoshonite', imageURL: '', isFavorited: false, description: 'Shoshonite is an igneous rock, defined by its high content of potassium and relatively low sodium, often formed in basaltic volcanic areas.', isSelected: false, formula: '', hardness: 6.0, color: 'Grey, greenish-grey, or dark grey', isMagnetic: false, healthRisks: 'As an igneous rock, long-term exposure to dust can harm respiratory health. Always use protective gear while handling.', askedQuestions: [], crystalSystem: 'Not applicable', colors: 'Grey, greenish-grey, or dark grey', luster: 'Dull or vitreous', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Potassium, Sodium, Silicate', healingPropeties: '', formulation: '', meaning: 'As Shoshonite is not traditionally used in spiritual or healing practices, it does not generally carry a specific metaphysical meaning.', howToSelect: 'While not typically used for decorative or spiritual purposes, if choosing Shoshonite, consider its unique color and geological relevance.', types: 'No specific types', uses: 'Research and education, geological studies, mineral collecting'),
-Rock(rockId: 910, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'sedimentary rock', rockName: 'Diatomite', imageURL: '', isFavorited: false, description: 'Diatomite is a sedimentary rock that consists of the remains of diatoms, a type of hard-shelled class of micro-algae, also known as phytoplanktons.', isSelected: false, formula: 'SiO2·nH2O', hardness: 1.0, color: 'White to light grey', isMagnetic: false, healthRisks: 'Inhaling diatomite dust can lead to lung problems, including cancer.', askedQuestions: [], crystalSystem: 'Amorphous', colors: 'White to light grey', luster: 'Earthy', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Silicon, Oxygen, Hydrogen', healingPropeties: '', formulation: 'SiO2·nH2O', meaning: '-', howToSelect: 'Diatomite is abundant and can be easily found in areas rich with water bodies. it is normally soft, lightweight and porous. No particular method for selection.', types: 'Freshwater Diatomite, Saltwater Diatomite', uses: 'Filtration, insulation, absorbent for industrial spills, lightweight construction materials, ingredient in dynamite'),
-Rock(rockId: 911, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Azurite', imageURL: '', isFavorited: false, description: 'Azurite is an intense deep blue color with a Mohs hardness between 3.5 and 4. Different from other minerals, its conchoidal fractures can be shiny.', isSelected: false, formula: 'Cu3(CO3)2(OH)2', hardness: 3.5, color: 'Azure blue, dark to light blue (pale blue if weathered)', isMagnetic: false, healthRisks: 'Avoid ingesting, breathing, or touching the dust. Azurite may release Copper into the body, which can cause serious health issues.', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'Azure blue, dark blue, light blue', luster: 'Vitreous', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Copper, Carbon, Oxygen, Hydrogen', healingPropeties: '', formulation: 'Cu3(CO3)2(OH)2', meaning: 'Azurite is known as the Stone of Heaven, it aids in the pursuit of the heavenly self.', howToSelect: 'When selecting azurite, choose a piece that draws to you or that you feel connected with.', types: 'Depending on the location azurite can be found, it can form different types such as: Electric Blue, Azure Blue, and Dark Night Blue', uses: 'Azurite is mainly used as a collector stone, or in jewelry. it is also used for dyes and pigments due to its intense color.'),
-Rock(rockId: 912, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Boracite', imageURL: '', isFavorited: false, description: 'Boracite is a rare borate mineral that is often found in evaporite deposits. It exhibits pleochroism, which means it changes color under different viewing angles.', isSelected: false, formula: 'Mg3B7O13Cl', hardness: 7.0, color: 'Colorless, white, gray, green, blue, or yellow', isMagnetic: true, healthRisks: 'There are no significant health risks associated with Boracite. However, like all rocks and minerals, it should not be inhaled or ingested.', askedQuestions: [], crystalSystem: 'Orthorhombic', colors: 'Colorless, white, gray, green, blue, yellow', luster: 'Vitreous to greasy', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Boron, Oxygen, Magnesium, Chlorine', healingPropeties: '', formulation: 'Mg3B7O13Cl', meaning: 'Aids in concentration and focus, grounding energy, promoting clarity of thought', howToSelect: 'Boracite is a rare mineral, so choose a piece that is clear and shows the characteristic color change under different lights.', types: 'There are no specific types of Boracite. However, the color can vary.', uses: 'Collector’s gemstone, mineral specimen, ornamental stone'),
-Rock(rockId: 913, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'volcanic glass', rockName: 'Obsidian', imageURL: '', isFavorited: false, description: 'Obsidian is a natural, volcanic glass formed from the rapid cooling of viscous lava from volcanoes.', isSelected: false, formula: '70-75% SiO2', hardness: 5.0, color: 'Black, occasionally brown or green, rarely blue-red', isMagnetic: false, healthRisks: 'No significant health risks are listed for obsidian. However, care should be taken to avoid inhaling dust produced when carving or shaping it.', askedQuestions: [], crystalSystem: 'Amorphous', colors: 'Black, occasionally brown or green, rarely blue-red', luster: 'Vitreous', diaphaneity: 'Transparent to translucent, usually opaque', quimicalClassification: '', elementsListed: 'Silicon, Oxygen', healingPropeties: '', formulation: '70-75% SiO2', meaning: 'Obsidian is often used for spiritual or healing purposes for grounding and protection.', howToSelect: 'When selecting obsidian, pick a piece that calls to you, as individuals often find the gems that they resonate with on a personal level.', types: 'Black Obsidian, Snowflake Obsidian, Rainbow Obsidian', uses: 'Jewelry, ornamental carvings, tools in prehistoric times, grounding during meditative therapy, scrying mirrors for prophecy'),
-Rock(rockId: 914, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Unakite', imageURL: '', isFavorited: false, description: 'Unakite is a granite composed of pink orthoclase feldspar, green epidote, and usually clear quartz. It has a mottled appearance combining pink, green and white coloration.', isSelected: false, formula: 'KAlSi3O8, Ca2(Al,Fe)3(SiO4)(Si2O7)O(OH), SiO2', hardness: 6-7, color: 'Pink, green, and white', isMagnetic: false, healthRisks: '', askedQuestions: [], crystalSystem: 'Monoclinic and Triclinic', colors: 'Pink, green, white', luster: 'Vitreous to pearly', diaphaneity: 'Translucent', quimicalClassification: '', elementsListed: 'Potassium, Aluminium, Silicon, Oxygen, Calcium, Iron, Hydrogen', healingPropeties: '', formulation: 'KAlSi3O8, Ca2(Al,Fe)3(SiO4)(Si2O7)O(OH), SiO2', meaning: 'Unakite is said to symbolize what comes together belongs together. it is believed to lift the veil of negativity which many people unconsciously carry in their heart.', howToSelect: 'Choose a piece that you are drawn to and feels right in your hand. The colour should be a pleasing blend of pink and green without other impurities.', types: 'Unakite is itself a type of granite.', uses: 'Used in meditation and for decorative purposes, often seen as beads and cabochons in jewellery.'),
-Rock(rockId: 915, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Kunzite', imageURL: '', isFavorited: false, description: 'Kunzite is a mineral variant of the silicate, Spodumene. It is often valued for its lovely pink hue and its clarity.', isSelected: false, formula: 'LiAlSi2O6', hardness: 7.0, color: 'Colorless, pink to lilac, rarely green', isMagnetic: false, healthRisks: 'No major health risks associated with Kunzite', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'Colorless, pink, lilac, green', luster: 'Vitreous to Pearly', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Lithium, Aluminium, Silicon, Oxygen', healingPropeties: '', formulation: 'LiAlSi2O6', meaning: 'Known as the Woman Stone, it is said to foster a sense of tranquility and thankfulness', howToSelect: 'When selecting Kunzite, it is important to choose a piece with a deep and vibrant color without any noticeable inclusions', types: 'Hiddenite (green variant of kunzite)', uses: 'Relatively limited due to its direction-dependent color, but sometimes used in jewelry'),
-Rock(rockId: 916, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Sunstone', imageURL: '', isFavorited: false, description: 'Sunstone is a plagioclase feldspar that is known for its metallic glitter, often resembling the sun. Typically red or brown in color, it is glitter is due to light reflecting from tiny hematite or goethite inclusions.', isSelected: false, formula: '(Ca,Na)(Al,Si)4O8', hardness: 6.0, color: 'Colorless, green, yellow, red, grey, blue', isMagnetic: false, healthRisks: '', askedQuestions: [], crystalSystem: 'Triclinic', colors: 'Colorless, green, yellow, red, grey, blue', luster: 'Vitreous, Pearly', diaphaneity: 'Transparent to translucent', quimicalClassification: '', elementsListed: 'Calcium, Sodium, Aluminum, Silicon, Oxygen', healingPropeties: '', formulation: '(Ca,Na)(Al,Si)4O8', meaning: 'Known as a stone of leadership, Sunstone carries the energy of the God of the Sun, inspiring openness, benevolence, and nurturance in its wearer.', howToSelect: 'When selecting Sunstone, choose a piece that calls to you on a personal level. The stones energy should sync with yours.', types: 'Oregon sunstone, Heliolite', uses: 'As a gemstone, sunstone is used in jewelry. Due to its spiritual properties, it is used in meditation, spiritual healing, and psychic development.'),
-Rock(rockId: 917, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Carbonatite', imageURL: '', isFavorited: false, description: 'Carbonatite is a rare and interesting igneous rock that is rich in carbonate minerals. It is associated with significant global resources of rare earth elements and niobium.', isSelected: false, formula: 'Variable', hardness: 3-4, color: 'usually light-colored, ranging from clast-free white to carbon-rich black', isMagnetic: false, healthRisks: 'No significant health risks, but like with all rocks and dust, prolonged inhalation should be avoided.', askedQuestions: [], crystalSystem: 'Hexagonal, Trigonal, Monoclinic, Orthorhombic, Tetragonal', colors: 'White, Black, Light-Colored, Clast-Free', luster: 'Vitreous to Dull', diaphaneity: 'Transparent to Opaque', quimicalClassification: '', elementsListed: 'Calcium, Carbon, Oxygen, sometimes also Rare Earth Elements', healingPropeties: '', formulation: 'Variable, typically CaCO3', meaning: 'Not commonly used in spiritual or healing practices', howToSelect: 'Select based on richness in desired minerals, especially if looking for rare earth elements', types: 'Calcitic Carbonatite, Dolomitic Carbonatite, Ferrocarbonatite', uses: 'Main source of niobium, also used in production of phosphate fertilizers'),
-Rock(rockId: 918, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'rock', rockName: 'Enderbite', imageURL: '', isFavorited: false, description: 'Enderbite is a type of granulite. It is a medium-to coarse-grained transformation rock and is composed mainly of one or more of the pyroxene minerals and feldspar.', isSelected: false, formula: 'variable', hardness: 6.0, color: 'grayish to brownish', isMagnetic: false, healthRisks: '', askedQuestions: [], crystalSystem: 'Not applicable', colors: '', luster: '', diaphaneity: '', quimicalClassification: '', elementsListed: 'mainly silicon, oxygen, aluminum, iron, and magnesium', healingPropeties: '', formulation: 'Variable, based on mineral composition', meaning: 'Enderbite does not hold any specific metaphysical properties', howToSelect: 'Enderbite is not typically used for healing or aesthetic purposes, so selection is based primarily on scientific or geological interests.', types: 'Not applicable, as enderbite is a specific type of rock on its own.', uses: 'Enderbite is mostly used for scientific and educational purposes, more commonly encountered in geological studies.'),
-Rock(rockId: 919, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'volcanic rock', rockName: 'Picrite', imageURL: '', isFavorited: false, description: 'Picrite is a dark, coarse-grained and magnesium-rich volcanic rock. It is high in olivine content, hence its greenish tint. Its silicate mineral constituents makes it a member of the peridotite group.', isSelected: false, formula: 'Mg2SiO4', hardness: 5.5, color: 'dark green, gray', isMagnetic: false, healthRisks: 'There are no known health risks associated with normal handling of this material. However, like all rocks and dust, continued inhalation, handling or ingestion might cause health problems.', askedQuestions: [], crystalSystem: 'Orthorhombic', colors: 'dark green, gray', luster: 'Dull to Vitreous', diaphaneity: 'Translucent to Opaque', quimicalClassification: '', elementsListed: 'Magnesium, Silicon, Oxygen', healingPropeties: '', formulation: 'Largely composed of the mineral olivine (Mg2SiO4), with lesser amounts of pyroxene and chromite', meaning: 'N/A', howToSelect: 'Picrite is not typically selected for aesthetic or healing purposes, as it is not typically prized for such uses.', types: 'Hawaiite, Alnoite', uses: 'General construction material, it also important in the field of petrology for the insights it gives into the nature of the earth mantle'),
-Rock(rockId: 920, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'igneous', rockName: 'Syenite', imageURL: '', isFavorited: false, description: 'Syenite is a coarse-grained intrusive igneous rock, similar to granite but lacking quartz. It consist of at least 60% alkali feldspar, and less than 10% plagioclase feldspar, with minor amount of dark minerals.', isSelected: false, formula: 'KAlSi3O8 - NaAlSi3O8', hardness: 6.0, color: 'light grey, pink, yellow, can also be green, blue or black', isMagnetic: false, healthRisks: '', askedQuestions: [], crystalSystem: 'Triclinic or Monoclinic', colors: 'light grey, pink, yellow, green, blue, black', luster: 'Vitreous to Pearly', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Potassium, Sodium, Aluminum, Silicon, Oxygen', healingPropeties: '', formulation: 'KAlSi3O8 - NaAlSi3O8', meaning: 'Syenite is often linked with grounding and centering energies, frequently cited as a balance and harmony stone', howToSelect: 'Choose a Syenite stone based on its color and feeling. It should feel heavy and solid, and be pleasing to the touch', types: 'Monzonite, Foyaite, Durbachite, Pulaskite', uses: 'Building Stones, Decorative Aggregates, Tiles, Interior Decoration, As Dimension Stone'),
-Rock(rockId: 921, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: '', rockName: 'Amphibolite', imageURL: '', isFavorited: false, description: 'Amphibolite is a metamorphic rock, mainly consisting of green, brown or black amphibole minerals and plagioclase feldspar. The appearance can range from a very dark green to black, often with a shiny luster due to the amphibole minerals.', isSelected: false, formula: 'Variable, but predominantly (Ca,Na)(Mg,Fe,Al,Ti)(Si,Al)2O6', hardness: 5-6, color: 'Green, Black, Brown, Grey', isMagnetic: false, healthRisks: 'Amphibole minerals, a component of amphibolite, have been associated with certain health risks such as respiratory issues if dust is inhaled over a prolonged period. However, in solid rock form, these risks are minimal.', askedQuestions: [], crystalSystem: 'Monoclinic and Orthorhombic', colors: '', luster: 'Vitreous to Pearly', diaphaneity: 'Transparent to Opaque', quimicalClassification: '', elementsListed: 'Calcium, Sodium, Magnesium, Iron, Aluminum, Titanium, Silicon, Oxygen', healingPropeties: '', formulation: '', meaning: 'Amphibolite symbolizes transformation and evolution due to its own metamorphic nature.', howToSelect: 'Choose a stone that has a good luster and a consistent color. Make sure it heavy for its size and free of any uncharacteristic inclusions.', types: 'Hornblende Amphibolite, Garnet Amphibolite, etc', uses: 'It is predominantly used as a construction material, decorative stone and in jewelry due to its unique textures and patterns.'),
-Rock(rockId: 922, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'organic', rockName: 'Ivory', imageURL: '', isFavorited: false, description: 'Ivory is a hard, white material from the tusks and teeth of animals such as elephants, walruses, and certain whales. It has been widely used throughout history for many purposes, including jewelry, art, and decoration.', isSelected: false, formula: 'Ca5(PO4)3OH', hardness: 2.5, color: 'white to cream-colored', isMagnetic: false, healthRisks: 'Ivory may be a potential allergenic material for some people, and there are ethical and ecological concerns due to the source of the ivory.', askedQuestions: [], crystalSystem: 'N/A', colors: 'white, cream-colored', luster: 'Vitreous to resinous', diaphaneity: 'Opaque', quimicalClassification: '', elementsListed: 'Calcium, Phosphorus, Oxygen, Hydrogen', healingPropeties: '', formulation: 'Ca5(PO4)3OH', meaning: 'In many cultures, ivory symbolizes purity, sacrifice and high status due to its rarity and value.', howToSelect: 'Choose ivory items that are ethically sourced, oftentimes, vintage or antique pieces are the most ethical choice due to the illegal and destructive nature of new ivory harvesting. Always check the authenticity and source before purchase.', types: 'Elephant Ivory, Hippo Ivory, Mammoth Ivory, Walrus Ivory, Whale Ivory', uses: 'Historically used in art, decoration, musical instruments, and jewelry. Modern uses are limited due to ethical restrictions.'),
-Rock(rockId: 923, price: 0, size: '', rating: 0, humidity: 0.0, temperature: '', category: 'mineral', rockName: 'Antigorite', imageURL: '', isFavorited: false, description: 'Antigorite is the high-temperature polymorph of serpentine minerals, mostly translucent and can take on a greasy luster. It was named after its type locality, the Antigorio Valley in Italy.', isSelected: false, formula: 'Mg3Si2O5(OH)4', hardness: 3.5, color: 'Green, yellowish, grayish, whitish green.', isMagnetic: false, healthRisks: 'Suspected to be harmful to health when breathed in as dust, as it may potentially contain asbestos', askedQuestions: [], crystalSystem: 'Monoclinic', colors: 'Green, yellowish, grayish, whitish green', luster: 'Waxy to greasy', diaphaneity: 'Translucent to opaque', quimicalClassification: '', elementsListed: 'Magnesium, Silicon, Oxygen, Hydrogen', healingPropeties: '', formulation: 'Mg3Si2O5(OH)4', meaning: 'Known for its powerful grounding properties, helps to create an energetic shield of protection around the body', howToSelect: 'When selecting Antigorite, it is important to choose a stone that you feel a strong connection with. It is also essential to examine the stone to ensure it does not contain hazardous asbestos fibers', types: 'It occurs in several forms, often fibrous, massive or pseudomorph after other minerals', uses: 'It is often cut and polished into cabochons for use in jewelry, also used in construction products.'),
-Rock(rockId: 924, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "", category: "rock", rockName: "Itacolumite", imageURL: "", isFavorited: false, description: "Itacolumite is a naturally occurring flexible sandstone. Originally discovered in the Brazilian state of Minas Gerais, it is known for its unusual characteristic of flexibility, bending without breaking.", isSelected: false, formula: "", hardness: 6.5, color: "yellow, brown, gold, tan", isMagnetic: false, healthRisks: "No known health risks, but care should be taken to avoid inhaling dust from rock.", askedQuestions: [], crystalSystem: "Not applicable", colors: "yellow, brown, gold, tan", luster: "Matte - Dull", diaphaneity: "Opaque", quimicalClassification: "", elementsListed: "Quartz, Feldspar, Mica, and other trace minerals", healingPropeties: "", formulation: "Not applicable", meaning: "Its unusual flexibility can symbolize adaptability and resilience", howToSelect: "Select based on desired color and characteristics. Choose Itacolumite which shows clear signs of natural flexibility.", types: "Varies based on location of extraction", uses: "Construction, Study in earth science, Decorative purposes"),
-Rock(rockId: 925, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "", category: "mineral", rockName: "Baryte", imageURL: "", isFavorited: false, description: "Baryte is a mineral consisting of barium sulfate. It's typically colorless or white, but may be of various colors depending on impurities. Baryte is widely used in the oil drilling industry as a weighting agent in drilling fluids.", isSelected: false, formula: "BaSO4", hardness: 3.0, color: "Colorless, white, light shades of blue, yellow, grey, brown", isMagnetic: false, healthRisks: "While baryte itself is not harmful, the release of soluble barium ions into water and soil can be. Prolonged exposure can lead to barium poisoning.", askedQuestions: [], crystalSystem: "Orthorhombic", colors: "Colorless, white, light shades of blue, yellow, grey, brown", luster: "Vitreous to pearly", diaphaneity: "Transparent to translucent", quimicalClassification: "", elementsListed: "Barium, Sulphur, Oxygen", healingPropeties: "", formulation: "BaSO4", meaning: "Assists in the journey of understanding dreams", howToSelect: "Select based on personal preference and intended healing purpose", types: "Desert rose, Baryte Rose", uses: "Pipe mud, production of barium chemicals, filler for rubber, plastic and paint, radiation shielding"),
-Rock(rockId: 926, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "", category: "mineral", rockName: "Emerald", imageURL: "", isFavorited: false, description: "Emerald is a gemstone and a variety of the mineral beryl colored green by trace amounts of chromium and sometimes vanadium. Beryl has a hardness of 7.5–8 on the Mohs scale.", isSelected: false, formula: "Be3Al2(SiO3)6", hardness: 7.5, color: "Green", isMagnetic: false, healthRisks: "Emeralds are safe to handle but may carry risk if ingested as they can contain traces of chromium.", askedQuestions: [], crystalSystem: "Hexagonal", colors: "Green", luster: "Vitreous", diaphaneity: "Transparent to Opaque", quimicalClassification: "", elementsListed: "Beryllium, Aluminum, Silicon, Oxygen", healingPropeties: "", formulation: "Be3Al2(SiO3)6", meaning: "Considered a symbol of rebirth and love. Emeralds are believed to grant the owner foresight, good fortune, and youth.", howToSelect: "When selecting an emerald, consider its color, cut, and clarity. Also check for any surface-reaching breaks or cracks, which can affect the stone's durability and value.", types: "Colombian Emeralds, Brazilian Emeralds, African Emeralds", uses: "Used in jewelry such as rings and earrings due to its vibrant color and as a healing crystal in spiritual practices."),
-Rock(rockId: 927, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "", category: "mineral", rockName: "Emerald", imageURL: "", isFavorited: false, description: "Emerald is a precious gemstone, a variety of the mineral beryl, colored green by trace amounts of chromium and/or vanadium.", isSelected: false, formula: "Be3Al2(SiO3)6", hardness: 7.5, color: "Green, possibly with blue or yellow tint", isMagnetic: false, healthRisks: "Emeralds are generally safe to handle, but should not be inhaled or ingested as dust. Long-term exposure to emeralds should also be avoided.", askedQuestions: [], crystalSystem: "Hexagonal", colors: "Green", luster: "Vitreous", diaphaneity: "Transparent to translucent", quimicalClassification: "", elementsListed: "Beryllium, Aluminum, Silicon, and Oxygen", healingPropeties: "", formulation: "Be3Al2(SiO3)6", meaning: "Symbol of rebirth and love", howToSelect: "When selecting emeralds, choose for color and clarity. The most desirable emeralds are highly transparent. Their color is uniformly distributed, with no eye-visible color zoning.", types: "There are no distinct types of emerald, but they can differ in color and clarity.", uses: "Primarily used as a gemstone in jewellery."),
-Rock(rockId: 928, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "", category: "mineral", rockName: "Beryllonite", imageURL: "", isFavorited: false, description: "Beryllonite is a rare beryllium mineral that is valuable to collectors of rare minerals.", isSelected: false, formula: "NaBePO4", hardness: 5.5, color: "colorless, white, sometimes with a yellowish or greenish tinge", isMagnetic: false, healthRisks: "While Beryllonite may not pose direct health risks, long-term or intense exposure to beryllium or beryllium compounds, which Beryllonite contains, is known to be seriously harmful to health.", askedQuestions: [], crystalSystem: "Monoclinic", colors: "colorless, white, yellowish or greenish", luster: "Vitreous to pearly", diaphaneity: "Transparent to translucent", quimicalClassification: "", elementsListed: "Beryllium, Sodium, Phosphorus, Oxygen", healingPropeties: "", formulation: "NaBePO4", meaning: "Not traditionally assigned a spiritual meaning", howToSelect: "Due to its rarity, Beryllonite often comes at a higher price. When selecting, ensure that you are purchasing from a trusted and experienced dealer to guarantee its authenticity.", types: "There are no distinct types or variations of Beryllonite aside from the primary mineral.", uses: "Collections due to its rarity, Beryllium ore"),
-Rock(rockId: 929, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "", category: "mineral", rockName: "Kornerupine", imageURL: "", isFavorited: false, description: "Kornerupine is a rare boro-silicate mineral that is noted for its colorful gem-quality forms that are cut into attractive gemstones", isSelected: false, formula: "Al11(BSiO20)", hardness: 7.0, color: "Green, White, Yellow, Brown", isMagnetic: false, healthRisks: "There are no notable health risks associated with this mineral.", askedQuestions: [], crystalSystem: "Orthorhombic", colors: "Green, White, Yellow, Brown", luster: "Vitreous", diaphaneity: "Transparent to Translucent", quimicalClassification: "", elementsListed: "Aluminium, Boron, Silicone, Oxygen", healingPropeties: "", formulation: "Al11(BSiO20)", meaning: "Promotes clarity and looking at things from various perspectives", howToSelect: "Due to its rare nature, it's vital to ensure the stone is from a reputable source. Choose a stone that you feel intimately connected to, or one that aligns with your energy or intentions.", types: "Prismatic Kornerupine, Tabular Kornerupine", uses: "Used in jewelry as gemstones, appreciated by collectors due to its rarity"),
- Rock(rockId: 930, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "", category: "organic", rockName: "Bone", imageURL: "", isFavorited: false, description: "Bone, though not a rock, is often included in geology due to the fossilized bones graphic presentation in rock formations. It is organic material which is rich in calcium, phosphorus, and other minerals.", isSelected: false, formula: "Ca10(PO4)6(OH)2 + other organics", hardness: 5.0, color: "white, off-white, yellowish", isMagnetic: false, healthRisks: "Raw bone material may carry diseases or bacteria harmful to humans. Always ensure bone material has been properly sanitized before handling.", askedQuestions: [], crystalSystem: "N/A", colors: "White, off-white, yellowish", luster: "Sub-vitreous, resinous", diaphaneity: "Opaque", quimicalClassification: "", elementsListed: "Calcium, Phosphorus, Oxygen, Hydrogen", healingPropeties: "", formulation: "Ca10(PO4)6(OH)2 + other organics", meaning: "Bone symbolizes strength, the foundation on which to build, and wisdom from ancestors.", howToSelect: "When selecting bone for use, ensure that it has been ethically sourced and properly cleaned/sanitized.", types: "Bones are not typically categorized by type but by the animal from which they originate.", uses: "Jewelry, artwork, spiritual practices, ancestral connection, educational study in archaeology and palaeontology"),
-Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "", category: "rock", rockName: "Anyolite", imageURL: "", isFavorited: false, description: "Anyolite is a metamorphic rock composed of green Zoisite, dark red Ruby, and black Hornblende. It's often used for carving and ornamental purposes. It was first discovered in Tanzania.", isSelected: false, formula: "Ca2Al3(SiO4)(Si2O7)O(OH)+Al2O3+Ca2(Fe, Mg, Al)5(Si, Al)8O22(OH)2", hardness: 6.0, color: "Green and black with an occasional hint of purple from ruby inclusions", isMagnetic: false, healthRisks: "In general, handling constant physical contact with raw or polished Anyolite stone is considered safe.", askedQuestions: [], crystalSystem: "Orthorhombic", colors: "Green, black", luster: "Vitreous to pearly", diaphaneity: "Translucent to opaque", quimicalClassification: "", elementsListed: "Calcium, Aluminum, Silicon, Oxygen, Iron, Magnesium, Hydrogen", healingPropeties: "", formulation: "Ca2Al3(SiO4)(Si2O7)O(OH)+Al2O3+Ca2(Fe, Mg, Al)5(Si, Al)8O22(OH)2", meaning: "The stone of connection, connecting to the divine and other people around you. Balancing masculine and feminine energy.", howToSelect: "Choose a piece that feels energetically aligned to you, look at the quality of the Ruby inclusions.", types: "There are no specific types of Anyolite. The characteristic green, black, and red coloration remains consistent.", uses: "Ornamental stone, decorative items, carved into cabochons and beads for jewelry, healing stone in crystal therapy"),
- Rock(
-        rockId:932,
-        price:0,
-        size:"",
-        rating:0,
-        humidity:0.0,
-        temperature:"",
-        category:"rock",
-        rockName:"Peridotite",
-        imageURL:"",
-        isFavorited:false,
-        description:"Peridotite is a dense, coarse-grained igneous rock, consisting mostly of the minerals olivine and pyroxene. It is the main constituent of the Earth's mantle.",
-        isSelected:false,
-        formula:"(Mg,Fe)2SiO4",
-        hardness:6.5,
-        color:"Green, yellow-green, black",
-        isMagnetic:false,
-        healthRisks:"Inhalation of dust may cause respiratory irritation.",
-        askedQuestions:[],
-        crystalSystem:"Orthorhombic",
-        colors:"Green, yellow-green, black",
-        luster:"Vitreous",
-        diaphaneity:"Opaque",
-        quimicalClassification:"Silicate",
-        elementsListed:"Magnesium, Iron, Silicon, Oxygen",
-        healingPropeties:"",
-        formulation:"(Mg,Fe)2SiO4",
-        meaning:"Peridotite symbolizes strength and resilience, as it forms under high-pressure conditions within the Earth's mantle.",
-        howToSelect:"Look for dense, coarse-grained samples with visible olivine crystals.",
-        types:"Lherzolite, Harzburgite, Dunite",
-        uses:"Scientific study, industrial applications"
-    ),
     Rock(
-        rockId:933,
-        price:0,
-        size:"",
-        rating:0,
-        humidity:0.0,
-        temperature:"",
-        category:"rock",
-        rockName:"Greenschist",
-        imageURL:"",
-        isFavorited:false,
-        description:"Greenschist is a metamorphic rock that forms under low temperature and pressure. It typically contains minerals such as chlorite, actinolite, and albite.",
-        isSelected:false,
-        formula:"Varies; commonly contains chlorite (Mg5Al2Si3O10(OH)8), actinolite (Ca2(Mg,Fe)5Si8O22(OH)2)",
-        hardness:5.0,
-        color:"Green, gray-green",
-        isMagnetic:false,
-        healthRisks:"Generally safe, though dust inhalation should be avoided.",
-        askedQuestions:[],
-        crystalSystem:"Varies",
-        colors:"Green, gray-green",
-        luster:"Vitreous to pearly",
-        diaphaneity:"Opaque to translucent",
-        quimicalClassification:"Metamorphic",
-        elementsListed:"Magnesium, Iron, Calcium, Silicon, Aluminum, Oxygen, Hydrogen",
-        healingPropeties:"",
-        formulation:"Varies; commonly contains chlorite (Mg5Al2Si3O10(OH)8), actinolite (Ca2(Mg,Fe)5Si8O22(OH)2)",
-        meaning:"Greenschist represents transformation and adaptation, formed through the metamorphism of basaltic rocks.",
-        howToSelect:"Choose samples with a consistent green coloration and visible mineral grains.",
-        types:"Epidote-amphibolite facies, chlorite schist",
-        uses:"Geological research, ornamental stone"
-    ),
+        rockId: 859,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'gemstone',
+        rockName: 'Sapphire',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Sapphire is a precious gemstone, a variety of the mineral corundum, which is typically blue but natural fancy sapphires also occur in yellow, purple, orange, and green colors.',
+        isSelected: false,
+        formula: 'Al2O3',
+        hardness: 9.0,
+        color:
+            'Blue, yellow, purple, orange, green, colorless, pink, multicolored',
+        isMagnetic: false,
+        healthRisks: 'No known health risks',
+        crystalSystem: 'Trigonal',
+        colors: 'Blue, Colorless, Pink, Yellow, Green, Multicolored',
+        luster: 'Vitreous',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Aluminium, Oxygen',
+        healingPropeties: '',
+        formulation: 'Al2O3',
+        meaning: 'Wisdom, truth, protection, spiritual insight, good fortune',
+        howToSelect:
+            'When selecting a sapphire, consider its color, clarity, carat weight, and cut. A sapphire value is based on its size, color, and quality of cut.',
+        types:
+            'Blue sapphire, Pink sapphire, Yellow sapphire, White sapphire, Purple sapphire',
+        uses:
+            'Highly valued as a gemstone for jewelry, also used industrially for its hardness in applications such as scratch-resistant screens.'),
     Rock(
-        rockId:934,
-        price:0,
-        size:"",
-        rating:0,
-        humidity:0.0,
-        temperature:"",
-        category:"rock",
-        rockName:"Calcflinta",
-        imageURL:"",
-        isFavorited:false,
-        description:"Calcflinta is a type of chert rich in calcite, forming as a result of diagenetic alteration of limestones and marls.",
-        isSelected:false,
-        formula:"CaCO3 + SiO2",
-        hardness:7.0,
-        color:"White, gray, yellow, brown",
-        isMagnetic:false,
-        healthRisks:"Inhalation of dust can cause respiratory issues.",
-        askedQuestions:[],
-        crystalSystem:"Hexagonal (calcite), Trigonal (quartz)",
-        colors:"White, gray, yellow, brown",
-        luster:"Vitreous to dull",
-        diaphaneity:"Opaque",
-        quimicalClassification:"Silicate/Carbonate",
-        elementsListed:"Calcium, Carbon, Oxygen, Silicon",
-        healingPropeties:"",
-        formulation:"CaCO3 + SiO2",
-        meaning:"Calcflinta symbolizes resilience and endurance, forming from the transformation of sedimentary rocks.",
-        howToSelect:"Look for samples with a mix of calcite and chert, and minimal impurities.",
-        types:"Chalcedony-rich, jasper-rich",
-        uses:"Tool making in prehistoric times, decorative stone"
-    ),
+        rockId: 860,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous',
+        rockName: 'Blairmorite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Blairmorite, also known as Biotite-Nepheline-Albite-Phlogopite, is an uncommon variety of igneous rock, found most commonly in Blairmore, Alberta, Canada.',
+        isSelected: false,
+        formula: '',
+        hardness: 0,
+        color: 'white to light grey, with brown to greenish-black minerals',
+        isMagnetic: false,
+        healthRisks:
+            'Generally, Blairmorite poses no health risks unless ground into a fine dust and inhaled. Long term inhalation of such dust can lead to lung problems.',
+        crystalSystem: 'Trigonal',
+        colors: 'White, light grey, brown, greenish-black',
+        luster: 'Vitreous to pearly',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Potassium, Oxygen, Sodium, Silicon, Aluminium, Iron, Magnesium, Hydrogen, Fluorine, Chlorine',
+        healingPropeties: '',
+        formulation: '',
+        meaning:
+            'Due to its uncommon nature and unique composition, Blairmorite often symbolizes uniqueness and individual unity among different elements.',
+        howToSelect:
+            'Select Blairmorite based on the quality of the specimen, its color, and the proportion of minerals present. It is also important to source this rock responsibly given its rarity.',
+        types:
+            'Blairmorite is unique in its composition, with only one recognized type.',
+        uses:
+            'Blairmorite is appreciated as a collector piece among mineral enthusiasts. It is also studied in the academic and scientific communities due to its unique composition.'),
     Rock(
-        rockId:935,
-        price:0,
-        size:"",
-        rating:0,
-        humidity:0.0,
-        temperature:"",
-        category:"rock",
-        rockName:"Azurmalachite",
-        imageURL:"",
-        isFavorited:false,
-        description:"Azurmalachite is a mix of azurite and malachite, known for its striking blue and green banded patterns. It is often used as an ornamental stone.",
-        isSelected:false,
-        formula:"Cu3(CO3)2(OH)2 + Cu2(CO3)(OH)2",
-        hardness:3.5-4.0,
-        color:"Blue, green",
-        isMagnetic:false,
-        healthRisks:"Contains copper; prolonged exposure can cause skin irritation and respiratory issues.",
-        askedQuestions:[],
-        crystalSystem:"Monoclinic",
-        colors:"Blue, green",
-        luster:"Vitreous to silky",
-        diaphaneity:"Opaque",
-        quimicalClassification:"Carbonate",
-        elementsListed:"Copper, Carbon, Oxygen, Hydrogen",
-        healingPropeties:"",
-        formulation:"Cu3(CO3)2(OH)2 + Cu2(CO3)(OH)2",
-        meaning:"Azurmalachite represents creativity and transformation, combining the energies of azurite and malachite.",
-        howToSelect:"Select pieces with vibrant colors and distinct banding patterns.",
-        types:"No specific types, varies by proportion of azurite to malachite",
-        uses:"Jewelry, decorative items, healing stone"
-    ),
+        rockId: 861,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous',
+        rockName: 'Boninite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Boninite is a high-magnesium and low-titanium type of andesite. It is characterized by its high levels of silicon, magnesium, and nickel, and its low levels of titanium and iron. it is typically found in subduction zones and is rare in occurrence.',
+        isSelected: false,
+        formula: 'SiO2, MgO, CaO, Al2O3',
+        hardness: 5.5,
+        color: 'greenish, gray',
+        isMagnetic: false,
+        healthRisks: '',
+        crystalSystem: 'Orthorhombic',
+        colors: 'greenish, gray',
+        luster: 'Vitreous',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Silicon, Oxygen, Magnesium, Calcium, Aluminum',
+        healingPropeties: '',
+        formulation: 'SiO2, MgO, CaO, Al2O3',
+        meaning:
+            'A significant rock that indicated subduction zones, this rock does not have any known metaphysical meaning',
+        howToSelect:
+            'Boninite is not commonly used for jewelry or decorative purposes, so selection is typically rooted in geological research purposes',
+        types: 'High-silica boninite, low-silica boninite',
+        uses: 'Scientific study, geological indicators'),
+    Rock(
+        rockId: 862,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous',
+        rockName: 'Essexite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Essexite is an intrusive igneous rock, often dark in colour, that is similar in its mineralogical composition to gabbro but differs in having more alkali feldspar than plagioclase feldspar.',
+        isSelected: false,
+        formula: '(Ca,Na)[Al(Al,Si)Si2O8]',
+        hardness: 6.0,
+        color: 'dark grey to black',
+        isMagnetic: false,
+        healthRisks:
+            'Not known to have any health risks associated with it, but care should be taken when handling sharp or broken pieces.',
+        crystalSystem: 'Triclinic',
+        colors: 'Dark grey, black',
+        luster: 'Vitreous to dull',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Sodium, Aluminum, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: '(Ca,Na)[Al(Al,Si)Si2O8]',
+        meaning: '',
+        howToSelect:
+            'Essexite is an unusual rock and not typically used in craft or decor. If selecting for study or collection, look for specimens with visible crystal formations.',
+        types:
+            'Essexite is a specific type of rock rather than a category, so it does not have further types.',
+        uses: 'Primarily in geological study and as a collector stone.'),
+    Rock(
+        rockId: 863,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous rock',
+        rockName: 'Foidolite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Foidolite is a rare type of intrusive igneous rock that predominantly consists of feldspathoid minerals and has less than 10% of feldspar by volume.',
+        isSelected: false,
+        formula: '',
+        hardness: 6.0,
+        color: 'grey to dark grey',
+        isMagnetic: false,
+        healthRisks: 'No known health risks',
+        crystalSystem: 'Isotropic',
+        colors: 'Grey, Dark Grey',
+        luster: 'Glassy to Dull',
+        diaphaneity: 'Translucent',
+        quimicalClassification: '',
+        elementsListed: 'Silicon, Aluminum, Sodium, Potassium, Calcium',
+        healingPropeties: '',
+        formulation: '',
+        meaning:
+            'Symbolizes unique individuality, as this rock type is quite rare',
+        howToSelect:
+            'Foidolite selection is based on personal preference as the stone is not typically used for jewelry or decoration.',
+        types: 'Leucocratic foidolite, Melanocratic foidolite',
+        uses:
+            'Principally studied in geology, but also used in architecture for paving stones and ornamental stone'),
+    Rock(
+        rockId: 864,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous rock',
+        rockName: 'Granophyre',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Granophyre is an igneous rock that closely related to granite. it is distinguished by micrographic texture which gives it a granular appearance.',
+        isSelected: false,
+        formula: '',
+        hardness: 5.5,
+        color: 'typically gray or pink',
+        isMagnetic: false,
+        healthRisks:
+            'No specific health risks associated with the rock, although dust generated by handling or cutting granophyre may cause respiratory discomfort.',
+        crystalSystem: 'Not applicable',
+        colors: 'Gray, Pink',
+        luster: 'Vitreous to Glassy',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Potassium, Sodium, Silica, Aluminum, Iron, Calcium, and Magnesium',
+        healingPropeties: '',
+        formulation: '',
+        meaning:
+            'Not stated as it does not typically have symbolic or metaphysical meanings, being an igneous rock.',
+        howToSelect:
+            'Not applicable for spiritual or healing selection. For construction or decorative purposes, choose based on physical appearance and fit with design scheme.',
+        types:
+            'Based on minor variations in mineral content, there can be slight variations or subtypes',
+        uses:
+            'Primarily used as a decorative stone in building construction and for monuments'),
+    Rock(
+        rockId: 865,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Hornblendite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Hornblendite is a dark-colored, coarse-grained intrusive rock. Its principal minerals are hornblende and plagioclase.',
+        isSelected: false,
+        formula: '',
+        hardness: 5 - 6,
+        color: 'dark, usually black to dark greenish black',
+        isMagnetic: false,
+        healthRisks:
+            'No specific health risks associated, but excessive intake of dust may cause lung issues',
+        crystalSystem: 'Monoclinic',
+        colors: 'dark, black, dark greenish black',
+        luster: 'Vitreous',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Iron, Magnesium, Calcium, Sodium',
+        healingPropeties: '',
+        formulation: '',
+        meaning: '',
+        howToSelect:
+            'Hornblendite is usually selected based on its color, quality, and size depending on its usage',
+        types: 'Hornblendite is a type in itself',
+        uses:
+            'Used in the building industry, particularly for dimension stone and decorative aggregates'),
+    Rock(
+        rockId: 866,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'volcanic rock',
+        rockName: 'Icelandite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Icelandite is a rare volcanic rock, found in certain parts of Iceland. it is comprised predominantly of alkali feldspar and is often grayish-black or black in color.',
+        isSelected: false,
+        formula: '(K,Na)AlSi3O8',
+        hardness: 5.5,
+        color: 'Grayish-black, black',
+        isMagnetic: false,
+        healthRisks:
+            'No major health risks known, but as with any rock, dust inhalation and/or skin or eye contact with dust particles should be avoided.',
+        crystalSystem: 'Triclinic',
+        colors: 'Grayish-black, black',
+        luster: 'Vitreous',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Potassium, Sodium, Aluminum, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: '(K,Na)AlSi3O8',
+        meaning:
+            'Typically associated with the strength and beauty of the Icelandic landscape',
+        howToSelect:
+            'Icelandite is quite rare and not typically used for personal or commercial purposes, but collectors might value examples with a particularly smooth surface or accurately represent the color and texture.',
+        types: 'Typically no subtypes as the rock is relatively homogeneous',
+        uses:
+            'Primarily for geological study or rock collecting, although some artisans might incorporate it into jewelry or decorative items.'),
+    Rock(
+        rockId: 867,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous',
+        rockName: 'Lamprophyre',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Lamprophyres are uncommon, small volume ultrapotassic igneous rocks primarily occurring as dikes and small intrusions. They are alkaline silica-undersaturated rocks and have peculiar mineralogy which includes a wide variety of uncommon minerals.',
+        isSelected: false,
+        formula: 'varies',
+        hardness: 6.0,
+        color: 'dark gray to black',
+        isMagnetic: false,
+        healthRisks: 'No recognized health risks associated with this rock.',
+        crystalSystem: 'Information Not Available',
+        colors: 'Dark gray, Black',
+        luster: 'Subvitreous to dull',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Phosphorus, Sodium, Potassium, Iron, Magnesium, Aluminum, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: 'Varies depending on the specific minerals present',
+        meaning:
+            'Associated with deep Earth energies and can ground and protect',
+        howToSelect:
+            'Choose by physical and aesthetic characteristics, as there are no common gemological or healing applications to guide selection.',
+        types: 'Minette, Kersantite, Vogesite, Spessartite',
+        uses:
+            'Lamprophyres are often used for research purpose to understand the deep earth processes. They are not typically used for commercial or industrial purposes due to their rare occurrence and small deposits.'),
+    Rock(
+        rockId: 868,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous rock',
+        rockName: 'Norite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Norite is an intrusive igneous rock that is predominantly composed of the mineral plagioclase feldspar and orthopyroxene. Its name originates from Norge, which is Norway in Norwegian, as the rock was first identified on the Scandinavian Peninsula.',
+        isSelected: false,
+        formula: 'CaAl2Si2O8 - (Mg,Fe)2Si2O6',
+        hardness: 6.0,
+        color: 'Black, Dark Grey, Blackish Grey',
+        isMagnetic: false,
+        healthRisks:
+            'No significant health risks have been reported, however, like many rocks and minerals, dust from norite should not be inhaled.',
+        crystalSystem:
+            'Not applicable as norite is a rock and not a mineral; its component minerals, plagioclase feldspar and orthopyroxene, have a triclinic and orthorhombic system respectively.',
+        colors: 'Black, Dark Grey, Blackish Grey',
+        luster: 'Vitreous to dull',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Aluminum, Silicon, Oxygen, Magnesium, Iron',
+        healingPropeties: '',
+        formulation: 'CaAl2Si2O8 - (Mg,Fe)2Si2O6',
+        meaning:
+            'Not typically ascribed specific meanings as it is not commonly used in gemological or metaphysical practices',
+        howToSelect:
+            'Norite can typically be selected based on personal preference for color, size or shape if being used for decorative purposes.',
+        types:
+            'There is only one type - Norite, but it is a member of the gabbro family of rocks',
+        uses:
+            'Used as a dimension stone in construction, particularly where strength and resistance to weathering is required'),
+    Rock(
+        rockId: 869,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'volcanic',
+        rockName: 'Phonotephrite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Phonotephrite is a tephrite that contains phonolite. it is a type of igneous rock which is predominantly composed of alkali feldspar and one or more mafic minerals.',
+        isSelected: false,
+        formula: '',
+        hardness: 0,
+        color: 'grey to light brown',
+        isMagnetic: false,
+        healthRisks: 'N/A',
+        crystalSystem: 'Triclinic',
+        colors: 'grey, light brown',
+        luster: 'Dull or earthy',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Aluminum, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: '',
+        meaning:
+            'Phonotephrite is believed by some to promote grounding and comfort, due to its earthly origin and nature',
+        howToSelect:
+            'Choose phonotephrite based on its quality and your personal connection with the rock',
+        types: 'Aphonotephrite, Bphonotephrite, Cphonotephrite',
+        uses: 'Primarily as a scientific sample in geological studies'),
+    Rock(
+        rockId: 870,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'rock',
+        rockName: 'Pyroxenite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Pyroxenite is an ultra-mafic igneous rock that consists largely of minerals that form in magma. It is dense, dark in color, and contains a high percentage of iron and magnesium.',
+        isSelected: false,
+        formula: 'N/A',
+        hardness: 5 - 7,
+        color: 'Green-Brown, Green-Black, Green',
+        isMagnetic: false,
+        healthRisks:
+            'There are no specific health risks associated with direct contact. However, dust or small particles might irritate eyes or respiratory system.',
+        crystalSystem: 'Monoclinic',
+        colors: 'Green-Brown, Green-Black, Green',
+        luster: 'Greasy, dull, vitreous',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Iron, Magnesium, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation:
+            'The exact formulation may vary widely because pyroxenite is not a mineral, but a rock containing many different minerals.',
+        meaning:
+            'The rock is often linked with strength and durability due to its composition and formation under intense pressure and heat.',
+        howToSelect:
+            'Select based on personal preference, with consideration to color, size, and overall appearance.',
+        types: 'Orthopyroxenite, Clinopyroxenite, Webstrite',
+        uses:
+            'Used in the manufacture of certain ferrous alloys and as a decorative stone.'),
+    Rock(
+        rockId: 871,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Quartzolite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Quartzolite is a rock largely composed of quartz. It is known for its hardness and is often colorless, white, or gray. It can also appear in a variety of colors due to impurities.',
+        isSelected: false,
+        formula: 'SiO2',
+        hardness: 7.0,
+        color: 'Colorless, white, or varies depending on impurities',
+        isMagnetic: false,
+        healthRisks:
+            'While Quartzolite itself is not harmful, the dust produced by cutting or breaking it can be harmful if inhaled.',
+        crystalSystem: 'Trigonal',
+        colors: 'Colorless, white or varies depending on impurities',
+        luster: 'Vitreous to waxy',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: 'SiO2',
+        meaning:
+            'Dependent on the belief system, it can symbolize many things such as clarity of thought or overall calmness and peace.',
+        howToSelect:
+            'When selecting Quartzolite, it is important to pay attention to its clarity and color. Choose a piece that you are drawn to.',
+        types:
+            'There are no specific categories of Quartzolite, it mostly varies depending on impurities that change its color.',
+        uses:
+            'Used in jewellery, ornaments and commonly used for ornamental stone in building construction'),
+    Rock(
+        rockId: 872,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'volcanic rock',
+        rockName: 'Scoria',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Scoria is a type of igneous rock formed during explosive volcanic eruptions.',
+        isSelected: false,
+        formula: 'Primarily SiO2 and Al2O3, but composition varies',
+        hardness: 5.0,
+        color: 'Black, dark brown, red-brown',
+        isMagnetic: false,
+        healthRisks:
+            'Handling scoria does not have many health risks, but inhaling rock dust could pose risks. Masks should be worn during gardening or landscaping.',
+        crystalSystem:
+            'N/A; scoria is an amorphous solid without a fixed crystal structure',
+        colors: 'Black, dark brown, red-brown',
+        luster: 'Dull to vitreous',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Silicon, Aluminum, Oxygen, Potassium, Sodium, Iron, Magnesium',
+        healingPropeties: '',
+        formulation: 'Primarily SiO2 and Al2O3, but composition varies.',
+        meaning:
+            'Scoria is associated with grounding and protection, offering spiritual and emotional strength.',
+        howToSelect:
+            'Choose scoria based on the warmth and energy you feel from the stone. The one that suits your needs will often speak to you.',
+        types:
+            'N/A; Scoria typically varies by its mineralogical and chemical compositions',
+        uses:
+            'Great for landscaping, gardening, ballast along railway lines, ground cover in plant pots and rooftop gardens, gas barbeques, and horticultural drainage.'),
+    Rock(
+        rockId: 873,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'sedimentary rock',
+        rockName: 'Arkose',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Arkose is a coarse grained sandstone that contains a substantial amount of feldspar, giving it a distinctive pink hue. it is often formed in arid regions where weathering of feldspar occurs without much transport or weathering.',
+        isSelected: false,
+        formula: '',
+        hardness: 6.0,
+        color: 'Pink, Red, White',
+        isMagnetic: false,
+        healthRisks:
+            'No significant health risks are directly associated with exposure to arkose.',
+        crystalSystem: 'Not applicable, as it is a rock, not a mineral',
+        colors: 'Pink, Red, White',
+        luster: 'Matte',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Silicon, Oxygen, Aluminum, Potassium, Sodium, Calcium',
+        healingPropeties: '',
+        formulation: '',
+        meaning:
+            'Arkose represents strength and durability due to its high feldspar content',
+        howToSelect:
+            'Choose arkose based on the uniformity and purity of its color, as well as the size and arrangement of grains - these are the primary factors in determining its quality.',
+        types:
+            'There are no distinct types, but the proportion and arrangement of sand and feldspar grains can vary.',
+        uses:
+            'As a sandstone, arkose is particularly useful in construction and building work as it is durable and resistant to weathering. It is also used in the creation of glass and ceramics.'),
+    Rock(
+        rockId: 874,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'sedimentary rock',
+        rockName: 'Phosphorite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Phosphorite, also known as Phosphate rock, is a non-detrital sedimentary rock which contains high amounts of phosphate minerals. The phosphate content of phosphorite varies greatly, from 4% to 20% phosphorus pentoxide (P2O5).',
+        isSelected: false,
+        formula: 'Ca3(PO4)2',
+        hardness: 5.0,
+        color: 'White, grey, brown, black',
+        isMagnetic: false,
+        healthRisks:
+            'If managed improperly it could lead to water pollution as it contains heavy metals and radioactive elements.',
+        crystalSystem: 'N/A',
+        colors: 'White, grey, brown, black',
+        luster: 'Earthy to dull, some can be shiny',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Phosphorus, Oxygen',
+        healingPropeties: '',
+        formulation: 'Ca3(PO4)2',
+        meaning:
+            'Phosphorite is primarily used for the manufacture of fertilizers due to its high concentration of phosphate minerals.',
+        howToSelect:
+            'Quality phosphorite rock should be high in phosphate minerals and should not contain too many impurities.',
+        types: 'There are no distinct types of Phosphorite',
+        uses:
+            'Useful in the manufacture of phosphate fertilizers and for a range of phosphorus compounds.'),
+    Rock(
+        rockId: 875,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'sedimentary',
+        rockName: 'Sandstone',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Sandstone is a commonly found sedimentary rock. it is known for its characteristic granular texture and its wide variety of colors.',
+        isSelected: false,
+        formula: 'Variable, primarily SiO2',
+        hardness: 6.0,
+        color: 'White, brown, yellow, red, gray, pink, black',
+        isMagnetic: false,
+        healthRisks:
+            'Long-term exposure to sandstone dust can cause health issues such as silicosis.',
+        crystalSystem: 'Rhombohedral',
+        colors: 'White, brown, yellow, red, gray, pink, black',
+        luster: 'Dull to semi-glossy',
+        diaphaneity: 'Opaque, can be slightly translucent in thin fragments',
+        quimicalClassification: '',
+        elementsListed:
+            'Most commonly Silicon and Oxygen, but can contain other elements such as feldspar, mica, and quartz',
+        healingPropeties: '',
+        formulation: 'Variable, primarily SiO2',
+        meaning:
+            'In various cultures, sandstone symbolizes creativity, balance, and unity',
+        howToSelect:
+            'Choose based on your preference for color, grain structure, and the presence of other minerals',
+        types:
+            'Quartz Sandstone, Arkose Sandstone, Lithic Sandstone, Feldspathic Sandstone',
+        uses:
+            'Building and paving materials, ceramics, glass production, sandpaper, fracking industry'),
+    Rock(
+        rockId: 876,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'metamorphic',
+        rockName: 'Blueschist',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Blueschist, also known as glaucophane schist, is a metavolcanic rock that forms by the metamorphism of basalt and rocks with similar composition at high pressures and low temperatures, approximately corresponding to conditions in subduction zones.',
+        isSelected: false,
+        formula: '',
+        hardness: 5.0,
+        color: 'Blue, gray, black',
+        isMagnetic: false,
+        healthRisks:
+            'No significant health risks associated with this mineral, although long term exposure to rock dust could potentially lead to silicosis.',
+        crystalSystem: 'Monoclinic',
+        colors: 'Blue to gray to black',
+        luster: 'Greasy to Vitreous',
+        diaphaneity: 'Translucent',
+        quimicalClassification: '',
+        elementsListed: 'Sodium, Aluminum, Silicon',
+        healingPropeties: '',
+        formulation: 'Na2(Mg,Fe^2+)3Al2Si8O22(OH)2',
+        meaning:
+            'Symbolizes deep emotional insights and can help to develop empathy',
+        howToSelect:
+            'Select based on color and vibrational feeling when held. Also, presence of minerals glaucophane and lawsonite can be a factor.',
+        types: 'Glaucophane Schist, Lawsonite Blueschist',
+        uses:
+            'Typically used for ornamental purposes. Rarely seen in the gem trade due to lack of gem quality deposits.'),
+    Rock(
+        rockId: 877,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'metamorphic rock',
+        rockName: 'Granulite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Granulites are a type of metamorphic rock that forms at high temperatures and pressures. The mineralogy of granulites can involve quartz, feldspar, garnet, and others.',
+        isSelected: false,
+        formula: 'Variable',
+        hardness: 7.0,
+        color: 'Mostly light colored, but can vary',
+        isMagnetic: false,
+        healthRisks: 'No significant health risks identified',
+        crystalSystem: 'Not applicable to rocks',
+        colors: 'Mostly light colored, but can vary',
+        luster: 'Often vitreous to pearly',
+        diaphaneity: 'Translucent to nearly opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Dependent on the specific minerals present, but common elements include Si, Al, K, Fe, Mg',
+        healingPropeties: '',
+        formulation: 'Variable depending on the mineralogical composition',
+        meaning:
+            'Symbolizes transformation and change due to the metamorphosis it undergoes',
+        howToSelect:
+            'Choose based on desired mineral composition, appearance, and hardness.',
+        types:
+            'Based on mineralogical composition, examples include mafic granulite, felsic granulite, garnet granulite',
+        uses:
+            'Used in construction due to its hardness. Some variants may be used as decorative stones, or in certain horticultural applications to promote drainage.'),
+    Rock(
+        rockId: 878,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'metamorphic rock',
+        rockName: 'Migmatite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Migmatite is a rock at the frontier between igneous and metamorphic rocks. They are characterized by streaks of material that has been re-melted, often giving the rock a streaky appearance.',
+        isSelected: false,
+        formula: 'Varies, as Migmatites are complex.',
+        hardness: 7.0,
+        color: 'Varies widely, can be gray, pink, black or white',
+        isMagnetic: false,
+        healthRisks: 'None specifically related to Migmatite',
+        crystalSystem: 'Depends on the individual minerals present',
+        colors: 'Gray, pink, black, white',
+        luster: 'Sub-vitreous to dull',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Varies depending on the specific composition of the rock',
+        healingPropeties: '',
+        formulation: 'Varies, as Migmatites are complex',
+        meaning: 'Symbolizes resilience and transformation',
+        howToSelect:
+            'Choose Migmatite based on the specific appearance and composition that appeals to you',
+        types: 'Diatexite, Metatexite, Leucosome, Melanosome, Mesosome',
+        uses:
+            'Building and decorative stone, monuments, interior decorations, generating scientific hypotheses about rock origin and metamorphism'),
+    Rock(
+        rockId: 879,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'metamorphic',
+        rockName: 'Mylonite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Mylonite is a fine-grained, compact metamorphic rock produced by dynamic recrystallization of the constituent minerals resulting in a reduction of the grain size of the rock. It is characterized by a well-developed foliation, and the rock may be divided into bands of different mineral compositions.',
+        isSelected: false,
+        formula: 'Varies depending on protolith',
+        hardness: 0,
+        color:
+            'Varies widely based on composition, can be gray, white, pink, brown, or black.',
+        isMagnetic: false,
+        healthRisks:
+            'No specific health risks associated with Mylonite beyond general rock dust inhalation in mining or cutting scenarios',
+        crystalSystem:
+            'Not applicable as this is a metamorphic rock composed of many minerals, each with its own crystal system',
+        colors: 'gray, white, pink, brown, black',
+        luster: 'Commonly dull to slightly shiny',
+        diaphaneity: 'Opaque to translucent',
+        quimicalClassification: '',
+        elementsListed:
+            'Varies depending on the protolith and the metamorphic process',
+        healingPropeties: '',
+        formulation:
+            'Varies depending on the protolith and process of metamorphism',
+        meaning:
+            'As an uncommon rock, it lacks widespread symbolic or spiritual meaning',
+        howToSelect:
+            'Mylonite is generally selected for academic or geological study rather than personal or decorative use. Selection is typically based upon the rock mineral composition and signs of metamorphism',
+        types:
+            'Mylonite can be of multiple types depending on the mineral present, for example, granitic mylonite, ultramafic mylonite, etc.',
+        uses:
+            'Academic research, geological study, and sometimes processed for use in building or decorative materials'),
+    Rock(
+        rockId: 880,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Tinzenite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Tinzenite is a manganese-borosilicate mineral first discovered in the Tinzen region, Switzerland. It is considered a rare mineral and often found as a secondary mineral in association with other manganese minerals.',
+        isSelected: false,
+        formula: 'Mn2+4B5Si3O21OH',
+        hardness: 6.5,
+        color: 'Mostly brown to pink-brown, sometimes colorless or pale yellow',
+        isMagnetic: false,
+        healthRisks:
+            'There are no known significant health risks associated with tinzenite, but as with all rocks and minerals, it is advisable not to inhale dust from any crushed or broken specimens.',
+        crystalSystem: 'Monoclinic prismatic',
+        colors: 'Brown, Pink-brown, Colorless, Pale yellow',
+        luster: 'Vitreous to resinous',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Boron, Silicon, Oxygen, Hydrogen, Manganese',
+        healingPropeties: '',
+        formulation: 'Mn2+4B5Si3O21OH',
+        meaning:
+            'Tinzenite is named after the area it was first discovered, Tinzen, Switzerland.',
+        howToSelect:
+            'When selecting tinzenite, ensure you are purchasing it from a reputable source. Look for pieces that are intact, with rich colors and a healthy luster.',
+        types:
+            'There are no specific types of tinzenite as it is a unique mineral species.',
+        uses:
+            'Tinzenite is often used by mineral collectors and sometimes made into gemstones for jewelry'),
+    Rock(
+        rockId: 881,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Benitoite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Benitoite is a blue barium titanium silicate mineral that is found in hydrothermally altered serpentinite. it is rare and was first discovered at the turn of the 20th century in California, USA.',
+        isSelected: false,
+        formula: 'BaTiSi3O9',
+        hardness: 6.5,
+        color: 'Blue, colorless (clear)',
+        isMagnetic: false,
+        healthRisks:
+            'While there are no immediate health risks associated with handling Benitoite, it does contain barium, which can be harmful if ingested or if exposure is prolonged or repeated.',
+        crystalSystem: 'Hexagonal',
+        colors: 'Blue, colorless',
+        luster: 'Vitreous',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Barium, Titanium, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: 'BaTiSi3O9',
+        meaning:
+            'Benitoite is a crystal of joy, harmony, and light. it is associated with healing, strengthened communication skills, and enhanced intuition.',
+        howToSelect:
+            'Benitoite is quite rare, so it might be hard to find. When choosing a stone, be attracted to its astonishing blue color and clear energies.',
+        types: 'Blue Benitoite, Colorless Benitoite',
+        uses: 'Gemstones for high-quality jewelry, mineral collecting.'),
+    Rock(
+        rockId: 882,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Boleite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Boleite is a complex rare mineral that is often sought after by collectors due to its intense deep blue color, cube-like shape and unique crystal formations.',
+        isSelected: false,
+        formula: 'KPb26Ag9Cu24(OH)48Cl62',
+        hardness: 3.0,
+        color: 'Deep blue',
+        isMagnetic: false,
+        healthRisks:
+            'While Boleite contains lead and copper, it is safe to handle with normal care. However, ingestion or inhalation should be avoided.',
+        crystalSystem: 'Isometric',
+        colors: 'Deep blue',
+        luster: 'Adamantine',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed:
+            'Potassium, Lead, Silver, Copper, Oxygen, Hydrogen, Chlorine',
+        healingPropeties: '',
+        formulation: 'KPb26Ag9Cu24(OH)48Cl62',
+        meaning:
+            'Boleite is a symbol of deep comprehension and is often used metaphorically to represent a depth of understanding and wisdom.',
+        howToSelect:
+            'Selection of Boleite should focus on the intensity and uniformity of the color, along with the clarity and formation of the crystals.',
+        types:
+            'There is only one type of Boleite, but it comes in various crystal structures and sizes.',
+        uses:
+            'Although it could theoretically be used in jewelry, its rarity and fragility make it primarily a collectors and researchers mineral.'),
+    Rock(
+        rockId: 883,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Bytownite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Bytownite is one of the rarer members of the plagioclase series of Feldspar minerals. it is mainly found in igneous rocks and has a unique luster and appearance.',
+        isSelected: false,
+        formula: 'Ca(Al2Si2O8)',
+        hardness: 6.0,
+        color: 'Colorless, White, Grey, Yellowish',
+        isMagnetic: false,
+        healthRisks:
+            'No major health risks associated, but dust and particles should not be inhaled.',
+        crystalSystem: 'Triclinic',
+        colors: 'Colorless, White, Grey, Yellowish',
+        luster: 'Vitreous to Pearly',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Aluminum, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: 'Ca(Al2Si2O8)',
+        meaning:
+            'Bytownite symbolises new beginnings, renewals, and courage in confronting new experiences.',
+        howToSelect:
+            'Choose bytownite based on its clarity and appealing color. Also, ones with clear structures and high luster are typically more valuable.',
+        types: 'Just one type generally',
+        uses:
+            'It is most commonly used as a minor gemstone for intricate bead and jewelry work, or collected as fine crystal specimens by mineral collectors.'),
+    Rock(
+        rockId: 884,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'organic',
+        rockName: 'Amber',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Amber is fossilized tree resin that has been appreciated for its color and natural beauty since Neolithic times. Its warm luster is responsible for its extensive use in jewelry.',
+        isSelected: false,
+        formula: 'C10H16O',
+        hardness: 2.5,
+        color: 'Yellow, golden yellow, or golden orange',
+        isMagnetic: false,
+        healthRisks:
+            'None if properly processed and used, unless you have a specific allergy.',
+        crystalSystem: 'Amorphous',
+        colors: 'Yellow, Golden Yellow, Orange',
+        luster: 'Resinous',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Carbon, Hydrogen, Oxygen',
+        healingPropeties: '',
+        formulation: 'C10H16O',
+        meaning:
+            'Amber is often associated with sunlight and warmth, and is believed to promote cheerfulness and trust',
+        howToSelect:
+            'Look for warm colors and clear pieces. Be wary of imitations made from colored plastics.',
+        types: 'Burmite, Baltic, Dominican, Mexican Amber',
+        uses: 'Jewelry, decoration, amulets and talismans, perfume storage'),
+    Rock(
+        rockId: 885,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'sedimentary',
+        rockName: 'Concretion',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Concretions are hard, compact masses of matter formed by the precipitation of mineral cement within the spaces between particles, and is found in sedimentary rock or soil.',
+        isSelected: false,
+        formula: 'Varies - Commonly SiO2 or CaCO3',
+        hardness: 0,
+        color: 'Variable, depending on mineral composition',
+        isMagnetic: false,
+        healthRisks: 'No known health risks',
+        crystalSystem: 'None - Concretions are typically amorphous',
+        colors: 'Variable, from dark brown, grey to white or colorless',
+        luster: 'Dull to Earthy',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Variable, often include Silicon, Oxygen, Carbon, Calcium',
+        healingPropeties: '',
+        formulation: 'Dependent on the composition of the concretion',
+        meaning:
+            'N/A - Concretions do not traditionally carry a spiritual or symbolic meaning',
+        howToSelect:
+            'Choose based on the individual specimen appearance and the specific mineral content you are interested in',
+        types: 'Moqui Marbles, Kansas Pop Rocks, Septarian Nodules, etc',
+        uses:
+            'Interesting natural formations. Occasionally used in jewelry or decorative stone'),
+    Rock(
+        rockId: 886,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'metamorphic',
+        rockName: 'Epidosite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Epidosite is a metamorphosed, silica-undersaturated mafic rock which contains more than 50% of epidote and chlorite combined with Al2O3-bearing minerals.',
+        isSelected: false,
+        formula: '',
+        hardness: 6 - 7,
+        color: 'Green',
+        isMagnetic: false,
+        healthRisks:
+            'There are no known health risks associated with this mineral.',
+        crystalSystem: 'Monoclinic',
+        colors: 'Green',
+        luster: 'Vitreous to dull',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Aluminium, Iron, Silicate, Oxygen, Hydrogen',
+        healingPropeties: '',
+        formulation: '',
+        meaning:
+            'Derived from its mineral composition mainly containing epidote and Al2O3-bearing minerals.',
+        howToSelect:
+            'When selecting an epidosite, look for rich green color and consistent texture.',
+        types:
+            'There are no specific types of epidosite. It highly depends on the mineral content which may vary based on the metamorphism process.',
+        uses:
+            'This rock is commonly used as a building material and for tile in the home. it is also used for landscaping and as an aggregate.'),
+    Rock(
+        rockId: 887,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous',
+        rockName: 'Kimberlite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Kimberlite is a type of potassic igneous rock that is very rare and occurs in the Earth crust in vertical structures known as kimberlite pipes. These pipes are the most important source of diamonds.',
+        isSelected: false,
+        formula: '(Mg,Fe)3Al2(SiO4)3',
+        hardness: 5.0,
+        color: 'blue, green, black or sometimes white',
+        isMagnetic: false,
+        healthRisks:
+            'There are no specific health risks associated with this type of rock. However, excessive inhalation of rock dust can potentially cause health issues.',
+        crystalSystem: 'Isometric',
+        colors: 'blue, green, black or sometimes white',
+        luster: 'Sub-Adamantine, Adamantine, Dull',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Carbon, Oxygen',
+        healingPropeties: '',
+        formulation: '(Mg,Fe)3Al2(SiO4)3',
+        meaning:
+            'As a source for diamonds, it could symbolize seeking inner riches and self-discovery.',
+        howToSelect:
+            'Kimberlites with visible diamonds or other gemstones are of higher value and sought after by collectors and professionals.',
+        types: 'Group 1 (basaltic) and Group 2 (micaceous)',
+        uses: 'Mining for diamonds and studying deep Earth geology'),
+    Rock(
+        rockId: 888,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Danburite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Danburite is a hard crystalline mineral similar to topaz. Its orthorhombic crystal form, clarity, and hardness make it valuable for use in jewelry and other ornamental uses.',
+        isSelected: false,
+        formula: 'CaB2(SiO4)2',
+        hardness: 7.0,
+        color: 'Colorless, white, pale pink, pale yellow',
+        isMagnetic: false,
+        healthRisks:
+            'There are no known health risks associated with Danburite.',
+        crystalSystem: 'Orthorhombic',
+        colors: 'Colorless, white, pale pink, pale yellow',
+        luster: 'Vitreous',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Boron, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: 'CaB2(SiO4)2',
+        meaning:
+            'Danburite is associated with emotional healing and letting go. it is also associated with peace and heart consciousness.',
+        howToSelect:
+            'When selecting Danburite, look for pieces that are clear, undamaged, and of good color.',
+        types:
+            'Commonly encountered varieties include clear/white, pink Danburite, and yellow Danburite.',
+        uses:
+            'Ornamental uses, jewelry, gemstones and in spiritual healing work'),
+    Rock(
+        rockId: 889,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Diopside',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Diopside is a common mineral form that occurs in several rock types and is named after the Greek word di for two and opsis for vision. It is also known as a reading stone as it was traditionally used to improve eyesight.',
+        isSelected: false,
+        formula: 'CaMgSi2O6',
+        hardness: 6.0,
+        color: 'Commonly green; colorless, blue or grey',
+        isMagnetic: false,
+        healthRisks:
+            'No specific health risks, but always wash hands after handling.',
+        crystalSystem: 'Monoclinic',
+        colors: 'Colorless, green, blue, grey',
+        luster: 'Vitreous to dull',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Magnesium, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: 'CaMgSi2O6',
+        meaning:
+            'Diopside is known to stimulate the intellect and enhance academic learning. it is a creative stone that can open the mind to new concepts. it is also used for emotional healing, particularly for these dealing with traumas.',
+        howToSelect:
+            'When selecting Diopside, you may be drawn to its green color dynamically. Make sure that the rock is well-formed and has a good luster.',
+        types: 'Chrome Diopside, Star Diopside, Cats Eye Diopside',
+        uses:
+            'Gemstones, carvings, delightful green jewelry, academic and emotional healing'),
+    Rock(
+        rockId: 890,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Iolite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Iolite, also known as the Viking Compass, is a transparent-to-translucent gem quality silicate mineral with a blue-violet hue. It has been admired for centuries due to its unique visual property of displaying different colors when viewed from different angles—a phenomenon known as pleochroism.',
+        isSelected: false,
+        formula: '(Mg,Fe)2Al4Si5O18',
+        hardness: 7.0,
+        color: 'Blue, smoky blue, violet',
+        isMagnetic: false,
+        healthRisks: 'None identified',
+        crystalSystem: 'Orthorhombic',
+        colors: '',
+        luster: '',
+        diaphaneity: '',
+        quimicalClassification: '',
+        elementsListed: 'Magnesium, Iron, Aluminum, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: '(Mg,Fe)2Al4Si5O18',
+        meaning:
+            'The name Iolite comes from the Greek word ion, which means violet. It is often used in meditation to stimulate visions and is associated with the Third Eye chakra.',
+        howToSelect:
+            'When selecting iolite, look for stones with a clear, rich and intense blue color that changes when viewed from different angles. Avoid stones with significant inclusions or fractures.',
+        types: 'Cordierite, Dichroite, Water Sapphire',
+        uses: 'Gemstone jewelry, ornamental stone, mineral specimens'),
+    Rock(
+        rockId: 891,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Pezzottaite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Pezzottaite is a rare mineral, a recent find compared to ancient gemstones. It was first discovered in Madagascar in 2002 and recognized as a new mineral species in 2003. It is often mistaken for other pink gemstones.',
+        isSelected: false,
+        formula: 'Cs(Be2Li)Al2Si6O18',
+        hardness: 8.0,
+        color: 'Color ranges from pale to dark pink and raspberry-red.',
+        isMagnetic: false,
+        healthRisks:
+            'No associated health risks. However, it might be unsafe to inhale dust from cutting or polishing this stone.',
+        crystalSystem: 'Hexagonal',
+        colors: 'pale pink, dark pink, raspberry-red',
+        luster: 'Vitreous',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed:
+            'Beryllium, Aluminium, Silicon, Oxygen, Cesium, Lithium',
+        healingPropeties: '',
+        formulation: 'Cs(Be2Li)Al2Si6O18',
+        meaning:
+            'Symbolizes love, understanding, and comfort. it is a stone that is associated with the heart and emotions.',
+        howToSelect:
+            'Choose a clear, brightly colored specimen for the most energy. As always, choose the stone you are most drawn to.',
+        types:
+            'There are no known types of Pezzottaite other than the single mineral species.',
+        uses:
+            'Due to its rarity and beautiful pink color, it is mainly used as a collector jewel or in fine jewelry.'),
+    Rock(
+        rockId: 892,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Tourmaline/n',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Tourmaline is a crystalline boron silicate mineral compounded with elements such as aluminium, iron, magnesium, sodium, lithium, or potassium.',
+        isSelected: false,
+        formula: '(NaCa)(LiMgAlFe)9B3Si6(OOH)31',
+        hardness: 7.0,
+        color:
+            'Most commonly black, but can range from brown, violet, green, pink, or in a dual-colored pink and green',
+        isMagnetic: false,
+        healthRisks: 'No known health risks associated with this mineral.',
+        crystalSystem: 'Trigonal',
+        colors: 'Black, Brown, Violet, Green, Pink, Pink and Green',
+        luster: 'Vitreous',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed:
+            'Aluminium, Iron, Magnesium, Sodium, Lithium, Potassium, Boron, Silicon',
+        healingPropeties: '',
+        formulation: '(NaCa)(LiMgAlFe)9B3Si6(OOH)31',
+        meaning:
+            'Grounding spiritual energy, improving understanding and self-confidence',
+        howToSelect:
+            'Choose a color that resonates with you. Black Tourmaline is known for grounding, Pink for love, Green for health and success.',
+        types:
+            'Schorl Tourmaline, Elbaite Tourmaline, Uvite Tourmaline, Liddicoatite Tourmaline',
+        uses: 'Jewelry, piezoelectric materials, pressure gauges'),
+    Rock(
+        rockId: 893,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous',
+        rockName: 'Pāhoehoe',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Pāhoehoe is a type of basaltic lava that has a smooth, billowy, undulating, or ropy surface. These surface features are due to the movement of very fluid lava under a congealing surface crust. The Hawaiian word was introduced as a technical term in geology by Clarence Dutton.',
+        isSelected: false,
+        formula: 'Primarily SiO2 and Al2O3',
+        hardness: 5 - 6,
+        color: 'Black, brown, grey',
+        isMagnetic: false,
+        healthRisks:
+            'Inhalation of the dust can lead to silicosis, and caution must be taken near active flows due to harmful gases and radiant heat.',
+        crystalSystem: 'Amorphous',
+        colors: 'Black, brown, grey',
+        luster: 'Greasy to dull',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Silicon, Oxygen, Aluminium, Iron, Magnesium, Calcium, Sodium, Potassium, Titanium, Manganese, Phosphorus',
+        healingPropeties: '',
+        formulation: 'Primarily SiO2 and Al2O3',
+        meaning:
+            'In Hawaiian Pāhoehoe means mooth, unbroken lava, it signifies the smooth flow and natural formation of the rock',
+        howToSelect:
+            'Pāhoehoe lava specimens are typically selected for their distinct surface features, and should be of substantial size in order to showcase this',
+        types: 'Basaltic Pāhoehoe',
+        uses:
+            'Pāhoehoe is primarily of scientific interest, and is used in studies and classification of volcanic eruptions, as well as being a spectacle and tourist attraction during active flows'),
+    Rock(
+        rockId: 894,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'rock',
+        rockName: 'Napoleonite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Napoleonite is a plutonic rock that is similar to basalt. It is named after Napoleon Bonaparte due to its extensive use in the construction of Paris during his reign.',
+        isSelected: false,
+        formula: 'Primarily Feldspar and Pyroxene',
+        hardness: 6.0,
+        color: 'Grey to black, occasionally greenish',
+        isMagnetic: false,
+        healthRisks: 'No known health risks',
+        crystalSystem: 'Triclinic and Monoclinic',
+        colors: 'Grey to black, occasionally greenish-tinged',
+        luster: 'Dull to Vitreous',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Major elements are Silicon, Oxygen, Aluminum, Iron, Magnesium, Calcium, Potassium, and Sodium',
+        healingPropeties: '',
+        formulation:
+            'Approximately 50% Plagioclase Feldspar, 25% Pyroxene, and small amounts of Olivine, Ilmenite, and other minerals',
+        meaning:
+            'Named after Napoleon Bonaparte, this rock symbolizes endurance and historical significance.',
+        howToSelect:
+            'Ideal Napoleonite samples will be devoid of cracks or other structural faults. Interestingly patterned sections can increase the visual appeal.',
+        types:
+            'No specific varieties, composition can vary within the range for basaltic rocks',
+        uses:
+            'Construction, particularly decorative stonework and road-building'),
+    Rock(
+        rockId: 895,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous rock',
+        rockName: 'Gabbro',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Gabbro is a dark, coarse-grained, intrusive igneous rock. It contains a substantial amount of plagioclase feldspar, pyroxene and sometimes olivine. Gabbro is very similar to Basalt in its mineral make up to. It is used in the construction industry.',
+        isSelected: false,
+        formula: '',
+        hardness: 7.0,
+        color: 'Dark green to black',
+        isMagnetic: false,
+        healthRisks:
+            'Mineral dust can pose health risks if inhaled over a prolonged period. Use proper precautions when handling.',
+        crystalSystem: 'Monoclinic',
+        colors: 'Dark green, black',
+        luster: 'Vitreous to dull to greasy',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Silicon, Oxygen, Aluminum, Iron, Magnesium, Calcium, Sodium, Potassium',
+        healingPropeties: '',
+        formulation: '',
+        meaning: 'Stability, grounding, connection to earth',
+        howToSelect:
+            'When selecting Gabbro, look for rocks with a consistent dark color and without visible fractures or other defects.',
+        types: 'Norite, Troctolite, Olivine Gabbro, Eucrite, etc.',
+        uses:
+            'Construction material, decorative stone, paving, monuments, interior and exterior stone designs'),
+    Rock(
+        rockId: 896,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous',
+        rockName: 'Latite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Latite is an igneous, volcanic rock, with aphanitic-aphyric to aphyric-porphyritic texture. Its mineral assemblage is usually alkali feldspar and plagioclase. Biotite, hornblende, pyroxene and scarce olivine or quartz are common accessory minerals.',
+        isSelected: false,
+        formula: '',
+        hardness: 6.0,
+        color: 'light to dark gray, tan, light brown',
+        isMagnetic: false,
+        healthRisks:
+            'Inhalation can lead to silicosis or other related pulmonary diseases.',
+        crystalSystem: 'Not Applicable',
+        colors: 'light gray, dark gray, tan, light brown',
+        luster: 'Vitreous to dull',
+        diaphaneity: 'Translucent',
+        quimicalClassification: '',
+        elementsListed: 'Silicon, Oxygen, Alkali Metal',
+        healingPropeties: '',
+        formulation: '',
+        meaning:
+            'Latite is often associated with strong, solid foundations due to its volcanic origin',
+        howToSelect:
+            'Select latite based on its appearance and your personal preference, as it is typically used in various construction purposes.',
+        types: 'No specific types',
+        uses: 'Building materials, decorative stone, aggregate'),
+    Rock(
+        rockId: 897,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'rock',
+        rockName: 'Phonolite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Phonolite is an uncommon extrusive rock, of intermediate chemical composition between felsic and mafic, with texture ranging from aphanitic (fine-grain) to porphyritic (mixed fine- and coarse-grain).',
+        isSelected: false,
+        formula: '',
+        hardness: 5.5,
+        color: 'Gray, greenish gray, light brown',
+        isMagnetic: false,
+        healthRisks: 'No significant health risk',
+        crystalSystem: 'Triclinic and Monoclinic',
+        colors: 'Gray, greenish gray, light brown',
+        luster: 'Vitreous to Dull',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Aluminium, Sodium, Potassium, Silica',
+        healingPropeties: '',
+        formulation: 'Na2O•Al2O3•4SiO2',
+        meaning:
+            'An uncommon extrusive rock representative of volcanic explosivity',
+        howToSelect:
+            'Phonolite is not commonly used or sold, therefore selection is typically based on its visible qualities and geological interest',
+        types: 'Tinguaites, Klinkerite, Foyaite',
+        uses: 'Used occasionally as a building and ornamental stone'),
+    Rock(
+        rockId: 898,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'volcanic',
+        rockName: 'Pumice',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Pumice is a type of extrusive volcanic rock, produced when lava with a very high content of water and gases is discharged from a volcano. As the gas bubbles escape, the lava becomes frothy. When this lava cools and hardens, the result is a very light rock material filled with tiny bubbles of gas.',
+        isSelected: false,
+        formula:
+            'Primarily SiO2, with minor amounts of Al2O3 and other trace elements',
+        hardness: 6.0,
+        color:
+            'commonly pale in color, ranging from white, cream, blue or grey, to green-brown or black',
+        isMagnetic: false,
+        healthRisks:
+            'Prolonged inhalation of pumice dust may cause breathing problems.',
+        crystalSystem: 'Amorphous',
+        colors: 'White, cream, blue, grey, green-brown, black',
+        luster: 'Dull, vitreous, silky',
+        diaphaneity: 'Opaque, may be translucent in thin fragments',
+        quimicalClassification: '',
+        elementsListed: 'Silicon, Oxygen, Aluminum',
+        healingPropeties: '',
+        formulation:
+            'Primarily SiO2, with minor amounts of Al2O3 and other trace elements',
+        meaning:
+            'Pumice is often seen as a rock of rejuvenation and can bring about a sense of calmness and tranquility.',
+        howToSelect:
+            'Select pumice that is light in weight and has a rough texture, indicating a good quality piece with many air pockets.',
+        types:
+            'Pumice stones vary in density, according to the thickness of the solid material between the bubbles.',
+        uses:
+            'Primarily used in personal care for exfoliating skin, in construction for lightweight concrete, as abrasives in polishes, and horticulture.'),
+    Rock(
+        rockId: 899,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous',
+        rockName: 'Monzonite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Monzonite is a hard, compact igneous rock, similar to granite. Its name comes from Monzoni, where it was first discovered.',
+        isSelected: false,
+        formula: '(Na,K)AlSi3O8 – CaAl2Si2O8',
+        hardness: 6.0,
+        color: 'Grey, brown, green, pink, and even black',
+        isMagnetic: false,
+        healthRisks:
+            'No specific health risks identified. However, the mining process can pose health risks due to dust.',
+        crystalSystem: 'Triclinic/monoclinic',
+        colors: 'Grey, brown, green, pink, black',
+        luster: 'Vitreous to dull',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Sodium, Potassium, Aluminum, Silicon, Oxygen, Calcium',
+        healingPropeties: '',
+        formulation: '(Na,K)AlSi3O8 – CaAl2Si2O8',
+        meaning: 'Reflective of strength, endurance, and solidity',
+        howToSelect:
+            'Choose natural, well-formed specimens for collection and display. The choice for healing purposes is highly personal.',
+        types: 'Latite, Quartz Monzonite',
+        uses:
+            'Building material, ornamental stone, aggregate. Historically, it has also been used in tool-making.'),
+    Rock(
+        rockId: 900,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'sedimentary',
+        rockName: 'Formation',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Formation is not a specific type of rock, but rather a term used to describe the process where rocks are formed. Rocks are typically formed by the processes of weathering and erosion, where raw material is worn down by wind, water, and other natural environments.',
+        isSelected: false,
+        formula: 'Varies',
+        hardness: 0,
+        color: 'Varies',
+        isMagnetic: false,
+        healthRisks:
+            'Depending on the type of rock, some may contain harmful elements such as asbestos which pose significant health risks when inhaled. Always take proper precautions when handling unknown rock samples.',
+        crystalSystem: 'Varies',
+        colors: 'Varies',
+        luster: 'Varies',
+        diaphaneity: 'Varies',
+        quimicalClassification: '',
+        elementsListed: 'Varies',
+        healingPropeties: '',
+        formulation: 'Varies',
+        meaning:
+            'Formation in rock terms signifies the process of creation and transformation, much like our life experiences that shape who we are.',
+        howToSelect:
+            'Choosing rocks requires research on the nature of the rock and its properties. Also, one should feel a connection or be drawn to the rock.',
+        types: 'Igneous, Sedimentary, Metamorphic',
+        uses:
+            'Different types of rocks are used in different ways, this includes construction, as precious stones in jewelry, for their beneficial metaphysical properties, studying earths history, etc.'),
+    Rock(
+        rockId: 901,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'sedimentary',
+        rockName: 'Claystone',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Claystone is a hard, compact variety of clay which is formed from the cementation of clay particles.',
+        isSelected: false,
+        formula: 'Al2Si2O5(OH)4',
+        hardness: 2.0,
+        color: 'gray, white, yellow, red',
+        isMagnetic: false,
+        healthRisks:
+            'Excessive inhalation of claystone dust may cause lung problems.',
+        crystalSystem: 'Monoclinic',
+        colors: 'gray, white, yellow, red',
+        luster: 'Dull',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Aluminum, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: 'Al2Si2O5(OH)4',
+        meaning: 'Representation of grounding and stability',
+        howToSelect:
+            'Choose according to your personal preference or the color which fits your requirement. Also, the hardness should be considered before making a selection.',
+        types: 'Mudstone, Shale, Siltstone',
+        uses: 'In the manufacturing of pottery, bricks, ceramic tiles.'),
+    Rock(
+        rockId: 902,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'metamorphic rock',
+        rockName: 'Hornfels',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Hornfels is a fine-grained metamorphic rock that was subjected to the heat of contact metamorphism at a shallow depth. It was baked by the heat of a nearby magma chamber and recrystallized into a dense rock composed of equigranular, interlocking crystals.',
+        isSelected: false,
+        formula: '',
+        hardness: 5 - 7,
+        color: 'various shades of dark brown to black, green or white',
+        isMagnetic: false,
+        healthRisks:
+            'No known health risks associated; however, inhaling rock dust can be harmful.',
+        crystalSystem:
+            'Dependent on parent material - can be Triclinic or Monoclinic',
+        colors: 'Green, Brown, Black, White',
+        luster: 'Vitreous to Silky',
+        diaphaneity: 'Opaque, rarely translucent',
+        quimicalClassification: '',
+        elementsListed: 'Variable - depends on parent rock',
+        healingPropeties: '',
+        formulation: 'Variable - depends on parent rock',
+        meaning:
+            'Hornfels symbolizes transformation due to the intense metamorphic process',
+        howToSelect:
+            'Choose hornfels that appears smooth, dense and without visible layers. Color due to minerals can be a particular interest.',
+        types:
+            'Biotite Hornfels, Feldspathic Hornfels, etc. Types depend upon the parent rock',
+        uses:
+            'Often used as aggregate in construction due to its hardness, in rock gardens or as an ornamental stone'),
+    Rock(
+        rockId: 903,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Manganaxinite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Manganaxinite is a rare variant of the axinite mineral group that is rich in manganese. The stone is typically a beautiful gem quality transparent crystal that is mainly found in Japan, Tajikistan, and Mexico.',
+        isSelected: false,
+        formula: 'Ca2MnAl2BOSi4O15OH',
+        hardness: 6.5,
+        color: 'Yellow, Orange, Brownish',
+        isMagnetic: false,
+        healthRisks:
+            'No major health risks associated with handling Manganaxinite, but due to its chemical composition, it should not be swallowed or inhaled.',
+        crystalSystem: 'Triclinic',
+        colors: 'Yellow, Orange, Brownish',
+        luster: 'Vitreous, Glassy',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed:
+            'Calcium, Manganese, Aluminum, Boron, Oxygen, Silicon, Hydrogen',
+        healingPropeties: '',
+        formulation: 'Ca2MnAl2BOSi4O15OH',
+        meaning:
+            'Enhancement of intellectual and emotional comprehension, grounding',
+        howToSelect:
+            'Choose Manganaxinite that is translucent and has a vitreous luster. Intuition also plays a role as different colors may attract ameaning to different people.',
+        types: 'Axinite-(Mn), Axinite-(Mg), Axinite-(Fe)',
+        uses: 'Gemstone, Healing stone'),
+    Rock(
+        rockId: 904,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Bastnaesite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Bastnaesite is a rare earth mineral and a source of important light rare-earth elements. it is often found in granite and granite pegmatite, as well as certain types of carbonatites.',
+        isSelected: false,
+        formula: '(Ce,La)(CO3)F',
+        hardness: 4.5,
+        color: 'Yellow, brown, brownish-red, or honey-yellow',
+        isMagnetic: false,
+        healthRisks:
+            'Contact and inhalation should be avoided as it may contain radioactive elements',
+        crystalSystem: 'Hexagonal',
+        colors: 'Yellow, brown, brownish-red, honey-yellow',
+        luster: 'Vitreous to resinous',
+        diaphaneity: 'Translucent to transparent',
+        quimicalClassification: '',
+        elementsListed: 'Cerium, Lanthanum, Carbon, Oxygen, Fluorine',
+        healingPropeties: '',
+        formulation: '(Ce,La)(CO3)F',
+        meaning: 'Named after its discovery location, Bastnas mine, Sweden',
+        howToSelect:
+            'Due to its rarity, it is mostly selected for collections or research rather than personal use',
+        types: 'Only one type known - Bastnaesite',
+        uses: 'Primarily used as a source of rare earth elements'),
+    Rock(
+        rockId: 905,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Breithauptite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Breithauptite is a rare mineral that typically occurs in hydrothermal veins and pegmatites. It was named after Johann Frederick Ludwig Hausmann who discovered it in 1849.',
+        isSelected: false,
+        formula: 'NiSb',
+        hardness: 3.5,
+        color: 'Tin-white to copper-red',
+        isMagnetic: false,
+        healthRisks:
+            'Breithauptite contains antimony which can be harmful in large amounts. It is recommended to wash hands after handling and avoid inhaling dust when handling or breaking it.',
+        crystalSystem: 'Hexagonal',
+        colors: 'Tin-white, Copper-red',
+        luster: 'Metallic',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Nickel, Antimony',
+        healingPropeties: '',
+        formulation: 'NiSb',
+        meaning: 'Named for the German mineralogist who discovered it',
+        howToSelect:
+            'Breithauptite is rare and not typically used in jewelry or healing, it is mainly a collector mineral.',
+        types:
+            'Breithauptite is usually found in a form which is a mixture with other minerals',
+        uses:
+            'A collector mineral, it is not typically used commercially due to its rarity and toxicity risk'),
+    Rock(
+        rockId: 906,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'fossil',
+        rockName: 'Ammonoidea',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Ammonoidea, commonly known as ammonites, are an extinct group of marine mollusc animals. As fossils, their multi-chambered shells are often well preserved, making them valuable tools for biostratigraphy.',
+        isSelected: false,
+        formula: 'CaCO3',
+        hardness: 3.5,
+        color:
+            'they vary greatly in color based on mineral deposit present during fossilization. Common tones include tan, brown, and grey.',
+        isMagnetic: false,
+        healthRisks: '',
+        crystalSystem: 'not applicable',
+        colors: 'tan, brown, grey',
+        luster: 'pearly to dull',
+        diaphaneity: 'opaque',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Carbon, Oxygen',
+        healingPropeties: '',
+        formulation: 'CaCO3',
+        meaning:
+            'Ammonites are symbols of change, evolution, and continuation of life.',
+        howToSelect:
+            'When selecting an ammonite fossil, look for well-defined spirals and no visible damage. The size and color is entirely up to the individual preference.',
+        types: 'Hoploscaphites, Placenticeras, Parapuzosia',
+        uses: 'Jewelry, decorative items, collectors’ items, and in Feng Shui'),
+    Rock(
+        rockId: 907,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'Organic Gem',
+        rockName: 'Pearl',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Pearls are organic gems that grow inside the tissue of a living saltwater or freshwater mollusk. They are highly prized as gem stones and are often used in jewelry.',
+        isSelected: false,
+        formula: 'CaCO3',
+        hardness: 2.5,
+        color:
+            'white, off-white, pink, silver, cream, golden, green, blue, black',
+        isMagnetic: false,
+        healthRisks:
+            'No known health risks, but some people may be allergic to the type of metal used in pearl jewelry.',
+        crystalSystem: 'Orthorhombic',
+        colors:
+            'White, off-white, pink, silver, cream, golden, green, blue, black',
+        luster: 'Pearly',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Carbon, Oxygen',
+        healingPropeties: '',
+        formulation: 'CaCO3',
+        meaning: 'Purity, generosity, integrity, and loyalty',
+        howToSelect:
+            'When selecting pearls, it is important to consider their color, size, and shape. The most valuable pearls are perfectly round and smooth, but other shapes can also be attractive.',
+        types: 'Natural, Cultured, Freshwater, South Sea, Akoya, Tahitian',
+        uses:
+            'Used in jewellery such as necklaces, earrings, rings, bracelets. Also used in cosmetics, paint and other products.'),
+    Rock(
+        rockId: 908,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Actinolite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Actinolite is a member of a series that contains varying amounts of iron and magnesium. it is a common mineral that comes in a variety of colors.',
+        isSelected: false,
+        formula: 'Ca2(Mg,Fe)5Si8O22(OH)2',
+        hardness: 5 - 6,
+        color: 'Dark green to grayish-green, colorless, white, gray, and brown',
+        isMagnetic: false,
+        healthRisks:
+            'In its fibrous form, actinolite can be a type of asbestos which is harmful when inhaled. it is important to handle this rock carefully and avoid any kind of exposure.',
+        crystalSystem: 'Monoclinic',
+        colors:
+            'Dark green to grayish green, colorless, white, gray, and brown',
+        luster: 'Vitreous to dull',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Iron, Magnesium, Silicon, Hydrogen, Oxygen',
+        healingPropeties: '',
+        formulation: 'Ca2(Mg,Fe)5Si8O22(OH)2',
+        meaning:
+            'Used for achieving a balanced mind and turning negative energies into positive ones',
+        howToSelect:
+            'When selecting actinolite, look for pieces that resonate with your energy. This may be a particular shape, color or size that calls to you.',
+        types: 'Nephrite, Byssolite, Clino-actinolite',
+        uses: 'Gemstone, mineral specimens, ornamental stone'),
+    Rock(
+        rockId: 909,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'Igneous rock',
+        rockName: 'Shoshonite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Shoshonite is an igneous rock, defined by its high content of potassium and relatively low sodium, often formed in basaltic volcanic areas.',
+        isSelected: false,
+        formula: '',
+        hardness: 6.0,
+        color: 'Grey, greenish-grey, or dark grey',
+        isMagnetic: false,
+        healthRisks:
+            'As an igneous rock, long-term exposure to dust can harm respiratory health. Always use protective gear while handling.',
+        crystalSystem: 'Not applicable',
+        colors: 'Grey, greenish-grey, or dark grey',
+        luster: 'Dull or vitreous',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Potassium, Sodium, Silicate',
+        healingPropeties: '',
+        formulation: '',
+        meaning:
+            'As Shoshonite is not traditionally used in spiritual or healing practices, it does not generally carry a specific metaphysical meaning.',
+        howToSelect:
+            'While not typically used for decorative or spiritual purposes, if choosing Shoshonite, consider its unique color and geological relevance.',
+        types: 'No specific types',
+        uses: 'Research and education, geological studies, mineral collecting'),
+    Rock(
+        rockId: 910,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'sedimentary rock',
+        rockName: 'Diatomite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Diatomite is a sedimentary rock that consists of the remains of diatoms, a type of hard-shelled class of micro-algae, also known as phytoplanktons.',
+        isSelected: false,
+        formula: 'SiO2·nH2O',
+        hardness: 1.0,
+        color: 'White to light grey',
+        isMagnetic: false,
+        healthRisks:
+            'Inhaling diatomite dust can lead to lung problems, including cancer.',
+        crystalSystem: 'Amorphous',
+        colors: 'White to light grey',
+        luster: 'Earthy',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Silicon, Oxygen, Hydrogen',
+        healingPropeties: '',
+        formulation: 'SiO2·nH2O',
+        meaning: '-',
+        howToSelect:
+            'Diatomite is abundant and can be easily found in areas rich with water bodies. it is normally soft, lightweight and porous. No particular method for selection.',
+        types: 'Freshwater Diatomite, Saltwater Diatomite',
+        uses:
+            'Filtration, insulation, absorbent for industrial spills, lightweight construction materials, ingredient in dynamite'),
+    Rock(
+        rockId: 911,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Azurite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Azurite is an intense deep blue color with a Mohs hardness between 3.5 and 4. Different from other minerals, its conchoidal fractures can be shiny.',
+        isSelected: false,
+        formula: 'Cu3(CO3)2(OH)2',
+        hardness: 3.5,
+        color: 'Azure blue, dark to light blue (pale blue if weathered)',
+        isMagnetic: false,
+        healthRisks:
+            'Avoid ingesting, breathing, or touching the dust. Azurite may release Copper into the body, which can cause serious health issues.',
+        crystalSystem: 'Monoclinic',
+        colors: 'Azure blue, dark blue, light blue',
+        luster: 'Vitreous',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Copper, Carbon, Oxygen, Hydrogen',
+        healingPropeties: '',
+        formulation: 'Cu3(CO3)2(OH)2',
+        meaning:
+            'Azurite is known as the Stone of Heaven, it aids in the pursuit of the heavenly self.',
+        howToSelect:
+            'When selecting azurite, choose a piece that draws to you or that you feel connected with.',
+        types:
+            'Depending on the location azurite can be found, it can form different types such as: Electric Blue, Azure Blue, and Dark Night Blue',
+        uses:
+            'Azurite is mainly used as a collector stone, or in jewelry. it is also used for dyes and pigments due to its intense color.'),
+    Rock(
+        rockId: 912,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Boracite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Boracite is a rare borate mineral that is often found in evaporite deposits. It exhibits pleochroism, which means it changes color under different viewing angles.',
+        isSelected: false,
+        formula: 'Mg3B7O13Cl',
+        hardness: 7.0,
+        color: 'Colorless, white, gray, green, blue, or yellow',
+        isMagnetic: true,
+        healthRisks:
+            'There are no significant health risks associated with Boracite. However, like all rocks and minerals, it should not be inhaled or ingested.',
+        crystalSystem: 'Orthorhombic',
+        colors: 'Colorless, white, gray, green, blue, yellow',
+        luster: 'Vitreous to greasy',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Boron, Oxygen, Magnesium, Chlorine',
+        healingPropeties: '',
+        formulation: 'Mg3B7O13Cl',
+        meaning:
+            'Aids in concentration and focus, grounding energy, promoting clarity of thought',
+        howToSelect:
+            'Boracite is a rare mineral, so choose a piece that is clear and shows the characteristic color change under different lights.',
+        types:
+            'There are no specific types of Boracite. However, the color can vary.',
+        uses: 'Collector’s gemstone, mineral specimen, ornamental stone'),
+    Rock(
+        rockId: 913,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'volcanic glass',
+        rockName: 'Obsidian',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Obsidian is a natural, volcanic glass formed from the rapid cooling of viscous lava from volcanoes.',
+        isSelected: false,
+        formula: '70-75% SiO2',
+        hardness: 5.0,
+        color: 'Black, occasionally brown or green, rarely blue-red',
+        isMagnetic: false,
+        healthRisks:
+            'No significant health risks are listed for obsidian. However, care should be taken to avoid inhaling dust produced when carving or shaping it.',
+        crystalSystem: 'Amorphous',
+        colors: 'Black, occasionally brown or green, rarely blue-red',
+        luster: 'Vitreous',
+        diaphaneity: 'Transparent to translucent, usually opaque',
+        quimicalClassification: '',
+        elementsListed: 'Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: '70-75% SiO2',
+        meaning:
+            'Obsidian is often used for spiritual or healing purposes for grounding and protection.',
+        howToSelect:
+            'When selecting obsidian, pick a piece that calls to you, as individuals often find the gems that they resonate with on a personal level.',
+        types: 'Black Obsidian, Snowflake Obsidian, Rainbow Obsidian',
+        uses:
+            'Jewelry, ornamental carvings, tools in prehistoric times, grounding during meditative therapy, scrying mirrors for prophecy'),
+    Rock(
+        rockId: 914,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Unakite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Unakite is a granite composed of pink orthoclase feldspar, green epidote, and usually clear quartz. It has a mottled appearance combining pink, green and white coloration.',
+        isSelected: false,
+        formula: 'KAlSi3O8, Ca2(Al,Fe)3(SiO4)(Si2O7)O(OH), SiO2',
+        hardness: 6 - 7,
+        color: 'Pink, green, and white',
+        isMagnetic: false,
+        healthRisks: '',
+        crystalSystem: 'Monoclinic and Triclinic',
+        colors: 'Pink, green, white',
+        luster: 'Vitreous to pearly',
+        diaphaneity: 'Translucent',
+        quimicalClassification: '',
+        elementsListed:
+            'Potassium, Aluminium, Silicon, Oxygen, Calcium, Iron, Hydrogen',
+        healingPropeties: '',
+        formulation: 'KAlSi3O8, Ca2(Al,Fe)3(SiO4)(Si2O7)O(OH), SiO2',
+        meaning:
+            'Unakite is said to symbolize what comes together belongs together. it is believed to lift the veil of negativity which many people unconsciously carry in their heart.',
+        howToSelect:
+            'Choose a piece that you are drawn to and feels right in your hand. The colour should be a pleasing blend of pink and green without other impurities.',
+        types: 'Unakite is itself a type of granite.',
+        uses:
+            'Used in meditation and for decorative purposes, often seen as beads and cabochons in jewellery.'),
+    Rock(
+        rockId: 915,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Kunzite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Kunzite is a mineral variant of the silicate, Spodumene. It is often valued for its lovely pink hue and its clarity.',
+        isSelected: false,
+        formula: 'LiAlSi2O6',
+        hardness: 7.0,
+        color: 'Colorless, pink to lilac, rarely green',
+        isMagnetic: false,
+        healthRisks: 'No major health risks associated with Kunzite',
+        crystalSystem: 'Monoclinic',
+        colors: 'Colorless, pink, lilac, green',
+        luster: 'Vitreous to Pearly',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Lithium, Aluminium, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: 'LiAlSi2O6',
+        meaning:
+            'Known as the Woman Stone, it is said to foster a sense of tranquility and thankfulness',
+        howToSelect:
+            'When selecting Kunzite, it is important to choose a piece with a deep and vibrant color without any noticeable inclusions',
+        types: 'Hiddenite (green variant of kunzite)',
+        uses:
+            'Relatively limited due to its direction-dependent color, but sometimes used in jewelry'),
+    Rock(
+        rockId: 916,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Sunstone',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Sunstone is a plagioclase feldspar that is known for its metallic glitter, often resembling the sun. Typically red or brown in color, it is glitter is due to light reflecting from tiny hematite or goethite inclusions.',
+        isSelected: false,
+        formula: '(Ca,Na)(Al,Si)4O8',
+        hardness: 6.0,
+        color: 'Colorless, green, yellow, red, grey, blue',
+        isMagnetic: false,
+        healthRisks: '',
+        crystalSystem: 'Triclinic',
+        colors: 'Colorless, green, yellow, red, grey, blue',
+        luster: 'Vitreous, Pearly',
+        diaphaneity: 'Transparent to translucent',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Sodium, Aluminum, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: '(Ca,Na)(Al,Si)4O8',
+        meaning:
+            'Known as a stone of leadership, Sunstone carries the energy of the God of the Sun, inspiring openness, benevolence, and nurturance in its wearer.',
+        howToSelect:
+            'When selecting Sunstone, choose a piece that calls to you on a personal level. The stones energy should sync with yours.',
+        types: 'Oregon sunstone, Heliolite',
+        uses:
+            'As a gemstone, sunstone is used in jewelry. Due to its spiritual properties, it is used in meditation, spiritual healing, and psychic development.'),
+    Rock(
+        rockId: 917,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Carbonatite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Carbonatite is a rare and interesting igneous rock that is rich in carbonate minerals. It is associated with significant global resources of rare earth elements and niobium.',
+        isSelected: false,
+        formula: 'Variable',
+        hardness: 3 - 4,
+        color:
+            'usually light-colored, ranging from clast-free white to carbon-rich black',
+        isMagnetic: false,
+        healthRisks:
+            'No significant health risks, but like with all rocks and dust, prolonged inhalation should be avoided.',
+        crystalSystem:
+            'Hexagonal, Trigonal, Monoclinic, Orthorhombic, Tetragonal',
+        colors: 'White, Black, Light-Colored, Clast-Free',
+        luster: 'Vitreous to Dull',
+        diaphaneity: 'Transparent to Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Calcium, Carbon, Oxygen, sometimes also Rare Earth Elements',
+        healingPropeties: '',
+        formulation: 'Variable, typically CaCO3',
+        meaning: 'Not commonly used in spiritual or healing practices',
+        howToSelect:
+            'Select based on richness in desired minerals, especially if looking for rare earth elements',
+        types: 'Calcitic Carbonatite, Dolomitic Carbonatite, Ferrocarbonatite',
+        uses:
+            'Main source of niobium, also used in production of phosphate fertilizers'),
+    Rock(
+        rockId: 918,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'rock',
+        rockName: 'Enderbite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Enderbite is a type of granulite. It is a medium-to coarse-grained transformation rock and is composed mainly of one or more of the pyroxene minerals and feldspar.',
+        isSelected: false,
+        formula: 'variable',
+        hardness: 6.0,
+        color: 'grayish to brownish',
+        isMagnetic: false,
+        healthRisks: '',
+        crystalSystem: 'Not applicable',
+        colors: '',
+        luster: '',
+        diaphaneity: '',
+        quimicalClassification: '',
+        elementsListed: 'mainly silicon, oxygen, aluminum, iron, and magnesium',
+        healingPropeties: '',
+        formulation: 'Variable, based on mineral composition',
+        meaning: 'Enderbite does not hold any specific metaphysical properties',
+        howToSelect:
+            'Enderbite is not typically used for healing or aesthetic purposes, so selection is based primarily on scientific or geological interests.',
+        types:
+            'Not applicable, as enderbite is a specific type of rock on its own.',
+        uses:
+            'Enderbite is mostly used for scientific and educational purposes, more commonly encountered in geological studies.'),
+    Rock(
+        rockId: 919,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'volcanic rock',
+        rockName: 'Picrite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Picrite is a dark, coarse-grained and magnesium-rich volcanic rock. It is high in olivine content, hence its greenish tint. Its silicate mineral constituents makes it a member of the peridotite group.',
+        isSelected: false,
+        formula: 'Mg2SiO4',
+        hardness: 5.5,
+        color: 'dark green, gray',
+        isMagnetic: false,
+        healthRisks:
+            'There are no known health risks associated with normal handling of this material. However, like all rocks and dust, continued inhalation, handling or ingestion might cause health problems.',
+        crystalSystem: 'Orthorhombic',
+        colors: 'dark green, gray',
+        luster: 'Dull to Vitreous',
+        diaphaneity: 'Translucent to Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Magnesium, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation:
+            'Largely composed of the mineral olivine (Mg2SiO4), with lesser amounts of pyroxene and chromite',
+        meaning: 'N/A',
+        howToSelect:
+            'Picrite is not typically selected for aesthetic or healing purposes, as it is not typically prized for such uses.',
+        types: 'Hawaiite, Alnoite',
+        uses:
+            'General construction material, it also important in the field of petrology for the insights it gives into the nature of the earth mantle'),
+    Rock(
+        rockId: 920,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'igneous',
+        rockName: 'Syenite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Syenite is a coarse-grained intrusive igneous rock, similar to granite but lacking quartz. It consist of at least 60% alkali feldspar, and less than 10% plagioclase feldspar, with minor amount of dark minerals.',
+        isSelected: false,
+        formula: 'KAlSi3O8 - NaAlSi3O8',
+        hardness: 6.0,
+        color: 'light grey, pink, yellow, can also be green, blue or black',
+        isMagnetic: false,
+        healthRisks: '',
+        crystalSystem: 'Triclinic or Monoclinic',
+        colors: 'light grey, pink, yellow, green, blue, black',
+        luster: 'Vitreous to Pearly',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Potassium, Sodium, Aluminum, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: 'KAlSi3O8 - NaAlSi3O8',
+        meaning:
+            'Syenite is often linked with grounding and centering energies, frequently cited as a balance and harmony stone',
+        howToSelect:
+            'Choose a Syenite stone based on its color and feeling. It should feel heavy and solid, and be pleasing to the touch',
+        types: 'Monzonite, Foyaite, Durbachite, Pulaskite',
+        uses:
+            'Building Stones, Decorative Aggregates, Tiles, Interior Decoration, As Dimension Stone'),
+    Rock(
+        rockId: 921,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: '',
+        rockName: 'Amphibolite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Amphibolite is a metamorphic rock, mainly consisting of green, brown or black amphibole minerals and plagioclase feldspar. The appearance can range from a very dark green to black, often with a shiny luster due to the amphibole minerals.',
+        isSelected: false,
+        formula: 'Variable, but predominantly (Ca,Na)(Mg,Fe,Al,Ti)(Si,Al)2O6',
+        hardness: 5 - 6,
+        color: 'Green, Black, Brown, Grey',
+        isMagnetic: false,
+        healthRisks:
+            'Amphibole minerals, a component of amphibolite, have been associated with certain health risks such as respiratory issues if dust is inhaled over a prolonged period. However, in solid rock form, these risks are minimal.',
+        crystalSystem: 'Monoclinic and Orthorhombic',
+        colors: '',
+        luster: 'Vitreous to Pearly',
+        diaphaneity: 'Transparent to Opaque',
+        quimicalClassification: '',
+        elementsListed:
+            'Calcium, Sodium, Magnesium, Iron, Aluminum, Titanium, Silicon, Oxygen',
+        healingPropeties: '',
+        formulation: '',
+        meaning:
+            'Amphibolite symbolizes transformation and evolution due to its own metamorphic nature.',
+        howToSelect:
+            'Choose a stone that has a good luster and a consistent color. Make sure it heavy for its size and free of any uncharacteristic inclusions.',
+        types: 'Hornblende Amphibolite, Garnet Amphibolite, etc',
+        uses:
+            'It is predominantly used as a construction material, decorative stone and in jewelry due to its unique textures and patterns.'),
+    Rock(
+        rockId: 922,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'organic',
+        rockName: 'Ivory',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Ivory is a hard, white material from the tusks and teeth of animals such as elephants, walruses, and certain whales. It has been widely used throughout history for many purposes, including jewelry, art, and decoration.',
+        isSelected: false,
+        formula: 'Ca5(PO4)3OH',
+        hardness: 2.5,
+        color: 'white to cream-colored',
+        isMagnetic: false,
+        healthRisks:
+            'Ivory may be a potential allergenic material for some people, and there are ethical and ecological concerns due to the source of the ivory.',
+        crystalSystem: 'N/A',
+        colors: 'white, cream-colored',
+        luster: 'Vitreous to resinous',
+        diaphaneity: 'Opaque',
+        quimicalClassification: '',
+        elementsListed: 'Calcium, Phosphorus, Oxygen, Hydrogen',
+        healingPropeties: '',
+        formulation: 'Ca5(PO4)3OH',
+        meaning:
+            'In many cultures, ivory symbolizes purity, sacrifice and high status due to its rarity and value.',
+        howToSelect:
+            'Choose ivory items that are ethically sourced, oftentimes, vintage or antique pieces are the most ethical choice due to the illegal and destructive nature of new ivory harvesting. Always check the authenticity and source before purchase.',
+        types:
+            'Elephant Ivory, Hippo Ivory, Mammoth Ivory, Walrus Ivory, Whale Ivory',
+        uses:
+            'Historically used in art, decoration, musical instruments, and jewelry. Modern uses are limited due to ethical restrictions.'),
+    Rock(
+        rockId: 923,
+        price: 0,
+        size: '',
+        rating: 0,
+        humidity: 0.0,
+        temperature: '',
+        category: 'mineral',
+        rockName: 'Antigorite',
+        imageURL: '',
+        isFavorited: false,
+        description:
+            'Antigorite is the high-temperature polymorph of serpentine minerals, mostly translucent and can take on a greasy luster. It was named after its type locality, the Antigorio Valley in Italy.',
+        isSelected: false,
+        formula: 'Mg3Si2O5(OH)4',
+        hardness: 3.5,
+        color: 'Green, yellowish, grayish, whitish green.',
+        isMagnetic: false,
+        healthRisks:
+            'Suspected to be harmful to health when breathed in as dust, as it may potentially contain asbestos',
+        crystalSystem: 'Monoclinic',
+        colors: 'Green, yellowish, grayish, whitish green',
+        luster: 'Waxy to greasy',
+        diaphaneity: 'Translucent to opaque',
+        quimicalClassification: '',
+        elementsListed: 'Magnesium, Silicon, Oxygen, Hydrogen',
+        healingPropeties: '',
+        formulation: 'Mg3Si2O5(OH)4',
+        meaning:
+            'Known for its powerful grounding properties, helps to create an energetic shield of protection around the body',
+        howToSelect:
+            'When selecting Antigorite, it is important to choose a stone that you feel a strong connection with. It is also essential to examine the stone to ensure it does not contain hazardous asbestos fibers',
+        types:
+            'It occurs in several forms, often fibrous, massive or pseudomorph after other minerals',
+        uses:
+            'It is often cut and polished into cabochons for use in jewelry, also used in construction products.'),
+    Rock(
+        rockId: 924,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "rock",
+        rockName: "Itacolumite",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Itacolumite is a naturally occurring flexible sandstone. Originally discovered in the Brazilian state of Minas Gerais, it is known for its unusual characteristic of flexibility, bending without breaking.",
+        isSelected: false,
+        formula: "",
+        hardness: 6.5,
+        color: "yellow, brown, gold, tan",
+        isMagnetic: false,
+        healthRisks:
+            "No known health risks, but care should be taken to avoid inhaling dust from rock.",
+        crystalSystem: "Not applicable",
+        colors: "yellow, brown, gold, tan",
+        luster: "Matte - Dull",
+        diaphaneity: "Opaque",
+        quimicalClassification: "",
+        elementsListed: "Quartz, Feldspar, Mica, and other trace minerals",
+        healingPropeties: "",
+        formulation: "Not applicable",
+        meaning:
+            "Its unusual flexibility can symbolize adaptability and resilience",
+        howToSelect:
+            "Select based on desired color and characteristics. Choose Itacolumite which shows clear signs of natural flexibility.",
+        types: "Varies based on location of extraction",
+        uses: "Construction, Study in earth science, Decorative purposes"),
+    Rock(
+        rockId: 925,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "mineral",
+        rockName: "Baryte",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Baryte is a mineral consisting of barium sulfate. It's typically colorless or white, but may be of various colors depending on impurities. Baryte is widely used in the oil drilling industry as a weighting agent in drilling fluids.",
+        isSelected: false,
+        formula: "BaSO4",
+        hardness: 3.0,
+        color: "Colorless, white, light shades of blue, yellow, grey, brown",
+        isMagnetic: false,
+        healthRisks:
+            "While baryte itself is not harmful, the release of soluble barium ions into water and soil can be. Prolonged exposure can lead to barium poisoning.",
+        crystalSystem: "Orthorhombic",
+        colors: "Colorless, white, light shades of blue, yellow, grey, brown",
+        luster: "Vitreous to pearly",
+        diaphaneity: "Transparent to translucent",
+        quimicalClassification: "",
+        elementsListed: "Barium, Sulphur, Oxygen",
+        healingPropeties: "",
+        formulation: "BaSO4",
+        meaning: "Assists in the journey of understanding dreams",
+        howToSelect:
+            "Select based on personal preference and intended healing purpose",
+        types: "Desert rose, Baryte Rose",
+        uses:
+            "Pipe mud, production of barium chemicals, filler for rubber, plastic and paint, radiation shielding"),
+    Rock(
+        rockId: 926,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "mineral",
+        rockName: "Emerald",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Emerald is a gemstone and a variety of the mineral beryl colored green by trace amounts of chromium and sometimes vanadium. Beryl has a hardness of 7.5–8 on the Mohs scale.",
+        isSelected: false,
+        formula: "Be3Al2(SiO3)6",
+        hardness: 7.5,
+        color: "Green",
+        isMagnetic: false,
+        healthRisks:
+            "Emeralds are safe to handle but may carry risk if ingested as they can contain traces of chromium.",
+        crystalSystem: "Hexagonal",
+        colors: "Green",
+        luster: "Vitreous",
+        diaphaneity: "Transparent to Opaque",
+        quimicalClassification: "",
+        elementsListed: "Beryllium, Aluminum, Silicon, Oxygen",
+        healingPropeties: "",
+        formulation: "Be3Al2(SiO3)6",
+        meaning:
+            "Considered a symbol of rebirth and love. Emeralds are believed to grant the owner foresight, good fortune, and youth.",
+        howToSelect:
+            "When selecting an emerald, consider its color, cut, and clarity. Also check for any surface-reaching breaks or cracks, which can affect the stone's durability and value.",
+        types: "Colombian Emeralds, Brazilian Emeralds, African Emeralds",
+        uses:
+            "Used in jewelry such as rings and earrings due to its vibrant color and as a healing crystal in spiritual practices."),
+    Rock(
+        rockId: 927,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "mineral",
+        rockName: "Emerald",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Emerald is a precious gemstone, a variety of the mineral beryl, colored green by trace amounts of chromium and/or vanadium.",
+        isSelected: false,
+        formula: "Be3Al2(SiO3)6",
+        hardness: 7.5,
+        color: "Green, possibly with blue or yellow tint",
+        isMagnetic: false,
+        healthRisks:
+            "Emeralds are generally safe to handle, but should not be inhaled or ingested as dust. Long-term exposure to emeralds should also be avoided.",
+        crystalSystem: "Hexagonal",
+        colors: "Green",
+        luster: "Vitreous",
+        diaphaneity: "Transparent to translucent",
+        quimicalClassification: "",
+        elementsListed: "Beryllium, Aluminum, Silicon, and Oxygen",
+        healingPropeties: "",
+        formulation: "Be3Al2(SiO3)6",
+        meaning: "Symbol of rebirth and love",
+        howToSelect:
+            "When selecting emeralds, choose for color and clarity. The most desirable emeralds are highly transparent. Their color is uniformly distributed, with no eye-visible color zoning.",
+        types:
+            "There are no distinct types of emerald, but they can differ in color and clarity.",
+        uses: "Primarily used as a gemstone in jewellery."),
+    Rock(
+        rockId: 928,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "mineral",
+        rockName: "Beryllonite",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Beryllonite is a rare beryllium mineral that is valuable to collectors of rare minerals.",
+        isSelected: false,
+        formula: "NaBePO4",
+        hardness: 5.5,
+        color: "colorless, white, sometimes with a yellowish or greenish tinge",
+        isMagnetic: false,
+        healthRisks:
+            "While Beryllonite may not pose direct health risks, long-term or intense exposure to beryllium or beryllium compounds, which Beryllonite contains, is known to be seriously harmful to health.",
+        crystalSystem: "Monoclinic",
+        colors: "colorless, white, yellowish or greenish",
+        luster: "Vitreous to pearly",
+        diaphaneity: "Transparent to translucent",
+        quimicalClassification: "",
+        elementsListed: "Beryllium, Sodium, Phosphorus, Oxygen",
+        healingPropeties: "",
+        formulation: "NaBePO4",
+        meaning: "Not traditionally assigned a spiritual meaning",
+        howToSelect:
+            "Due to its rarity, Beryllonite often comes at a higher price. When selecting, ensure that you are purchasing from a trusted and experienced dealer to guarantee its authenticity.",
+        types:
+            "There are no distinct types or variations of Beryllonite aside from the primary mineral.",
+        uses: "Collections due to its rarity, Beryllium ore"),
+    Rock(
+        rockId: 929,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "mineral",
+        rockName: "Kornerupine",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Kornerupine is a rare boro-silicate mineral that is noted for its colorful gem-quality forms that are cut into attractive gemstones",
+        isSelected: false,
+        formula: "Al11(BSiO20)",
+        hardness: 7.0,
+        color: "Green, White, Yellow, Brown",
+        isMagnetic: false,
+        healthRisks:
+            "There are no notable health risks associated with this mineral.",
+        crystalSystem: "Orthorhombic",
+        colors: "Green, White, Yellow, Brown",
+        luster: "Vitreous",
+        diaphaneity: "Transparent to Translucent",
+        quimicalClassification: "",
+        elementsListed: "Aluminium, Boron, Silicone, Oxygen",
+        healingPropeties: "",
+        formulation: "Al11(BSiO20)",
+        meaning:
+            "Promotes clarity and looking at things from various perspectives",
+        howToSelect:
+            "Due to its rare nature, it's vital to ensure the stone is from a reputable source. Choose a stone that you feel intimately connected to, or one that aligns with your energy or intentions.",
+        types: "Prismatic Kornerupine, Tabular Kornerupine",
+        uses:
+            "Used in jewelry as gemstones, appreciated by collectors due to its rarity"),
+    Rock(
+        rockId: 930,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "organic",
+        rockName: "Bone",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Bone, though not a rock, is often included in geology due to the fossilized bones graphic presentation in rock formations. It is organic material which is rich in calcium, phosphorus, and other minerals.",
+        isSelected: false,
+        formula: "Ca10(PO4)6(OH)2 + other organics",
+        hardness: 5.0,
+        color: "white, off-white, yellowish",
+        isMagnetic: false,
+        healthRisks:
+            "Raw bone material may carry diseases or bacteria harmful to humans. Always ensure bone material has been properly sanitized before handling.",
+        crystalSystem: "N/A",
+        colors: "White, off-white, yellowish",
+        luster: "Sub-vitreous, resinous",
+        diaphaneity: "Opaque",
+        quimicalClassification: "",
+        elementsListed: "Calcium, Phosphorus, Oxygen, Hydrogen",
+        healingPropeties: "",
+        formulation: "Ca10(PO4)6(OH)2 + other organics",
+        meaning:
+            "Bone symbolizes strength, the foundation on which to build, and wisdom from ancestors.",
+        howToSelect:
+            "When selecting bone for use, ensure that it has been ethically sourced and properly cleaned/sanitized.",
+        types:
+            "Bones are not typically categorized by type but by the animal from which they originate.",
+        uses:
+            "Jewelry, artwork, spiritual practices, ancestral connection, educational study in archaeology and palaeontology"),
+    Rock(
+        rockId: 931,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "rock",
+        rockName: "Anyolite",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Anyolite is a metamorphic rock composed of green Zoisite, dark red Ruby, and black Hornblende. It's often used for carving and ornamental purposes. It was first discovered in Tanzania.",
+        isSelected: false,
+        formula:
+            "Ca2Al3(SiO4)(Si2O7)O(OH)+Al2O3+Ca2(Fe, Mg, Al)5(Si, Al)8O22(OH)2",
+        hardness: 6.0,
+        color:
+            "Green and black with an occasional hint of purple from ruby inclusions",
+        isMagnetic: false,
+        healthRisks:
+            "In general, handling constant physical contact with raw or polished Anyolite stone is considered safe.",
+        crystalSystem: "Orthorhombic",
+        colors: "Green, black",
+        luster: "Vitreous to pearly",
+        diaphaneity: "Translucent to opaque",
+        quimicalClassification: "",
+        elementsListed:
+            "Calcium, Aluminum, Silicon, Oxygen, Iron, Magnesium, Hydrogen",
+        healingPropeties: "",
+        formulation:
+            "Ca2Al3(SiO4)(Si2O7)O(OH)+Al2O3+Ca2(Fe, Mg, Al)5(Si, Al)8O22(OH)2",
+        meaning:
+            "The stone of connection, connecting to the divine and other people around you. Balancing masculine and feminine energy.",
+        howToSelect:
+            "Choose a piece that feels energetically aligned to you, look at the quality of the Ruby inclusions.",
+        types:
+            "There are no specific types of Anyolite. The characteristic green, black, and red coloration remains consistent.",
+        uses:
+            "Ornamental stone, decorative items, carved into cabochons and beads for jewelry, healing stone in crystal therapy"),
+    Rock(
+        rockId: 932,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "rock",
+        rockName: "Peridotite",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Peridotite is a dense, coarse-grained igneous rock, consisting mostly of the minerals olivine and pyroxene. It is the main constituent of the Earth's mantle.",
+        isSelected: false,
+        formula: "(Mg,Fe)2SiO4",
+        hardness: 6.5,
+        color: "Green, yellow-green, black",
+        isMagnetic: false,
+        healthRisks: "Inhalation of dust may cause respiratory irritation.",
+        crystalSystem: "Orthorhombic",
+        colors: "Green, yellow-green, black",
+        luster: "Vitreous",
+        diaphaneity: "Opaque",
+        quimicalClassification: "Silicate",
+        elementsListed: "Magnesium, Iron, Silicon, Oxygen",
+        healingPropeties: "",
+        formulation: "(Mg,Fe)2SiO4",
+        meaning:
+            "Peridotite symbolizes strength and resilience, as it forms under high-pressure conditions within the Earth's mantle.",
+        howToSelect:
+            "Look for dense, coarse-grained samples with visible olivine crystals.",
+        types: "Lherzolite, Harzburgite, Dunite",
+        uses: "Scientific study, industrial applications"),
+    Rock(
+        rockId: 933,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "rock",
+        rockName: "Greenschist",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Greenschist is a metamorphic rock that forms under low temperature and pressure. It typically contains minerals such as chlorite, actinolite, and albite.",
+        isSelected: false,
+        formula:
+            "Varies; commonly contains chlorite (Mg5Al2Si3O10(OH)8), actinolite (Ca2(Mg,Fe)5Si8O22(OH)2)",
+        hardness: 5.0,
+        color: "Green, gray-green",
+        isMagnetic: false,
+        healthRisks:
+            "Generally safe, though dust inhalation should be avoided.",
+        crystalSystem: "Varies",
+        colors: "Green, gray-green",
+        luster: "Vitreous to pearly",
+        diaphaneity: "Opaque to translucent",
+        quimicalClassification: "Metamorphic",
+        elementsListed:
+            "Magnesium, Iron, Calcium, Silicon, Aluminum, Oxygen, Hydrogen",
+        healingPropeties: "",
+        formulation:
+            "Varies; commonly contains chlorite (Mg5Al2Si3O10(OH)8), actinolite (Ca2(Mg,Fe)5Si8O22(OH)2)",
+        meaning:
+            "Greenschist represents transformation and adaptation, formed through the metamorphism of basaltic rocks.",
+        howToSelect:
+            "Choose samples with a consistent green coloration and visible mineral grains.",
+        types: "Epidote-amphibolite facies, chlorite schist",
+        uses: "Geological research, ornamental stone"),
+    Rock(
+        rockId: 934,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "rock",
+        rockName: "Calcflinta",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Calcflinta is a type of chert rich in calcite, forming as a result of diagenetic alteration of limestones and marls.",
+        isSelected: false,
+        formula: "CaCO3 + SiO2",
+        hardness: 7.0,
+        color: "White, gray, yellow, brown",
+        isMagnetic: false,
+        healthRisks: "Inhalation of dust can cause respiratory issues.",
+        crystalSystem: "Hexagonal (calcite), Trigonal (quartz)",
+        colors: "White, gray, yellow, brown",
+        luster: "Vitreous to dull",
+        diaphaneity: "Opaque",
+        quimicalClassification: "Silicate/Carbonate",
+        elementsListed: "Calcium, Carbon, Oxygen, Silicon",
+        healingPropeties: "",
+        formulation: "CaCO3 + SiO2",
+        meaning:
+            "Calcflinta symbolizes resilience and endurance, forming from the transformation of sedimentary rocks.",
+        howToSelect:
+            "Look for samples with a mix of calcite and chert, and minimal impurities.",
+        types: "Chalcedony-rich, jasper-rich",
+        uses: "Tool making in prehistoric times, decorative stone"),
+    Rock(
+        rockId: 935,
+        price: 0,
+        size: "",
+        rating: 0,
+        humidity: 0.0,
+        temperature: "",
+        category: "rock",
+        rockName: "Azurmalachite",
+        imageURL: "",
+        isFavorited: false,
+        description:
+            "Azurmalachite is a mix of azurite and malachite, known for its striking blue and green banded patterns. It is often used as an ornamental stone.",
+        isSelected: false,
+        formula: "Cu3(CO3)2(OH)2 + Cu2(CO3)(OH)2",
+        hardness: 3.5 - 4.0,
+        color: "Blue, green",
+        isMagnetic: false,
+        healthRisks:
+            "Contains copper; prolonged exposure can cause skin irritation and respiratory issues.",
+        crystalSystem: "Monoclinic",
+        colors: "Blue, green",
+        luster: "Vitreous to silky",
+        diaphaneity: "Opaque",
+        quimicalClassification: "Carbonate",
+        elementsListed: "Copper, Carbon, Oxygen, Hydrogen",
+        healingPropeties: "",
+        formulation: "Cu3(CO3)2(OH)2 + Cu2(CO3)(OH)2",
+        meaning:
+            "Azurmalachite represents creativity and transformation, combining the energies of azurite and malachite.",
+        howToSelect:
+            "Select pieces with vibrant colors and distinct banding patterns.",
+        types:
+            "No specific types, varies by proportion of azurite to malachite",
+        uses: "Jewelry, decorative items, healing stone"),
     Rock(
         rockId: 936,
         price: 0,
@@ -21082,14 +26300,15 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Beryl",
         imageURL: "",
         isFavorited: false,
-        description: "Beryl is a mineral composed of beryllium aluminum cyclosilicate. It is known for its well-formed crystals and comes in various colors, including green (emerald) and blue (aquamarine).",
+        description:
+            "Beryl is a mineral composed of beryllium aluminum cyclosilicate. It is known for its well-formed crystals and comes in various colors, including green (emerald) and blue (aquamarine).",
         isSelected: false,
         formula: "Be3Al2Si6O18",
-        hardness: 7.5-8.0,
+        hardness: 7.5 - 8.0,
         color: "Green, blue, yellow, colorless",
         isMagnetic: false,
-        healthRisks: "Generally safe to handle; however, beryllium dust can be toxic if inhaled.",
-        askedQuestions: [],
+        healthRisks:
+            "Generally safe to handle; however, beryllium dust can be toxic if inhaled.",
         crystalSystem: "Hexagonal",
         colors: "Green, blue, yellow, colorless",
         luster: "Vitreous",
@@ -21098,11 +26317,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Beryllium, Aluminum, Silicon, Oxygen",
         healingPropeties: "",
         formulation: "Be3Al2Si6O18",
-        meaning: "Beryl symbolizes purity and potential, often associated with the ability to manifest one's dreams.",
-        howToSelect: "Choose specimens with well-formed crystals and vibrant colors.",
+        meaning:
+            "Beryl symbolizes purity and potential, often associated with the ability to manifest one's dreams.",
+        howToSelect:
+            "Choose specimens with well-formed crystals and vibrant colors.",
         types: "Emerald, Aquamarine, Morganite, Heliodor",
-        uses: "Jewelry, ornamental stones, gemstone collections"
-    ),
+        uses: "Jewelry, ornamental stones, gemstone collections"),
     Rock(
         rockId: 937,
         price: 0,
@@ -21114,14 +26334,15 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Beryllonite",
         imageURL: "",
         isFavorited: false,
-        description: "Beryllonite is a rare phosphate mineral, typically colorless or pale yellow. It is known for its perfect cleavage and high birefringence.",
+        description:
+            "Beryllonite is a rare phosphate mineral, typically colorless or pale yellow. It is known for its perfect cleavage and high birefringence.",
         isSelected: false,
         formula: "NaBePO4",
-        hardness: 5.5-6.0,
+        hardness: 5.5 - 6.0,
         color: "Colorless, pale yellow",
         isMagnetic: false,
-        healthRisks: "Generally safe; however, as with all minerals, avoid inhaling dust.",
-        askedQuestions: [],
+        healthRisks:
+            "Generally safe; however, as with all minerals, avoid inhaling dust.",
         crystalSystem: "Monoclinic",
         colors: "Colorless, pale yellow",
         luster: "Vitreous to greasy",
@@ -21130,11 +26351,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Sodium, Beryllium, Phosphorus, Oxygen",
         healingPropeties: "",
         formulation: "NaBePO4",
-        meaning: "Beryllonite represents clarity and insight, aiding in the clear transmission of thoughts and ideas.",
+        meaning:
+            "Beryllonite represents clarity and insight, aiding in the clear transmission of thoughts and ideas.",
         howToSelect: "Look for clear specimens with minimal inclusions.",
         types: "No specific types",
-        uses: "Collector's mineral, occasionally faceted for gemstone collections"
-    ),
+        uses:
+            "Collector's mineral, occasionally faceted for gemstone collections"),
     Rock(
         rockId: 938,
         price: 0,
@@ -21146,27 +26368,29 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Biotite",
         imageURL: "",
         isFavorited: false,
-        description: "Biotite is a common phyllosilicate mineral within the mica group, known for its dark color and sheet-like structure.",
+        description:
+            "Biotite is a common phyllosilicate mineral within the mica group, known for its dark color and sheet-like structure.",
         isSelected: false,
         formula: "K(Mg,Fe)3(AlSi3O10)(F,OH)2",
-        hardness: 2.5-3.0,
+        hardness: 2.5 - 3.0,
         color: "Black, dark brown, greenish-black",
         isMagnetic: false,
-        healthRisks: "Generally safe; however, dust inhalation should be avoided.",
-        askedQuestions: [],
+        healthRisks:
+            "Generally safe; however, dust inhalation should be avoided.",
         crystalSystem: "Monoclinic",
         colors: "Black, dark brown, greenish-black",
         luster: "Vitreous to pearly",
         diaphaneity: "Opaque",
         quimicalClassification: "Silicate",
-        elementsListed: "Potassium, Magnesium, Iron, Aluminum, Silicon, Oxygen, Hydrogen",
+        elementsListed:
+            "Potassium, Magnesium, Iron, Aluminum, Silicon, Oxygen, Hydrogen",
         healingPropeties: "",
         formulation: "K(Mg,Fe)3(AlSi3O10)(F,OH)2",
-        meaning: "Biotite symbolizes protection and grounding, offering a shield against negative energies.",
+        meaning:
+            "Biotite symbolizes protection and grounding, offering a shield against negative energies.",
         howToSelect: "Choose samples with intact sheets and minimal damage.",
         types: "No specific types",
-        uses: "Geological study, ornamental stone, industrial applications"
-    ),
+        uses: "Geological study, ornamental stone, industrial applications"),
     Rock(
         rockId: 939,
         price: 0,
@@ -21178,14 +26402,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Brookite",
         imageURL: "",
         isFavorited: false,
-        description: "Brookite is one of the four naturally occurring polymorphs of titanium dioxide. It is typically found in dark brown or black colors.",
+        description:
+            "Brookite is one of the four naturally occurring polymorphs of titanium dioxide. It is typically found in dark brown or black colors.",
         isSelected: false,
         formula: "TiO2",
-        hardness: 5.5-6.0,
+        hardness: 5.5 - 6.0,
         color: "Dark brown, black",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Dark brown, black",
         luster: "Adamantine to metallic",
@@ -21194,11 +26418,11 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Titanium, Oxygen",
         healingPropeties: "",
         formulation: "TiO2",
-        meaning: "Brookite represents transformation and strength, aiding in overcoming obstacles.",
+        meaning:
+            "Brookite represents transformation and strength, aiding in overcoming obstacles.",
         howToSelect: "Select crystals with good form and luster.",
         types: "No specific types",
-        uses: "Collector's mineral, scientific research"
-    ),
+        uses: "Collector's mineral, scientific research"),
     Rock(
         rockId: 940,
         price: 0,
@@ -21210,14 +26434,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Bustamite",
         imageURL: "",
         isFavorited: false,
-        description: "Bustamite is a calcium manganese inosilicate mineral, typically pink to reddish-brown in color. It is often found in metamorphic environments.",
+        description:
+            "Bustamite is a calcium manganese inosilicate mineral, typically pink to reddish-brown in color. It is often found in metamorphic environments.",
         isSelected: false,
         formula: "CaMnSi2O6",
-        hardness: 5.5-6.0,
+        hardness: 5.5 - 6.0,
         color: "Pink, reddish-brown",
         isMagnetic: false,
         healthRisks: "Generally safe to handle; avoid inhaling dust.",
-        askedQuestions: [],
         crystalSystem: "Triclinic",
         colors: "Pink, reddish-brown",
         luster: "Vitreous to silky",
@@ -21226,11 +26450,13 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Calcium, Manganese, Silicon, Oxygen",
         healingPropeties: "",
         formulation: "CaMnSi2O6",
-        meaning: "Bustamite symbolizes passion and vitality, enhancing one's life force and creativity.",
-        howToSelect: "Choose specimens with vibrant color and good crystal form.",
+        meaning:
+            "Bustamite symbolizes passion and vitality, enhancing one's life force and creativity.",
+        howToSelect:
+            "Choose specimens with vibrant color and good crystal form.",
         types: "No specific types",
-        uses: "Collector's mineral, ornamental stone, occasionally used in jewelry"
-    ),
+        uses:
+            "Collector's mineral, ornamental stone, occasionally used in jewelry"),
     Rock(
         rockId: 941,
         price: 0,
@@ -21242,27 +26468,31 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Garnet",
         imageURL: "",
         isFavorited: false,
-        description: "Garnet is a group of silicate minerals that have been used since the Bronze Age as gemstones and abrasives. They come in a variety of colors, though red is the most common.",
+        description:
+            "Garnet is a group of silicate minerals that have been used since the Bronze Age as gemstones and abrasives. They come in a variety of colors, though red is the most common.",
         isSelected: false,
-        formula: "X3Y2(SiO4)3 (where X can be Ca, Mg, Fe, Mn and Y can be Al, Fe, Cr)",
-        hardness: 6.5-7.5,
+        formula:
+            "X3Y2(SiO4)3 (where X can be Ca, Mg, Fe, Mn and Y can be Al, Fe, Cr)",
+        hardness: 6.5 - 7.5,
         color: "Red, green, yellow, orange, brown, black, pink",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Isometric",
         colors: "Red, green, yellow, orange, brown, black, pink",
         luster: "Vitreous to resinous",
         diaphaneity: "Transparent to opaque",
         quimicalClassification: "Silicate",
-        elementsListed: "Calcium, Magnesium, Iron, Manganese, Aluminum, Silicon, Oxygen",
+        elementsListed:
+            "Calcium, Magnesium, Iron, Manganese, Aluminum, Silicon, Oxygen",
         healingPropeties: "",
-        formulation: "X3Y2(SiO4)3 (where X can be Ca, Mg, Fe, Mn and Y can be Al, Fe, Cr)",
-        meaning: "Garnet symbolizes love and passion, often used as a protective talisman.",
+        formulation:
+            "X3Y2(SiO4)3 (where X can be Ca, Mg, Fe, Mn and Y can be Al, Fe, Cr)",
+        meaning:
+            "Garnet symbolizes love and passion, often used as a protective talisman.",
         howToSelect: "Choose stones with vibrant color and good clarity.",
-        types: "Almandine, Pyrope, Spessartine, Grossular, Andradite, Uvarovite",
-        uses: "Jewelry, abrasives, industrial applications"
-    ),
+        types:
+            "Almandine, Pyrope, Spessartine, Grossular, Andradite, Uvarovite",
+        uses: "Jewelry, abrasives, industrial applications"),
     Rock(
         rockId: 942,
         price: 0,
@@ -21274,14 +26504,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Opal",
         imageURL: "",
         isFavorited: false,
-        description: "Opal is a hydrated amorphous form of silica. It is known for its unique play-of-color and is often used as a gemstone.",
+        description:
+            "Opal is a hydrated amorphous form of silica. It is known for its unique play-of-color and is often used as a gemstone.",
         isSelected: false,
         formula: "SiO2·nH2O",
-        hardness: 5.5-6.5,
+        hardness: 5.5 - 6.5,
         color: "Various (white, black, blue, green, red)",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Amorphous",
         colors: "Various (white, black, blue, green, red)",
         luster: "Vitreous to pearly",
@@ -21290,11 +26520,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Silicon, Oxygen, Hydrogen",
         healingPropeties: "",
         formulation: "SiO2·nH2O",
-        meaning: "Opal symbolizes inspiration and creativity, often associated with love and passion.",
-        howToSelect: "Choose stones with a vibrant play-of-color and minimal cracks.",
+        meaning:
+            "Opal symbolizes inspiration and creativity, often associated with love and passion.",
+        howToSelect:
+            "Choose stones with a vibrant play-of-color and minimal cracks.",
         types: "Precious Opal, Fire Opal, Common Opal",
-        uses: "Jewelry, ornamental stone"
-    ),
+        uses: "Jewelry, ornamental stone"),
     Rock(
         rockId: 943,
         price: 0,
@@ -21306,14 +26537,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Ammolite",
         imageURL: "",
         isFavorited: false,
-        description: "Ammolite is an opal-like organic gemstone found primarily along the eastern slopes of the Rocky Mountains. It is made of the fossilized shells of ammonites.",
+        description:
+            "Ammolite is an opal-like organic gemstone found primarily along the eastern slopes of the Rocky Mountains. It is made of the fossilized shells of ammonites.",
         isSelected: false,
         formula: "CaCO3 with impurities",
-        hardness: 3.5-4.5,
+        hardness: 3.5 - 4.5,
         color: "Various (iridescent colors)",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "N/A (organic)",
         colors: "Various (iridescent colors)",
         luster: "Vitreous",
@@ -21322,11 +26553,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Calcium, Carbon, Oxygen",
         healingPropeties: "",
         formulation: "CaCO3 with impurities",
-        meaning: "Ammolite symbolizes change and evolution, believed to bring prosperity and luck.",
-        howToSelect: "Choose specimens with vibrant iridescence and good surface condition.",
+        meaning:
+            "Ammolite symbolizes change and evolution, believed to bring prosperity and luck.",
+        howToSelect:
+            "Choose specimens with vibrant iridescence and good surface condition.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stone"
-    ),
+        uses: "Jewelry, ornamental stone"),
     Rock(
         rockId: 944,
         price: 0,
@@ -21338,14 +26570,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Seashell",
         imageURL: "",
         isFavorited: false,
-        description: "Seashells are the hard, protective outer layers created by marine organisms. They are often used in jewelry and decorative items.",
+        description:
+            "Seashells are the hard, protective outer layers created by marine organisms. They are often used in jewelry and decorative items.",
         isSelected: false,
         formula: "CaCO3",
-        hardness: 3.0-4.0,
+        hardness: 3.0 - 4.0,
         color: "Various",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "N/A (organic)",
         colors: "Various",
         luster: "Pearly to dull",
@@ -21354,11 +26586,11 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Calcium, Carbon, Oxygen",
         healingPropeties: "",
         formulation: "CaCO3",
-        meaning: "Seashells symbolize protection and love, often associated with the sea and nature.",
+        meaning:
+            "Seashells symbolize protection and love, often associated with the sea and nature.",
         howToSelect: "Choose shells with good condition and minimal damage.",
         types: "Various (depending on the species of the organism)",
-        uses: "Jewelry, decorative items, educational purposes"
-    ),
+        uses: "Jewelry, decorative items, educational purposes"),
     Rock(
         rockId: 945,
         price: 0,
@@ -21370,14 +26602,15 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Bauxite",
         imageURL: "",
         isFavorited: false,
-        description: "Bauxite is a sedimentary rock with a high aluminum content. It is the world's main source of aluminum and gallium.",
+        description:
+            "Bauxite is a sedimentary rock with a high aluminum content. It is the world's main source of aluminum and gallium.",
         isSelected: false,
         formula: "Al(OH)3, AlO(OH), and Al2O3·2H2O",
-        hardness: 1.0-3.0,
+        hardness: 1.0 - 3.0,
         color: "White, gray, yellow, red",
         isMagnetic: false,
-        healthRisks: "Generally safe to handle; however, bauxite dust can be a respiratory irritant.",
-        askedQuestions: [],
+        healthRisks:
+            "Generally safe to handle; however, bauxite dust can be a respiratory irritant.",
         crystalSystem: "N/A (mixture)",
         colors: "White, gray, yellow, red",
         luster: "Dull to earthy",
@@ -21386,11 +26619,11 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Aluminum, Oxygen, Hydrogen",
         healingPropeties: "",
         formulation: "Al(OH)3, AlO(OH), and Al2O3·2H2O",
-        meaning: "Bauxite symbolizes strength and endurance, essential for industrial growth.",
+        meaning:
+            "Bauxite symbolizes strength and endurance, essential for industrial growth.",
         howToSelect: "Choose samples with a consistent texture and color.",
         types: "No specific types",
-        uses: "Primary source of aluminum, industrial applications"
-    ),
+        uses: "Primary source of aluminum, industrial applications"),
     Rock(
         rockId: 946,
         price: 0,
@@ -21402,14 +26635,15 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Beryl",
         imageURL: "",
         isFavorited: false,
-        description: "Beryl is a mineral composed of beryllium aluminum cyclosilicate. It is known for its well-formed crystals and comes in various colors, including green (emerald) and blue (aquamarine).",
+        description:
+            "Beryl is a mineral composed of beryllium aluminum cyclosilicate. It is known for its well-formed crystals and comes in various colors, including green (emerald) and blue (aquamarine).",
         isSelected: false,
         formula: "Be3Al2Si6O18",
-        hardness: 7.5-8.0,
+        hardness: 7.5 - 8.0,
         color: "Green, blue, yellow, colorless",
         isMagnetic: false,
-        healthRisks: "Generally safe to handle; however, beryllium dust can be toxic if inhaled.",
-        askedQuestions: [],
+        healthRisks:
+            "Generally safe to handle; however, beryllium dust can be toxic if inhaled.",
         crystalSystem: "Hexagonal",
         colors: "Green, blue, yellow, colorless",
         luster: "Vitreous",
@@ -21418,11 +26652,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Beryllium, Aluminum, Silicon, Oxygen",
         healingPropeties: "",
         formulation: "Be3Al2Si6O18",
-        meaning: "Beryl symbolizes purity and potential, often associated with the ability to manifest one's dreams.",
-        howToSelect: "Choose specimens with well-formed crystals and vibrant colors.",
+        meaning:
+            "Beryl symbolizes purity and potential, often associated with the ability to manifest one's dreams.",
+        howToSelect:
+            "Choose specimens with well-formed crystals and vibrant colors.",
         types: "Emerald, Aquamarine, Morganite, Heliodor",
-        uses: "Jewelry, ornamental stones, gemstone collections"
-    ),
+        uses: "Jewelry, ornamental stones, gemstone collections"),
     Rock(
         rockId: 947,
         price: 0,
@@ -21434,27 +26669,29 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Emerald",
         imageURL: "",
         isFavorited: false,
-        description: "Emerald is a green variety of beryl, colored by trace amounts of chromium and sometimes vanadium. It is one of the most highly valued gemstones.",
+        description:
+            "Emerald is a green variety of beryl, colored by trace amounts of chromium and sometimes vanadium. It is one of the most highly valued gemstones.",
         isSelected: false,
         formula: "Be3Al2Si6O18",
-        hardness: 7.5-8.0,
+        hardness: 7.5 - 8.0,
         color: "Green",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Green",
         luster: "Vitreous",
         diaphaneity: "Transparent to translucent",
         quimicalClassification: "Silicate",
-        elementsListed: "Beryllium, Aluminum, Silicon, Oxygen, Chromium, Vanadium",
+        elementsListed:
+            "Beryllium, Aluminum, Silicon, Oxygen, Chromium, Vanadium",
         healingPropeties: "",
         formulation: "Be3Al2Si6O18",
-        meaning: "Emerald symbolizes rebirth and love, often associated with clarity and insight.",
-        howToSelect: "Choose stones with a deep green color and good transparency.",
+        meaning:
+            "Emerald symbolizes rebirth and love, often associated with clarity and insight.",
+        howToSelect:
+            "Choose stones with a deep green color and good transparency.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stones, gemstone collections"
-    ),
+        uses: "Jewelry, ornamental stones, gemstone collections"),
     Rock(
         rockId: 948,
         price: 0,
@@ -21466,14 +26703,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Heliodor",
         imageURL: "",
         isFavorited: false,
-        description: "Heliodor is the yellow to greenish-yellow variety of beryl, colored by trace amounts of iron. It is known for its bright, sunny color.",
+        description:
+            "Heliodor is the yellow to greenish-yellow variety of beryl, colored by trace amounts of iron. It is known for its bright, sunny color.",
         isSelected: false,
         formula: "Be3Al2Si6O18",
-        hardness: 7.5-8.0,
+        hardness: 7.5 - 8.0,
         color: "Yellow, greenish-yellow",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Yellow, greenish-yellow",
         luster: "Vitreous",
@@ -21482,11 +26719,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Beryllium, Aluminum, Silicon, Oxygen, Iron",
         healingPropeties: "",
         formulation: "Be3Al2Si6O18",
-        meaning: "Heliodor symbolizes hope and new beginnings, often associated with the sun and warmth.",
-        howToSelect: "Choose stones with a bright, clear color and good transparency.",
+        meaning:
+            "Heliodor symbolizes hope and new beginnings, often associated with the sun and warmth.",
+        howToSelect:
+            "Choose stones with a bright, clear color and good transparency.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stones, gemstone collections"
-    ),
+        uses: "Jewelry, ornamental stones, gemstone collections"),
     Rock(
         rockId: 949,
         price: 0,
@@ -21498,14 +26736,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Morganite",
         imageURL: "",
         isFavorited: false,
-        description: "Morganite is the pink to orange-pink variety of beryl, colored by trace amounts of manganese. It is highly valued for its delicate color.",
+        description:
+            "Morganite is the pink to orange-pink variety of beryl, colored by trace amounts of manganese. It is highly valued for its delicate color.",
         isSelected: false,
         formula: "Be3Al2Si6O18",
-        hardness: 7.5-8.0,
+        hardness: 7.5 - 8.0,
         color: "Pink, orange-pink",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Pink, orange-pink",
         luster: "Vitreous",
@@ -21514,11 +26752,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Beryllium, Aluminum, Silicon, Oxygen, Manganese",
         healingPropeties: "",
         formulation: "Be3Al2Si6O18",
-        meaning: "Morganite symbolizes love and compassion, often associated with emotional healing and peace.",
-        howToSelect: "Choose stones with a vibrant pink color and good clarity.",
+        meaning:
+            "Morganite symbolizes love and compassion, often associated with emotional healing and peace.",
+        howToSelect:
+            "Choose stones with a vibrant pink color and good clarity.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stones, gemstone collections"
-    ),
+        uses: "Jewelry, ornamental stones, gemstone collections"),
     Rock(
         rockId: 950,
         price: 0,
@@ -21530,14 +26769,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Diaspore",
         imageURL: "",
         isFavorited: false,
-        description: "Diaspore is an aluminum oxide hydroxide mineral, typically found in metamorphic rocks. It is known for its strong pleochroism, displaying different colors when viewed from different angles.",
+        description:
+            "Diaspore is an aluminum oxide hydroxide mineral, typically found in metamorphic rocks. It is known for its strong pleochroism, displaying different colors when viewed from different angles.",
         isSelected: false,
         formula: "AlO(OH)",
-        hardness: 6.5-7.0,
+        hardness: 6.5 - 7.0,
         color: "Colorless, white, yellow, pink, green",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Colorless, white, yellow, pink, green",
         luster: "Vitreous",
@@ -21546,11 +26785,11 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Aluminum, Oxygen, Hydrogen",
         healingPropeties: "",
         formulation: "AlO(OH)",
-        meaning: "Diaspore symbolizes adaptability and resilience, often associated with change and transformation.",
+        meaning:
+            "Diaspore symbolizes adaptability and resilience, often associated with change and transformation.",
         howToSelect: "Choose stones with strong pleochroism and good clarity.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stones, gemstone collections"
-    ),
+        uses: "Jewelry, ornamental stones, gemstone collections"),
     Rock(
         rockId: 951,
         price: 0,
@@ -21562,27 +26801,31 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Garnet",
         imageURL: "",
         isFavorited: false,
-        description: "Garnet is a group of silicate minerals that have been used since the Bronze Age as gemstones and abrasives. They come in a variety of colors, though red is the most common.",
+        description:
+            "Garnet is a group of silicate minerals that have been used since the Bronze Age as gemstones and abrasives. They come in a variety of colors, though red is the most common.",
         isSelected: false,
-        formula: "X3Y2(SiO4)3 (where X can be Ca, Mg, Fe, Mn and Y can be Al, Fe, Cr)",
-        hardness: 6.5-7.5,
+        formula:
+            "X3Y2(SiO4)3 (where X can be Ca, Mg, Fe, Mn and Y can be Al, Fe, Cr)",
+        hardness: 6.5 - 7.5,
         color: "Red, green, yellow, orange, brown, black, pink",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Isometric",
         colors: "Red, green, yellow, orange, brown, black, pink",
         luster: "Vitreous to resinous",
         diaphaneity: "Transparent to opaque",
         quimicalClassification: "Silicate",
-        elementsListed: "Calcium, Magnesium, Iron, Manganese, Aluminum, Silicon, Oxygen",
+        elementsListed:
+            "Calcium, Magnesium, Iron, Manganese, Aluminum, Silicon, Oxygen",
         healingPropeties: "",
-        formulation: "X3Y2(SiO4)3 (where X can be Ca, Mg, Fe, Mn and Y can be Al, Fe, Cr)",
-        meaning: "Garnet symbolizes love and passion, often used as a protective talisman.",
+        formulation:
+            "X3Y2(SiO4)3 (where X can be Ca, Mg, Fe, Mn and Y can be Al, Fe, Cr)",
+        meaning:
+            "Garnet symbolizes love and passion, often used as a protective talisman.",
         howToSelect: "Choose stones with vibrant color and good clarity.",
-        types: "Almandine, Pyrope, Spessartine, Grossular, Andradite, Uvarovite",
-        uses: "Jewelry, abrasives, industrial applications"
-    ),
+        types:
+            "Almandine, Pyrope, Spessartine, Grossular, Andradite, Uvarovite",
+        uses: "Jewelry, abrasives, industrial applications"),
     Rock(
         rockId: 952,
         price: 0,
@@ -21594,14 +26837,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Kyanite",
         imageURL: "",
         isFavorited: false,
-        description: "Kyanite is a typically blue aluminosilicate mineral, commonly found in aluminum-rich metamorphic pegmatites and sedimentary rock. It is known for its distinct crystal habit.",
+        description:
+            "Kyanite is a typically blue aluminosilicate mineral, commonly found in aluminum-rich metamorphic pegmatites and sedimentary rock. It is known for its distinct crystal habit.",
         isSelected: false,
         formula: "Al2SiO5",
-        hardness: 4.5-5,
+        hardness: 4.5 - 5,
         color: "Blue, white, green, gray, black",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Triclinic",
         colors: "Blue, white, green, gray, black",
         luster: "Vitreous to pearly",
@@ -21610,11 +26853,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Aluminum, Silicon, Oxygen",
         healingPropeties: "",
         formulation: "Al2SiO5",
-        meaning: "Kyanite symbolizes balance and tranquility, often used for its calming properties.",
-        howToSelect: "Choose specimens with deep blue color and good transparency.",
+        meaning:
+            "Kyanite symbolizes balance and tranquility, often used for its calming properties.",
+        howToSelect:
+            "Choose specimens with deep blue color and good transparency.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stones, industrial applications"
-    ),
+        uses: "Jewelry, ornamental stones, industrial applications"),
     Rock(
         rockId: 953,
         price: 0,
@@ -21626,14 +26870,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Opal",
         imageURL: "",
         isFavorited: false,
-        description: "Opal is a hydrated amorphous form of silica. It is known for its unique play-of-color and is often used as a gemstone.",
+        description:
+            "Opal is a hydrated amorphous form of silica. It is known for its unique play-of-color and is often used as a gemstone.",
         isSelected: false,
         formula: "SiO2·nH2O",
-        hardness: 5.5-6.5,
+        hardness: 5.5 - 6.5,
         color: "Various (white, black, blue, green, red)",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Amorphous",
         colors: "Various (white, black, blue, green, red)",
         luster: "Vitreous to pearly",
@@ -21642,11 +26886,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Silicon, Oxygen, Hydrogen",
         healingPropeties: "",
         formulation: "SiO2·nH2O",
-        meaning: "Opal symbolizes inspiration and creativity, often associated with love and passion.",
-        howToSelect: "Choose stones with a vibrant play-of-color and minimal cracks.",
+        meaning:
+            "Opal symbolizes inspiration and creativity, often associated with love and passion.",
+        howToSelect:
+            "Choose stones with a vibrant play-of-color and minimal cracks.",
         types: "Precious Opal, Fire Opal, Common Opal",
-        uses: "Jewelry, ornamental stone"
-    ),
+        uses: "Jewelry, ornamental stone"),
     Rock(
         rockId: 954,
         price: 0,
@@ -21658,14 +26903,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Peridot",
         imageURL: "",
         isFavorited: false,
-        description: "Peridot is the gem-quality variety of the mineral olivine. It is typically found in volcanic rocks and is known for its distinctive green color.",
+        description:
+            "Peridot is the gem-quality variety of the mineral olivine. It is typically found in volcanic rocks and is known for its distinctive green color.",
         isSelected: false,
         formula: "(Mg,Fe)2SiO4",
-        hardness: 6.5-7.0,
+        hardness: 6.5 - 7.0,
         color: "Green, yellow-green",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Orthorhombic",
         colors: "Green, yellow-green",
         luster: "Vitreous",
@@ -21674,11 +26919,11 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Magnesium, Iron, Silicon, Oxygen",
         healingPropeties: "",
         formulation: "(Mg,Fe)2SiO4",
-        meaning: "Peridot symbolizes strength and protection, often associated with harmony and good health.",
+        meaning:
+            "Peridot symbolizes strength and protection, often associated with harmony and good health.",
         howToSelect: "Choose stones with a rich green color and good clarity.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stones, gemstone collections"
-    ),
+        uses: "Jewelry, ornamental stones, gemstone collections"),
     Rock(
         rockId: 955,
         price: 0,
@@ -21690,14 +26935,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Phenakite",
         imageURL: "",
         isFavorited: false,
-        description: "Phenakite is a rare beryllium silicate mineral, typically colorless or white, but it can also appear in shades of pink, yellow, and brown. It is highly valued for its clarity and brilliance.",
+        description:
+            "Phenakite is a rare beryllium silicate mineral, typically colorless or white, but it can also appear in shades of pink, yellow, and brown. It is highly valued for its clarity and brilliance.",
         isSelected: false,
         formula: "Be2SiO4",
-        hardness: 7.5-8.0,
+        hardness: 7.5 - 8.0,
         color: "Colorless, white, pink, yellow, brown",
         isMagnetic: false,
         healthRisks: "Generally safe to handle.",
-        askedQuestions: [],
         crystalSystem: "Hexagonal",
         colors: "Colorless, white, pink, yellow, brown",
         luster: "Vitreous",
@@ -21706,11 +26951,11 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Beryllium, Silicon, Oxygen",
         healingPropeties: "",
         formulation: "Be2SiO4",
-        meaning: "Phenakite symbolizes insight and enlightenment, often associated with spiritual awakening.",
+        meaning:
+            "Phenakite symbolizes insight and enlightenment, often associated with spiritual awakening.",
         howToSelect: "Choose stones with good clarity and brilliance.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stones, gemstone collections"
-    ),
+        uses: "Jewelry, ornamental stones, gemstone collections"),
     Rock(
         rockId: 956,
         price: 0,
@@ -21722,14 +26967,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Rhodonite",
         imageURL: "",
         isFavorited: false,
-        description: "Rhodonite is a manganese inosilicate mineral, often found in shades of pink to red with black manganese oxide veins. It is known for its beautiful color and ornamental uses.",
+        description:
+            "Rhodonite is a manganese inosilicate mineral, often found in shades of pink to red with black manganese oxide veins. It is known for its beautiful color and ornamental uses.",
         isSelected: false,
         formula: "(Mn,Fe,Mg,Ca)SiO3",
-        hardness: 5.5-6.5,
+        hardness: 5.5 - 6.5,
         color: "Pink, red, brownish-red",
         isMagnetic: false,
         healthRisks: "Generally safe to handle; avoid inhaling dust.",
-        askedQuestions: [],
         crystalSystem: "Triclinic",
         colors: "Pink, red, brownish-red",
         luster: "Vitreous to pearly",
@@ -21738,11 +26983,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Manganese, Iron, Magnesium, Calcium, Silicon, Oxygen",
         healingPropeties: "",
         formulation: "(Mn,Fe,Mg,Ca)SiO3",
-        meaning: "Rhodonite symbolizes compassion and emotional healing, often associated with love and forgiveness.",
-        howToSelect: "Choose stones with vibrant pink color and minimal black inclusions.",
+        meaning:
+            "Rhodonite symbolizes compassion and emotional healing, often associated with love and forgiveness.",
+        howToSelect:
+            "Choose stones with vibrant pink color and minimal black inclusions.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stones, gemstone collections"
-    ),
+        uses: "Jewelry, ornamental stones, gemstone collections"),
     Rock(
         rockId: 957,
         price: 0,
@@ -21754,14 +27000,14 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         rockName: "Bowenite",
         imageURL: "",
         isFavorited: false,
-        description: "Bowenite is a variety of the serpentine group of minerals, often green in color and used as a gemstone. It is highly valued for its smooth texture and rich color.",
+        description:
+            "Bowenite is a variety of the serpentine group of minerals, often green in color and used as a gemstone. It is highly valued for its smooth texture and rich color.",
         isSelected: false,
         formula: "(Mg3Si2O5(OH)4)",
-        hardness: 2.5-4.0,
+        hardness: 2.5 - 4.0,
         color: "Green, yellow-green",
         isMagnetic: false,
         healthRisks: "Generally safe to handle; avoid inhaling dust.",
-        askedQuestions: [],
         crystalSystem: "Monoclinic",
         colors: "Green, yellow-green",
         luster: "Waxy to greasy",
@@ -21770,11 +27016,12 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
         elementsListed: "Magnesium, Silicon, Oxygen, Hydrogen",
         healingPropeties: "",
         formulation: "(Mg3Si2O5(OH)4)",
-        meaning: "Bowenite symbolizes protection and endurance, often associated with resilience and strength.",
-        howToSelect: "Choose stones with a smooth texture and rich green color.",
+        meaning:
+            "Bowenite symbolizes protection and endurance, often associated with resilience and strength.",
+        howToSelect:
+            "Choose stones with a smooth texture and rich green color.",
         types: "No specific types",
-        uses: "Jewelry, ornamental stones, carving material"
-    )
+        uses: "Jewelry, ornamental stones, carving material")
     //end of new aditions
   ];
 
@@ -21787,6 +27034,7 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
     String? temperature,
     String? category,
     String? rockName,
+    String? rockCustomName,
     String? imageURL,
     bool? isFavorited,
     String? description,
@@ -21796,7 +27044,6 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
     String? color,
     bool? isMagnetic,
     String? healthRisks,
-    List<Map<String, String>>? askedQuestions,
     String? crystalSystem,
     String? colors,
     String? luster,
@@ -21818,6 +27065,8 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
     String? notes,
     String? unitOfMeasurement,
     List<RockImage>? rockImages,
+    bool? isAddedToCollection,
+    String? createdAt,
   }) {
     return Rock(
       rockId: rockId ?? this.rockId,
@@ -21828,6 +27077,7 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
       temperature: temperature ?? this.temperature,
       category: category ?? this.category,
       rockName: rockName ?? this.rockName,
+      rockCustomName: rockCustomName ?? this.rockCustomName,
       imageURL: imageURL ?? this.imageURL,
       isFavorited: isFavorited ?? this.isFavorited,
       description: description ?? this.description,
@@ -21837,7 +27087,6 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
       color: color ?? this.color,
       isMagnetic: isMagnetic ?? this.isMagnetic,
       healthRisks: healthRisks ?? this.healthRisks,
-      askedQuestions: askedQuestions ?? this.askedQuestions,
       crystalSystem: crystalSystem ?? this.crystalSystem,
       colors: colors ?? this.colors,
       luster: luster ?? this.luster,
@@ -21860,6 +27109,8 @@ Rock(rockId: 931, price: 0, size: "", rating: 0, humidity: 0.0, temperature: "",
       notes: notes ?? this.notes,
       unitOfMeasurement: unitOfMeasurement ?? this.unitOfMeasurement,
       rockImages: rockImages ?? this.rockImages,
+      isAddedToCollection: isAddedToCollection ?? this.isAddedToCollection,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 }

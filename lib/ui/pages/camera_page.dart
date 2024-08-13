@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -8,11 +9,13 @@ import 'package:flutter_onboarding/db/db.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
 import 'package:flutter_onboarding/services/get_rock.dart';
-import 'package:flutter_onboarding/services/payment_service.dart';
+import 'package:flutter_onboarding/services/mix_panel_service.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/home_page_service.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
+import 'package:flutter_onboarding/ui/pages/premium_page.dart';
+import 'package:flutter_onboarding/ui/pages/rock_view_page.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/screens/detail_page.dart';
-import 'package:flutter_onboarding/ui/screens/premium_screen.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/loading_component.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
@@ -21,19 +24,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/snackbar.dart';
 
-class CameraScreen extends StatefulWidget {
+class CameraPage extends StatefulWidget {
   final bool isScanningForRockDetails;
 
-  const CameraScreen({
+  const CameraPage({
     super.key,
     this.isScanningForRockDetails = true,
   });
 
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  _CameraPageState createState() => _CameraPageState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _CameraPageState extends State<CameraPage> {
   CameraController? _cameraController;
   List<CameraDescription>? cameras;
   final ImagePicker _picker = ImagePicker();
@@ -43,6 +46,7 @@ class _CameraScreenState extends State<CameraScreen> {
   Timer? _loadingTimer;
   bool _flashOn = false;
   bool _loadingDismissed = true;
+  bool _isLoadingRockPrice = false;
 
   Rock? _rock;
   File? _image;
@@ -69,6 +73,8 @@ class _CameraScreenState extends State<CameraScreen> {
       'text': 'Jewelry (e.g pendant, bracelet)',
     },
   ];
+
+  bool isPremiumEnabled = RootPageService.instance.isPremiumActivatedNotifier.value;
 
   @override
   void initState() {
@@ -140,26 +146,30 @@ class _CameraScreenState extends State<CameraScreen> {
                 size: 24,
               ),
             ),
-            TextButton.icon(
-              label: const Text('Unlimited IDs'),
-              onPressed: () => Navigator.push(
-                context,
-                PageTransition(
-                    child: const PremiumScreen(),
-                    type: PageTransitionType.topToBottom),
-              ),
-              icon: SvgPicture.string(
-                AppIcons.crownOnly,
-                height: 14,
-              ),
-              style: TextButton.styleFrom(
-                foregroundColor: Constants.darkGrey,
-                backgroundColor: Constants.primaryColor,
-                textStyle: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+            Visibility(
+              visible: !isPremiumEnabled,
+              child: TextButton.icon(
+                label: const Text('Unlimited IDs'),
+                onPressed: () => Navigator.push(
+                  context,
+                  PageTransition(
+                    child: const PremiumPage(),
+                    type: PageTransitionType.topToBottom,
+                  ),
                 ),
-                minimumSize: Size.zero,
+                icon: SvgPicture.string(
+                  AppIcons.crownOnly,
+                  height: 14,
+                ),
+                style: TextButton.styleFrom(
+                  foregroundColor: Constants.darkGrey,
+                  backgroundColor: Constants.primaryColor,
+                  textStyle: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  minimumSize: Size.zero,
+                ),
               ),
             ),
           ],
@@ -195,7 +205,7 @@ class _CameraScreenState extends State<CameraScreen> {
         children: [
           Expanded(
             child: _isLoadingCamera
-                ? const LoadingComponent()
+                ? LoadingComponent(scanningForPrice: !widget.isScanningForRockDetails)
                 : _isCameraInitialized && _cameraController != null
                     ? FittedBox(
                         fit: BoxFit.contain,
@@ -208,6 +218,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       )
                     : Center(
                         child: Container(
+                          padding: const EdgeInsets.all(20),
                           decoration: const BoxDecoration(
                             color: Constants.blackColor,
                           ),
@@ -217,14 +228,12 @@ class _CameraScreenState extends State<CameraScreen> {
                               const Text(
                                 'Welcome to the Rock ID Camera!',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                style: TextStyle(color: Colors.white, fontSize: 18),
                               ),
                               const SizedBox(height: 10),
                               const Text(
                                 'Take a photo and identify the rocks like a professional.',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 14),
+                                style: TextStyle(color: Colors.white, fontSize: 14),
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 20),
@@ -241,7 +250,7 @@ class _CameraScreenState extends State<CameraScreen> {
                                   ),
                                 ),
                                 child: const Text(
-                                  'Allow Access',
+                                  'Continue',
                                 ),
                               ),
                             ],
@@ -277,28 +286,36 @@ class _CameraScreenState extends State<CameraScreen> {
                 InkWell(
                   splashColor: Constants.primaryColor,
                   onTap: () async {
-                    await _cameraController!.pausePreview();
-                    if (await Permission.camera.isGranted) {
-                      if (_isCameraInitialized) {
-                        final takenPicture =
-                            await _cameraController!.takePicture();
-                        await _cameraController!.resumePreview();
-                        if (_flashOn) {
-                          await _cameraController!.setFlashMode(FlashMode.off);
+                    final _mixPanel = await MixpanelService.init();
+                    _mixPanel.track("Rock Scanned");
+                    _mixPanel.track('Save Rock', properties: {
+                      'log_count': 10,
+                      'is_premium': isPremiumEnabled ? true : false,
+                    });
+                    try {
+                      await _cameraController!.pausePreview();
+                      if (await Permission.camera.isGranted) {
+                        if (_isCameraInitialized) {
+                          final takenPicture = await _cameraController!.takePicture();
+                          await _cameraController!.resumePreview();
+                          if (_flashOn) {
+                            await _cameraController!.setFlashMode(FlashMode.off);
+                            setState(() {
+                              _flashOn = false;
+                            });
+                          }
                           setState(() {
-                            _flashOn = false;
+                            _image = File(takenPicture.path);
                           });
+                          _startScanning(_scanningFunction, Navigator.of(context));
+                        } else {
+                          await _requestCameraPermission();
                         }
-                        setState(() {
-                          _image = File(takenPicture.path);
-                        });
-                        _startScanning(
-                            _scanningFunction, Navigator.of(context));
                       } else {
                         await _requestCameraPermission();
                       }
-                    } else {
-                      await _requestCameraPermission();
+                    } catch (e) {
+                      ShowSnackbarService().showSnackBar(e.toString().replaceAll('Exception: ', ''));
                     }
                   },
                   customBorder: const CircleBorder(),
@@ -352,7 +369,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
     showModalBottomSheet(
       context: context,
-      isDismissible: false,
+      isDismissible: true,
       isScrollControlled: true,
       backgroundColor: Constants.blackColor,
       clipBehavior: Clip.none,
@@ -362,16 +379,12 @@ class _CameraScreenState extends State<CameraScreen> {
             return ValueListenableBuilder<String?>(
                 valueListenable: _errorMessageNotifier,
                 builder: (context, errorMessage, child) {
-                  if (errorMessage
-                          ?.contains('need to have an internet connection') ==
-                      true) {
+                  if (errorMessage?.contains('need to have an internet connection') == true) {
                     Navigator.pop(context);
                   }
                   return Container(
                     width: MediaQuery.of(context).size.width,
-                    height: errorMessage != null || showTips
-                        ? MediaQuery.of(context).size.height * 0.7
-                        : MediaQuery.of(context).size.height,
+                    height: errorMessage != null || showTips ? MediaQuery.of(context).size.height * 0.7 : MediaQuery.of(context).size.height,
                     decoration: const BoxDecoration(
                       color: Constants.darkGrey,
                       borderRadius: BorderRadius.only(
@@ -382,151 +395,134 @@ class _CameraScreenState extends State<CameraScreen> {
                     child: ValueListenableBuilder<int>(
                       valueListenable: _loadingNotifier,
                       builder: (context, value, child) {
-                        return Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        return ListView(
+                          padding: const EdgeInsets.symmetric(vertical: 28),
                           children: [
-                            if (_isLoading &&
-                                errorMessage == null &&
-                                !showTips) ...[
+                            if (_isLoading && errorMessage == null && !showTips) ...[
                               Image(
                                 image: FileImage(_image!),
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height / 3,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
+                                loadingBuilder: (context, child, loadingProgress) {
                                   if (loadingProgress != null &&
-                                      loadingProgress.expectedTotalBytes !=
-                                          null &&
-                                      loadingProgress.cumulativeBytesLoaded <
-                                          loadingProgress.expectedTotalBytes!) {
+                                      loadingProgress.expectedTotalBytes != null &&
+                                      loadingProgress.cumulativeBytesLoaded < loadingProgress.expectedTotalBytes!) {
                                     return const LoadingComponent();
                                   }
 
                                   return child;
                                 },
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 50,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'Wait for a moment',
-                                        style: TextStyle(
-                                          color: Constants.white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        'Identifying $value%',
-                                        style: const TextStyle(
-                                          color: Constants.white,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 50,
                                 ),
-                              ),
-                            ],
-                            if ((errorMessage != null &&
-                                    !errorMessage.contains(
-                                        'need to have an internet connection') ||
-                                showTips))
-                              Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    _buildErrorImageRow(
-                                      Icons.verified,
-                                      Constants.mediumGreen,
-                                      'assets/images/prefectImage.png',
-                                      'This is a good Exemple',
-                                      Constants.lightestGreen,
-                                    ),
-                                    const SizedBox(height: 20),
                                     const Text(
-                                      'The following will lead to poor results',
+                                      'Wait for a moment',
                                       style: TextStyle(
                                         color: Constants.white,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.w600,
                                         fontSize: 16,
                                       ),
                                     ),
-                                    const SizedBox(height: 15),
-                                    _buildErrorImageRow(
-                                      Icons.close,
-                                      Constants.mediumRed,
-                                      'assets/images/smal_stone.png',
-                                      'Too far',
-                                      Constants.lightestRed,
-                                      assetPath2: 'assets/images/blurred.jpg',
-                                      label2: 'Image blurred',
-                                    ),
                                     const SizedBox(height: 10),
-                                    _buildErrorImageRow(
-                                      Icons.close,
-                                      Constants.mediumRed,
-                                      'assets/images/varias_rochas.png',
-                                      'Too many',
-                                      Constants.lightestRed,
-                                      assetPath2: 'assets/images/too_dark.png',
-                                      label2: 'Too dark',
-                                    ),
-                                    const SizedBox(height: 20),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 30, vertical: 10),
-                                        margin: const EdgeInsets.only(top: 10),
-                                        decoration: BoxDecoration(
-                                          color: Constants.primaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Icon(
-                                              Icons.camera_alt,
-                                              size: 30, // Size of the icon
-                                              color: Constants
-                                                  .darkGrey, // Color of the icon
-                                            ),
-                                            const SizedBox(
-                                                width:
-                                                    10), // Space between icon and text
-                                            Text(
-                                              !showTips ? 'Retake' : 'Got it!',
-                                              style: const TextStyle(
-                                                fontSize:
-                                                    18, // Size of the text
-                                                color: Constants
-                                                    .darkGrey, // Color of the text,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                    Text(
+                                      'Identifying $value%',
+                                      style: const TextStyle(
+                                        color: Constants.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
                                       ),
+                                    ),
+                                    const SizedBox(height: 80),
+                                    LoadingComponent(
+                                      scanningForPrice: !widget.isScanningForRockDetails,
                                     ),
                                   ],
                                 ),
+                              ),
+                            ],
+                            if ((errorMessage != null && !errorMessage.contains('need to have an internet connection') || showTips))
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _buildErrorImageRow(
+                                    Icons.verified,
+                                    Constants.mediumGreen,
+                                    'assets/images/prefectImage.png',
+                                    'This is a good Example',
+                                    Constants.lightestGreen,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  const Text(
+                                    'The following will lead to poor results',
+                                    style: TextStyle(
+                                      color: Constants.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  _buildErrorImageRow(
+                                    Icons.close,
+                                    Constants.mediumRed,
+                                    'assets/images/smal_stone.png',
+                                    'Too far',
+                                    Constants.lightestRed,
+                                    assetPath2: 'assets/images/blurred.jpg',
+                                    label2: 'Image blurred',
+                                  ),
+                                  const SizedBox(height: 10),
+                                  _buildErrorImageRow(
+                                    Icons.close,
+                                    Constants.mediumRed,
+                                    'assets/images/varias_rochas.png',
+                                    'Too many',
+                                    Constants.lightestRed,
+                                    assetPath2: 'assets/images/too_dark.png',
+                                    label2: 'Too dark',
+                                  ),
+                                  const SizedBox(height: 10),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                                      margin: const EdgeInsets.only(top: 10),
+                                      decoration: BoxDecoration(
+                                        color: Constants.primaryColor,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Icon(
+                                            Icons.camera_alt,
+                                            size: 30, // Size of the icon
+                                            color: Constants.darkGrey, // Color of the icon
+                                          ),
+                                          const SizedBox(width: 10), // Space between icon and text
+                                          Text(
+                                            !showTips ? 'Retake' : 'Got it!',
+                                            style: const TextStyle(
+                                              fontSize: 18, // Size of the text
+                                              color: Constants.darkGrey, // Color of the text,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                           ],
                         );
@@ -544,9 +540,7 @@ class _CameraScreenState extends State<CameraScreen> {
         _loadingTimer = null;
         _loadingDismissed = true;
       });
-      if (_errorMessageNotifier.value
-              ?.contains('need to have an internet connection') ==
-          true) {
+      if (_errorMessageNotifier.value?.contains('need to have an internet connection') == true) {
         scaffoldMessengerKey.currentState?.showSnackBar(
           const SnackBar(
             content: Text(
@@ -575,19 +569,13 @@ class _CameraScreenState extends State<CameraScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Expanded(
-            child:
-                _buildErrorImage(assetPath1, label1, icon, color, labelColor)),
-        if (assetPath2 != null && label2 != null)
-          Expanded(
-              child: _buildErrorImage(
-                  assetPath2, label2, icon, color, labelColor)),
+        Expanded(child: _buildErrorImage(assetPath1, label1, icon, color, labelColor)),
+        if (assetPath2 != null && label2 != null) Expanded(child: _buildErrorImage(assetPath2, label2, icon, color, labelColor)),
       ],
     );
   }
 
-  Widget _buildErrorImage(String assetPath, String label, IconData icon,
-      Color color, Color labelColor) {
+  Widget _buildErrorImage(String assetPath, String label, IconData icon, Color color, Color labelColor) {
     return Column(
       children: [
         Stack(
@@ -625,8 +613,9 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  Future<void> _startScanning(Future<void> Function() scanningFunction,
-      NavigatorState navigator) async {
+  Future<void> _startScanning(Future<void> Function() scanningFunction, NavigatorState navigator) async {
+    final _mixPanel = await MixpanelService.init();
+    _mixPanel.track("Rock Scanned");
     setState(() {
       _isLoading = true;
       _errorMessageNotifier.value = null;
@@ -634,31 +623,39 @@ class _CameraScreenState extends State<CameraScreen> {
     _startLoading();
     _showLoadingBottomSheet();
     try {
+      final storage = Storage.instance;
+      final userTraces = jsonDecode((await storage.read(key: 'userTraces'))!);
+      if (userTraces['numberOfRocksScanned'] >= 10 && !isPremiumEnabled) {
+        await Navigator.push(
+          context,
+          PageTransition(
+            duration: const Duration(milliseconds: 300),
+            child: const PremiumPage(),
+            type: PageTransitionType.topToBottom,
+          ),
+        );
+        Navigator.pop(context);
+
+        return;
+      }
+
       await scanningFunction();
       if (!_loadingDismissed) {
-        final snaps = await DatabaseHelper().snapHistory();
-        if (snaps.length >= 10 && !(await PaymentService.checkIfPurchased())) {
-          await Navigator.pushAndRemoveUntil(
-            context,
-            PageTransition(
-              duration: const Duration(milliseconds: 300),
-              child: const PremiumScreen(),
-              type: PageTransitionType.topToBottom,
-            ),
-            (route) => false,
-          );
-
-          return;
-        }
-
         if (_rock != null) {
+          await DatabaseHelper().addRockToSnapHistory(
+            _rock!.rockId,
+            _image?.path,
+          );
+          final _mixPanel = await MixpanelService.init();
+          _mixPanel.track('Save Rock', properties: {
+            'log_count': userTraces['numberOfRocksScanned'],
+            'is_premium': isPremiumEnabled ? true : false,
+          });
+          userTraces['numberOfRocksScanned']++;
+          await storage.write(key: 'userTraces', value: jsonEncode(userTraces));
+          await HomePageService.instance.notifyTotalValues();
+
           if (widget.isScanningForRockDetails) {
-            String timestamp = DateTime.now().toIso8601String();
-            await DatabaseHelper().addRockToSnapHistory(
-              _rock!.rockId,
-              timestamp,
-              _image?.path,
-            );
             _showRockDetails(navigator);
             return;
           }
@@ -686,8 +683,7 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   void _startLoading() {
-    _loadingTimer =
-        Timer.periodic(const Duration(milliseconds: 200), (Timer timer) {
+    _loadingTimer = Timer.periodic(const Duration(milliseconds: 200), (Timer timer) {
       if (_loadingNotifier.value >= 99) {
         timer.cancel();
       } else {
@@ -698,7 +694,6 @@ class _CameraScreenState extends State<CameraScreen> {
 
   void _showSelectRockDetailsBottomSheet() {
     bool _isChoosingRockForm = true;
-    bool _isLoadingRockPrice = false;
 
     showModalBottomSheet(
       context: context,
@@ -746,24 +741,14 @@ class _CameraScreenState extends State<CameraScreen> {
                                         setState(() {
                                           _isLoadingRockPrice = true;
                                         });
-                                        NavigatorState navigator =
-                                            Navigator.of(context);
-                                        final response = await GetRockService()
-                                            .identifyRockPrice(
-                                                _rock!.rockName,
-                                                _chosenRockForm,
-                                                _chosenRockSize);
+                                        NavigatorState navigator = Navigator.of(context);
+                                        final response = await GetRockService().identifyRockPrice(_rock!.rockName, _chosenRockForm, _chosenRockSize);
 
                                         if (mounted) {
-                                          setState(() {
-                                            _isLoadingRockPrice = false;
-                                          });
-                                          _showRockDetails(navigator,
-                                              rockPriceResponse: response);
+                                          _showRockDetails(navigator, rockPriceResponse: response);
                                         }
                                       } catch (e) {
-                                        ShowSnackbarService()
-                                            .showSnackBar('Error $e');
+                                        ShowSnackbarService().showSnackBar(e.toString().replaceAll('Exception: ', ''));
                                       }
                                     },
                                     child: const Text(
@@ -779,9 +764,7 @@ class _CameraScreenState extends State<CameraScreen> {
                               ),
                               const SizedBox(height: 15),
                               Text(
-                                _isChoosingRockForm
-                                    ? "What's the form of your stone?"
-                                    : "What's the size of your stone? (Choose the closest one)",
+                                _isChoosingRockForm ? "What's the form of your stone?" : "What's the size of your stone? (Choose the closest one)",
                                 textAlign: TextAlign.justify,
                                 style: const TextStyle(
                                   color: Constants.white,
@@ -798,38 +781,30 @@ class _CameraScreenState extends State<CameraScreen> {
                                             InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  _chosenRockForm =
-                                                      form['text'];
+                                                  _chosenRockForm = form['text'];
                                                   _isChoosingRockForm = false;
                                                 });
                                               },
                                               child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 20,
-                                                        horizontal: 20),
+                                                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                                                 decoration: BoxDecoration(
                                                   color: Constants.blackColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
+                                                  borderRadius: BorderRadius.circular(16),
                                                 ),
                                                 child: Row(
                                                   children: [
                                                     Icon(
                                                       form['icon'],
-                                                      color: Constants
-                                                          .primaryColor,
+                                                      color: Constants.primaryColor,
                                                     ),
                                                     const SizedBox(width: 15),
                                                     Expanded(
                                                       child: Text(
                                                         form['text'],
                                                         style: const TextStyle(
-                                                          color:
-                                                              Constants.white,
+                                                          color: Constants.white,
                                                           fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.w500,
+                                                          fontWeight: FontWeight.w500,
                                                         ),
                                                       ),
                                                     ),
@@ -843,20 +818,16 @@ class _CameraScreenState extends State<CameraScreen> {
                                       }).toList(),
                                     )
                                   : SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.4,
+                                      height: MediaQuery.of(context).size.height * 0.4,
                                       child: GridView.builder(
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
                                           crossAxisSpacing: 15,
                                           mainAxisSpacing: 15,
                                           childAspectRatio: 1.38,
                                         ),
                                         itemCount: 4,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
+                                        itemBuilder: (BuildContext context, int index) {
                                           List<String> imagePaths = [
                                             'assets/images/small_rock.png', // 1/3 of a hand
                                             'assets/images/medium_rock.png', // more than half of a hand
@@ -865,22 +836,15 @@ class _CameraScreenState extends State<CameraScreen> {
                                           ];
 
                                           return InkWell(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
+                                            borderRadius: BorderRadius.circular(12),
                                             onTap: () async {
                                               try {
                                                 setState(() {
-                                                  _chosenRockSize = imagePaths[
-                                                              index]
-                                                          .contains('small')
+                                                  _chosenRockSize = imagePaths[index].contains('small')
                                                       ? '1/3 of the size of a human hand'
-                                                      : imagePaths[index]
-                                                              .contains(
-                                                                  'medium')
+                                                      : imagePaths[index].contains('medium')
                                                           ? '2/3 of the size of a human hand'
-                                                          : imagePaths[index]
-                                                                  .contains(
-                                                                      'big')
+                                                          : imagePaths[index].contains('big')
                                                               ? 'the size of a human hand'
                                                               : 'bigger than a human hand';
                                                 });
@@ -888,34 +852,20 @@ class _CameraScreenState extends State<CameraScreen> {
                                                 setState(() {
                                                   _isLoadingRockPrice = true;
                                                 });
-                                                NavigatorState navigator =
-                                                    Navigator.of(context);
+                                                NavigatorState navigator = Navigator.of(context);
                                                 final response =
-                                                    await GetRockService()
-                                                        .identifyRockPrice(
-                                                            _rock!.rockName,
-                                                            _chosenRockForm,
-                                                            _chosenRockSize);
+                                                    await GetRockService().identifyRockPrice(_rock!.rockName, _chosenRockForm, _chosenRockSize);
 
                                                 if (mounted) {
-                                                  _showRockDetails(navigator,
-                                                      rockPriceResponse:
-                                                          response);
-                                                  setState(() {
-                                                    _isLoadingRockPrice = false;
-                                                  });
+                                                  _showRockDetails(navigator, rockPriceResponse: response);
                                                 }
                                               } catch (e) {
-                                                ShowSnackbarService()
-                                                    .showSnackBar('Error $e');
+                                                ShowSnackbarService().showSnackBar(e.toString().replaceAll('Exception: ', ''));
                                               }
                                             },
                                             child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              child: Image.asset(
-                                                  imagePaths[index],
-                                                  fit: BoxFit.contain),
+                                              borderRadius: BorderRadius.circular(12),
+                                              child: Image.asset(imagePaths[index], fit: BoxFit.contain),
                                             ),
                                           );
                                         },
@@ -933,8 +883,7 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  void _showRockDetails(NavigatorState navigator,
-      {final Map<String, dynamic>? rockPriceResponse}) async {
+  void _showRockDetails(NavigatorState navigator, {final Map<String, dynamic>? rockPriceResponse}) async {
     try {
       if (rockPriceResponse?['error'] != null) {
         throw Exception(rockPriceResponse!['error']);
@@ -942,13 +891,13 @@ class _CameraScreenState extends State<CameraScreen> {
 
       bool isRemovingFromCollection = false;
       final allRocks = await DatabaseHelper().findAllRocks();
-      if (allRocks.where((rock) => rock.rockId == _rock?.rockId).isNotEmpty) {
+      if (allRocks.where((rock) => rock.rockId == _rock?.rockId && rock.isAddedToCollection).isNotEmpty) {
         isRemovingFromCollection = true;
       }
 
       navigator
           .push(PageTransition(
-              child: RockDetailPage(
+              child: RockViewPage(
                 rock: _rock!,
                 pickedImage: _image,
                 identifyPriceResponse: rockPriceResponse,
@@ -956,6 +905,9 @@ class _CameraScreenState extends State<CameraScreen> {
               ),
               type: PageTransitionType.fade))
           .then((value) {
+        setState(() {
+          _isLoadingRockPrice = false;
+        });
         if (Navigator.of(context).canPop()) {
           Navigator.of(context).pop();
         }
@@ -966,8 +918,7 @@ class _CameraScreenState extends State<CameraScreen> {
         );
       });
     } catch (e) {
-      scaffoldMessengerKey.currentState
-          ?.showSnackBar(SnackBar(content: Text(e.toString())));
+      scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(content: Text(e.toString().replaceAll('Exception: ', ''))));
     }
   }
 
@@ -975,7 +926,6 @@ class _CameraScreenState extends State<CameraScreen> {
     try {
       PermissionStatus status = await Permission.camera.request();
       if (status.isGranted) {
-        _showLoadingBottomSheet(showTips: true);
         if (!_isCameraInitialized) {
           await initializeCamera();
         }
@@ -998,10 +948,15 @@ class _CameraScreenState extends State<CameraScreen> {
             'Permission Required',
             style: TextStyle(color: Constants.lightestBrown),
           ),
-          content: Text(
-            'This app needs ${!isGallery ? 'camera' : 'gallery'} access to function properly. Please open settings and grant ${!isGallery ? 'camera' : 'gallery'} permission.',
-            style: const TextStyle(color: Constants.white),
-          ),
+          content: isGallery
+              ? Text(
+                  "Allow access to to photo's to upload photo's from your library",
+                  style: const TextStyle(color: Constants.white),
+                )
+              : Text(
+                  "Allow Gem ID access to Camera to take of the rocks you want to identify",
+                  style: const TextStyle(color: Constants.white),
+                ),
           actions: <Widget>[
             TextButton(
               child: const Text('Cancel'),

@@ -1,21 +1,25 @@
 import 'dart:io';
 
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/main.dart';
 import 'package:flutter_onboarding/models/rocks.dart';
-import 'package:flutter_onboarding/services/add_rock_to_collection_service.dart';
 import 'package:flutter_onboarding/services/bottom_nav_service.dart';
 import 'package:flutter_onboarding/services/image_picker.dart';
+import 'package:flutter_onboarding/ui/pages/camera_page.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/rock_view_page_service.dart';
+import 'package:flutter_onboarding/ui/pages/page_services/root_page_service.dart';
+import 'package:flutter_onboarding/ui/pages/premium_page.dart';
+import 'package:flutter_onboarding/ui/pages/tabs/tab_services/loved_tab_service.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/expandable_text.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/input_widget.dart';
 import 'package:flutter_onboarding/ui/root_page.dart';
-import 'package:flutter_onboarding/ui/screens/camera_screen.dart';
-import 'package:flutter_onboarding/ui/screens/tabs/loved_tab.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/expandable_text.dart';
-import 'package:flutter_onboarding/ui/screens/widgets/input_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -25,7 +29,7 @@ import '../../db/db.dart';
 import '../../services/snackbar.dart';
 import 'widgets/premium_section.dart';
 
-class RockDetailPage extends StatefulWidget {
+class RockViewPage extends StatefulWidget {
   final Rock rock;
   final bool isFavoritingRock;
   final bool isUnfavoritingRock;
@@ -36,7 +40,7 @@ class RockDetailPage extends StatefulWidget {
   final Map<String, dynamic>? identifyPriceResponse;
   final bool isAddingFromRockList;
 
-  const RockDetailPage({
+  const RockViewPage({
     super.key,
     required this.rock,
     this.isFavoritingRock = false,
@@ -50,15 +54,15 @@ class RockDetailPage extends StatefulWidget {
   });
 
   @override
-  State<RockDetailPage> createState() => _RockDetailPageState();
+  State<RockViewPage> createState() => _RockViewPageState();
 }
 
-class _RockDetailPageState extends State<RockDetailPage>
+class _RockViewPageState extends State<RockViewPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   String buttonText = '';
   bool _feedbackGiven = false;
-  final _addRockToCollectionService = AddRockToCollectionService.instance;
+  final _store = RockViewPageService.instance;
   final _formKey = GlobalKey<FormState>();
   bool isUnfavoritingRock = false;
   Map<String, dynamic> rockDefaultImage = {
@@ -72,30 +76,41 @@ class _RockDetailPageState extends State<RockDetailPage>
   final _screenshotController = ScreenshotController();
   bool _isLoadingShare = false;
   bool _hideEditIcon = false;
+  Rock currentRock = Rock.empty();
+  final ScrollController _scrollController = ScrollController();
+  bool _isFabVisible = true;
+  bool isPremiumEnabled =
+      RootPageService.instance.isPremiumActivatedNotifier.value;
 
   @override
   void initState() {
-    super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    setState(() {
-      defineFavorite();
-      _addRockToCollectionService.setRockData(widget.rock, widget.pickedImage);
-      buttonText = widget.isUnfavoritingRock
-          ? 'Remove from Wishlist'
-          : widget.isFavoritingRock
-              ? 'Add to Wishlist'
-              : widget.isRemovingFromCollection
-                  ? 'Remove from My Collection'
-                  : 'Add to My Collection';
-      for (final defaultImage in Rock.defaultImages) {
-        if (defaultImage['rockId'] == widget.rock.rockId) {
-          rockDefaultImage = defaultImage;
+    defineFavorite().then((_) {
+      setState(() {
+        _store.setRockData(widget.rock, widget.pickedImage);
+        currentRock = widget.rock;
+        buttonText = widget.isFavoritingRock
+            ? 'Add to Wishlist'
+            : widget.isRemovingFromCollection
+                ? 'Remove from My Collection'
+                : 'Add to My Collection';
+        for (final defaultImage in Rock.defaultImages) {
+          if (defaultImage['rockId'] == widget.rock.rockId) {
+            rockDefaultImage = defaultImage;
+          }
         }
-      }
+      });
     });
+    super.initState();
   }
 
-  void defineFavorite() async {
+  @override
+  void dispose() {
+    _store.dispose();
+    super.dispose();
+  }
+
+  Future<void> defineFavorite() async {
     final wishlistRocksMap = await DatabaseHelper().wishlist();
 
     for (final wishlistRock in wishlistRocksMap) {
@@ -108,10 +123,20 @@ class _RockDetailPageState extends State<RockDetailPage>
     }
   }
 
+  final _nodeCost = FocusNode();
+  final _nodeName = FocusNode();
+  final _nodeLocality = FocusNode();
+  final _nodeHeight = FocusNode();
+  final _nodeWidth = FocusNode();
+  final _nodeLength = FocusNode();
+  final _nodeNotes = FocusNode();
+  final _nodeDateAcquisition = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         leading: Navigator.of(context).canPop()
             ? IconButton(
                 icon: const Icon(
@@ -135,7 +160,8 @@ class _RockDetailPageState extends State<RockDetailPage>
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              await HapticFeedback.heavyImpact();
               isUnfavoritingRock
                   ? _removeFromWishlist()
                   : () {
@@ -200,11 +226,12 @@ class _RockDetailPageState extends State<RockDetailPage>
                   children: [
                     GestureDetector(
                       onTap: () async {
+                        await HapticFeedback.heavyImpact();
                         await Navigator.push(
                           context,
                           PageTransition(
                             duration: const Duration(milliseconds: 200),
-                            child: const CameraScreen(),
+                            child: const CameraPage(),
                             type: PageTransitionType.bottomToTop,
                           ),
                         );
@@ -217,13 +244,14 @@ class _RockDetailPageState extends State<RockDetailPage>
                     ),
                     const SizedBox(width: 16),
                     GestureDetector(
-                      onTap: () => widget.isUnfavoritingRock
-                          ? _removeFromWishlist()
-                          : widget.isFavoritingRock
-                              ? _addToWishlist()
-                              : widget.isRemovingFromCollection
-                                  ? _removeFromCollection()
-                                  : _addToCollection(),
+                      onTap: () async {
+                        await HapticFeedback.heavyImpact();
+                        widget.isFavoritingRock
+                            ? _addToWishlist()
+                            : widget.isRemovingFromCollection
+                                ? _removeFromCollection()
+                                : _addToCollection();
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.7,
                         height: 50,
@@ -260,231 +288,250 @@ class _RockDetailPageState extends State<RockDetailPage>
   }
 
   Widget _buildDetailsTab() {
-    return Scaffold(
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 0),
-        child: FloatingActionButton(
-          backgroundColor: Constants.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          onPressed: () async {
-            try {
-              setState(() {
-                _isLoadingShare = true;
-                _hideEditIcon = true;
-              });
+    return NotificationListener(
+      onNotification: (scrollNotification) {
+        if (scrollNotification is ScrollUpdateNotification) {
+          if (scrollNotification.scrollDelta! > 0 && _isFabVisible) {
+            setState(() => _isFabVisible = false);
+          } else if (scrollNotification.scrollDelta! < 0 && !_isFabVisible) {
+            setState(() => _isFabVisible = true);
+          }
+        }
+        return false;
+      },
+      child: Scaffold(
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 0),
+          child: Visibility(
+            visible: _isFabVisible,
+            maintainState: true,
+            maintainAnimation: true,
+            child: FloatingActionButton(
+              backgroundColor: Constants.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              onPressed: () async {
+                try {
+                  setState(() {
+                    _isLoadingShare = true;
+                    _hideEditIcon = true;
+                  });
 
-              final imageBytes = await _screenshotController.capture();
-              if (imageBytes != null) {
-                // Obtenha o diretório temporário
-                final tempDir = await getTemporaryDirectory();
-                final file = File('${tempDir.path}/screenshot.png');
+                  final imageBytes = await _screenshotController.capture();
+                  if (imageBytes != null) {
+                    // Obtenha o diretório temporário
+                    final tempDir = await getTemporaryDirectory();
+                    final file = File('${tempDir.path}/screenshot.png');
 
-                // Salve o arquivo no diretório temporário
-                await file.writeAsBytes(imageBytes);
+                    // Salve o arquivo no diretório temporário
+                    await file.writeAsBytes(imageBytes);
 
-                // Crie o XFile a partir do caminho do arquivo
-                final xFile = XFile(file.path);
+                    // Crie o XFile a partir do caminho do arquivo
+                    final xFile = XFile(file.path);
 
-                setState(() {
-                  _isLoadingShare = false;
-                  _hideEditIcon = false;
-                });
+                    setState(() {
+                      _isLoadingShare = false;
+                      _hideEditIcon = false;
+                    });
 
-                // Compartilhe o arquivo
-                await Share.shareXFiles([xFile],
-                    text: 'Take a look at my rock!');
-                await file.delete();
-              }
-            } catch (e) {
-              debugPrint('ERROR: $e');
-            }
-          },
-          child: Container(
-            width: 60,
-            height: 60,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: Constants.primaryDegrade,
+                    // Compartilhe o arquivo
+                    await Share.shareXFiles([xFile],
+                        text: 'Take a look at my rock!');
+                    await file.delete();
+                  }
+                } catch (e) {
+                  debugPrint('ERROR: $e');
+                }
+              },
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: Constants.primaryDegrade,
+                ),
+                child: !_isLoadingShare
+                    ? const Icon(
+                        Icons.share,
+                        color: Constants.white,
+                        size: 34,
+                      )
+                    : const Padding(
+                        padding: EdgeInsets.all(14.0),
+                        child: CircularProgressIndicator(
+                          color: Constants.white,
+                        ),
+                      ),
+              ),
             ),
-            child: !_isLoadingShare
-                ? const Icon(
-                    Icons.share,
-                    color: Constants.white,
-                    size: 34,
-                  )
-                : const Padding(
-                    padding: EdgeInsets.all(14.0),
-                    child: CircularProgressIndicator(
-                      color: Constants.white,
-                    ),
-                  ),
           ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Screenshot(
-                controller: _screenshotController,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Constants.darkGrey,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: widget.isRemovingFromCollection
-                            ? _showAddRockToCollectionModal
-                            : null,
-                        child: Stack(
-                          children: [
-                            widget.rock.rockImages.isNotEmpty &&
-                                        widget.rock.rockImages.first
-                                                .imagePath !=
-                                            null ||
-                                    (_addRockToCollectionService
-                                                .imageNotifier.value !=
-                                            null &&
-                                        _addRockToCollectionService
-                                            .imageNotifier.value!.isNotEmpty)
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.file(
-                                      File(_addRockToCollectionService
-                                              .imageNotifier.value ??
-                                          widget.rock.rockImages.first
-                                              .imagePath!),
-                                      fit: BoxFit.cover,
-                                      height: 200,
-                                      width: MediaQuery.of(context).size.width,
-                                    ),
-                                  )
-                                : _addRockToCollectionService
-                                            .imageNotifier.value !=
-                                        null
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Image.file(
-                                          File(_addRockToCollectionService
-                                              .imageNotifier.value!),
-                                          fit: BoxFit.cover,
-                                          height: 200,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                        ),
-                                      )
-                                    : rockDefaultImage['img1']
-                                            .startsWith('assets')
-                                        ? Image.asset(
-                                            rockDefaultImage['img1'],
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        body: SingleChildScrollView(
+          controller: _scrollController,
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Screenshot(
+                  controller: _screenshotController,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Constants.darkGrey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: widget.isRemovingFromCollection
+                              ? _showAddRockToCollectionModal
+                              : null,
+                          child: Stack(
+                            children: [
+                              currentRock.rockImages.isNotEmpty &&
+                                          currentRock
+                                                  .rockImages.first.imagePath !=
+                                              null ||
+                                      (_store.imageNotifier.value != null &&
+                                          _store
+                                              .imageNotifier.value!.isNotEmpty)
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.file(
+                                        File(_store.imageNotifier.value ??
+                                            currentRock
+                                                .rockImages.first.imagePath!),
+                                        fit: BoxFit.cover,
+                                        height: 200,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                    )
+                                  : _store.imageNotifier.value != null
+                                      ? ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          child: Image.file(
+                                            File(_store.imageNotifier.value!),
+                                            fit: BoxFit.cover,
                                             height: 200,
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            child: Image.network(
+                                          ),
+                                        )
+                                      : rockDefaultImage['img1']
+                                              .startsWith('assets')
+                                          ? Image.asset(
                                               rockDefaultImage['img1'],
                                               height: 200,
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
                                               fit: BoxFit.cover,
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress != null &&
-                                                    loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null &&
-                                                    loadingProgress
-                                                            .cumulativeBytesLoaded <
-                                                        loadingProgress
-                                                            .expectedTotalBytes!) {
-                                                  return SizedBox(
-                                                    height: 50,
-                                                    width: 50,
-                                                    child: Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: Constants
-                                                            .primaryColor,
-                                                        value: loadingProgress
-                                                                    .expectedTotalBytes !=
-                                                                null
-                                                            ? loadingProgress
-                                                                    .cumulativeBytesLoaded /
-                                                                (loadingProgress
-                                                                        .expectedTotalBytes ??
-                                                                    1)
-                                                            : null,
+                                            )
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child: Image.network(
+                                                rockDefaultImage['img1'],
+                                                height: 200,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                fit: BoxFit.cover,
+                                                loadingBuilder: (context, child,
+                                                    loadingProgress) {
+                                                  if (loadingProgress != null &&
+                                                      loadingProgress
+                                                              .expectedTotalBytes !=
+                                                          null &&
+                                                      loadingProgress
+                                                              .cumulativeBytesLoaded <
+                                                          loadingProgress
+                                                              .expectedTotalBytes!) {
+                                                    return SizedBox(
+                                                      height: 50,
+                                                      width: 50,
+                                                      child: Center(
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          color: Constants
+                                                              .primaryColor,
+                                                          value: loadingProgress
+                                                                      .expectedTotalBytes !=
+                                                                  null
+                                                              ? loadingProgress
+                                                                      .cumulativeBytesLoaded /
+                                                                  (loadingProgress
+                                                                          .expectedTotalBytes ??
+                                                                      1)
+                                                              : null,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  );
-                                                }
+                                                    );
+                                                  }
 
-                                                return child;
-                                              },
+                                                  return child;
+                                                },
+                                                errorBuilder: (context, error,
+                                                        stackTrace) =>
+                                                    Image.asset(
+                                                        'assets/images/rock1.png'),
+                                              ),
                                             ),
-                                          ),
-                            Visibility(
-                              visible: widget.isRemovingFromCollection &&
-                                  !_hideEditIcon,
-                              child: Positioned(
-                                top: 3,
-                                right: 3,
-                                width: 32,
-                                height: 32,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Constants.naturalGrey,
-                                  ),
-                                  child: const Icon(
-                                    Icons.edit_note,
-                                    color: Constants.primaryColor,
-                                    size: 24,
+                              Visibility(
+                                visible: widget.isRemovingFromCollection &&
+                                    !_hideEditIcon,
+                                child: Positioned(
+                                  top: 3,
+                                  right: 3,
+                                  width: 32,
+                                  height: 32,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Constants.naturalGrey,
+                                    ),
+                                    child: const Icon(
+                                      Icons.edit_note,
+                                      color: Constants.primaryColor,
+                                      size: 24,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                            ],
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: Divider(
+                            color: Constants.naturalGrey,
+                            thickness: 1,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (widget.identifyPriceResponse != null)
+                              ..._buildInfoSectionCost()
+                            else
+                              ..._buildDetailsSectionRock(),
                           ],
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                        child: Divider(
-                          color: Constants.naturalGrey,
-                          thickness: 1,
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (widget.identifyPriceResponse != null)
-                            ..._buildInfoSectionCost()
-                          else
-                            ..._buildDetailsSectionRock(),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 80),
-          ],
+              const SizedBox(height: 80),
+            ],
+          ),
         ),
       ),
     );
@@ -509,20 +556,16 @@ class _RockDetailPageState extends State<RockDetailPage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      widget.rock.rockImages.isNotEmpty &&
-                                  widget.rock.rockImages.first.imagePath !=
+                      currentRock.rockImages.isNotEmpty &&
+                                  currentRock.rockImages.first.imagePath !=
                                       null ||
-                              (_addRockToCollectionService
-                                          .imageNotifier.value !=
-                                      null &&
-                                  _addRockToCollectionService
-                                      .imageNotifier.value!.isNotEmpty)
+                              (_store.imageNotifier.value != null &&
+                                  _store.imageNotifier.value!.isNotEmpty)
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Image.file(
-                                File(_addRockToCollectionService
-                                        .imageNotifier.value ??
-                                    widget.rock.rockImages.first.imagePath!),
+                                File(_store.imageNotifier.value ??
+                                    currentRock.rockImages.first.imagePath!),
                                 fit: BoxFit.cover,
                                 height: 255,
                               ),
@@ -648,30 +691,40 @@ class _RockDetailPageState extends State<RockDetailPage>
 
   Widget _buildHealthRisksSection() {
     return _buildCard(
-        title: 'HEALTH RISKS',
-        iconData: Icons.error_rounded,
-        body: [
-          Text(
-            widget.rock.healthRisks,
-            style: AppTypography.body3(color: AppColors.naturalWhite),
-            textAlign: TextAlign.justify,
-          )
-        ]);
+      title: 'HEALTH RISKS',
+      iconData: Icons.error_rounded,
+      body: [
+        Text(
+          currentRock.healthRisks,
+          style: AppTypography.body3(color: AppColors.naturalWhite),
+          textAlign: TextAlign.justify,
+        )
+      ],
+    );
   }
 
   // Images Section
   Widget _buildImagesSection() {
     return _buildCard(
-      title: 'IMAGES OF "${widget.rock.rockName.toUpperCase()}"',
+      title:
+          'IMAGES OF "${currentRock.rockCustomName.isNotEmpty ? currentRock.rockCustomName.toUpperCase() : currentRock.rockName.toUpperCase()}"',
       // iconData: Icons.image,
       icon: AppIcons.galery,
       body: [
         Row(
           children: [
-            _buildImageCard(widget.rock.rockName, 'Color, Common',
+            _buildImageCard(
+                currentRock.rockCustomName.isNotEmpty
+                    ? currentRock.rockCustomName
+                    : currentRock.rockName,
+                currentRock.color,
                 rockDefaultImage['img1']),
             const SizedBox(width: 8),
-            _buildImageCard(widget.rock.rockName, 'Morphology, Common',
+            _buildImageCard(
+                currentRock.rockCustomName.isNotEmpty
+                    ? currentRock.rockCustomName
+                    : currentRock.rockName,
+                currentRock.luster,
                 rockDefaultImage['img2']),
           ],
         ),
@@ -692,7 +745,7 @@ class _RockDetailPageState extends State<RockDetailPage>
           ),
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             assetPath.startsWith('assets')
@@ -733,9 +786,15 @@ class _RockDetailPageState extends State<RockDetailPage>
 
                         return child;
                       },
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        'assets/images/rock1.png',
+                        height: 50,
+                        width: 50,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -749,10 +808,10 @@ class _RockDetailPageState extends State<RockDetailPage>
                           fontWeight: FontWeight.normal,
                           fontSize: 12),
                     ),
-                    overflow: TextOverflow.visible,
+                    overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: GoogleFonts.montserrat(
@@ -761,124 +820,14 @@ class _RockDetailPageState extends State<RockDetailPage>
                           fontWeight: FontWeight.normal,
                           fontSize: 10),
                     ),
-                    overflow: TextOverflow.visible,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                     softWrap: true,
                   ),
                 ],
               ),
             )
           ],
-        ),
-      ),
-    );
-  }
-
-  // Location Section
-  Widget _buildLocationsSection() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      decoration: BoxDecoration(
-        color: Constants.darkGrey,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(right: 8),
-                child: Icon(
-                  Icons.image,
-                  color: AppColors.primaryMedium,
-                  size: 24.0,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  'LOCATIONS FOR "${widget.rock.rockName.toUpperCase()}"',
-                  style: AppTypography.headline2(
-                    color: AppColors.naturalWhite,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  overflow: TextOverflow.visible,
-                  softWrap: true,
-                ),
-              ),
-            ],
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 16, bottom: 16),
-            child: Divider(
-              color: Constants.naturalGrey,
-              thickness: 1,
-            ),
-          ),
-          // Replace with actual map widgets or images
-          Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8), // Define o border radius
-              child: Image.asset(
-                'assets/images/map.png',
-                height: 265.96,
-                width: 311,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // FAQ Section
-  Widget _buildFAQSection() {
-    List<Widget> body = [];
-    widget.rock.askedQuestions.forEach((Map<String, String> question) {
-      question.forEach((key, value) {
-        body.add(_buildFAQItem(key, value));
-      });
-    });
-    return _buildCard(
-        title: 'PEOPLE OFTEN ASK', icon: AppIcons.uncertainty, body: body);
-  }
-
-  Widget _buildFAQItem(String question, String answer) {
-    return Container(
-      // padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: Constants.darkGrey,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8), // Define o border radius
-        child: Container(
-          decoration: const BoxDecoration(
-            color: AppColors.naturalGrey, // Cor de fundo quando colapsado
-          ),
-          child: ExpansionTile(
-            title: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-              title: Text(question,
-                  style: AppTypography.body1(color: AppColors.primaryMedium)),
-            ),
-            iconColor: AppColors.primaryMedium,
-            collapsedIconColor: AppColors.primaryMedium,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  answer,
-                  style: AppTypography.body3(color: AppColors.naturalSilver),
-                  textAlign: TextAlign.justify,
-                ),
-              )
-            ],
-          ),
         ),
       ),
     );
@@ -910,7 +859,7 @@ class _RockDetailPageState extends State<RockDetailPage>
             children: [
               Text("Color",
                   style: AppTypography.body2(color: AppColors.primaryMedium)),
-              Text(widget.rock.color,
+              Text(currentRock.color,
                   style: AppTypography.body3(color: AppColors.naturalSilver)),
               const SizedBox(height: 8),
               Row(
@@ -956,6 +905,12 @@ class _RockDetailPageState extends State<RockDetailPage>
 
                                 return child;
                               },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Image.asset(
+                                'assets/images/rocha-granito.jpg',
+                                height: 103,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                     ),
                   ),
@@ -1001,6 +956,12 @@ class _RockDetailPageState extends State<RockDetailPage>
 
                                 return child;
                               },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Image.asset(
+                                'assets/images/rocha-granito.jpg',
+                                height: 103,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                     ),
                   ),
@@ -1009,7 +970,7 @@ class _RockDetailPageState extends State<RockDetailPage>
               const SizedBox(height: 16),
               Text("Luster",
                   style: AppTypography.body2(color: AppColors.primaryMedium)),
-              Text(widget.rock.luster,
+              Text(currentRock.luster,
                   style: AppTypography.body3(color: AppColors.naturalSilver)),
               const SizedBox(height: 8),
               ClipRRect(
@@ -1051,6 +1012,13 @@ class _RockDetailPageState extends State<RockDetailPage>
 
                           return child;
                         },
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset(
+                          'assets/images/rocha-granito.jpg',
+                          height: 182,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       ),
               ),
               const SizedBox(height: 16),
@@ -1080,10 +1048,10 @@ class _RockDetailPageState extends State<RockDetailPage>
         title: "PHYSICAL PROPERTIES",
         icon: AppIcons.calendarSearch,
         body: [
-          _buildInfoSection('Crystal System', widget.rock.crystalSystem),
-          _buildInfoSection('Colors', widget.rock.colors.toString()),
-          _buildInfoSection('Luster', widget.rock.luster),
-          _buildInfoSection('Diaphaneity', widget.rock.diaphaneity),
+          _buildInfoSection('Crystal System', currentRock.crystalSystem),
+          _buildInfoSection('Colors', currentRock.colors.toString()),
+          _buildInfoSection('Luster', currentRock.luster),
+          _buildInfoSection('Diaphaneity', currentRock.diaphaneity),
         ]);
   }
 
@@ -1094,26 +1062,9 @@ class _RockDetailPageState extends State<RockDetailPage>
       icon: AppIcons.chemical,
       body: [
         _buildInfoSection(
-            'Chemical Classification', widget.rock.quimicalClassification),
-        _buildInfoSection('Formula', widget.rock.formula),
-        _buildInfoSection('Elements listed', widget.rock.elementsListed),
-      ],
-    );
-  }
-
-  // Price
-  Widget _buildPriceSection() {
-    return _buildCard(
-      title: "PRICE",
-      icon: AppIcons.price,
-      body: [
-        ExpandableText(
-          text:
-              'The price of ${widget.rock.rockName} may vary, but it is approximately ${widget.rock.price} per gram.',
-          style: AppTypography.body3(color: AppColors.naturalWhite),
-          maxLines:
-              4, // Define o número máximo de linhas antes de exibir "Learn More"
-        ),
+            'Chemical Classification', currentRock.quimicalClassification),
+        _buildInfoSection('Formula', currentRock.formula),
+        _buildInfoSection('Elements listed', currentRock.elementsListed),
       ],
     );
   }
@@ -1125,7 +1076,7 @@ class _RockDetailPageState extends State<RockDetailPage>
       icon: AppIcons.heart,
       body: [
         ExpandableText(
-          text: widget.rock.healingPropeties,
+          text: currentRock.healingPropeties,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         )
@@ -1140,7 +1091,7 @@ class _RockDetailPageState extends State<RockDetailPage>
       icon: AppIcons.formation,
       body: [
         ExpandableText(
-          text: widget.rock.formulation,
+          text: currentRock.formulation,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
@@ -1155,7 +1106,7 @@ class _RockDetailPageState extends State<RockDetailPage>
       icon: AppIcons.meaning,
       body: [
         ExpandableText(
-            text: widget.rock.meaning,
+            text: currentRock.meaning,
             style: AppTypography.body3(color: AppColors.naturalWhite),
             maxLines: 4),
       ],
@@ -1169,7 +1120,7 @@ class _RockDetailPageState extends State<RockDetailPage>
       icon: AppIcons.shoppingBasket,
       body: [
         ExpandableText(
-          text: widget.rock.howToSelect,
+          text: currentRock.howToSelect,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
@@ -1184,7 +1135,7 @@ class _RockDetailPageState extends State<RockDetailPage>
       iconData: Icons.category,
       body: [
         ExpandableText(
-          text: widget.rock.types,
+          text: currentRock.types,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
@@ -1199,7 +1150,7 @@ class _RockDetailPageState extends State<RockDetailPage>
       icon: AppIcons.monetization,
       body: [
         ExpandableText(
-          text: widget.rock.uses,
+          text: currentRock.uses,
           style: AppTypography.body3(color: AppColors.naturalWhite),
           maxLines: 4,
         ),
@@ -1282,9 +1233,9 @@ class _RockDetailPageState extends State<RockDetailPage>
   void _addToWishlist() async {
     try {
       await DatabaseHelper().addRockToWishlist(
-        widget.rock.rockId,
-        widget.rock.rockImages.isNotEmpty
-            ? widget.rock.rockImages.first.imagePath
+        currentRock.rockId,
+        currentRock.rockImages.isNotEmpty
+            ? currentRock.rockImages.first.imagePath
             : widget.pickedImage?.path,
       );
       if (widget.isFavoritingRock) {
@@ -1303,8 +1254,8 @@ class _RockDetailPageState extends State<RockDetailPage>
           ),
         );
       }
-      LovedTabState().wishlistNotifier.value++;
-      LovedTabState().loadWishlist();
+
+      await LovedTabService.instance.loadLovedRocks();
       setState(() {});
     } catch (e) {
       ShowSnackbarService().showSnackBar('Error $e');
@@ -1318,7 +1269,9 @@ class _RockDetailPageState extends State<RockDetailPage>
   List<Widget> _buildInfoSectionRock() {
     return <Widget>[
       Text(
-        widget.rock.rockName,
+        currentRock.rockCustomName.isNotEmpty
+            ? currentRock.rockCustomName
+            : currentRock.rockName,
         style: AppTypography.headline1(color: Constants.primaryColor),
       ),
       Text.rich(
@@ -1329,7 +1282,7 @@ class _RockDetailPageState extends State<RockDetailPage>
               style: AppTypography.body3(color: AppColors.naturalSilver),
             ),
             TextSpan(
-              text: widget.rock.category,
+              text: currentRock.category,
               style: AppTypography.body3(
                 color: AppColors.primaryMedium,
                 decoration: TextDecoration.underline,
@@ -1340,68 +1293,148 @@ class _RockDetailPageState extends State<RockDetailPage>
         ),
       ),
       const SizedBox(height: 16),
-      _buildInfoSection('Formula', widget.rock.formula),
+      _buildInfoSection('Formula', currentRock.formula),
       _buildInfoSection(
           'Hardness',
-          widget.rock.hardness == 0
+          currentRock.hardness == 0
               ? "The hardness on this rock may vary"
-              : widget.rock.hardness.toString()),
-      _buildInfoSection('Color', widget.rock.color),
+              : currentRock.hardness.toString()),
+      _buildInfoSection('Color', currentRock.color),
       _buildInfoSection(
-          'Magnetic', widget.rock.isMagnetic ? 'Magnetic' : 'Non-magnetic'),
+          'Magnetic', currentRock.isMagnetic ? 'Magnetic' : 'Non-magnetic'),
     ];
   }
 
   List<Widget> _buildDetailsSectionRock() {
+    String sizeText = '';
+    String unitText =
+        _store.unitOfMeasurementNotifier.value == 'inch' ? 'inches' : 'cm';
+    final String length =
+        (double.tryParse(_store.lengthController.text) ?? 0) > 0
+            ? _store.lengthController.text
+            : '';
+    final String width = (double.tryParse(_store.widthController.text) ?? 0) > 0
+        ? _store.widthController.text
+        : '';
+    final String height =
+        (double.tryParse(_store.heightController.text) ?? 0) > 0
+            ? _store.heightController.text
+            : '';
+
+    if (width.isEmpty && length.isEmpty && height.isNotEmpty) {
+      sizeText = height;
+    } else if (width.isNotEmpty && length.isEmpty && height.isEmpty) {
+      sizeText = width;
+    } else if (width.isEmpty && length.isNotEmpty && height.isEmpty) {
+      sizeText = length;
+    } else if (width.isEmpty && length.isNotEmpty && height.isNotEmpty) {
+      sizeText = '$length x $height';
+    } else if (width.isNotEmpty && length.isEmpty && height.isNotEmpty) {
+      sizeText = '$width x $height';
+    } else if (width.isNotEmpty && length.isNotEmpty && height.isEmpty) {
+      sizeText = '$length x $width';
+    } else if (width.isNotEmpty && length.isNotEmpty && height.isNotEmpty) {
+      sizeText = '$length x $width x $height';
+    }
+
     return <Widget>[
       Text(
-        widget.rock.rockName,
+        currentRock.rockCustomName.isNotEmpty
+            ? currentRock.rockCustomName
+            : currentRock.rockName,
         style: AppTypography.headline1(color: Constants.primaryColor),
       ),
-      const SizedBox(height: 16),
-      _buildInfoSection(
-          'Cost',
-          costVisible
-              ? '\$${_addRockToCollectionService.costController.text}'
-              : '\$****'),
-      _buildInfoSection('Size',
-          '${_addRockToCollectionService.lengthController.text} x ${_addRockToCollectionService.widthController.text} x ${_addRockToCollectionService.heightController.text} ${_addRockToCollectionService.unitOfMeasurementNotifier.value == 'inch' ? 'inches' : 'cm'}'),
+      Container(
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(top: 6, bottom: 20),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Constants.blackColor,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if ((double.tryParse(_store.costController.text
+                        .replaceAll(RegExp(r'[^\d.]'), '')) ??
+                    0) >
+                0)
+              _buildInfoSection('Cost',
+                  costVisible ? '\$${_store.costController.text}' : '\$****'),
+            if (sizeText.isNotEmpty)
+              _buildInfoSection('Size', '$sizeText $unitText'),
+            if (_store.dateController.text.isNotEmpty)
+              _buildInfoSection('Acquisition Date', _store.dateController.text),
+            if (_store.localityController.text.isNotEmpty)
+              _buildInfoSection('Locality', _store.localityController.text),
+          ],
+        ),
+      ),
+      if (_store.notesController.text.isNotEmpty) ...[
+        const Text(
+          'Notes',
+          style: TextStyle(
+            color: Constants.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.only(top: 10),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Constants.blackColor,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _store.notesController.text,
+                textAlign: TextAlign.justify,
+                style: const TextStyle(
+                  color: Constants.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]
     ];
   }
 
   List<Widget> _buildDetailsAboutRock() {
     return <Widget>[
-      const SizedBox(height: 16),
       const PremiumSection(),
-      const SizedBox(height: 16),
+      if (isPremiumEnabled) const SizedBox(height: 16),
       _buildHealthRisksSection(),
       const SizedBox(height: 16),
       _buildImagesSection(),
       // const SizedBox(height: 16),
       // _buildLocationsSection(),
       const SizedBox(height: 16),
-      _buildFAQSection(),
-      const SizedBox(height: 16),
-      _buildDescription(widget.rock.description),
+      _buildDescription(currentRock.description),
       const SizedBox(height: 16),
       _buildIdentifySection(),
-      const SizedBox(height: 16),
       const PremiumSection(),
-      const SizedBox(height: 16),
+      if (isPremiumEnabled) const SizedBox(height: 16),
       _buildPhysicalPropertiesSection(),
       const SizedBox(height: 16),
       _buildChemicalPropertiesSession(),
       const SizedBox(height: 16),
-      _buildPriceSection(),
-      const SizedBox(height: 16),
-      _buildHealingSection(),
-      const SizedBox(height: 16),
+      if (currentRock.healingPropeties.isNotEmpty) ...[
+        _buildHealingSection(),
+        const SizedBox(height: 16),
+      ],
       _buildFormationSection(),
       const SizedBox(height: 16),
       _buildMeaningSection(),
-      const SizedBox(height: 16),
       const PremiumSection(),
-      const SizedBox(height: 16),
+      if (isPremiumEnabled) const SizedBox(height: 16),
       _buildSelectSection(),
       const SizedBox(height: 16),
       _buildTypesSection(),
@@ -1592,15 +1625,14 @@ class _RockDetailPageState extends State<RockDetailPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               InputWidget(
+                                focusNode: _nodeName,
                                 label: 'Name',
                                 required: true,
-                                controller:
-                                    _addRockToCollectionService.nameController,
+                                controller: _store.nameController,
                                 hintText: 'Tap to enter the name',
                                 rightIcon: InkWell(
                                   onTap: () {
-                                    _addRockToCollectionService.nameController
-                                        .clear();
+                                    _store.nameController.clear();
                                   },
                                   child: const Icon(
                                     Icons.clear,
@@ -1611,16 +1643,15 @@ class _RockDetailPageState extends State<RockDetailPage>
                               ),
                               const SizedBox(height: 16),
                               const Text(
-                                'Photos',
+                                'Photo',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              const SizedBox(height: 12),
                               ValueListenableBuilder<String?>(
-                                valueListenable:
-                                    _addRockToCollectionService.imageNotifier,
+                                valueListenable: _store.imageNotifier,
                                 builder: (context, value, child) => InkWell(
                                     onTap: () async {
                                       final _imageFile =
@@ -1628,23 +1659,21 @@ class _RockDetailPageState extends State<RockDetailPage>
                                               .pickImageFromGallery(context);
                                       if (_imageFile != null) {
                                         setState(() {
-                                          _addRockToCollectionService
-                                              .imageNotifier
-                                              .value = _imageFile.path;
+                                          _store.imageNotifier.value =
+                                              _imageFile.path;
                                         });
                                       }
                                     },
                                     child: Stack(
                                       clipBehavior: Clip.none,
                                       children: [
-                                        widget.rock.rockImages.isNotEmpty &&
-                                                    widget.rock.rockImages.first
+                                        currentRock.rockImages.isNotEmpty &&
+                                                    currentRock.rockImages.first
                                                             .imagePath !=
                                                         null ||
-                                                _addRockToCollectionService
-                                                        .imageNotifier.value !=
+                                                _store.imageNotifier.value !=
                                                     null ||
-                                                widget.rock.imageURL.isNotEmpty
+                                                currentRock.imageURL.isNotEmpty
                                             ? Container(
                                                 height: 100,
                                                 width: 100,
@@ -1656,7 +1685,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
-                                                  child: widget.rock.rockImages
+                                                  child: currentRock.rockImages
                                                                   .isNotEmpty &&
                                                               widget
                                                                       .rock
@@ -1676,10 +1705,10 @@ class _RockDetailPageState extends State<RockDetailPage>
                                                           ),
                                                           fit: BoxFit.cover,
                                                         )
-                                                      : widget.rock.imageURL
+                                                      : currentRock.imageURL
                                                               .isNotEmpty
                                                           ? Image.network(
-                                                              widget.rock
+                                                              currentRock
                                                                   .imageURL,
                                                               fit: BoxFit.cover,
                                                               loadingBuilder:
@@ -1742,8 +1771,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                           ),
                                         ),
                                         Visibility(
-                                          visible: _addRockToCollectionService
-                                                  .imageNotifier.value !=
+                                          visible: _store.imageNotifier.value !=
                                               null,
                                           child: Positioned(
                                             top: -5,
@@ -1761,9 +1789,8 @@ class _RockDetailPageState extends State<RockDetailPage>
                                               padding: const EdgeInsets.all(0),
                                               onPressed: () {
                                                 setState(() {
-                                                  _addRockToCollectionService
-                                                      .imageNotifier
-                                                      .value = null;
+                                                  _store.imageNotifier.value =
+                                                      null;
                                                 });
                                               },
                                             ),
@@ -1772,15 +1799,16 @@ class _RockDetailPageState extends State<RockDetailPage>
                                       ],
                                     )),
                               ),
+                              const SizedBox(height: 20),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Expanded(
                                     child: InputWidget(
+                                      focusNode: _nodeDateAcquisition,
                                       label: 'Acquisition',
-                                      controller: _addRockToCollectionService
-                                          .dateController,
+                                      controller: _store.dateController,
                                       hintText: 'Date acquired',
                                       textInputType: TextInputType.datetime,
                                     ),
@@ -1789,53 +1817,57 @@ class _RockDetailPageState extends State<RockDetailPage>
                                     width: 10,
                                   ),
                                   SizedBox(
-                                    child: InputWidget(
-                                      label: '',
-                                      controller: _addRockToCollectionService
-                                          .costController,
-                                      hintText: 'Cost',
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
-                                      ],
-                                      onChanged: (value) {
-                                        if (value.isEmpty) return;
-                                        final formatter = NumberFormat.currency(
-                                          symbol: '',
-                                          decimalDigits: 0,
-                                        );
-                                        final formattedValue =
-                                            formatter.format(double.tryParse(
-                                                  value.replaceAll(
-                                                    RegExp(r'[^\d.]'),
-                                                    '',
-                                                  ),
-                                                ) ??
-                                                0.0);
-                                        _addRockToCollectionService
-                                            .costController
-                                            .value = TextEditingValue(
-                                          text: formattedValue,
-                                          selection: TextSelection.collapsed(
-                                            offset: formattedValue.length,
-                                          ),
-                                        );
-                                      },
-                                      rightIcon: const Icon(
-                                        Icons.attach_money_sharp,
-                                        color: Constants.white,
-                                        size: 20,
-                                      ),
-                                      textInputType: TextInputType.number,
-                                      maxLength: 13,
-                                    ),
                                     width: 150,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 12),
+                                      child: InputWidget(
+                                        focusNode: _nodeCost,
+                                        label: '',
+                                        controller: _store.costController,
+                                        hintText: 'Cost',
+                                        inputFormatters: [
+                                          CurrencyTextInputFormatter.currency(
+                                            decimalDigits: 2,
+                                            locale: 'en_US',
+                                            symbol: '',
+                                          ),
+                                        ],
+                                        onChanged: (value) {
+                                          if (value.isEmpty) return;
+                                          final formatter =
+                                              NumberFormat.currency(
+                                                  symbol: '',
+                                                  decimalDigits: 2,
+                                                  locale: 'en_US');
+                                          final formattedValue = formatter
+                                              .format(double.tryParse(value
+                                                      .replaceAll(',', '')) ??
+                                                  0.0);
+                                          _store.costController.value =
+                                              TextEditingValue(
+                                            text: formattedValue,
+                                            selection: TextSelection.collapsed(
+                                              offset: value.length,
+                                            ),
+                                          );
+                                        },
+                                        rightIcon: const Icon(
+                                          Icons.attach_money_sharp,
+                                          color: Constants.white,
+                                          size: 20,
+                                        ),
+                                        // textInputType: TextInputType.number,
+                                        textInputType: TextInputType.number,
+                                        maxLength: 13,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
                               InputWidget(
+                                focusNode: _nodeLocality,
                                 label: 'Locality',
-                                controller: _addRockToCollectionService
-                                    .localityController,
+                                controller: _store.localityController,
                                 hintText: 'Tap to enter',
                               ),
                               Row(
@@ -1844,14 +1876,36 @@ class _RockDetailPageState extends State<RockDetailPage>
                                 children: [
                                   Expanded(
                                     child: InputWidget(
+                                      focusNode: _nodeLength,
                                       label: 'Size',
-                                      controller: _addRockToCollectionService
-                                          .lengthController,
+                                      controller: _store.lengthController,
                                       hintText: 'Length',
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
+                                        CurrencyTextInputFormatter.currency(
+                                          decimalDigits: 2,
+                                          locale: 'en_US',
+                                          symbol: '',
+                                        ),
                                       ],
                                       textInputType: TextInputType.number,
+                                      onChanged: (value) {
+                                        if (value.isEmpty) return;
+                                        final formatter = NumberFormat.currency(
+                                            symbol: '',
+                                            decimalDigits: 2,
+                                            locale: 'en_US');
+                                        final formattedValue = formatter.format(
+                                            double.tryParse(value.replaceAll(
+                                                    ',', '')) ??
+                                                0.0);
+                                        _store.lengthController.value =
+                                            TextEditingValue(
+                                          text: formattedValue,
+                                          selection: TextSelection.collapsed(
+                                            offset: value.length,
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                   Container(
@@ -1872,13 +1926,35 @@ class _RockDetailPageState extends State<RockDetailPage>
                                   ),
                                   Expanded(
                                     child: InputWidget(
+                                      focusNode: _nodeWidth,
                                       label: '',
-                                      controller: _addRockToCollectionService
-                                          .widthController,
+                                      controller: _store.widthController,
                                       hintText: 'Width',
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
+                                        CurrencyTextInputFormatter.currency(
+                                          decimalDigits: 2,
+                                          locale: 'en_US',
+                                          symbol: '',
+                                        ),
                                       ],
+                                      onChanged: (value) {
+                                        if (value.isEmpty) return;
+                                        final formatter = NumberFormat.currency(
+                                            symbol: '',
+                                            decimalDigits: 2,
+                                            locale: 'en_US');
+                                        final formattedValue = formatter.format(
+                                            double.tryParse(value.replaceAll(
+                                                    ',', '')) ??
+                                                0.0);
+                                        _store.widthController.value =
+                                            TextEditingValue(
+                                          text: formattedValue,
+                                          selection: TextSelection.collapsed(
+                                            offset: value.length,
+                                          ),
+                                        );
+                                      },
                                       textInputType: TextInputType.number,
                                     ),
                                   ),
@@ -1900,6 +1976,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                   ),
                                   Expanded(
                                     child: InputWidget(
+                                      focusNode: _nodeHeight,
                                       labelFromWidget: Expanded(
                                         child: Row(
                                           children: [
@@ -1907,9 +1984,8 @@ class _RockDetailPageState extends State<RockDetailPage>
                                             SizedBox(
                                               width: 70,
                                               child: ValueListenableBuilder(
-                                                valueListenable:
-                                                    _addRockToCollectionService
-                                                        .unitOfMeasurementNotifier,
+                                                valueListenable: _store
+                                                    .unitOfMeasurementNotifier,
                                                 builder: (context, type, _) {
                                                   return Container(
                                                     clipBehavior: Clip.hardEdge,
@@ -1941,7 +2017,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                                                     BorderRadius
                                                                         .circular(
                                                                             24),
-                                                                color: _addRockToCollectionService
+                                                                color: _store
                                                                             .unitOfMeasurementNotifier
                                                                             .value ==
                                                                         'inch'
@@ -1960,7 +2036,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                                                   color:
                                                                       Constants
                                                                           .white,
-                                                                  fontWeight: _addRockToCollectionService
+                                                                  fontWeight: _store
                                                                               .unitOfMeasurementNotifier
                                                                               .value ==
                                                                           'inch'
@@ -1972,7 +2048,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                                                 ),
                                                               ),
                                                             ),
-                                                            onTap: _addRockToCollectionService
+                                                            onTap: _store
                                                                 .toggleUnitOfMeasurement,
                                                           ),
                                                         ),
@@ -1991,7 +2067,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                                                       BorderRadius
                                                                           .circular(
                                                                               24),
-                                                                  color: _addRockToCollectionService
+                                                                  color: _store
                                                                               .unitOfMeasurementNotifier
                                                                               .value ==
                                                                           'cm'
@@ -2009,7 +2085,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                                                       TextStyle(
                                                                     color: Constants
                                                                         .white,
-                                                                    fontWeight: _addRockToCollectionService.unitOfMeasurementNotifier.value ==
+                                                                    fontWeight: _store.unitOfMeasurementNotifier.value ==
                                                                             'cm'
                                                                         ? FontWeight
                                                                             .w600
@@ -2019,7 +2095,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                                                                         11,
                                                                   ),
                                                                 )),
-                                                            onTap: _addRockToCollectionService
+                                                            onTap: _store
                                                                 .toggleUnitOfMeasurement,
                                                           ),
                                                         ),
@@ -2032,21 +2108,42 @@ class _RockDetailPageState extends State<RockDetailPage>
                                           ],
                                         ),
                                       ),
-                                      controller: _addRockToCollectionService
-                                          .heightController,
+                                      controller: _store.heightController,
                                       inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
+                                        CurrencyTextInputFormatter.currency(
+                                          decimalDigits: 2,
+                                          locale: 'en_US',
+                                          symbol: '',
+                                        ),
                                       ],
                                       hintText: 'Height',
                                       textInputType: TextInputType.number,
+                                      onChanged: (value) {
+                                        if (value.isEmpty) return;
+                                        final formatter = NumberFormat.currency(
+                                            symbol: '',
+                                            decimalDigits: 2,
+                                            locale: 'en_US');
+                                        final formattedValue = formatter.format(
+                                            double.tryParse(value.replaceAll(
+                                                    ',', '')) ??
+                                                0.0);
+                                        _store.heightController.value =
+                                            TextEditingValue(
+                                          text: formattedValue,
+                                          selection: TextSelection.collapsed(
+                                            offset: value.length,
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],
                               ),
                               InputWidget(
+                                focusNode: _nodeNotes,
                                 label: 'Notes',
-                                controller:
-                                    _addRockToCollectionService.notesController,
+                                controller: _store.notesController,
                                 hintText: 'Tap to add your notes here...',
                                 maxLines: 5,
                               ), // Adicionado espaço para o botão "Save"
@@ -2068,26 +2165,46 @@ class _RockDetailPageState extends State<RockDetailPage>
                     right: 0,
                     child: InkWell(
                       onTap: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await _addRockToCollectionService
-                              .addRockToCollection(widget.rock);
-                          if (!widget.isRemovingFromCollection) {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              PageTransition(
-                                  child: const RootPage(),
-                                  type: PageTransitionType.leftToRightWithFade),
-                              (route) => false,
-                            );
-                            BottomNavService.instance.setIndex(1);
-                          } else {
-                            scaffoldMessengerKey.currentState?.showSnackBar(
-                              const SnackBar(
-                                content: Text('Rock edited successfuly!'),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
-                            Navigator.pop(context);
+                        final numberOfRocksSaved =
+                            (await DatabaseHelper().getNumberOfRocksSaved()) ??
+                                0;
+                        if (numberOfRocksSaved >= 3 &&
+                            !RootPageService
+                                .instance.isPremiumActivatedNotifier.value &&
+                            !(await DatabaseHelper().rockExists(currentRock))) {
+                          await Navigator.push(
+                            context,
+                            PageTransition(
+                              duration: const Duration(milliseconds: 300),
+                              child: const PremiumPage(),
+                              type: PageTransitionType.bottomToTop,
+                            ),
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          if (_formKey.currentState!.validate()) {
+                            currentRock = (await _store
+                                .addRockToCollection(currentRock))!;
+                            setState(() {});
+                            if (!widget.isRemovingFromCollection) {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                    child: const RootPage(),
+                                    type:
+                                        PageTransitionType.leftToRightWithFade),
+                                (route) => false,
+                              );
+                              BottomNavService.instance.setIndex(1);
+                            } else {
+                              scaffoldMessengerKey.currentState?.showSnackBar(
+                                const SnackBar(
+                                  content: Text('Rock edited successfuly!'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                              Navigator.pop(context);
+                            }
                           }
                         }
                       },
@@ -2116,6 +2233,29 @@ class _RockDetailPageState extends State<RockDetailPage>
           ),
         );
       },
+    );
+  }
+
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      nextFocus: true,
+      actions: [
+        KeyboardActionsItem(
+          focusNode: _nodeCost,
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                onTap: () => node.unfocus(),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Done"),
+                ),
+              );
+            }
+          ],
+        ),
+      ],
     );
   }
 
@@ -2154,8 +2294,8 @@ class _RockDetailPageState extends State<RockDetailPage>
               onPressed: () async {
                 try {
                   if (isRemovingFromLoved) {
-                    final imagePath = widget.rock.rockImages.isNotEmpty
-                        ? widget.rock.rockImages.first.imagePath
+                    final imagePath = currentRock.rockImages.isNotEmpty
+                        ? currentRock.rockImages.first.imagePath
                         : null;
                     if (imagePath?.isNotEmpty == true) {
                       if (!(await DatabaseHelper()
@@ -2167,7 +2307,7 @@ class _RockDetailPageState extends State<RockDetailPage>
                       }
                     }
                     await DatabaseHelper()
-                        .removeRockFromWishlist(widget.rock.rockId);
+                        .removeRockFromWishlist(currentRock.rockId);
                     if (widget.isUnfavoritingRock) {
                       await Navigator.pushAndRemoveUntil(
                         context,
@@ -2188,12 +2328,13 @@ class _RockDetailPageState extends State<RockDetailPage>
                       );
                       Navigator.pop(context);
                     }
-                    LovedTabState().wishlistNotifier.value++;
+
+                    await LovedTabService.instance.loadLovedRocks();
                     setState(() {});
                   } else {
-                    await DatabaseHelper().removeRock(widget.rock.rockId);
+                    await DatabaseHelper().removeRock(currentRock);
 
-                    for (final rockImage in widget.rock.rockImages) {
+                    for (final rockImage in currentRock.rockImages) {
                       if (!(await DatabaseHelper()
                               .imageExistsLoved(rockImage.imagePath!)) &&
                           !(await DatabaseHelper()

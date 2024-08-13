@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 
-import '../../widgets/text.dart';
+import '../../widgets/ds_custom_text.dart';
 
 class RockListItem extends StatelessWidget {
   final String imageUrl;
   final String title;
-  final List<String> tags;
+  final List<Map<String, dynamic>> tags;
   final VoidCallback onTap;
   final String? imagePath;
   final VoidCallback? onDelete;
@@ -145,7 +145,8 @@ class RockListItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: DSCustomText(
-                            text: tag,
+                            text: tag['text'],
+                            icon: tag['icon'],
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: AppColors.naturalSilver,

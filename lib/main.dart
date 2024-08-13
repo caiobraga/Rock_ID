@@ -1,5 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_onboarding/services/payment_service.dart';
+import 'package:flutter_onboarding/ui/pages/premium_page.dart';
+import 'package:flutter_onboarding/ui/pages/widgets/loading_component.dart';
+import 'package:flutter_onboarding/ui/root_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'constants.dart';
@@ -8,7 +15,13 @@ import 'ui/onboarding_screen.dart';
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MyApp());
 }
 
@@ -20,10 +33,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Widget? firstShowPage;
+
   @override
   void initState() {
-    dotenv.load(fileName: ".env");
     super.initState();
+    _initVariablesAndStorage().then((value) => setState(() {}));
+  }
+
+  Future<void> _initVariablesAndStorage() async {
+    await dotenv.load(fileName: ".env");
+    final storage = Storage.instance;
+    final userTraces = await storage.read(key: 'userTraces');
+
+    if (userTraces == null) {
+      firstShowPage = const OnboardingScreen();
+
+      await storage.write(
+        key: 'userTraces',
+        value: jsonEncode({
+          'numberOfRocksScanned': 0, // PAYWALL
+          'firstPaywallShown': false, // RATING
+          'firstRockSaved': false, // RATING
+          'tenthRockSaved': false, // RATING
+        }),
+      );
+    } else {
+      if (await PaymentService.checkIfPurchased()) {
+        firstShowPage = const RootPage();
+      } else {
+        firstShowPage = const PremiumPage(
+          isFromOnboarding: true,
+        );
+      }
+    }
+
+    setState(() {});
   }
 
   @override
@@ -31,6 +76,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       scaffoldMessengerKey: scaffoldMessengerKey,
       theme: ThemeData(
+        dividerTheme: const DividerThemeData(color: Colors.transparent),
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,
         ).copyWith(
@@ -48,8 +94,8 @@ class _MyAppState extends State<MyApp> {
         ),
         scaffoldBackgroundColor: Colors.black,
       ),
-      title: 'Onboarding Screen',
-      home: const OnboardingScreen(),
+      title: 'Gem Identifier',
+      home: firstShowPage ?? const LoadingComponent(),
       debugShowCheckedModeBanner: false,
     );
   }

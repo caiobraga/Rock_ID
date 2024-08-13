@@ -205,6 +205,30 @@ class _PremiumScreenState extends State<PremiumScreen> {
                   ),
                   const SizedBox(width: 10),
                   TextButton(
+                    onPressed: () async {
+                      await _paymentService.configureSDK(
+                          context, isFreeTrialEnabled);
+                      _paymentService.restorePurchases(context);
+                    },
+                    child: const DSCustomText(
+                      text: 'Restore',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.naturalSilver,
+                      decoration: TextDecoration.underline,
+                      decorationColor: AppColors.naturalSilver,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    '|',
+                    style: TextStyle(
+                      color: AppColors.naturalSilver,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,

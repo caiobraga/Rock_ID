@@ -14,6 +14,8 @@ class LocalizationService {
       LocalizedString.paywallNotPresented: 'Paywall not presented',
       LocalizedString.errorPleaseTryAgain: 'Error, please try again',
       LocalizedString.purchaseSuccessful: 'Purchase successful',
+      LocalizedString.purchasesRestored: 'Purchases restored',
+      LocalizedString.noPurchasesToRestore: 'No purchases to restore',
     },
   };
 

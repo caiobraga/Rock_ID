@@ -45,7 +45,6 @@ class _PremiumPageState extends State<PremiumPage> {
   }
 
   void _trackPaywallPrompt() {
-    debugPrint("Tracking Paywall Prompt");
     _mixpanel.track("Paywall Prompt", properties: {
       'location': widget.isFromOnboarding ? 'Onboarding' : 'Other',
     });
@@ -165,6 +164,30 @@ class _PremiumPageState extends State<PremiumPage> {
                         },
                         child: const DSCustomText(
                           text: 'Terms of Use',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.naturalSilver,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.naturalSilver,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        '|',
+                        style: TextStyle(
+                          color: AppColors.naturalSilver,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      TextButton(
+                        onPressed: () async {
+                          // await _paymentService.configureSDK(
+                          //     context, isFreeTrialEnabled);
+                          await _paymentService.restorePurchases(context);
+                        },
+                        child: const DSCustomText(
+                          text: 'Restore',
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: AppColors.naturalSilver,

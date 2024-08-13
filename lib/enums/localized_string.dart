@@ -4,4 +4,6 @@ enum LocalizedString {
   paywallNotPresented,
   errorPleaseTryAgain,
   purchaseSuccessful,
+  purchasesRestored,
+  noPurchasesToRestore,
 }

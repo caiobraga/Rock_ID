@@ -104,42 +104,6 @@ class PaymentService {
     }
   }
 
-  Future<void> restorePurchases(BuildContext context) async {
-    final localizationService =
-        LocalizationService(Localizations.localeOf(context));
-
-    try {
-      CustomerInfo restoredInfo = await Purchases.restorePurchases();
-      final entitlements = restoredInfo.entitlements.active;
-
-      if (entitlements.isNotEmpty) {
-        await showToast(
-          localizationService.getString(LocalizedString.purchasesRestored),
-          context,
-        );
-      } else {
-        await showToast(
-          localizationService.getString(LocalizedString.noPurchasesToRestore),
-          context,
-        );
-      }
-    } catch (e) {
-      String errorMessage = 'An error occurred. Please try again.';
-
-      if (e is PlatformException) {
-        // Handle specific RevenueCat error
-        errorMessage = e.message!;
-      } else if (e is Exception) {
-        // Handle general exceptions
-        errorMessage = e.toString();
-      }
-      await showToast(
-        errorMessage,
-        context,
-      );
-    }
-  }
-
   Future<void> showToast(String message, context) async {
     debugPrint("Message: $message");
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -47,7 +47,7 @@ class PaymentService {
 
       if (isFreeTrialEnabled) {
         package = offerings.current!.availablePackages.firstWhere(
-            (element) => element.identifier == Constants.freeTrialPackage);
+            (element) => element.identifier == Constants.freeTrialPackage); 
       } else {
         package = offerings.current!.availablePackages.firstWhere(
             (element) => element.identifier == Constants.annualPackage);

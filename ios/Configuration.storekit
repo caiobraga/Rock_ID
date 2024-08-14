@@ -24,7 +24,7 @@
     "_applicationInternalID" : "6504056802",
     "_developerTeamID" : "XFHFWF5Z2W",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 744232390.54800296,
+    "_lastSynchronizedDate" : 745298757.20433199,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
@@ -81,12 +81,12 @@
       "localizations" : [
 
       ],
-      "name" : "rock_app_weekly_subscription",
+      "name" : "subscription",
       "subscriptions" : [
         {
           "adHocOffers" : [
             {
-              "internalID" : "84A53A81",
+              "internalID" : "E0848138",
               "numberOfPeriods" : 1,
               "offerID" : "weekly_free",
               "paymentMode" : "free",
@@ -99,7 +99,7 @@
               "eligibility" : [
                 "new"
               ],
-              "internalID" : "74C0FF4A",
+              "internalID" : "433DC0C6",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -114,7 +114,7 @@
           "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Unlock all features for just $5.99/week!",
+              "description" : "Unlock all features for just $6.99/week!",
               "displayName" : "Weekly Subscription",
               "locale" : "en_US"
             }
@@ -124,16 +124,7 @@
           "referenceName" : "rock_app_weekly",
           "subscriptionGroupID" : "21505920",
           "type" : "RecurringSubscription"
-        }
-      ]
-    },
-    {
-      "id" : "21500385",
-      "localizations" : [
-
-      ],
-      "name" : "yearly_subscription",
-      "subscriptions" : [
+        },
         {
           "adHocOffers" : [
 
@@ -143,20 +134,20 @@
           ],
           "displayPrice" : "39.99",
           "familyShareable" : false,
-          "groupNumber" : 1,
-          "internalID" : "6504464631",
+          "groupNumber" : 2,
+          "internalID" : "6636465056",
           "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Unlock all features for just $19.99/year!",
+              "description" : "Unlock all features for just $39.99/year!",
               "displayName" : "Yearly Subscription",
               "locale" : "en_US"
             }
           ],
-          "productID" : "yearly_subscription_06_16_2024",
+          "productID" : "rock_app_yearly_subscription_20241307",
           "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "Rockapp",
-          "subscriptionGroupID" : "21500385",
+          "referenceName" : "rock_app_yearly",
+          "subscriptionGroupID" : "21505920",
           "type" : "RecurringSubscription"
         }
       ]

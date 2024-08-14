@@ -68,9 +68,9 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-     <string>Allow access to photo's to upload photo's from your library</string>
+     <string>Allow access to photo’s to upload photo’s from your library. The photos will be used to identify which type of rock, gem, or mineral it is</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Allow access to photo's to upload photo's from your library</string>
+	<string>Allow access to photo’s to upload photo’s from your library. The photos will be used to identify which type of rock, gem, or mineral it is</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

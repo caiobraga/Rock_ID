@@ -16,6 +16,7 @@ class LocalizationService {
       LocalizedString.purchaseSuccessful: 'Purchase successful',
       LocalizedString.purchasesRestored: 'Purchases restored',
       LocalizedString.noPurchasesToRestore: 'No purchases to restore',
+      LocalizedString.sandboxReceiptUsedInProduction: 'Sandbox receipt used in production',
     },
   };
 

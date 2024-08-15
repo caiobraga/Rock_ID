@@ -57,10 +57,17 @@ class PaymentService {
       _mixpanel.track("Subscription Purchased");
       return true;
     } catch (e) {
-      debugPrint("Error: $e");
+
+      String errorMessage = localizationService.getString(LocalizedString.errorPleaseTryAgain);
+
+      if(e is PlatformException && e.code == '21007') {
+        errorMessage = localizationService.getString(LocalizedString.sandboxReceiptUsedInProduction);
+      }
+
       await showToast(
-          localizationService.getString(LocalizedString.errorPleaseTryAgain),
+          errorMessage,
           context);
+
       return false;
     }
   }
@@ -90,13 +97,14 @@ class PaymentService {
     } catch (e) {
       String errorMessage = 'An error occurred. Please try again.';
 
-      if (e is PlatformException) {
-        // Handle specific RevenueCat error
-        errorMessage = e.message!;
-      } else if (e is Exception) {
-        // Handle general exceptions
-        errorMessage = e.toString();
-      }
+      if (e is PlatformException && e.code == '21007') {
+      errorMessage = localizationService.getString(
+          LocalizedString.sandboxReceiptUsedInProduction);
+    } else if (e is PlatformException) {
+      errorMessage = e.message!;
+    } else if (e is Exception) {
+      errorMessage = e.toString();
+    }
       await showToast(
         errorMessage,
         context,

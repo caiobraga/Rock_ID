@@ -6,4 +6,5 @@ enum LocalizedString {
   purchaseSuccessful,
   purchasesRestored,
   noPurchasesToRestore,
+  sandboxReceiptUsedInProduction,
 }

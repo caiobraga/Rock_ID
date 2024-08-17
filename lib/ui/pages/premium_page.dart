@@ -195,7 +195,7 @@ class _PremiumPageState extends State<PremiumPage> {
                           decorationColor: AppColors.naturalSilver,
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 5),
                       const Text(
                         '|',
                         style: TextStyle(
@@ -203,7 +203,7 @@ class _PremiumPageState extends State<PremiumPage> {
                           fontSize: 14,
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 5),
                       TextButton(
                         onPressed: () {
                           Navigator.push(

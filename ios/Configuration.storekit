@@ -24,13 +24,16 @@
     "_applicationInternalID" : "6504056802",
     "_developerTeamID" : "XFHFWF5Z2W",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 745298757.20433199,
+    "_lastSynchronizedDate" : 745767760.59307599,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
       {
-        "current" : null,
-        "enabled" : false,
+        "current" : {
+          "index" : 2,
+          "type" : "generic"
+        },
+        "enabled" : true,
         "name" : "Load Products"
       },
       {
@@ -77,52 +80,42 @@
   },
   "subscriptionGroups" : [
     {
-      "id" : "21505920",
+      "id" : "21526802",
       "localizations" : [
 
       ],
-      "name" : "subscription",
+      "name" : "gem_subscriptions",
       "subscriptions" : [
         {
           "adHocOffers" : [
             {
-              "internalID" : "E0848138",
+              "internalID" : "3F34DAC4",
               "numberOfPeriods" : 1,
-              "offerID" : "weekly_free",
+              "offerID" : "weekly_free_2024082024",
               "paymentMode" : "free",
-              "referenceName" : "One weekly free",
+              "referenceName" : "weekly_free",
               "subscriptionPeriod" : "P1W"
             }
           ],
           "codeOffers" : [
-            {
-              "eligibility" : [
-                "new"
-              ],
-              "internalID" : "433DC0C6",
-              "isStackable" : true,
-              "numberOfPeriods" : 1,
-              "paymentMode" : "free",
-              "referenceName" : "Seven days free",
-              "subscriptionPeriod" : "P1W"
-            }
+
           ],
           "displayPrice" : "6.99",
           "familyShareable" : false,
-          "groupNumber" : 1,
-          "internalID" : "6505078424",
+          "groupNumber" : 2,
+          "internalID" : "6642682965",
           "introductoryOffer" : null,
           "localizations" : [
             {
               "description" : "Unlock all features for just $6.99/week!",
-              "displayName" : "Weekly Subscription",
+              "displayName" : "Weekly subscription",
               "locale" : "en_US"
             }
           ],
-          "productID" : "rock_app_weekly_subscription_01072024",
+          "productID" : "weekly_subscription_20240818",
           "recurringSubscriptionPeriod" : "P1W",
-          "referenceName" : "rock_app_weekly",
-          "subscriptionGroupID" : "21505920",
+          "referenceName" : "weekly_subscription",
+          "subscriptionGroupID" : "21526802",
           "type" : "RecurringSubscription"
         },
         {
@@ -134,8 +127,8 @@
           ],
           "displayPrice" : "39.99",
           "familyShareable" : false,
-          "groupNumber" : 2,
-          "internalID" : "6636465056",
+          "groupNumber" : 1,
+          "internalID" : "6642682934",
           "introductoryOffer" : null,
           "localizations" : [
             {
@@ -144,10 +137,10 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "rock_app_yearly_subscription_20241307",
+          "productID" : "yearly_subscription_20240818",
           "recurringSubscriptionPeriod" : "P1Y",
-          "referenceName" : "rock_app_yearly",
-          "subscriptionGroupID" : "21505920",
+          "referenceName" : "yearly_subscription",
+          "subscriptionGroupID" : "21526802",
           "type" : "RecurringSubscription"
         }
       ]
